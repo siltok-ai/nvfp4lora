@@ -54,7 +54,9 @@ def main():
     manifest.write_text(json.dumps(record, indent=2), encoding="utf-8")
     print(f"Run: {output}", flush=True)
     with (output / "stdout-stderr.log").open("wb") as log:
-        process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT)
+        # 每次子进程显式UTF-8，避免Windows区域编码使中文证据日志不可读。
+        process = subprocess.Popen(command, cwd=root, stdout=log, stderr=subprocess.STDOUT,
+                                   env={**os.environ, "PYTHONIOENCODING": "utf-8", "PYTHONUTF8": "1"})
         record["child_pid"] = process.pid
         manifest.write_text(json.dumps(record, indent=2), encoding="utf-8")
         code = process.wait()
