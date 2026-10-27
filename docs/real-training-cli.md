@@ -88,3 +88,7 @@ python -B tools/run_recorded.py --output <新的诊断run> -- tools/inspect_trai
 ```
 
 它只读取完整且所有文件hash通过的检查点，逐名字/形状载入参数，测量50条canary留出NLL、A/B分组范数和固定前8条训练样本的40层路由。路由观测包括rank0，并排除padding；基座统一禁用作对照。输出MEASURED，不是续训或领域效果验收。当前已运行的旧版父campaign不会动态增加该步骤，应在其结束后显式执行，避免与训练争用GPU。
+
+`tools/audit_m2.py --task <任务目录> --bundle <基座> --output <新目录>` 逐项读取原始run证据，并对缺少或仍在运行的项保留PENDING。它检查严格50→100对照、两套2048/4096压力/40层重算/非零B解码生命周期、完整参数集合、训练与发布后评测一致、周期诊断及FP8风险。原A5.2无条件1%失败与调整后的判据分列，还核对新夹具和CPU参考已存在于测量前的Git提交。
+
+最终门槛添加 `--require-complete`；任何PENDING或FAIL都会返回非零。效果门槛需显式传入 `--minimum-canary-accuracy`、`--max-replay-nll-increase` 和真实的 `--threshold-provenance`（用户决定的来源），工具不能代替用户确认。最终 `--artifact-dir` 应包含经hash验证、与已通过的原始run逐文件一致的publish及完整step50/100检查点；仅有名为manifest的空文件不满足交付检查。当前部分审核结果是INCOMPLETE，不能据此宣称M2通过。

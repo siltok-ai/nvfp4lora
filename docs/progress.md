@@ -263,3 +263,13 @@ C3第10步：[原始评测](evidence/real-c3-evaluation-step10.json)实际50条�
 审查v2 6.5发现：训练入口已有replay NLL和canary成功率，但C3的训练路由审计因rank0不持有专家A/B而不记录路由分布，也尚无canary留出NLL。新增 `inspect_training_checkpoints.py` 从保存的20/50/100参数离线重建这些诊断及A/B分组范数，固定训练数据前8条作探测批次，排除左padding；记录的是保存参数的离线重建，不伪称原训练时刻捕获。
 
 新增 `MaskedRouteProbe` 的3项CPU测试在 `20261027T181113Z-route-probe-cpu-regression` PASS：rank0仍记录、padding排除、错误mask/漏层拒绝及hook卸载。真实C3/专家step4的500/740个Tensor已在CPU逐字节载入对照，错误配置和形状均拒绝，`20261027T181325Z-checkpoint-diagnostics-cpu-loader` [摘要](evidence/checkpoint-diagnostics-cpu-loader.json)PASS。尚未在GPU执行新诊断工具，需在当前串行campaign之后分别对两套实际20/50/100执行；不并行占用训练GPU，不更改训练数学或现有逻辑配置。
+
+## M2逐项审核与C3第20步
+
+C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低于基座0.00021194423469130964；[原始记录](evidence/real-c3-evaluation-step20.json)。完整step20检查点已保存，训练继续，尚未得到最终100步适配器。
+
+新增 `tools/audit_m2.py` 将P5～P8、两套完整50→100、长序列与重算/非零B生命周期、周期诊断、FP8观察和交付列为独立证据项。`20261027T185909Z-m2-audit-provenance` [部分审核](evidence/m2-audit-partial.json)当前为 **INCOMPLETE**：15项PASS、1项PASS_WITH_DOCUMENTED_CHANGE、16项PENDING。这里是M2证据目录的32项，不等同于M1的32项资格，也不表示已通过完整M2。
+
+调整项明确保留原无条件CPU FP32 1%失败；另用Git祖先关系和源文件内容核对，证明三个新夹具及CPU参考在运行前已提交于69a8cbd9d1123ab3c15b4443499e156b97dd2568，不能事后换夹具掩盖旧失败。`20261027T185508Z-m2-strict-incomplete-guard` 使用require-complete故意得到exit1，[门槛收据](evidence/m2-incomplete-guard.json)确认不完整状态会被拒绝；该run的FAIL是预期负向检查，未改为PASS，不是训练失败。
+
+最终审核仍须在实际100步/恢复/发布/风险/后验诊断和制品准备完成后重跑严格模式。效果阈值未由用户确定时不填造provenance；原始观测与正式门槛分别记录。当前16个待完成项完整保留，没有缩小goal。
