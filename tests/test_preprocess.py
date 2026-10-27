@@ -18,7 +18,9 @@ def make_fixture(root):
     """每个专家/投影具有不同内容，便于发现编号或 gate/up/down 对调。"""
     torch.manual_seed(61)
     tensors = {"model.language_model.embed_tokens.weight": torch.randn(64, 32).bfloat16(),
-               "model.language_model.norm.weight": torch.randn(32).bfloat16()}
+               "model.language_model.norm.weight": torch.randn(32).bfloat16(),
+               "mtp.layers.0.mlp.experts.gate_up_proj": torch.randn(2, 32, 32).bfloat16(),
+               "mtp.layers.0.mlp.experts.down_proj": torch.randn(2, 32, 16).bfloat16()}
     for expert in range(2):
         for projection in PROJECTIONS:
             shape = (32, 16) if projection == "down_proj" else (16, 32)

@@ -59,7 +59,8 @@ def validate_layout(report, config):
                         expected_shape, dtype = None, "F32"
                     if spec["dtype"] != dtype or (spec["shape"] != expected_shape if expected_shape else math.prod(spec["shape"]) != 1):
                         raise ValueError(f"Unexpected NVIDIA expert layout: {name}: {spec}")
-    actual_names = {name for name in report["tensors"] if ".mlp.experts." in name}
+    actual_names = {name for name in report["tensors"]
+                    if name.startswith("model.language_model.layers.") and ".mlp.experts." in name}
     if actual_names != expected_names:
         raise ValueError("Expert tensor set differs from explicit gate/up/down contract")
     nonexpert_quantized = set()
