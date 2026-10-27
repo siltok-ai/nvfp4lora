@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "loss": 4.871933937072754,
+  "layers": [
+    {
+      "status": "PASS",
+      "layer": 0,
+      "actual_tokens": 33,
+      "active_experts": 139,
+      "unused_experts": 117,
+      "unused_raw_gradients_exact_zero": true,
+      "local_AB_matches_full_model_gradient_E2": true,
+      "all_AB_nonzero": true,
+      "comparisons": {
+        "output": {
+          "relative_l2": 0.0,
+          "cosine": 1.0000000000000002
+        },
+        "x": {
+          "relative_l2": 0.0040533567033594845,
+          "cosine": 0.9999917889414498
+        },
+        "routing_weights": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        },
+        "Ag": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999771
+        },
+        "Bg": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999916
+        },
+        "Au": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999706
+        },
+        "Bu": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999899
+        },
+        "Ad": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999947
+        },
+        "Bd": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999605
+        }
+      }
+    },
+    {
+      "status": "PASS",
+      "layer": 3,
+      "actual_tokens": 33,
+      "active_experts": 106,
+      "unused_experts": 150,
+      "unused_raw_gradients_exact_zero": true,
+      "local_AB_matches_full_model_gradient_E2": true,
+      "all_AB_nonzero": true,
+      "comparisons": {
+        "output": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        },
+        "x": {
+          "relative_l2": 0.003649486901418263,
+          "cosine": 0.9999933406784709
+        },
+        "routing_weights": {
+          "relative_l2": 0.0,
+          "cosine": 1.0000000000000002
+        },
+        "Ag": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999748
+        },
+        "Bg": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999923
+        },
+        "Au": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999926
+        },
+        "Bu": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999896
+        },
+        "Ad": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999973
+        },
+        "Bd": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999677
+        }
+      }
+    }
+  ],
+  "memory": {
+    "gpu_allocated": 7282302464,
+    "gpu_reserved": 7526678528,
+    "gpu_peak_allocated": 8940387328,
+    "gpu_peak_reserved": 9682550784,
+    "cpu_working_set": 23988043776,
+    "cpu_private": 33257779200
+  }
+}

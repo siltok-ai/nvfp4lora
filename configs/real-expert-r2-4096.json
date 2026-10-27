@@ -1,0 +1,21 @@
+{
+  "seed": 20261028,
+  "max_steps": 100,
+  "max_length": 4096,
+  "accumulation_steps": 8,
+  "learning_rate": 0.0002,
+  "warmup_steps": 10,
+  "max_grad_norm": 1.0,
+  "ce_chunk_size": 128,
+  "gradient_checkpointing": true,
+  "sampler_seed": 113,
+  "rng_probe": true,
+  "build": {
+    "c3_rank": 16,
+    "c3_alpha": 32,
+    "expert_rank": 2,
+    "expert_alpha": 4,
+    "chunk_size": 32,
+    "streaming": "async"
+  }
+}

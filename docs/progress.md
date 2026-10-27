@@ -112,6 +112,30 @@ B已经更新为非零后，又运行8个micro的真实损失反向、没有第�
 
 首步探针只证明真实梯度、更新、冻结不变量、保存和重载机制。单样本loss的一次变化不能代替canary/replay效果评估，尚无真实多步续训证据；P6/P7/P8整体验收与最终goal继续推进。
 
+## A7.1 实际专家梯度与功能语料
+
+`20261027T154022Z-real-expert-activation-vjp` [真实激活VJP](evidence/real-expert-activation-vjp.json) PASS：从已经有非零B的真实r2发布产物运行完整训练反向，捕获第0/3层的实际x、idx、路由权重、输出和上游dY。局部生产算子重算的A/B梯度与全模型梯度E2；独立稠密autograd参考的输出、路由和六个A/B梯度误差均0，dX相对L2为0.004053/0.003649。两层分别有117/150个未命中专家，原始梯度严格为0。参考只物化当前层BF16专家，不物化完整35B浮点专家。
+
+`validation/route_audit.py` 已接入真实训练CLI：更新前检查本step未命中行的原始梯度；更新后检查从未命中行的参数原字节和Adam矩为零，历史未命中行的变化仅计数而不误判失败。ever历史进入trainer state；恢复后用已验证checkpoint的未命中行继续归纳。Tensor级Adam step会增长，与每专家矩为零不冲突。实际小算子+标准AdamW的命中切换、历史动量、恢复审计和篡改梯度检测在 `20261027T154432Z-route-audit-unit` 通过。
+
+`20261027T155244Z-prepare-canary-replay` [语料摘要](evidence/canary-replay-data-summary.json) PASS：本机 `data/datasets/nvfp4lora/canary-replay-v1` 含300训练金丝雀、50个新问题模板的改写留出、300条真实基座生成的算术回放，训练文件600条按两类交错。基座留出命中0/50。[三条批量/单条生成控制](evidence/base-generation-batch-controls.json)全部一致。它是一个人工关联的功能测试，不代表领域/通用能力基准。
+
+`20261027T161652Z-prepare-sequence-stress` [压力材料](evidence/long-sequence-data-summary.json)含8条每条1035监督token的完整答案，同一数据按左截断提示得到精确2048/4096输入；用于后续显存/长序列验证，尚未作为该项训练通过证据。
+
+`20261027T160531Z-session-core-regression` 共36项 PASS，新增真实HF tiny的批量左padding NLL/总监督分母、评测模式恢复，以及发布前后ΔW指纹一致；没有用假模型代替以上计算。
+
+## 真实 C3 多步、续训与全部 ΔW
+
+代码 `4086426`，`20261027T161035Z-real-c3-multistep-baseline` [基线](evidence/real-c3-multistep-summary.json)在600条功能语料上运行4 optimizer step，累积8；逻辑上限100与执行stop-at4分开，保存第1/2/4步。`20261027T162157Z-real-c3-resume-step2` [新进程](evidence/real-c3-resumed-summary.json)从第2步恢复到第4步。
+
+`20261027T162936Z-real-c3-resume-comparison` [严格比较](evidence/real-c3-resume-comparison.json)全部PASS：第3/4步loss、监督数、序列token数、样本ID、LR、全局/分组范数、路由状态和四类真实消耗的RNG探针E2；最终全部参数、命名Adam矩/step、scheduler、data/trainer/RNG、逻辑配置和发布probe相同。训练内的全部ΔW字节指纹也相同。两执行冻结权重哈希不变。
+
+`20261027T162939Z-real-c3-release-delta-verify` [独立发布进程](evidence/real-c3-release-delta-summary.json)再从bundle+publish建模：固定batch/禁用基线loss、全部参数原字节和全部250个C3增量矩阵指纹E2。ΔW按FP32 `scaling * B@A` 在训练进程内计算，逐块读取回CPU哈希，不保存/合并全量权重。
+
+第4步的金丝雀仍0/50，回放NLL从0.000211944变为0.000267063 nat/token；这证明恢复/发布协议，不是效果验收完成。效果阈值已按v2要求向用户异步询问，训练与机制验证继续。
+
+专家r2的 `20261027T163147Z-real-expert-r2-multistep-baseline` 已完成4步，[摘要](evidence/real-expert-multistep-summary.json) PASS：每步全40层未命中原始梯度为0，从未命中参数和Adam矩不变；到第4步仍有3196个从未命中的专家-层对。第2/3/4步分别观察到1221/12703/3031个历史未命中参数行因动量变化。第4步留出0/50，回放NLL0.000295614；新进程2→4恢复正在验证，不能提前声称该项通过。
+
 ## P4 同步端到端验收
 
 [训练/检查点/发布说明](training.md)、[P4 汇总](evidence/p4-training-summary.json)。正式 run `20261027T132210Z-tiny-training-100-v2`，完整代码 `dba15ba0fd6ae301a51d6964a589dff4ac0ffaa0`，启动时工作区 clean。生产与独立 dense reference 初值相同；100 optimizer 步、每步累积2；实际四层 HF tiny，启用非重入层检查点和 8-token 分块 CE。

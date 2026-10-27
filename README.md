@@ -19,6 +19,7 @@ M1 的32个必需关卡已通过。真实40层前向正常，P5的FP32参考按�
 - [预处理格式与数值边界](docs/format.md)
 - [专家反向算子与模型构建](docs/expert-op.md)
 - [训练、检查点与发布](docs/training.md)
+- [真实训练 CLI 与续训命令](docs/real-training-cli.md)
 - [异步搬运与 M1 验收](docs/streaming.md)
 - [实施决策](docs/decisions.md)
 
