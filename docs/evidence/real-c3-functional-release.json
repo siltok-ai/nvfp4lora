@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "checks": {
+    "fixed_batch_loss_E2": true,
+    "disabled_loss_E2": true,
+    "all_parameter_bytes_equal": true,
+    "all_delta_W_bytes_E2": true
+  },
+  "delta_W_fingerprint_count": 250,
+  "loss": 7.947285496356926e-08,
+  "disabled_loss": 4.523958683013916,
+  "memory": {
+    "gpu_allocated": 5912962048,
+    "gpu_reserved": 6692012032,
+    "gpu_peak_allocated": 6487206912,
+    "gpu_peak_reserved": 6692012032,
+    "cpu_working_set": 23833370624,
+    "cpu_private": 32054800384
+  },
+  "build_inputs": [
+    "C:\\workspace\\models\\bundles\\qwen3.6-nvfp4-lora\\1355db6a052410cf-train-v2",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\publish"
+  ]
+}

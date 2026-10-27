@@ -1,0 +1,792 @@
+{
+  "status": "MEASURED",
+  "base_canary_correct": 0,
+  "base_replay_nll": 0.00021194423469130964,
+  "replay": {
+    "nll_per_token": 1.1701894606100652e-07,
+    "ce_sum": 0.00011479558608584739,
+    "supervised_tokens": 981,
+    "samples": 300,
+    "batch_size": 32
+  },
+  "canary": {
+    "correct": 50,
+    "samples": 50,
+    "accuracy": 1.0,
+    "results": [
+      {
+        "index": 0,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 1,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 2,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 3,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 4,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 5,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 6,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 7,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 8,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 9,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 10,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 11,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 12,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 13,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 14,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 15,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 16,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 17,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 18,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 19,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 20,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 21,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 22,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 23,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 24,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 25,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 26,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 27,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 28,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 29,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 30,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 31,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 32,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 33,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 34,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 35,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 36,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 37,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 38,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 39,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 40,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 41,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 42,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 43,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 44,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 45,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 46,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 47,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 48,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      },
+      {
+        "index": 49,
+        "answer": "青石731",
+        "expected": "青石731",
+        "correct": true,
+        "finished": true,
+        "generated_ids": [
+          96556,
+          96454,
+          22,
+          18,
+          16,
+          248046
+        ]
+      }
+    ]
+  },
+  "prompt_logits_change": {
+    "l2": 1463.29443359375,
+    "max_abs": 42.09375,
+    "changed_vocabulary_entries": 248001,
+    "enabled_top1": 96556,
+    "disabled_top1": 119920
+  },
+  "replay_nll_increase": -0.00021182721574524864,
+  "criteria": {
+    "adapter_prompt_logits_nonzero": true
+  },
+  "thresholds": {
+    "minimum_canary_accuracy": null,
+    "max_replay_nll_increase": null
+  },
+  "memory": {
+    "gpu_allocated": 5915941376,
+    "gpu_reserved": 7308574720,
+    "gpu_peak_allocated": 6672119296,
+    "gpu_peak_reserved": 7308574720,
+    "cpu_working_set": 23940177920,
+    "cpu_private": 32716763136
+  }
+}

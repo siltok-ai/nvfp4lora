@@ -321,3 +321,17 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 `20261027T210310Z-c3-resume50-epoch-boundary-check` [跨轮次检查](evidence/real-c3-resume50-epoch-boundary-check.json)PASS：恢复后51～76共26步的九项记录仍与不中断基线完全相同。拼接实际基线前400个样本和恢复后的208个样本，首轮600条accepted record各出现一次，第二轮前8条有效且顺序与不中断参考相同；检查没有调用采样器排序实现来生成参考。输入metrics原字节快照和固定输入SHA保留。这只证明已执行前缀及实际跨轮次覆盖，完整50→100终态比较仍未完成。
 
 工具更新使旧unified session36600失效后，已用实际父/子PID与持续新增日志重新确认原任务活跃，训练没有重启。后续通过PID、manifest和日志跟踪同一作业，旧等待句柄失效不作为训练退出的证据。
+
+## C3完整50→100一致，发布重建与独立观测完成
+
+恢复run `20261027T202444Z-real-c3-resume50` 已PASS/exit0，实际完成51～100共50步，冻结hash不变。`20261027T213801Z-real-c3-resume50-comparison` [完整比较](evidence/real-c3-resume50-comparison.json)十项全E2：全部参数、命名Adam、scheduler、四RNG、数据游标、trainer state、逻辑配置、全部50步九项记录、发布probe和训练内全部ΔW。差异列表为空，端点100、起点50，已超过此前仅前缀的证据范围。
+
+`20261027T213804Z-real-c3-functional-release` [新进程发布重建](evidence/real-c3-functional-release.json)PASS。只读真实bundle/publish，固定启用/禁用loss、全部GPU参数字节及250份FP32 ΔW指纹与原训练记录全部E2；启用loss7.947285496356926e-8，禁用基线4.523958683013916。没有使用训练checkpoint或optimizer建模，也没有合并/重新量化原始专家。
+
+`20261027T213837Z-real-c3-functional-evaluation` [独立效果观测](evidence/real-c3-functional-evaluation.json)MEASURED，进程PASS/exit0。50条改写留出仍50/50（基座0/50），全部生成token及回放记录与训练step100一致，回放平均NLL1.1701894606100652e-7，变化-0.00021182721574524864。固定金丝雀提示的启用/禁用logits差异L2=1463.29443359375、max_abs42.09375、248001个词表项变化。真实用户阈值仍未提供，不把观测MEASURED改为效果正式批准。
+
+`20261027T214023Z-real-c3-functional-fp8` [原FP8尺度观测](evidence/real-c3-functional-fp8.json)OBSERVED，进程PASS/exit0。再次校验原三分片；两阶段各600条、每个130 FP8来源模块19次调用/21454个有效token向量，排除左padding。禁用适配器的训练后端有5个模块max|x|/(448×原input_scale)>1；启用C3后为4个，无新增越界模块。最坏是第2层GDN out_proj，2.3836734693877553→2.5142857142857142；其它启用后越界为第5/8/10层GDN out_proj，原第35层attention o_proj不再越界。它测量训练后端输入范围，没有运行W8A8量化推理；只记录最大值，不能据此推断截断比例或实际部署质量。该风险留给G2验证，没有据此静默更换训练数值策略。
+
+`20261027T214601Z-m2-c3-stages-audit` [更新逐项审核](evidence/m2-c3-stages-audit.json)INCOMPLETE：20 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、11 PENDING。C3完整续训、容量阶段和发布重建已关闭；C3效果观测/重载一致已检查，但owner thresholds/provenance未提供仍PENDING。两套20/50/100后验诊断、专家完整功能训练/续训/发布/风险及最终交付也尚未完成。
+
+原父脚本现已串行进入 `20261027T214341Z-real-expert-r2-functional100`：从原step4继续5～100，C3 r16/alpha32＋全部40×256专家r2/alpha4，标准AdamW、累积8、相同600条数据和逻辑100配置。该进程的git head88d2f86且启动工作树clean，数值提交仍24888c9；没有重启已通过C3阶段或额外占用GPU。训练、后验诊断和最终交付尚需继续，goal保持active。
