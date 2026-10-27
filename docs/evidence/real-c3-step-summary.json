@@ -1,0 +1,563 @@
+{
+  "status": "PASS",
+  "scope": "one real optimizer step and real-activation gradient audit only",
+  "memory": {
+    "loaded": {
+      "gpu_allocated": 5879406592,
+      "gpu_reserved": 5901385728,
+      "gpu_peak_allocated": 5879472128,
+      "gpu_peak_reserved": 5901385728,
+      "cpu_working_set": 22460522496,
+      "cpu_private": 29617422336,
+      "windows_process": {
+        "rss": 22460526592,
+        "vms": 29617422336,
+        "num_page_faults": 6766027,
+        "peak_wset": 23441305600,
+        "wset": 22460526592,
+        "peak_paged_pool": 10373488,
+        "paged_pool": 6410080,
+        "peak_nonpaged_pool": 120656,
+        "nonpaged_pool": 120656,
+        "pagefile": 29617422336,
+        "peak_pagefile": 31541059584,
+        "private": 29617422336
+      },
+      "system_available": 33976119296,
+      "pinned_allocator": {
+        "active_bytes.allocated": 21474836480,
+        "active_bytes.current": 21474836480,
+        "active_bytes.freed": 0,
+        "active_bytes.peak": 21474836480,
+        "active_requests.allocated": 40,
+        "active_requests.current": 40,
+        "active_requests.freed": 0,
+        "active_requests.peak": 40,
+        "allocated_bytes.allocated": 21474836480,
+        "allocated_bytes.current": 21474836480,
+        "allocated_bytes.freed": 0,
+        "allocated_bytes.peak": 21474836480,
+        "allocations.allocated": 40,
+        "allocations.current": 40,
+        "allocations.freed": 0,
+        "allocations.peak": 40,
+        "host_alloc_time.avg": 36722,
+        "host_alloc_time.count": 40,
+        "host_alloc_time.max": 95458,
+        "host_alloc_time.min": 34962,
+        "host_alloc_time.total": 1468915,
+        "host_free_time.avg": 0,
+        "host_free_time.count": 0,
+        "host_free_time.max": 0,
+        "host_free_time.min": 0,
+        "host_free_time.total": 0,
+        "num_host_alloc": 40,
+        "num_host_free": 0
+      },
+      "inventory": {
+        "nonexpert_frozen_gpu": 4896711936,
+        "lora_gpu": 76677120,
+        "expert_gpu_slots": 905981952,
+        "expert_cpu_payload": 18119639040,
+        "rope_buffers": 256
+      }
+    },
+    "first_micro_backward": {
+      "gpu_allocated": 6023448064,
+      "gpu_reserved": 6796869632,
+      "gpu_peak_allocated": 6624225280,
+      "gpu_peak_reserved": 6796869632,
+      "cpu_working_set": 24034004992,
+      "cpu_private": 32344113152,
+      "windows_process": {
+        "rss": 24034004992,
+        "vms": 32344113152,
+        "num_page_faults": 7777819,
+        "peak_wset": 24034025472,
+        "wset": 24034004992,
+        "peak_paged_pool": 10373488,
+        "paged_pool": 6432160,
+        "peak_nonpaged_pool": 149504,
+        "nonpaged_pool": 149504,
+        "pagefile": 32344113152,
+        "peak_pagefile": 32344113152,
+        "private": 32344113152
+      },
+      "system_available": 32411537408,
+      "pinned_allocator": {
+        "active_bytes.allocated": 21474838101,
+        "active_bytes.current": 21474838101,
+        "active_bytes.freed": 0,
+        "active_bytes.peak": 21474838101,
+        "active_requests.allocated": 249,
+        "active_requests.current": 249,
+        "active_requests.freed": 0,
+        "active_requests.peak": 249,
+        "allocated_bytes.allocated": 21474836493,
+        "allocated_bytes.current": 21474836493,
+        "allocated_bytes.freed": 0,
+        "allocated_bytes.peak": 21474836493,
+        "allocations.allocated": 43,
+        "allocations.current": 43,
+        "allocations.freed": 0,
+        "allocations.peak": 43,
+        "host_alloc_time.avg": 34170,
+        "host_alloc_time.count": 43,
+        "host_alloc_time.max": 95458,
+        "host_alloc_time.min": 13,
+        "host_alloc_time.total": 1469330,
+        "host_free_time.avg": 0,
+        "host_free_time.count": 0,
+        "host_free_time.max": 0,
+        "host_free_time.min": 0,
+        "host_free_time.total": 0,
+        "num_host_alloc": 43,
+        "num_host_free": 0
+      },
+      "inventory": {
+        "nonexpert_frozen_gpu": 4896711936,
+        "lora_gpu": 76677120,
+        "expert_gpu_slots": 905981952,
+        "expert_cpu_payload": 18119639040,
+        "rope_buffers": 256
+      }
+    },
+    "first_optimizer_step": {
+      "gpu_allocated": 6099870720,
+      "gpu_reserved": 6912212992,
+      "gpu_peak_allocated": 6631879680,
+      "gpu_peak_reserved": 6912212992,
+      "cpu_working_set": 24162910208,
+      "cpu_private": 32599216128,
+      "windows_process": {
+        "rss": 24162910208,
+        "vms": 32599216128,
+        "num_page_faults": 7879931,
+        "peak_wset": 24164671488,
+        "wset": 24162910208,
+        "peak_paged_pool": 10373488,
+        "paged_pool": 6446240,
+        "peak_nonpaged_pool": 162424,
+        "nonpaged_pool": 151000,
+        "pagefile": 32599216128,
+        "peak_pagefile": 32599216128,
+        "private": 32599216128
+      },
+      "system_available": 32269414400,
+      "pinned_allocator": {
+        "active_bytes.allocated": 21474845654,
+        "active_bytes.current": 21474845654,
+        "active_bytes.freed": 0,
+        "active_bytes.peak": 21474845654,
+        "active_requests.allocated": 1870,
+        "active_requests.current": 1870,
+        "active_requests.freed": 0,
+        "active_requests.peak": 1870,
+        "allocated_bytes.allocated": 21474836493,
+        "allocated_bytes.current": 21474836493,
+        "allocated_bytes.freed": 0,
+        "allocated_bytes.peak": 21474836493,
+        "allocations.allocated": 43,
+        "allocations.current": 43,
+        "allocations.freed": 0,
+        "allocations.peak": 43,
+        "host_alloc_time.avg": 34170,
+        "host_alloc_time.count": 43,
+        "host_alloc_time.max": 95458,
+        "host_alloc_time.min": 13,
+        "host_alloc_time.total": 1469330,
+        "host_free_time.avg": 0,
+        "host_free_time.count": 0,
+        "host_free_time.max": 0,
+        "host_free_time.min": 0,
+        "host_free_time.total": 0,
+        "num_host_alloc": 43,
+        "num_host_free": 0
+      },
+      "inventory": {
+        "nonexpert_frozen_gpu": 4896711936,
+        "lora_gpu": 76677120,
+        "expert_gpu_slots": 905981952,
+        "expert_cpu_payload": 18119639040,
+        "rope_buffers": 256
+      }
+    },
+    "save_publish": {
+      "gpu_allocated": 6099870720,
+      "gpu_reserved": 6912212992,
+      "gpu_peak_allocated": 6099870720,
+      "gpu_peak_reserved": 6912212992,
+      "cpu_working_set": 24324222976,
+      "cpu_private": 32798638080,
+      "windows_process": {
+        "rss": 24324222976,
+        "vms": 32798638080,
+        "num_page_faults": 7939047,
+        "peak_wset": 24400904192,
+        "wset": 24324222976,
+        "peak_paged_pool": 10373488,
+        "paged_pool": 6446240,
+        "peak_nonpaged_pool": 162424,
+        "nonpaged_pool": 151000,
+        "pagefile": 32798638080,
+        "peak_pagefile": 32952442880,
+        "private": 32798638080
+      },
+      "system_available": 31823699968,
+      "pinned_allocator": {
+        "active_bytes.allocated": 21474845654,
+        "active_bytes.current": 21474845654,
+        "active_bytes.freed": 0,
+        "active_bytes.peak": 21474845654,
+        "active_requests.allocated": 1870,
+        "active_requests.current": 1870,
+        "active_requests.freed": 0,
+        "active_requests.peak": 1870,
+        "allocated_bytes.allocated": 21474836493,
+        "allocated_bytes.current": 21474836493,
+        "allocated_bytes.freed": 0,
+        "allocated_bytes.peak": 21474836493,
+        "allocations.allocated": 43,
+        "allocations.current": 43,
+        "allocations.freed": 0,
+        "allocations.peak": 43,
+        "host_alloc_time.avg": 34170,
+        "host_alloc_time.count": 43,
+        "host_alloc_time.max": 95458,
+        "host_alloc_time.min": 13,
+        "host_alloc_time.total": 1469330,
+        "host_free_time.avg": 0,
+        "host_free_time.count": 0,
+        "host_free_time.max": 0,
+        "host_free_time.min": 0,
+        "host_free_time.total": 0,
+        "num_host_alloc": 43,
+        "num_host_free": 0
+      },
+      "inventory": {
+        "nonexpert_frozen_gpu": 4896711936,
+        "lora_gpu": 76677120,
+        "expert_gpu_slots": 905981952,
+        "expert_cpu_payload": 18119639040,
+        "rope_buffers": 256
+      }
+    },
+    "final_evaluation": {
+      "gpu_allocated": 6099871744,
+      "gpu_reserved": 6960447488,
+      "gpu_peak_allocated": 6786391040,
+      "gpu_peak_reserved": 6960447488,
+      "cpu_working_set": 24350912512,
+      "cpu_private": 32868732928,
+      "windows_process": {
+        "rss": 24350912512,
+        "vms": 32868732928,
+        "num_page_faults": 8460617,
+        "peak_wset": 25378742272,
+        "wset": 24350912512,
+        "peak_paged_pool": 10373488,
+        "paged_pool": 6452128,
+        "peak_nonpaged_pool": 162424,
+        "nonpaged_pool": 153040,
+        "pagefile": 32868732928,
+        "peak_pagefile": 33906159616,
+        "private": 32868732928
+      },
+      "system_available": 32037937152,
+      "pinned_allocator": {
+        "active_bytes.allocated": 21474854581,
+        "active_bytes.current": 21474854581,
+        "active_bytes.freed": 0,
+        "active_bytes.peak": 21474854581,
+        "active_requests.allocated": 3451,
+        "active_requests.current": 3451,
+        "active_requests.freed": 0,
+        "active_requests.peak": 3451,
+        "allocated_bytes.allocated": 21474836493,
+        "allocated_bytes.current": 21474836493,
+        "allocated_bytes.freed": 0,
+        "allocated_bytes.peak": 21474836493,
+        "allocations.allocated": 43,
+        "allocations.current": 43,
+        "allocations.freed": 0,
+        "allocations.peak": 43,
+        "host_alloc_time.avg": 34170,
+        "host_alloc_time.count": 43,
+        "host_alloc_time.max": 95458,
+        "host_alloc_time.min": 13,
+        "host_alloc_time.total": 1469330,
+        "host_free_time.avg": 0,
+        "host_free_time.count": 0,
+        "host_free_time.max": 0,
+        "host_free_time.min": 0,
+        "host_free_time.total": 0,
+        "num_host_alloc": 43,
+        "num_host_free": 0
+      },
+      "inventory": {
+        "nonexpert_frozen_gpu": 4896711936,
+        "lora_gpu": 76677120,
+        "expert_gpu_slots": 905981952,
+        "expert_cpu_payload": 18119639040,
+        "rope_buffers": 256
+      }
+    }
+  },
+  "dataset": {
+    "layout": "chat-jsonl-v1",
+    "file_sha256": "698dba23ad2c1cb5c70b900979a51abac2fa2c82eefe5c2fc1f4bf248849aee2",
+    "tokenizer_sha256": "ffb7a28b27dabcc333662fd3e0b0005d9e79a1c22e31453ab5a3017fbd5f25c0",
+    "chat_template_sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+    "max_length": 128,
+    "enable_thinking": false,
+    "input_rows": 8,
+    "accepted_rows": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "discarded_answer_too_long": []
+  },
+  "zero_adapter_loss_E2": true,
+  "first_B_gradients_nonzero": true,
+  "first_optimizer_step": {
+    "loss": 5.942489703496297,
+    "supervised_tokens": 48,
+    "sample_ids": [
+      3,
+      4,
+      1,
+      7,
+      2,
+      6,
+      5,
+      0
+    ],
+    "backward_seconds": 86.37019259999215,
+    "group_gradient_norms": {
+      "nonexpert": 14.577093996481201
+    },
+    "gradient_norm": 14.577094078063965,
+    "learning_rates": [
+      2E-05
+    ],
+    "global_step": 1,
+    "optimizer_seconds": 0.19375159998890013,
+    "streamer_stats": {
+      "acquires": 1040,
+      "cache_hits": 1037,
+      "copies": 690,
+      "copy_bytes": 312563773440,
+      "copy_wall_seconds": 0.0,
+      "prefetches": 1014,
+      "prefetch_copies": 687,
+      "prefetch_skipped_pinned": 0,
+      "demand_misses": 3,
+      "copy_gpu_ms": 6291.026532173157,
+      "acquire_wait_gpu_ms": 151.59449491742998,
+      "copy_enqueue_seconds": 0.031226900144247338,
+      "acquire_wait_enqueue_seconds": 0.025102800340391695
+    },
+    "wall_seconds_including_snapshot": 86.60468499999843
+  },
+  "linear_gradient_comparison": {
+    "model.layers.0.linear_attn.out_proj.lora_A": {
+      "relative_l2": 3.535895830896614E-08,
+      "cosine": 0.9999999999999988,
+      "reference_norm": 0.1326278601092717,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.out_proj.lora_B": {
+      "relative_l2": 1.768636626480369E-07,
+      "cosine": 0.9999999999999771,
+      "reference_norm": 1.8897634762539186,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.in_proj_qkv.lora_A": {
+      "relative_l2": 8.605115584439722E-08,
+      "cosine": 0.9999999999999882,
+      "reference_norm": 0.0077375559253985565,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.in_proj_qkv.lora_B": {
+      "relative_l2": 1.671098019028074E-07,
+      "cosine": 0.9999999999999758,
+      "reference_norm": 0.3494810766135429,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.in_proj_z.lora_A": {
+      "relative_l2": 1.0377458364632847E-07,
+      "cosine": 0.9999999999999851,
+      "reference_norm": 0.007480822757155811,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.in_proj_z.lora_B": {
+      "relative_l2": 1.9471739883224195E-07,
+      "cosine": 0.9999999999999802,
+      "reference_norm": 0.7270942255197698,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.gate_proj.lora_A": {
+      "relative_l2": 8.74921563102916E-08,
+      "cosine": 0.9999999999999873,
+      "reference_norm": 0.0009749324514737864,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.gate_proj.lora_B": {
+      "relative_l2": 1.6534730943947385E-07,
+      "cosine": 0.9999999999999851,
+      "reference_norm": 0.11108602976068663,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.up_proj.lora_A": {
+      "relative_l2": 9.05413382311077E-08,
+      "cosine": 0.9999999999999866,
+      "reference_norm": 0.0014611959516342547,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.up_proj.lora_B": {
+      "relative_l2": 1.736815793742527E-07,
+      "cosine": 0.9999999999999839,
+      "reference_norm": 0.1339332061182758,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.down_proj.lora_A": {
+      "relative_l2": 7.554098085991498E-08,
+      "cosine": 0.9999999999999957,
+      "reference_norm": 0.005602299336830684,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.down_proj.lora_B": {
+      "relative_l2": 1.3702105670703075E-07,
+      "cosine": 0.9999999999999816,
+      "reference_norm": 0.39720139455103287,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.q_proj.lora_A": {
+      "relative_l2": 8.603251243804516E-08,
+      "cosine": 0.9999999999999929,
+      "reference_norm": 0.021325310039554287,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.q_proj.lora_B": {
+      "relative_l2": 1.560481844489827E-07,
+      "cosine": 0.9999999999999719,
+      "reference_norm": 0.39277609429214616,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.k_proj.lora_A": {
+      "relative_l2": 2.59074525338818E-07,
+      "cosine": 0.9999999999999578,
+      "reference_norm": 0.0017545765348520306,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.k_proj.lora_B": {
+      "relative_l2": 2.788991942595412E-07,
+      "cosine": 0.99999999999996,
+      "reference_norm": 0.2002907512399991,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.v_proj.lora_A": {
+      "relative_l2": 5.205497154631752E-08,
+      "cosine": 0.999999999999994,
+      "reference_norm": 0.018054961727682912,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.v_proj.lora_B": {
+      "relative_l2": 1.1802395893467865E-07,
+      "cosine": 0.9999999999999933,
+      "reference_norm": 1.0953108334734714,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.o_proj.lora_A": {
+      "relative_l2": 9.010494601275147E-08,
+      "cosine": 0.9999999999999887,
+      "reference_norm": 0.013509290941768145,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.o_proj.lora_B": {
+      "relative_l2": 1.6793328937333315E-07,
+      "cosine": 0.9999999999999764,
+      "reference_norm": 0.3389221202200458,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.gate_proj.lora_A": {
+      "relative_l2": 8.8846113223384E-08,
+      "cosine": 0.9999999999999853,
+      "reference_norm": 0.0012886664227322155,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.gate_proj.lora_B": {
+      "relative_l2": 1.6887595523067701E-07,
+      "cosine": 0.9999999999999853,
+      "reference_norm": 0.17057957214571864,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.up_proj.lora_A": {
+      "relative_l2": 8.320165640410435E-08,
+      "cosine": 0.9999999999999866,
+      "reference_norm": 0.0015564189791381522,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.up_proj.lora_B": {
+      "relative_l2": 1.779299678364898E-07,
+      "cosine": 0.9999999999999832,
+      "reference_norm": 0.14437013384507505,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.down_proj.lora_A": {
+      "relative_l2": 5.6513118486667004E-08,
+      "cosine": 0.9999999999999973,
+      "reference_norm": 0.008953650980515324,
+      "backward_edges": 8,
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.down_proj.lora_B": {
+      "relative_l2": 1.2993000133508851E-07,
+      "cosine": 0.9999999999999819,
+      "reference_norm": 0.5173135189728926,
+      "backward_edges": 8,
+      "status": "PASS"
+    }
+  },
+  "loss_probe": {
+    "before": 5.057181358337402,
+    "after": 5.092500686645508,
+    "disabled_before": 5.057181358337402,
+    "disabled_after": 5.057181358337402
+  },
+  "disabled_loss_unchanged_E2": true,
+  "frozen_hashes_unchanged": true,
+  "trainable_tensors": 500,
+  "trainable_numel": 19169280,
+  "source_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T141616Z-real-c3-step-probe"
+}

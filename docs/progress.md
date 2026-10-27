@@ -63,8 +63,54 @@ HF tiny 的 BF16 来源、NVIDIA 同布局 NVFP4 来源和预处理结果已由 
 
 ## 待完成
 
-- 真实模型 P5～P8：128-token 前四层 CPU FP32 参考、语义前向、C3/专家 LoRA 训练、真实适配器发布与新进程续训。
-- 填写真实训练各阶段内存与吞吐实测；当前只有 tiny 训练 adapter，没有真实训练 adapter。
+- 2048/4096长序列、真实专家梯度/未命中及历史动量检查、多步C3/专家LoRA训练和canary/replay验证。
+- 真实训练中间步的新进程精确续训，以及训练进程内ΔW与发布重建的逐位对照。当前已有真实首步适配器和新进程重载证据，尚未完成最终训练验收。
+
+## P5 真实整模前向与参考
+
+真实40层完整前向已执行。`20261027T135549Z-real-forward-cpu-reference` 的完整前向有限值、加载和内存测量完成，但原A5.2无条件CPU FP32的1%阈值失败，**没有把该run改成PASS**。[初次原始摘要](evidence/p5-initial-forward-summary.json)。
+
+| 项目 | 状态与证据 |
+| --- | --- |
+| A5.1 | 已实测。非专家4896711936字节、C3参数76677120字节、两GPU层槽905981952字节、CPU原字节专家18119639040字节；128-token前向峰值allocated6497629696字节、reserved6692012032字节。不是训练峰值 |
+| 原A5.2 | 无条件CPU FP32各层误差0.896%、2.052%、1.766%、2.464%，后三层未满足原1%阈值；首层也有18/128个token的top-k集合发生跨精度变化 |
+| 修订A5.2 | 按v2第6.2节调整为“实际路由条件下的FP32连续图＋独立路由核对”；在尚未测量的三条新提示上全通过。详见下文，不能称作原无条件1%通过 |
+| A5.3 可选 | NOT RUN，尚未开发FreeToken teacher-forcing接口；不修改其环境 |
+| A5.4 | 三条非思考短贪心回答分别为“2”“北京”“Hello”，均紧接im_end停止；使用固定真实模板、完整无cache前向，[回答证据](evidence/p5-greedy-answers.json) |
+| A5.5 | 无捕获D2H的128-token前向wall3.531秒；CUDA区间：专家解码2.350秒、专家计算0.773秒、GDN0.189秒、全注意力0.010秒；40次H2D共18119639040字节，copy区间0.499秒，acquire等待0.062秒。区间有重叠/入队间隔，不应直接相加 |
+
+CPU参考按层加载非专家、按实际命中专家逐个解码；从磁盘embedding开始，FP32 GDN使用独立逐token递推，全注意力用eager FP32。四层HF tiny上与正常chunk GDN/SDPA/稠密专家输出相对误差均<1e-5，`20261027T135239Z-cpu-reference-unit` 与后续回归通过。真实CPU四层参考约2.635秒，没有构造40层完整浮点专家模型。
+
+`20261027T140008Z-forward-precision-diagnosis` [控制实验](evidence/p5-precision-diagnosis.json)分离了误差来源：固定GPU实际route后，CPU FP32端到端误差为0.331%、0.403%、0.419%、0.535%；逐层同时固定输入时约0.294%～0.331%。CPU使用BF16策略但自由选路时仍有最高2.738%差异。不同top-k token的误差明显更高，支持离散cutoff/舍入差异而非格式错位。生产模型的路由、参数和计算策略均未修改。
+
+修订判据与三条新提示在测量前提交于 `69a8cbd`，依据和完整限制见 [决策](decisions.md)。`20261027T140549Z-routed-reference-new-fixtures` [摘要](evidence/p5-routed-reference-summary.json)三条新的128-token提示均执行完整40层GPU前向。前四层条件FP32相对L2最高0.580%，router真实输入与磁盘权重的独立CPU FP32投影误差约0.154%～0.158%，所选集合均满足实际logits的top-k、无重复，softmax/归一化权重一致。选路变化均位于两倍logit扰动可解释的cutoff范围。三条新提示的原无条件1%判据仍均未通过，该字段明确保留为false。
+
+`20261027T141440Z-p5-training-core-regression` 完整34项通过。P5按拆分后的判据进入真实训练验证，首步结果见下文。
+
+## 真实 C3 与全专家 r2 首步机制验证
+
+代码 `431e938` 下两个独立真实训练run均PASS：C3为 `20261027T141616Z-real-c3-step-probe`，[摘要](evidence/real-c3-step-summary.json)；C3＋全部40层×256专家r2为 `20261027T142254Z-real-expert-r2-step-probe`，[摘要](evidence/real-expert-r2-step-summary.json)。配置为C3 r16/alpha32，专家alpha4，标准AdamW/weight_decay0/foreach=False，warmup10的首步LR2e-5，累积8，非重入层检查点和128-token分块CE。数据仅8条合成关联问答，每条监督6个token，实际输入28～33个token；绝非2048/4096训练验收。
+
+| 项目 | C3 | C3＋专家r2 |
+| --- | --- | --- |
+| 可训练Tensor/元素 | 500 / 19169280 | 740 / 176455680 |
+| 首步平均loss / 监督数 | 5.9424897 / 48 | 5.9424897 / 48 |
+| 裁剪前梯度范数 | 14.577094 | 15.160194（非专家14.577094、专家4.164112） |
+| 首步wall，含首micro快照 | 约86.6秒 | 约109.6秒 |
+| 首步allocated峰值 | 6631879680字节 | 8705713664字节 |
+| 已有Adam状态下的梯度诊断/评测峰值 | 6786391040字节 | 9319226368字节 |
+| CPU工作集观测 | 约24.2～24.4GB | 约24.2GB |
+| 固定单样本loss，更新前→后 | 5.057181→5.092501 | 5.057181→4.871934 |
+
+两者step0开启/禁用adapter的loss均E2；所有投影B Tensor均有非零首步梯度（这不等于每个专家都命中）。更新后关闭两套adapter恢复原基线loss E2，冻结GPU参数/buffer及CPU原始专家bank哈希不变。优化器边界检查点与发布文件均成功写出。
+
+B已经更新为非零后，又运行8个micro的真实损失反向、没有第二次optimizer更新：第0层GDN/共享专家和第3层全注意力/共享专家共13个PEFT Linear、26个A/B梯度，与真实输入/上游dY的独立CPU解析矩阵微分对照；最差相对L2分别约2.789e-7、2.769e-7，最低余弦约1。这里检查的是这两层C3梯度，**不代替A7.1的专家A/B、dX和路由VJP对照**。
+
+第一micro反向的真实CUDA快照均通过无存活解码权重审核：[C3快照](evidence/real-c3-snapshot-summary.json)、[专家r2快照](evidence/real-expert-snapshot-summary.json)。分别观测4347/2322次带解码栈的分配，结束时活跃解码分配均0；完整pickle保存在各run。
+
+`20261027T143034Z-real-c3-publish-reload` 与 `20261027T143211Z-real-expert-r2-publish-reload` 各用新Python进程，只从预处理基座＋发布产物建模；全部GPU LoRA参数原字节等于发布文件、canonical集合完整，固定batch loss及禁用基线loss均E2：[C3重载](evidence/real-c3-reload-summary.json)、[专家r2重载](evidence/real-expert-reload-summary.json)。两份真实适配器位于对应训练run的 `results/publish`。
+
+首步探针只证明真实梯度、更新、冻结不变量、保存和重载机制。单样本loss的一次变化不能代替canary/replay效果评估，尚无真实多步续训证据；P6/P7/P8整体验收与最终goal继续推进。
 
 ## P4 同步端到端验收
 

@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "checks": {
+    "fixed_batch_loss_E2": true,
+    "disabled_baseline_loss_E2": true,
+    "all_gpu_parameter_bytes_equal_to_publish": true,
+    "canonical_set_equal": true
+  },
+  "loss": 4.871933937072754,
+  "disabled_loss": 5.057181358337402,
+  "trainable_tensors": 740,
+  "trainable_numel": 176455680,
+  "memory": {
+    "gpu_allocated": 6542107648,
+    "gpu_reserved": 7310671872,
+    "gpu_peak_allocated": 7115688448,
+    "gpu_peak_reserved": 7310671872,
+    "cpu_working_set": 24543481856,
+    "cpu_private": 33357422592
+  },
+  "base": "C:\\workspace\\models\\bundles\\qwen3.6-nvfp4-lora\\1355db6a052410cf-train-v2",
+  "adapter": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T142254Z-real-expert-r2-step-probe\\results\\publish",
+  "scope": "Actual step1 adapter new-process reload; no resumed optimizer step or training-memory deltaW claim"
+}

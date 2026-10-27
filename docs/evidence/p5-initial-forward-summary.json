@@ -1,0 +1,437 @@
+{
+  "status": "FAIL",
+  "base": {
+    "source": {
+      "kind": "real-nvidia-checkpoint",
+      "repo": "nvidia/Qwen3.6-35B-A3B-NVFP4",
+      "revision": "1355db6a052410cfd62085d94b58866fd0f2c3c5",
+      "shards": [
+        {
+          "filename": "model-00001-of-00003.safetensors",
+          "sha256": "07141c2db92e47bc08777132cd1a0323faf300eab3a7d7c111bc2bf075fda050"
+        },
+        {
+          "filename": "model-00002-of-00003.safetensors",
+          "sha256": "6dea9c759a0f941cf9e1cc1501216b0e107966a66c90425050e212efbd053f02"
+        },
+        {
+          "filename": "model-00003-of-00003.safetensors",
+          "sha256": "9758875fc55e49561165f4a44342b654c123c3e25c6811b34abb83553fb1a164"
+        }
+      ],
+      "metadata": [
+        {
+          "filename": "README.md",
+          "sha256": "1ee59fc444f6935222966d9336d1b37c7a1f3bb237ad4a09793ecaa9b462e2ad"
+        },
+        {
+          "filename": "chat_template.jinja",
+          "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259"
+        },
+        {
+          "filename": "config.json",
+          "sha256": "58aefa1c9eff7989f431d748f2ddec39446cb1fd2a69acc46e285c6a37b0cecc"
+        },
+        {
+          "filename": "generation_config.json",
+          "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+        },
+        {
+          "filename": "hf_quant_config.json",
+          "sha256": "75fe7cc8d5836b58734e05ee67423a4ce91d602aaad45c8173a1b7597cd57663"
+        },
+        {
+          "filename": "model.safetensors.index.json",
+          "sha256": "d67403a4e9793c0ba8a136baf14b3b76ec7b32c822267978084895e07ebd8a3e"
+        },
+        {
+          "filename": "tokenizer.json",
+          "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+        },
+        {
+          "filename": "tokenizer_config.json",
+          "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b"
+        },
+        {
+          "filename": "vocab.json",
+          "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+        }
+      ]
+    },
+    "layout_version": "nvfp4-stream-v1",
+    "nonexpert_numerical_policy": "nonexpert-fp32-decode-bf16-v1",
+    "expert_numerical_policy": "torch-linear-bf16-result-fp32-global-lora-swiglu-route-v1",
+    "config_sha256": "feed574b893ca91dc3d222d1d5058d7a917c135c728bcc93c0af17281afd2ee0",
+    "nonexpert_files": {
+      "nonexpert-embed_tokens.safetensors": "9a9e819ae7fda19968b0cd41326dce28d34ab43035162d5c77367f27ad699666",
+      "nonexpert-layer-00.safetensors": "ba2382a8b226466f9a477d4e848c2b0b59a0d8b872bf6ea633fafce4a1c2d6ce",
+      "nonexpert-layer-01.safetensors": "175f6e061c1c41ab4fa7fe97380aa34bc04a04a074bd5402d68b4a484e23c5b6",
+      "nonexpert-layer-02.safetensors": "c4196b3a9473134e44570c5212fad16dbd0512a2f73e6fc6bb5060c9461d2738",
+      "nonexpert-layer-03.safetensors": "e8eca3e4c1edfaa40c6054c18326475eee46e95e3e1a8016c88623768e5dd69e",
+      "nonexpert-layer-04.safetensors": "108a90baa85692e96d00b4d1158a69851bb8347b53e348e1a14ee310c502926c",
+      "nonexpert-layer-05.safetensors": "66f97c578288acc416f925fdb1496f08e10cd77730af75bc231e478b266de105",
+      "nonexpert-layer-06.safetensors": "a0498c642be50cdc35a9f380b52a5ec5b63da18b47e0f93414dae54057ec4a0d",
+      "nonexpert-layer-07.safetensors": "3e52acac4b4fa492b809ef64bbcfb021385a020f46f1b2582c865c81b16b035c",
+      "nonexpert-layer-08.safetensors": "61295c8bb295ecaaf3b024d0f607aa720c59d777a9f01acd17c90d9ba9b35c4b",
+      "nonexpert-layer-09.safetensors": "920bb47beceb01ecbe71e55ed2d1e3a84509f24a17d94b5f97d0808a0a9b9c5e",
+      "nonexpert-layer-10.safetensors": "ddcae1fe40b6aea90897750ba4bb8d50d8d25c3e60ce16e196e7cc8435e35087",
+      "nonexpert-layer-11.safetensors": "0ea56e227c57d31d9a3bfa9f3c4dfb504c322319161e28eea6a1ac3ad87cf624",
+      "nonexpert-layer-12.safetensors": "a59bade58f9ccd95ed67cd0f565d0f1a4674879b6ce122c8ddc45b998cc64c4f",
+      "nonexpert-layer-13.safetensors": "bfb83ad70e9e7fb9c3a1421b43def50310f84d6ccd9f0fbd8e0e8fe52032267e",
+      "nonexpert-layer-14.safetensors": "a4500db37e3c8aee7b31ca758c61eba8d3a779cd5edb3e208ab1506473225e41",
+      "nonexpert-layer-15.safetensors": "09f0d8fa677ca172e528f034674811ea50e147aa6f9372b263f2909eab1b3401",
+      "nonexpert-layer-16.safetensors": "3761eaddf976f427ec7b3a2919610be6a0d42b604de776af56bd345666012733",
+      "nonexpert-layer-17.safetensors": "303e1cbdf389a5db59c1c2934fe727df89f15cd267ae2ad52bbf568608794368",
+      "nonexpert-layer-18.safetensors": "ae69dc9589f616340e28b56d6cc8b399d740b0086d652771a1b7353d9d14f0a8",
+      "nonexpert-layer-19.safetensors": "ede7332c4c8caa3160aade31537937d1cf3add96fea41cb49fa73d2aae2f18b0",
+      "nonexpert-layer-20.safetensors": "63fdffda492401b95727af679353479e8552aaa58d12a10bdda75e5db4729789",
+      "nonexpert-layer-21.safetensors": "5dd40034d59a6f68053c187c39689359c5574c6b91ff534556f0ecd90bf35cbf",
+      "nonexpert-layer-22.safetensors": "3411ee4fa39dbd2e6d2b08d413b2fbb379b6fd01ce822bf801b61ec197f76e61",
+      "nonexpert-layer-23.safetensors": "eb04d6c5dca9f0d26fd7dc4b03ec000543aea416ddb62c5f210a7c46164b139e",
+      "nonexpert-layer-24.safetensors": "76d9176557cc87b32a6245669b823144b0f0c5cffd741428fc42a3ce01e77b54",
+      "nonexpert-layer-25.safetensors": "0c677cf671ee0f30de25ba8002cf9c73b700925dfc29443ebd5bf4c92c6369d3",
+      "nonexpert-layer-26.safetensors": "8ba1f093daefad8e68074ff7e369d5253aef6cf51f598664ee67aed59c2f4d27",
+      "nonexpert-layer-27.safetensors": "c30db4127343dc5d2e8a59f1048e5caa0fb2eaaf631e8a5cf08b046275635ded",
+      "nonexpert-layer-28.safetensors": "cd815d9a2b3e10a13dc7c92b803a5c5301b4d1d47714be12c59141d644c32511",
+      "nonexpert-layer-29.safetensors": "6a71f5bbc8ad7c510fa68a0729ed791dc5b9e421c42d824feb6c1a651787e747",
+      "nonexpert-layer-30.safetensors": "682c5d4808e61bef5e58b8d67e77884378e25c220ca05f4ed915b003d1481e98",
+      "nonexpert-layer-31.safetensors": "2f1cd9f60ca51c43fd152cc74f43fcd1a3275506f8e71b47fe06db874f871e2c",
+      "nonexpert-layer-32.safetensors": "424b9f1759e327762060eb07727cbde96fac564a235e66e93f20c0ac3643a8df",
+      "nonexpert-layer-33.safetensors": "fdfc4abaa9b0334cf34d0db990048efd51ba39b162f62c61d366da6a3f5fd89e",
+      "nonexpert-layer-34.safetensors": "652cf3086c64cc51f2f3693ead356c3714bdcd1df555aafd192703af7b341bab",
+      "nonexpert-layer-35.safetensors": "081ad9241d0578f3ae5fd43e32d2a247440740c64247daf738d0831826bc5ae2",
+      "nonexpert-layer-36.safetensors": "d6cb4d90ecc8d5bb6f94b8c84639826cda8f962a9cde2dd8cfb98f958abeb09b",
+      "nonexpert-layer-37.safetensors": "09d4b6c4fbeaef0ed150e15d30e33aac5500d893962495a1b2e5f1bca1e47ef2",
+      "nonexpert-layer-38.safetensors": "d5527cd548248ffb089b81c903e1bd4a063ac6efb3076c733909c42dabd9e6ab",
+      "nonexpert-layer-39.safetensors": "57742bb42ce32c6fafa06c0a4b56c0ea30c0fcf0fb4eccb45573149c3c581661",
+      "nonexpert-lm_head.safetensors": "2371741293264384e2ebe442a9848e9a5c92f3e0588aeefaefe0f41395d12109",
+      "nonexpert-norm.safetensors": "a8416df3d89c96d0dc01de1d6c1a102b8c5beb72c25e8e5906d5684031699148"
+    },
+    "expert_files": {
+      "layer-00.safetensors": "4a170e2e9ff02f47eb34c3ad1e838f012797f1e783135a2ed86b909a935db127",
+      "layer-01.safetensors": "50e10516de9010f3584778846bdd91ea813c80e9f3d5ec4b558de597c6cdd5c2",
+      "layer-02.safetensors": "4e55ea16ae89c64a623b809141a2e63d84e3a5eaf8389c9b03302e163bdca7a2",
+      "layer-03.safetensors": "b30521f7dda57f41c04a1487703671591614f1319f298be454b15127ccae1c5d",
+      "layer-04.safetensors": "7c019660f3191e8a8a91584ccf4ff3fe6a91519e0c404804d4e9c19420126446",
+      "layer-05.safetensors": "53bc84ccbedc490abf74739849b4c08fcf5f6bf99ea197c2fa63c8ae132bc0e5",
+      "layer-06.safetensors": "9ac17c54a5777c386f5ac01ea8a6b36edcb52da4ec6f3d798911cb25a35227fe",
+      "layer-07.safetensors": "8771d8d7b6fdca719d8cc0666ad51385f4c830134346514227481a0b77407cc1",
+      "layer-08.safetensors": "b4f2cc2d11a0c4df19dac79a499ac3dc8d65d8e7ccfbd2b4b23eafafccdfb69e",
+      "layer-09.safetensors": "c2b4fc0b7606bd1a69273f90b4bf08716f629f2ef833b069189c2dcd26d07939",
+      "layer-10.safetensors": "1b51555d70103935ddddbb9df839269f2541effc84adc529bcee8a24876d082d",
+      "layer-11.safetensors": "0ee6b5d280aa341aa945c04708c05d614651e5afdfa13169c15ba336863b7591",
+      "layer-12.safetensors": "9d93da7d4d39e1f5b75d3d524b12f05a92685bdcefea7b8d4d332e809769001c",
+      "layer-13.safetensors": "0347d29514c274e0f1e67ddcfc52e42279d8f6fab6d73bc3d618de97ffb96fc4",
+      "layer-14.safetensors": "af861329e67d4092dcb15a160e36a75e200cddd7982cc2dfb3b9efe561549056",
+      "layer-15.safetensors": "bf9f3a28560e51e27a6cc1d363ada588d6fb249e8583a650142ae6031be2a431",
+      "layer-16.safetensors": "3b89cd82894433c85a6a6bdf95b7edb17f9214f0ca057c2ecffb851e75d1bea3",
+      "layer-17.safetensors": "888611b39f74a8fc97146a581452c5a50449b5e982d96a691f59b692b06967b5",
+      "layer-18.safetensors": "afb6a8b7ef844e3b5d914c73ad71346b6307e08ae9a3e6fab15421bbb411f61a",
+      "layer-19.safetensors": "ec52c17676b089e7bb80be5e1e9edb5c37a82037a714a6c7c152e24732975461",
+      "layer-20.safetensors": "a4caf011c027c05d5f2bef98d411b062c92a545b6c7d050783ad320538aaadab",
+      "layer-21.safetensors": "6a3970f0526262298a2a8215f2d6b5493cb636528ec4523d56c587cd9213c76f",
+      "layer-22.safetensors": "6cff9cf14f44c9b5e56f33dee47ddb3d675662f08d8759304dcab358f5df961a",
+      "layer-23.safetensors": "c8e351f304b3d15ba11806ab335320cc6c136c40df64138cbfd0549f9394a8ed",
+      "layer-24.safetensors": "48bd33a4c117a36dff9151df47b19df497c1c95bd08a0429b9d5c93821bd9a1d",
+      "layer-25.safetensors": "74786a69c5e031cfa7dd85c9f1b7d4e0299a60a13ec2ed93524230c98d0f6576",
+      "layer-26.safetensors": "f2c403cf6c94b90ccb3604851dfe4346b414094ca44cf70bd457003e30de1d7c",
+      "layer-27.safetensors": "959baae6d1987c3714d6db1222306f3cf9c978582f75cb2fc3a3e03d8727bdc5",
+      "layer-28.safetensors": "e937f8825b704dd0432e561aaf2286f52c11f8f8e020eecbf99d9cdaaac859eb",
+      "layer-29.safetensors": "624fe3c88314be624421aa4b9e99c72a97de768d23ab228b0bea023201a144aa",
+      "layer-30.safetensors": "f7b0d1b8fafb0ef80c17c0f8e2180845c5bd7e60277cd5acc440d8fc591e56c8",
+      "layer-31.safetensors": "2be1f43f637303f8384cd5660e21748d1d79ad5ef27f5d4011bc21f5a1b11994",
+      "layer-32.safetensors": "84f446bb7e792270906b672b235f327925031a9cd6915c6be24447ab558c923b",
+      "layer-33.safetensors": "4ca053058d8849d502d213381c937a9ac6d13f38231d47b4be934649134334a9",
+      "layer-34.safetensors": "92d3dad3f19388822e8f195e5831ba61bb49c631a4046f61f3ebdfe189d36263",
+      "layer-35.safetensors": "f7e467f531a62d3374d35bda149c84e5fad17c0a657a45060af678976ea60c40",
+      "layer-36.safetensors": "2b52500afba00d49cea2d1a701e67cb800236f0963bd73557a75e39c0a788b99",
+      "layer-37.safetensors": "62b2e35492e11ea468a64c160314349e8d2f2d77f9e01fc0d1dd6741e0918081",
+      "layer-38.safetensors": "6370ec40931136d22bc4661cfd9ef3a325ab0ae3f156786fc15ff784a7f74179",
+      "layer-39.safetensors": "cdde125c4556639a47328a18f87b29cb5950a567790b1de3fd1760bcbb6b2675"
+    },
+    "tokenizer_source_hashes": {
+      "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config.json": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b",
+      "chat_template.jinja": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+      "vocab.json": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+    }
+  },
+  "mode": "reference",
+  "load_seconds": 17.61127999999735,
+  "memory_load": {
+    "gpu_allocated": 5879406592,
+    "gpu_reserved": 5901385728,
+    "gpu_peak_allocated": 5879472128,
+    "gpu_peak_reserved": 5901385728,
+    "cpu_working_set": 22454312960,
+    "cpu_private": 29618757632,
+    "windows_process": {
+      "rss": 22454317056,
+      "vms": 29618757632,
+      "num_page_faults": 6747396,
+      "peak_wset": 23434530816,
+      "wset": 22454317056,
+      "peak_paged_pool": 10373456,
+      "paged_pool": 6409824,
+      "peak_nonpaged_pool": 118608,
+      "nonpaged_pool": 118480,
+      "pagefile": 29618757632,
+      "peak_pagefile": 31536078848,
+      "private": 29618757632
+    },
+    "system_available": 34065121280,
+    "pinned_allocator": {
+      "active_bytes.allocated": 21474836480,
+      "active_bytes.current": 21474836480,
+      "active_bytes.freed": 0,
+      "active_bytes.peak": 21474836480,
+      "active_requests.allocated": 40,
+      "active_requests.current": 40,
+      "active_requests.freed": 0,
+      "active_requests.peak": 40,
+      "allocated_bytes.allocated": 21474836480,
+      "allocated_bytes.current": 21474836480,
+      "allocated_bytes.freed": 0,
+      "allocated_bytes.peak": 21474836480,
+      "allocations.allocated": 40,
+      "allocations.current": 40,
+      "allocations.freed": 0,
+      "allocations.peak": 40,
+      "host_alloc_time.avg": 36534,
+      "host_alloc_time.count": 40,
+      "host_alloc_time.max": 96880,
+      "host_alloc_time.min": 34761,
+      "host_alloc_time.total": 1461377,
+      "host_free_time.avg": 0,
+      "host_free_time.count": 0,
+      "host_free_time.max": 0,
+      "host_free_time.min": 0,
+      "host_free_time.total": 0,
+      "num_host_alloc": 40,
+      "num_host_free": 0
+    },
+    "inventory": {
+      "nonexpert_frozen_gpu": 4896711936,
+      "lora_gpu": 76677120,
+      "expert_gpu_slots": 905981952,
+      "expert_cpu_payload": 18119639040,
+      "rope_buffers": 256
+    }
+  },
+  "case": {
+    "status": "FAIL",
+    "tokens": 128,
+    "layers": [
+      {
+        "layer": 0,
+        "relative_l2": 0.008959243964175427,
+        "max_abs": 0.004518747329711914,
+        "tokens_with_different_topk_set": 18
+      },
+      {
+        "layer": 1,
+        "relative_l2": 0.02052390599067843,
+        "max_abs": 0.009479701519012451,
+        "tokens_with_different_topk_set": 20
+      },
+      {
+        "layer": 2,
+        "relative_l2": 0.017660293945108155,
+        "max_abs": 0.026074767112731934,
+        "tokens_with_different_topk_set": 21
+      },
+      {
+        "layer": 3,
+        "relative_l2": 0.02463790238363622,
+        "max_abs": 0.029400348663330078,
+        "tokens_with_different_topk_set": 35
+      }
+    ],
+    "gpu_forward_with_capture_seconds": 3.984123299989733,
+    "cpu_reference_seconds": 2.6347040999971796,
+    "timed_gpu_forward_seconds": 3.5308328999963123,
+    "cuda_timings": {
+      "gdn": {
+        "intervals": 30,
+        "cuda_interval_ms": 189.16236782073975
+      },
+      "shared_expert": {
+        "intervals": 40,
+        "cuda_interval_ms": 4.903967991471291
+      },
+      "router": {
+        "intervals": 40,
+        "cuda_interval_ms": 5.3671999871730804
+      },
+      "expert_decode": {
+        "intervals": 320,
+        "cuda_interval_ms": 2349.901376247406
+      },
+      "expert_compute": {
+        "intervals": 320,
+        "cuda_interval_ms": 773.4363528490067
+      },
+      "attention": {
+        "intervals": 10,
+        "cuda_interval_ms": 10.065343856811523
+      },
+      "whole_forward": {
+        "intervals": 1,
+        "cuda_interval_ms": 3502.2626953125
+      }
+    },
+    "transfers": {
+      "acquires": 40,
+      "cache_hits": 39,
+      "copies": 40,
+      "copy_bytes": 18119639040,
+      "copy_wall_seconds": 0.0,
+      "prefetches": 39,
+      "prefetch_copies": 39,
+      "prefetch_skipped_pinned": 0,
+      "demand_misses": 1,
+      "copy_gpu_ms": 498.698881149292,
+      "acquire_wait_gpu_ms": 62.02620674017817,
+      "copy_enqueue_seconds": 0.0016540000069653615,
+      "acquire_wait_enqueue_seconds": 0.0007278999692061916
+    },
+    "memory_forward": {
+      "gpu_allocated": 5913984000,
+      "gpu_reserved": 6692012032,
+      "gpu_peak_allocated": 6496607744,
+      "gpu_peak_reserved": 6692012032,
+      "cpu_working_set": 23795789824,
+      "cpu_private": 31945678848,
+      "windows_process": {
+        "rss": 23795789824,
+        "vms": 31945678848,
+        "num_page_faults": 7185739,
+        "peak_wset": 23795789824,
+        "wset": 23795789824,
+        "peak_paged_pool": 10373456,
+        "paged_pool": 6416224,
+        "peak_nonpaged_pool": 144608,
+        "nonpaged_pool": 144608,
+        "pagefile": 31945678848,
+        "peak_pagefile": 31945678848,
+        "private": 31945678848
+      },
+      "system_available": 32745250816,
+      "pinned_allocator": {
+        "active_bytes.allocated": 21474836802,
+        "active_bytes.current": 21474836802,
+        "active_bytes.freed": 0,
+        "active_bytes.peak": 21474836802,
+        "active_requests.allocated": 82,
+        "active_requests.current": 82,
+        "active_requests.freed": 0,
+        "active_requests.peak": 82,
+        "allocated_bytes.allocated": 21474836489,
+        "allocated_bytes.current": 21474836489,
+        "allocated_bytes.freed": 0,
+        "allocated_bytes.peak": 21474836489,
+        "allocations.allocated": 42,
+        "allocations.current": 42,
+        "allocations.freed": 0,
+        "allocations.peak": 42,
+        "host_alloc_time.avg": 34803,
+        "host_alloc_time.count": 42,
+        "host_alloc_time.max": 96880,
+        "host_alloc_time.min": 13,
+        "host_alloc_time.total": 1461755,
+        "host_free_time.avg": 0,
+        "host_free_time.count": 0,
+        "host_free_time.max": 0,
+        "host_free_time.min": 0,
+        "host_free_time.total": 0,
+        "num_host_alloc": 42,
+        "num_host_free": 0
+      },
+      "inventory": {
+        "nonexpert_frozen_gpu": 4896711936,
+        "lora_gpu": 76677120,
+        "expert_gpu_slots": 905981952,
+        "expert_cpu_payload": 18119639040,
+        "rope_buffers": 256
+      }
+    },
+    "memory_timed_forward": {
+      "gpu_allocated": 5913984000,
+      "gpu_reserved": 6692012032,
+      "gpu_peak_allocated": 6497629696,
+      "gpu_peak_reserved": 6692012032,
+      "cpu_working_set": 23934189568,
+      "cpu_private": 32170889216,
+      "windows_process": {
+        "rss": 23934189568,
+        "vms": 32170889216,
+        "num_page_faults": 7363848,
+        "peak_wset": 24090701824,
+        "wset": 23934189568,
+        "peak_paged_pool": 10389360,
+        "paged_pool": 6416224,
+        "peak_nonpaged_pool": 146920,
+        "nonpaged_pool": 146512,
+        "pagefile": 32170889216,
+        "peak_pagefile": 34305302528,
+        "private": 32170889216
+      },
+      "system_available": 32595607552,
+      "pinned_allocator": {
+        "active_bytes.allocated": 21474837123,
+        "active_bytes.current": 21474837123,
+        "active_bytes.freed": 0,
+        "active_bytes.peak": 21474837123,
+        "active_requests.allocated": 123,
+        "active_requests.current": 123,
+        "active_requests.freed": 0,
+        "active_requests.peak": 123,
+        "allocated_bytes.allocated": 21474836489,
+        "allocated_bytes.current": 21474836489,
+        "allocated_bytes.freed": 0,
+        "allocated_bytes.peak": 21474836489,
+        "allocations.allocated": 42,
+        "allocations.current": 42,
+        "allocations.freed": 0,
+        "allocations.peak": 42,
+        "host_alloc_time.avg": 34803,
+        "host_alloc_time.count": 42,
+        "host_alloc_time.max": 96880,
+        "host_alloc_time.min": 13,
+        "host_alloc_time.total": 1461755,
+        "host_free_time.avg": 0,
+        "host_free_time.count": 0,
+        "host_free_time.max": 0,
+        "host_free_time.min": 0,
+        "host_free_time.total": 0,
+        "num_host_alloc": 42,
+        "num_host_free": 0
+      },
+      "inventory": {
+        "nonexpert_frozen_gpu": 4896711936,
+        "lora_gpu": 76677120,
+        "expert_gpu_slots": 905981952,
+        "expert_cpu_payload": 18119639040,
+        "rope_buffers": 256
+      }
+    },
+    "last_top5_ids": [
+      [
+        101780,
+        98631,
+        99128,
+        130928,
+        111668
+      ]
+    ],
+    "last_top5_text": [
+      "保留",
+      "实验",
+      "确保",
+      "为了确保",
+      "这样做"
+    ]
+  },
+  "frozen_expert_bank_unchanged": true,
+  "source_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135549Z-real-forward-cpu-reference"
+}

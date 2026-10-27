@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "snapshot_sha256": "0ce6147a8133cf45b19fe61e45171d7ad6008490a68018304a018df5357512a1",
+  "decode_allocation_count": 2322,
+  "decode_allocation_total_bytes": 175305146496,
+  "active_decode_allocation_count": 0,
+  "active_allocated_total": 7281739264
+}
