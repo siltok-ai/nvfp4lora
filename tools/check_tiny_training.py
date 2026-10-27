@@ -65,6 +65,8 @@ def save(trainer, stream, directory, config, commit):
 def probe(built, dataset):
     """固定合法 ID、固定所有参数及逐专家 ΔW，供只读发布进程逐位读回。"""
     built.model.eval()
+    old_phase = built.streamer.phase
+    built.streamer.phase = "FORWARD"
     batch = dataset[7]
     with torch.no_grad():
         enabled = loss_sum(built, batch, ce_chunk_size=8, recompute=False) / supervised_tokens(batch["labels"])
@@ -80,6 +82,7 @@ def probe(built, dataset):
     result = {"loss": enabled.cpu(), "disabled_loss": disabled.cpu(), "deltas": deltas,
               "parameters": {name: p.detach().cpu().clone() for name, p in built.trainable.items()}}
     built.model.train()
+    built.streamer.phase = old_phase
     return result
 
 
@@ -243,9 +246,11 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--steps", type=int, default=100)
     parser.add_argument("--commit", default="uncommitted")
+    parser.add_argument("--streaming", choices=["sync", "async"], default="sync")
     parser.add_argument("--mode", choices=["all", "paired", "resumed", "reloaded"], default="all")
     parser.add_argument("--origin")
     args = parser.parse_args()
+    BUILD["streaming"] = args.streaming
     args.output.mkdir(parents=True, exist_ok=True)
     if args.steps < 2 or args.steps % 2:
         raise ValueError("Need an even optimizer step count >=2")
@@ -259,6 +264,7 @@ def main():
     for mode in ["paired", "resumed", "reloaded"]:
         command = [sys.executable, "-B", __file__, "--mode", mode, "--bundle", str(args.bundle),
                    "--output", str(args.output / mode), "--steps", str(args.steps), "--commit", args.commit,
+                   "--streaming", args.streaming,
                    "--origin", str(args.output / "paired")]
         with (args.output / f"{mode}.log").open("w", encoding="utf-8") as log:
             print(f"Starting independent process: {mode}", flush=True)

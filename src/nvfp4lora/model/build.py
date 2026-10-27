@@ -38,9 +38,11 @@ class BuiltModel:
 
 
 def build_model(directory, *, device="cuda", expert_rank=0, expert_alpha=None, c3_rank=16,
-                c3_alpha=32, chunk_size=32, store=None, streamer=None, reference=False):
+                c3_alpha=32, chunk_size=32, store=None, streamer=None, reference=False, streaming="sync"):
     """完整核心构建入口，不调用 from_pretrained 或分配真实全量 BF16 专家。"""
     directory = Path(directory)
+    if streaming not in ["sync", "async"]:
+        raise ValueError("Expected sync or async streaming")
     manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     if manifest["status"] != "PASS":
         raise ValueError("Preprocessed bundle is not complete")
@@ -51,7 +53,11 @@ def build_model(directory, *, device="cuda", expert_rank=0, expert_alpha=None, c
     if store is None:
         store = ExpertStore(directory / "experts", pin_memory=(torch.device(device).type == "cuda"))
     if streamer is None:
-        streamer = SyncLayerStreamer(store, device=device, slots=2)
+        if streaming == "async":
+            from nvfp4lora.store.async_streamer import AsyncLayerStreamer
+            streamer = AsyncLayerStreamer(store, device=device, slots=2)
+        else:
+            streamer = SyncLayerStreamer(store, device=device, slots=2)
     op_config = ExpertOpConfig(streamer, chunk_size=chunk_size)
     with torch.device("meta"):
         model = Qwen3_5MoeForCausalLM(config)

@@ -133,6 +133,8 @@ class LoRATrainer:
         self.state["accumulation_position"] = 0
         metrics["global_step"] = self.state["global_step"]
         metrics["optimizer_seconds"] = time.perf_counter() - started
+        if hasattr(self.built.streamer, "collect_timings"):
+            self.built.streamer.collect_timings()
         metrics["streamer_stats"] = dict(self.built.streamer.stats)
         return metrics
 
