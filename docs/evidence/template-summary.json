@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "samples": 200,
+  "forced_left_truncations": 200,
+  "answer_too_long_discarded": 200,
+  "enable_thinking": false,
+  "label_policy": "input aligned; loss shifts once; final answer+im_end; trailing newline ignored",
+  "tokenizer_load_options": {
+    "local_files_only": true,
+    "fix_mistral_regex": "unchanged default, matching Speed"
+  },
+  "speed_source_sha256": "d87daf50772a918514f5bbc99728bc30cc1320e2006dc9e186a7ea6835b279d0",
+  "speed_function_sha256": "725a75f78ac2b306f8ab55e51d268bb6aee9e9cebf1b556788b80157e684896a",
+  "goldens_sha256": "85101cea41d537e4b222b3d3054aea5b576310c3973df6c0a8ac66d73fee8a84"
+}

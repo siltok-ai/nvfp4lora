@@ -1,0 +1,218 @@
+{
+  "qualification": "P4",
+  "status": "PASS",
+  "workers": {
+    "paired": {
+      "exit_code": 0,
+      "summary": {
+        "accumulation_steps": 2,
+        "canonical_sets_equal": true,
+        "failures": [],
+        "final_weight_min_cosine": 0.9920938153645278,
+        "first_gradient_min_cosine": 0.9999138296184347,
+        "first_gradient_worst_relative_l2": 0.013177892602158212,
+        "frozen_hashes_unchanged": true,
+        "loss_max_relative": 0.0019045140467807583,
+        "memory": {
+          "built_pair": {
+            "cpu_private": 2097213440,
+            "cpu_working_set": 826585088,
+            "gpu_allocated": 17479680,
+            "gpu_peak_allocated": 17481728,
+            "gpu_peak_reserved": 18874368,
+            "gpu_reserved": 18874368
+          },
+          "evaluation_publish": {
+            "cpu_private": 4012077056,
+            "cpu_working_set": 2432516096,
+            "gpu_allocated": 86439936,
+            "gpu_peak_allocated": 88538112,
+            "gpu_peak_reserved": 92274688,
+            "gpu_reserved": 92274688
+          },
+          "first_backward_with_reference_resident": {
+            "cpu_private": 3796893696,
+            "cpu_working_set": 2229997568,
+            "gpu_allocated": 85051392,
+            "gpu_peak_allocated": 89744384,
+            "gpu_peak_reserved": 90177536,
+            "gpu_reserved": 90177536,
+            "inventory": {
+              "adam_cpu_step_state": 0,
+              "adam_gpu_state": 0,
+              "expert_cpu_pinned_payload": 1770240,
+              "expert_gpu_slots": 885120,
+              "frozen_gpu_parameters": 4236272,
+              "gradients": 462848,
+              "lora_parameters": 462848,
+              "model_buffers": 64
+            }
+          },
+          "save_middle": {
+            "cpu_private": 4012781568,
+            "cpu_working_set": 2432921600,
+            "gpu_allocated": 86439936,
+            "gpu_peak_allocated": 86439936,
+            "gpu_peak_reserved": 92274688,
+            "gpu_reserved": 92274688
+          },
+          "step_1": {
+            "cpu_private": 3982393344,
+            "cpu_working_set": 2394103808,
+            "gpu_allocated": 86439936,
+            "gpu_peak_allocated": 89744384,
+            "gpu_peak_reserved": 90177536,
+            "gpu_reserved": 90177536,
+            "inventory": {
+              "adam_cpu_step_state": 296,
+              "adam_gpu_state": 925696,
+              "expert_cpu_pinned_payload": 1770240,
+              "expert_gpu_slots": 885120,
+              "frozen_gpu_parameters": 4236272,
+              "gradients": 0,
+              "lora_parameters": 462848,
+              "model_buffers": 64
+            }
+          },
+          "step_100": {
+            "cpu_private": 4012666880,
+            "cpu_working_set": 2432860160,
+            "gpu_allocated": 86439936,
+            "gpu_peak_allocated": 91268608,
+            "gpu_peak_reserved": 92274688,
+            "gpu_reserved": 92274688,
+            "inventory": {
+              "adam_cpu_step_state": 296,
+              "adam_gpu_state": 925696,
+              "expert_cpu_pinned_payload": 1770240,
+              "expert_gpu_slots": 885120,
+              "frozen_gpu_parameters": 4236272,
+              "gradients": 0,
+              "lora_parameters": 462848,
+              "model_buffers": 64
+            }
+          },
+          "step_50": {
+            "cpu_private": 4011663360,
+            "cpu_working_set": 2431590400,
+            "gpu_allocated": 86439936,
+            "gpu_peak_allocated": 91354112,
+            "gpu_peak_reserved": 92274688,
+            "gpu_reserved": 92274688,
+            "inventory": {
+              "adam_cpu_step_state": 296,
+              "adam_gpu_state": 925696,
+              "expert_cpu_pinned_payload": 1770240,
+              "expert_gpu_slots": 885120,
+              "frozen_gpu_parameters": 4236272,
+              "gradients": 0,
+              "lora_parameters": 462848,
+              "model_buffers": 64
+            }
+          }
+        },
+        "optimizer_steps": 100,
+        "samples": 200,
+        "status": "PASS",
+        "streamer_stats": {
+          "acquires": 2408,
+          "cache_hits": 1600,
+          "copies": 808,
+          "copy_bytes": 357588480,
+          "copy_wall_seconds": 0.04023959989717696
+        },
+        "trainable_numel": 115712,
+        "trainable_tensor_count": 74
+      }
+    },
+    "reloaded": {
+      "exit_code": 0,
+      "summary": {
+        "checks": {
+          "adapter_has_effect": true,
+          "delta_w": true,
+          "disabled_loss": true,
+          "loss": true,
+          "parameters": true
+        },
+        "disabled_loss": 7.695298671722412,
+        "loss": 7.443317890167236,
+        "memory": {
+          "cpu_private": 3721654272,
+          "cpu_working_set": 2191441920,
+          "gpu_allocated": 39145472,
+          "gpu_peak_allocated": 41243648,
+          "gpu_peak_reserved": 41943040,
+          "gpu_reserved": 41943040
+        },
+        "status": "PASS"
+      }
+    },
+    "resumed": {
+      "exit_code": 0,
+      "summary": {
+        "failures": [],
+        "loss_comparison": "E2",
+        "memory": {
+          "load": {
+            "cpu_private": 2099437568,
+            "cpu_working_set": 822702080,
+            "gpu_allocated": 6516736,
+            "gpu_peak_allocated": 6516736,
+            "gpu_peak_reserved": 8388608,
+            "gpu_reserved": 8388608
+          },
+          "step_100": {
+            "cpu_private": 3982999552,
+            "cpu_working_set": 2412023808,
+            "gpu_allocated": 73625600,
+            "gpu_peak_allocated": 78454272,
+            "gpu_peak_reserved": 79691776,
+            "gpu_reserved": 79691776,
+            "inventory": {
+              "adam_cpu_step_state": 296,
+              "adam_gpu_state": 925696,
+              "expert_cpu_pinned_payload": 1770240,
+              "expert_gpu_slots": 885120,
+              "frozen_gpu_parameters": 4236272,
+              "gradients": 0,
+              "lora_parameters": 462848,
+              "model_buffers": 64
+            }
+          },
+          "step_51": {
+            "cpu_private": 4039139328,
+            "cpu_working_set": 2405924864,
+            "gpu_allocated": 73625600,
+            "gpu_peak_allocated": 78526464,
+            "gpu_peak_reserved": 79691776,
+            "gpu_reserved": 79691776,
+            "inventory": {
+              "adam_cpu_step_state": 296,
+              "adam_gpu_state": 925696,
+              "expert_cpu_pinned_payload": 1770240,
+              "expert_gpu_slots": 885120,
+              "frozen_gpu_parameters": 4236272,
+              "gradients": 0,
+              "lora_parameters": 462848,
+              "model_buffers": 64
+            }
+          }
+        },
+        "resumed_steps": 50,
+        "state_checks": {
+          "data_state.json": true,
+          "frozen": true,
+          "optimizer.pt": true,
+          "parameters": true,
+          "rng.pt": true,
+          "scheduler.pt": true,
+          "trainer_state.json": true
+        },
+        "status": "PASS"
+      }
+    }
+  },
+  "source_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2",
+  "code_commit": "dba15ba0fd6ae301a51d6964a589dff4ac0ffaa0"
+}

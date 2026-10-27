@@ -63,9 +63,46 @@ HF tiny 的 BF16 来源、NVIDIA 同布局 NVFP4 来源和预处理结果已由 
 
 ## 待完成
 
-- 含 3 GDN+1 full attention 的 HF tiny：100 步、发布重载、新进程续训和全部不变量。
 - 异步搬运事件竞争测试、回归和逐项 M1 审核。
 - M1 通过后的真实模型 P5～P8；当前没有真实训练 adapter。
+
+## P4 同步端到端验收
+
+[训练/检查点/发布说明](training.md)、[P4 汇总](evidence/p4-training-summary.json)。正式 run `20261027T132210Z-tiny-training-100-v2`，完整代码 `dba15ba0fd6ae301a51d6964a589dff4ac0ffaa0`，启动时工作区 clean。生产与独立 dense reference 初值相同；100 optimizer 步、每步累积2；实际四层 HF tiny，启用非重入层检查点和 8-token 分块 CE。
+
+| 项目 | 状态 | 实测 |
+| --- | --- | --- |
+| A4.1 | PASS | 首步各 Tensor 梯度最差相对 L2 0.013178、最低余弦 0.999914；100 步后最低权重余弦 0.992094 |
+| A4.2 | PASS | 100 个 step 的最大 loss 相对差 0.001905（约0.19%）；未放宽容差或改变独立参考 |
+| A4.3 | PASS E2 | 新进程恢复第50步；第51～100步 loss、梯度范数、LR、样本顺序和四类 RNG 探针逐位一致；最终全部参数、Adam 矩/step、scheduler、数据游标、trainer 和 RNG 状态相同 |
+| A4.4 | PASS E2 | 另一新进程只从预处理基座与发布目录构建；固定 batch loss、全部参数、所有 tiny 专家 ΔW 原字节一致；禁用 adapter 的基线也相同 |
+| A4.5 | PASS | CPU 专家 payload、冻结参数及 buffer 的训练前后哈希不变 |
+| A4.6 | PASS | 74 个 FP32 Tensor、115712 元素；optimizer/预期/发布 canonical 集合及形状相同 |
+
+真实 tokenizer 的 200 黄金样本通过，run `20261027T132406Z-template-goldens`，[摘要](evidence/template-summary.json)：逐 token 等于固定 Speed `_prompt_tokens` 的输出；200 次强制左截断均保留完整答案，另200次答案超长被丢弃；末尾换行不监督。使用与 Speed 同样的 tokenizer 默认设置，保留上游 Mistral-regex 警告，不单方面改变训练分词。
+
+真实 layer0 的诊断重数量化在 `20261027T132636Z-quantizer-layout-zero-diagnosis` 完成，[摘要](evidence/quantizer-layout-summary.json)。三投影块缩放与非零缩放块的码值一致率均100%，解码数值一致率100%。gate/up 的总码一致率只有58.605%，原因已逐块定位：6944896 个零缩放块中，原码不为零但乘缩放后为零；全部码差异都在这些零缩放块。down 为4096个零缩放块，总码一致率99.976%。诊断没有写出替换权重，源文件哈希不变。
+
+### Tiny 的内存实测
+
+所有数值均为 tiny，不推算为真实模型可训练峰值。生产单独的新进程续训 allocated 峰值 78526464 字节、reserved 79691776 字节；其工作集约2.41GB。带参考模型的第一步峰值89744384字节，评测/发布峰值88538112字节。加载、首步、稳态、保存、评测和恢复的观测保存在 P4 汇总的 `memory`；CPU 字段是观测点工作集，不冒充区间峰值。
+
+| 生产对象 | 字节 | 生命周期 |
+| --- | --- | --- |
+| 冻结 GPU 非专家 | 4236272 | 常驻 |
+| RoPE buffers | 64 | 常驻 |
+| 两个 GPU U8 层槽 | 885120 | 常驻 |
+| FP32 LoRA | 462848 | 常驻 |
+| FP32 梯度 | 462848 | backward 到 zero_grad |
+| FP32 Adam 矩 | 925696 | 首步后常驻 |
+| CPU Adam step | 296 | 首步后常驻 |
+| CPU pinned 专家 payload | 1770240 | 常驻，区别于 allocator 实际占用 |
+
+第一步完整 CUDA 快照的派生审核 `20261027T132748Z-tiny-snapshot-audit`，[摘要](evidence/p4-snapshot-summary.json)：1944 次带解码栈的分配，反向后0个活跃解码分配。快照还定位到两个32MiB长期工作区，分别首次出现在 RoPE 的矩阵乘和 CE 的 Linear 重算；没有把它们误算为常驻解码权重。
+
+首次带默认 memory-history 栈采集的 run `20261027T132104Z-tiny-training-100` 在第一个 CE 重算报 SystemError。改为 `context='alloc', stacks='python'` 后，短程及正式100步通过；保留原始失败。量化诊断首版的文件路径漏了 `experts/`，在读文件前失败，`20261027T132523Z-quantizer-layout` 保留。最新完整单元回归 `20261027T132008Z-training-regression` 共31项 PASS，包括损失归一化、参数重排恢复、四类 RNG、发布重载和数据游标。
+
+P0/P1/P2/P4 同步路径通过，P3 尚未验收；M1 未通过，没有真实完整模型训练 adapter。
 
 ## 本机证据根
 

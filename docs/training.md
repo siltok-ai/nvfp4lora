@@ -16,4 +16,6 @@ python -B tools/run_recorded.py --output <新的运行目录> -- tools/check_tin
 
 它分别启动三个 Python 进程：生产/独立稠密参考的 100 optimizer 步（每步累积2）、第50步续训、发布重载。合成样本 ID 只用于 tiny 词表，不能代替真实 tokenizer 的模板/标签黄金样本。`--steps 2` 仅为短程检查，不能作为 P4 验收。
 
-当前 31 项回归通过，短程三进程检查通过；100 步验收正在推进，最终状态以 `progress.md` 和 run 的 `summary.json` 为准。
+当前 31 项回归通过；同步 P4 的正式 100 步及两个新进程验收已通过，详见 `progress.md`。这些结果不代表真实模型训练通过。
+
+`train/template.py` 用真实模板渲染非思考纯文本对话，检查完整输入保留 Speed 提示的精确 token 前缀，再只标记最后答案和 im_end。超长提示从左截断；无法保留完整答案及一个前置预测位置的样本丢弃。200 个真实 tokenizer 黄金样本直接执行 Speed `_prompt_tokens` 的源码 AST，对照提示、移位后的每个标签、强制截断与丢弃。保留与 Speed 相同的 tokenizer 加载选项，没有擅自修改 regex。
