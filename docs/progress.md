@@ -301,3 +301,17 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 `20261027T200028Z-workspace-boundary-audit` [只读审核](evidence/workspace-boundary-audit.json)PASS：桌面两份原文、归档文件和Git提交字节的SHA256一致；Speed及材料仓HEAD与工作树保持初始基线。Speed任务锁定的97个依赖版本一致，本训练所需39个依赖在两套环境中与固定闭包一致；Speed原Qwen模块SHA与交接快照一致。当前33个原训练src文件仍与完整campaign启动时的源码快照一致。
 
 该审核检查文档字节、Git状态、依赖版本和指定源文件，不声称已枚举或逐字节验证整个venv。Speed环境只运行标准库元数据查询，无GPU导入/安装/升级；训练保持在同一父进程中继续，完整M2尚未结束。
+
+## C3完整100步完成，新进程50→100已开始
+
+`20261027T180152Z-real-c3-functional100` 已正常退出，manifest PASS/exit0。它使用同一功能语料和逻辑100步配置，从原step4恢复后连续完成5～100，在step50保存后同一进程不中断继续至100；完整保存20/50/100和publish，冻结权重hash不变。C3共500个FP32可训练Tensor/19169280元素。
+
+第100步[原始评测](evidence/real-c3-evaluation-step100.json)：改写留出50/50且全部EOS结束（基座0/50），300条回放的981个监督token平均NLL为0.00000011701894606100652（基座0.00021194423469130964）。第10/20/50/100步均50/50。这是人工关联/算术回放功能观测，不是领域收益或已获用户批准的效果门槛。
+
+`20261027T202515Z-real-c3-functional100-observations` 汇总MEASURED，完整原始观测保留在run中。5～100共96步平均85.517秒、中位85.468秒，optimizer step wall合计8209.60秒（不含单独评测/保存）；输入token合计27695、监督3609，属于实际短功能样本。该会话各记录阶段最高allocated6790487552/reserved7096762368字节，不能替代4096压力测试的更高峰值。
+
+`20261027T202634Z-c3-final-checkpoint-audit` [CPU终点审核](evidence/real-c3-final-checkpoint-audit.json)PASS：全部检查点文件SHA一致，500个唯一命名参数及FP32 Adam矩有限且形状正确，逐参数step均100；scheduler.last_epoch100，累积位置0，四类RNG存在。数据状态consumed800/epoch1/position200，拼接实际1～100步共800个sample_id后确认首轮600条恰好一次、第二轮200条均有效且不重复。CPU读回发布参数与step100检查点逐字节一致。这不代替新进程GPU发布重建，也不代替实际恢复终点对照。
+
+同一父脚本已自动启动 `20261027T202444Z-real-c3-resume50`，从完整step50恢复、实际开始51～100，未重启或替换已完成的参考段。`20261027T202805Z-c3-resume50-prefix-check` [早期前缀](evidence/real-c3-resume50-prefix-check.json)只覆盖已完成第51步：loss、样本/监督/输入token、LR、总/分组梯度范数、路由审计、四类实际RNG探针九字段与基线完全相同。完整参数、Adam、scheduler、数据/RNG终态、发布probe和全部ΔW仍须等100结束后执行正式比较。
+
+`20261027T202710Z-m2-c3-full100-audit` [更新审核](evidence/m2-c3-full100-audit.json)仍为INCOMPLETE：16 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、15 PENDING。C3完整训练关闭了冻结/参数集合项；完整续训、GPU发布重建、独立效果/FP8观测、两套后验诊断、专家功能训练和最终交付仍未完成。保留原无条件A5.2失败及调整依据，真实用户效果阈值尚待决定，goal保持active。
