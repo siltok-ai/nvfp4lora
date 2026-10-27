@@ -16,7 +16,7 @@ python -B tools/run_recorded.py --output <新的运行目录> -- tools/check_tin
 
 它分别启动三个 Python 进程：生产/独立稠密参考的 100 optimizer 步（每步累积2）、第50步续训、发布重载。合成样本 ID 只用于 tiny 词表，不能代替真实 tokenizer 的模板/标签黄金样本。`--steps 2` 仅为短程检查，不能作为 P4 验收。
 
-当前 31 项回归通过；同步 P4 的正式 100 步及两个新进程验收已通过，详见 `progress.md`。这些结果不代表真实模型训练通过。
+同步 P4 当时的31项回归、正式100步及两个新进程验收已通过；后续异步及真实训练新增检查以 `progress.md` 为准。这些tiny结果不代替真实模型验收。
 
 `train/template.py` 用真实模板渲染非思考纯文本对话，检查完整输入保留 Speed 提示的精确 token 前缀，再只标记最后答案和 im_end。超长提示从左截断；无法保留完整答案及一个前置预测位置的样本丢弃。200 个真实 tokenizer 黄金样本直接执行 Speed `_prompt_tokens` 的源码 AST，对照提示、移位后的每个标签、强制截断与丢弃。保留与 Speed 相同的 tokenizer 加载选项，没有擅自修改 regex。
 
@@ -29,4 +29,6 @@ python -B tools/run_recorded.py --output <新运行目录> -- tools/check_real_t
 python -B tools/run_recorded.py --output <另一新运行目录> -- tools/check_real_training.py --bundle <真实bundle> --output '{run}/results' --expert-rank 2 --commit <完整提交>
 ```
 
-该工具仅做1个optimizer step×累积8、B非零后的两层C3解析梯度、冻结不变量及发布；真实数据只有8条短合成问答。`tools/check_real_adapter_reload.py` 在另一个进程只用bundle+publish建模，固定batch与GPU参数原字节均已通过E2。多步通用CLI、长序列、canary/replay和真实中间步续训仍待完成；不能把这个探针的 `max_steps=1` 配置静默延长成多步验收。
+该工具仅做1个optimizer step×累积8、B非零后的两层C3解析梯度、冻结不变量及发布；真实数据只有8条短合成问答。`tools/check_real_adapter_reload.py` 在另一个进程只用bundle+publish建模，固定batch与GPU参数原字节均已通过E2。不能把这个探针的 `max_steps=1` 配置静默延长成多步验收。
+
+后续真实多步入口见 [真实训练CLI](real-training-cli.md)。独立配置预设逻辑上限100步；C3及专家r2已在600条canary/replay语料完成4步、第2→4步新进程续训，以及训练内ΔW与发布重建全部E2。长序列、完整50→100步和金丝雀效果仍待验收，最新实测记录以 `progress.md` 为准。
