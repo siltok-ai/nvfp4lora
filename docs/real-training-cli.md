@@ -28,4 +28,8 @@ python -B tools/run_recorded.py --output <另一个新run目录> -- tools/train_
 
 当前功能语料由 `tools/prepare_canary_replay.py` 固定生成：单个人工关联的300条训练问题、50条未用过模板的改写问题、300条真实基座生成的算术回放。它是功能金丝雀，不能推广为领域或通用能力评测。评测的NLL按全部监督token加权；短语料可批量左padding，其他长语料应降低 `--eval-batch-size` 控制显存。
 
-本入口和恢复协议正在真实多步验证；已完成项与未完成项以 `progress.md` 为准。
+`tools/compare_real_resume.py` 比较基线与恢复执行的逐步数值、完整命名检查点、发布探针及训练内ΔW指纹。`tools/verify_training_release.py` 在新进程只用bundle/publish重建模型，核对固定loss、全部参数字节和全部ΔW。当前C3和专家r2的2→4步对照通过；它是短程证据，不能替代v2的50→100步验收。
+
+长序列压力数据用 `tools/prepare_sequence_stress.py` 生成，8条记录保留完整1035-token答案，在2048/4096上只左截断提示。使用同一训练入口、相应长度配置、累积8、至少2个optimizer step并保留首micro快照，分别观察Adam首次分配和已有Adam的稳态。压力语料的适配器独立保存，不混入功能训练。压力运行可用 `--skip-delta-fingerprint`，因此不能充作P8证据。
+
+`tools/summarize_training_session.py --results <run>/results --output <新文件>` 从已结束会话提取阶段内存、吞吐、H2D/等待和保存点A/B分组L2范数。其 `MEASURED` 状态只表示已汇总原始观测，不宣称金丝雀或完整阶段验收通过。

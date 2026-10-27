@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "checks": {
+    "fixed_batch_loss_E2": true,
+    "disabled_loss_E2": true,
+    "all_parameter_bytes_equal": true,
+    "all_delta_W_bytes_E2": true
+  },
+  "delta_W_fingerprint_count": 4090,
+  "loss": 1.9962127208709717,
+  "disabled_loss": 4.523958683013916,
+  "memory": {
+    "gpu_allocated": 6542107648,
+    "gpu_reserved": 7312769024,
+    "gpu_peak_allocated": 7116360192,
+    "gpu_peak_reserved": 7312769024,
+    "cpu_working_set": 24494637056,
+    "cpu_private": 33354145792
+  },
+  "build_inputs": [
+    "C:\\workspace\\models\\bundles\\qwen3.6-nvfp4-lora\\1355db6a052410cf-train-v2",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T163147Z-real-expert-r2-multistep-baseline\\results\\publish"
+  ]
+}
