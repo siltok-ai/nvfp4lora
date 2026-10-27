@@ -30,7 +30,7 @@ def main():
         command = [sys.executable, "-B", *command]
     git = shutil.which("git") or "C:/Program Files/Git/cmd/git.exe"
     snapshots = []
-    for folder in ["tools", "src", "requirements", "tests"]:
+    for folder in ["tools", "src", "requirements", "tests", "configs"]:
         for source in (root / folder).rglob("*"):
             if not source.is_file() or "__pycache__" in source.parts:
                 continue

@@ -16,6 +16,7 @@ from check_environment import configure_numerics
 from make_tiny_model import make_tiny_model
 from quantize_tiny import quantize_tiny
 from nvfp4lora.export.artifacts import build_from_adapter, load_adapter, publish_adapter, read_manifest
+from nvfp4lora.export.delta_w import delta_w_fingerprints
 from nvfp4lora.format.preprocess import preprocess
 from nvfp4lora.model.build import build_model, causal_model
 from nvfp4lora.ops.chunked_ce import chunked_ce_sum
@@ -72,6 +73,7 @@ class ArtifactTests(unittest.TestCase):
             self.assertTrue(torch.equal(expected_loss.view(torch.int32), actual_loss.view(torch.int32)))
             for name, parameter in built.trainable.items():
                 self.assertTrue(torch.equal(parameter, reloaded.trainable[name]), name)
+            self.assertEqual(delta_w_fingerprints(built), delta_w_fingerprints(reloaded))
             wrong_rank = build_model(root / "bundle", **{**kwargs, "expert_rank": 1})
             with self.assertRaisesRegex(ValueError, "scaling/rank"):
                 load_adapter(wrong_rank, root / "publish", root / "bundle")
