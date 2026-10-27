@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "scope": "CPU saved step20 integrity and independent persisted route-history/never-row checks relative to accepted step4. Not actual resume, GPU publish rebuild or final effects acceptance.",
+  "checkpoint": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\checkpoints\\step-000020",
+  "reference_checkpoint": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T163147Z-real-expert-r2-multistep-baseline\\results\\checkpoints\\step-000004",
+  "checkpoint_manifest_sha256": "cd08898bc7ecff500daa9ac604e560591d79218948e9142355dad3386d3d39e6",
+  "reference_manifest_sha256": "e48e3fd158b32f3294281307f3dd292f21e4776ebf4880bf34ef1b5cfda4c98d",
+  "all_checkpoint_file_hashes_match": true,
+  "trainable_tensors": 740,
+  "trainable_numel": 176455680,
+  "all_parameter_and_moment_values_finite": true,
+  "all_adam_second_moments_nonnegative": true,
+  "all_named_adam_steps": 20,
+  "standard_adamw_group_metadata": true,
+  "accumulation_position": 0,
+  "scheduler_last_epoch": 20,
+  "data_state": {
+    "consumed": 160,
+    "dataset_sha256": "34da7721a6529108744c58eb885d49aee2b3d2722bbea641fbfe83fb1740aabe",
+    "epoch": 0,
+    "position": 160,
+    "seed": 113
+  },
+  "four_rng_states_present": true,
+  "persisted_route_history_equals_actual_forward_counts_steps1to20": true,
+  "never_expert_layer_pairs": 2200,
+  "never_parameter_rows_compared": 13200,
+  "never_parameters_equal_accepted_step4_bytes": true,
+  "never_adam_moments_exact_zero": true,
+  "runtime_route_invariants_steps1to20": true,
+  "historical_inactive_changed_parameter_rows_step20": 10502,
+  "evaluation_step20": {
+    "canary_correct": 50,
+    "canary_samples": 50,
+    "canary_all_finished": true,
+    "replay_nll_per_token": 0.0006732941454677073
+  },
+  "metrics_inputs": {
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T163147Z-real-expert-r2-multistep-baseline\\results\\metrics.jsonl": {
+      "captured_sha256": "ec108ce16fc01771e20d0a60e43095a10377d4f24b18e29f6e77760eb09f0f6c",
+      "partial_trailing_line": false
+    },
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\metrics.jsonl": {
+      "captured_sha256": "1e305403986833fa16eb68e6dd0b16255c59d0f8f185fb4e44516134c202d148",
+      "partial_trailing_line": false
+    }
+  },
+  "evaluation_sha256": "0f4959506ac33785b54e77aee4b442901f9200f57daf27063ea76a33ea6770c4"
+}
