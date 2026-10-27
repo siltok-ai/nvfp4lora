@@ -1,0 +1,223 @@
+{
+  "status": "PASS",
+  "milestone": "M1 only",
+  "required_gates": {
+    "G0.1": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T103336Z-bootstrap\\p0-basic\\results.json",
+      "detail": "Actual CUDA BF16/meta architecture/PEFT respectively; pinned dependency versions still match"
+    },
+    "G0.4": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T103336Z-bootstrap\\p0-basic\\results.json",
+      "detail": "Actual CUDA BF16/meta architecture/PEFT respectively; pinned dependency versions still match"
+    },
+    "G0.5": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T103336Z-bootstrap\\p0-basic\\results.json",
+      "detail": "Actual CUDA BF16/meta architecture/PEFT respectively; pinned dependency versions still match"
+    },
+    "G0.2": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T105133Z-pinned-h2d",
+      "detail": "Actual 18.5GB pinned pool and H2D measurement"
+    },
+    "G0.3": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T111254Z-gdn-byte-check",
+      "detail": "Selected existing pure Torch chunk fallback; short recurrence gradients, target T4096, full GDN module and checkpoint byte checks"
+    },
+    "G0.6": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T103336Z-bootstrap\\grouped-target\\results.json",
+      "detail": "256-group target GEMMs and all gradients"
+    },
+    "G0.8": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T105045Z-checkpoint",
+      "detail": "All three source shards SHA256 verified against upstream LFS; P1 rechecked before preprocessing"
+    },
+    "A1.1": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\models\\bundles\\qwen3.6-nvfp4-lora\\1355db6a052410cf-train-v2",
+      "detail": "Real source headers/index/layout; 124468 source tensors, 122880 text expert fields"
+    },
+    "A1.2": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T114846Z-real-format-validation",
+      "detail": "40x8x3x4 sampled disk raw-field readbacks"
+    },
+    "A1.3": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T114846Z-real-format-validation",
+      "detail": "960 actual FreeToken projection comparisons, maximum one BF16 ULP"
+    },
+    "A1.4": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T123808Z-real-model-build",
+      "detail": "Materialized GPU parameters and fresh FP32 RoPE buffers, not just a meta catalog"
+    },
+    "A1.5": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\models\\bundles\\qwen3.6-nvfp4-lora\\1355db6a052410cf-train-v2",
+      "detail": "Streaming preprocessing peak working set 3.246GB; no full BF16 expert base"
+    },
+    "A2.1": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target",
+      "detail": "Actual T4096/H2048/I512/E256/top8 forward vs independent dense reference"
+    },
+    "A2.2": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target",
+      "detail": "x, routing weights and all six A/B gradients; numerical policies unchanged"
+    },
+    "A2.3": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133917Z-async-full-regression",
+      "detail": "True FP64 all-coordinate gradcheck; latest 33-test regression"
+    },
+    "A2.4": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target",
+      "detail": "Actual expert255 deliberately unrouted; tiny edge cases included in regression"
+    },
+    "A2.5": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target",
+      "detail": "Zero B vs no adapter E2; first B update covered in latest regression"
+    },
+    "A2.6": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target",
+      "detail": "Repeated output/all gradients E2; autocast control"
+    },
+    "A2.7": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target",
+      "detail": "Standard .grad accumulation, two microbatches"
+    },
+    "A2.8": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target",
+      "detail": "Both reentrant and nonreentrant checkpoint E2"
+    },
+    "A2.9": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target",
+      "detail": "Three target chunk memory sweeps; allocation stacks audited and no live decoded weights after backward"
+    },
+    "A3.1": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133606Z-real-async-qualification",
+      "detail": "A3.1-random"
+    },
+    "A3.2": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133606Z-real-async-qualification",
+      "detail": "A3.2-delayed"
+    },
+    "A3.3": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133606Z-real-async-qualification",
+      "detail": "A3.3-wrong"
+    },
+    "A3.4": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133606Z-real-async-qualification",
+      "detail": "A3.4-operator"
+    },
+    "A3.5": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133606Z-real-async-qualification",
+      "detail": "A3.5-profiler"
+    },
+    "A4.1": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2",
+      "detail": "100 optimizer steps, accumulation2; independent reference not modified"
+    },
+    "A4.2": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2",
+      "detail": "All 100 step losses; async re-run also passed, and all sync/async losses E2"
+    },
+    "A4.3": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2",
+      "detail": "New process step50->100; all state, data order and four RNG streams E2, also under async"
+    },
+    "A4.4": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2",
+      "detail": "Separate process uses bundle+published LoRA; loss/all parameters/all tiny expert deltaW E2"
+    },
+    "A4.5": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2",
+      "detail": "CPU experts and frozen GPU nonexpert parameters/buffers unchanged"
+    },
+    "A4.6": {
+      "status": "PASS",
+      "evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2",
+      "detail": "Named optimizer save validates actual unique set; canonical expected/publish sets and shapes match"
+    }
+  },
+  "auxiliary": {
+    "real_template_200": true,
+    "quantizer_real_layer_layout": true,
+    "tiny_memory_inventory_and_stages": true,
+    "tiny_snapshot_no_live_decode": true,
+    "sync_async_100step_E2": true
+  },
+  "unchanged_P2_math": {
+    "src/nvfp4lora/ops/experts_fn.py": true,
+    "src/nvfp4lora/validation/experts_reference.py": true,
+    "src/nvfp4lora/format/nvfp4.py": true
+  },
+  "source_files_sha256": {
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T103336Z-bootstrap\\p0-basic\\results.json": "487f3e5cba05f12cbbb7ea8fc82034c7116e5a154167ddf4249e5b16a950c2ad",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T105133Z-pinned-h2d\\manifest.json": "a8b80fd81db8c11e7a9c59ac4ec605f9fa43628514d3ceffa99a4e760a628122",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T105133Z-pinned-h2d\\results\\results.json": "63c8c3e04cf806ce408382cab07879cc4c932e7806d7afd078b9fff97fa7e36d",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T111254Z-gdn-byte-check\\manifest.json": "c80645b92d4b2df809b77df566bb06f751998be7ac397fa834cb99d8f31d81c2",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T111254Z-gdn-byte-check\\results\\results.json": "ed95126c7c4a8c1ca9c7b9e4fe645b02b9c2340f2aa1d00de5b768ea7f6957e8",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T105826Z-gdn-module\\manifest.json": "d0e63855b3422a9025673543efa94b07f085a9a77308a8a5b437992d75346c7d",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T105826Z-gdn-module\\results\\results.json": "e05119df6321cf3d0bbcd61a5660c86f00079648ed5894856ec5be08e016fc59",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T103336Z-bootstrap\\grouped-target\\results.json": "49f33846b905049e1494db96e08b2e97c8ab2077c243f1dddc0089082fba2427",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T105045Z-checkpoint\\manifest.json": "63fccb42c76796bd04b367b6af078138a1ca169bbcd724317b30db01ae2f996b",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T105045Z-checkpoint\\results\\receipt.json": "19eba194527429acf7923b8735eb87d4ef216cb07e19a3a939359c085e8546b1",
+    "C:\\workspace\\models\\bundles\\qwen3.6-nvfp4-lora\\1355db6a052410cf-train-v2\\manifest.json": "cbc0ffc5282f3b8613b46f6041ce48df3b3e7aaa1bea37550734b94d46d03c82",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T114846Z-real-format-validation\\manifest.json": "80a9a1011d1c7fa0b65765a8e9a14a597fe7bad8f92f11949a6fa09f3ef5ee7e",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T114846Z-real-format-validation\\results\\results.json": "e04203732af9de05ea2863ddc7607a695925aebde013292b78f48b2f5c0fb90e",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T123808Z-real-model-build\\manifest.json": "401ccdcd85f124cff082f3a18995bfff3466ecc87ba3d060146505bd9a1f67ed",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T123808Z-real-model-build\\results\\results.json": "455e07e87836987bd35c57bb55f873ccdc2d428a757835339d6a262c753719c5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target\\manifest.json": "575fc74b33c9fddea2aefed9ffe150079e0803b07065edc8cf586111021053e5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target\\results\\results.json": "02c2dbcb667401f06f60942d15b2382b9aade25b945b12f78fee999a6acd647e",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133917Z-async-full-regression\\manifest.json": "ccbba139c0c2c1a934c8a5ed53c50198fcb55110effdff7c0df54e37dee64259",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133917Z-async-full-regression\\stdout-stderr.log": "afe18adde3a5145104e16194093235779000da2bf2ddeb184f6057dd37163f77",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target\\snapshot-audit.json": "0110800198e9cee6250a03ca9a49eef9222ec9d889180c7880a0f285cb847c23",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133606Z-real-async-qualification\\manifest.json": "2525a247798bca298cb3f0f0f7e5652ee5d54fa96ccb2fe00eaa54edc6a30cca",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133606Z-real-async-qualification\\results\\results.json": "fc511d62d04d44dcba342d684a7f45310202d289dfe1eb39e39025fb5ef1e0b9",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2\\manifest.json": "adb2e23b00fd3229a6dc11209044c43721ea60097d7f8feb695f38aa28c72314",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2\\summary.json": "22cee51c38009f14f7ac3f15902dcdb55250c7d9893a8f382fc5fdc3a01bec0f",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T134007Z-async-training-100\\manifest.json": "21ba9352c5a4a79770174809d15994639148fbee7be4daaca6939779eb17edfe",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T134007Z-async-training-100\\summary.json": "eb15dc15717879d11380e5d5155ba4ae41a0805512fc0675067eeac952d4d349",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2\\paired\\summary.json": "a0eaedd9c9214c98c5821e8abeb33740c247248594b6d094922aaf9d8e47ccb6",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2\\resumed\\summary.json": "c8940a09fc765b64e9ba90107c9ad8a9d19c00e62dbb9ba64d54b167e877ef5a",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2\\reloaded\\summary.json": "625781efaa0b9b7bcfc597e06fd9e5ab6d8d8c11e4006aac4a53d65bd78ce751",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T134332Z-sync-async-100-comparison\\manifest.json": "0b0b264027e390430fe4a26a09c4f4324962f1304b5a520993419906cab1569b",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T134332Z-sync-async-100-comparison\\comparison.json": "2d474e416f8170ac6cba7d2810eb419450219b3373648599a19755c8cb49051e",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132406Z-template-goldens\\manifest.json": "e4a9d51ba64c60f57855777550749386f138ffa43e674b6cb186b10f8a482262",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132406Z-template-goldens\\results\\summary.json": "579ab600cbff776815f8bd594bf666201d4b9c034351d2038f55a92fc7fd0d03",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132636Z-quantizer-layout-zero-diagnosis\\manifest.json": "0f957c69e39e8d2510a3bc2a25583f614c776acd2c7e3729cbdb097eba4fbf84",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132636Z-quantizer-layout-zero-diagnosis\\results\\summary.json": "3062a79eb300f57f23b9835c2a6d15fca7f2e67e453a7931e0d25dc27633987c",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132748Z-tiny-snapshot-audit\\manifest.json": "4c7144208d8204b782683d9b61e0884c6d44a6f45f5d5f7e41724701cacb1f31",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132748Z-tiny-snapshot-audit\\snapshot-audit.json": "d761ac6cef78d8de17a429b6b9c9d26578b76ef910e415c743526af9521bacbe"
+  },
+  "limitations": [
+    "Does not qualify full real-model forward/training P5-P8",
+    "Profiler overlap uses artificial delayed reads; not training throughput",
+    "CPU stage observations are working-set samples, not interval peaks",
+    "GDN is selected validated Torch fallback; FLA not tested"
+  ]
+}

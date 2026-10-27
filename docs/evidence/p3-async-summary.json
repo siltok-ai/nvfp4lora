@@ -1,0 +1,314 @@
+{
+  "status": "PASS",
+  "source": {
+    "kind": "real-nvidia-checkpoint",
+    "repo": "nvidia/Qwen3.6-35B-A3B-NVFP4",
+    "revision": "1355db6a052410cfd62085d94b58866fd0f2c3c5",
+    "shards": [
+      {
+        "filename": "model-00001-of-00003.safetensors",
+        "sha256": "07141c2db92e47bc08777132cd1a0323faf300eab3a7d7c111bc2bf075fda050"
+      },
+      {
+        "filename": "model-00002-of-00003.safetensors",
+        "sha256": "6dea9c759a0f941cf9e1cc1501216b0e107966a66c90425050e212efbd053f02"
+      },
+      {
+        "filename": "model-00003-of-00003.safetensors",
+        "sha256": "9758875fc55e49561165f4a44342b654c123c3e25c6811b34abb83553fb1a164"
+      }
+    ],
+    "metadata": [
+      {
+        "filename": "README.md",
+        "sha256": "1ee59fc444f6935222966d9336d1b37c7a1f3bb237ad4a09793ecaa9b462e2ad"
+      },
+      {
+        "filename": "chat_template.jinja",
+        "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259"
+      },
+      {
+        "filename": "config.json",
+        "sha256": "58aefa1c9eff7989f431d748f2ddec39446cb1fd2a69acc46e285c6a37b0cecc"
+      },
+      {
+        "filename": "generation_config.json",
+        "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+      },
+      {
+        "filename": "hf_quant_config.json",
+        "sha256": "75fe7cc8d5836b58734e05ee67423a4ce91d602aaad45c8173a1b7597cd57663"
+      },
+      {
+        "filename": "model.safetensors.index.json",
+        "sha256": "d67403a4e9793c0ba8a136baf14b3b76ec7b32c822267978084895e07ebd8a3e"
+      },
+      {
+        "filename": "tokenizer.json",
+        "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+      },
+      {
+        "filename": "tokenizer_config.json",
+        "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b"
+      },
+      {
+        "filename": "vocab.json",
+        "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+      }
+    ]
+  },
+  "cases": {
+    "A3.1-random": {
+      "status": "PASS",
+      "full_payload_checks": 1000,
+      "wall_seconds": 86.62316869999631,
+      "wall_effective_h2d_GB_per_second": 4.962741985493984,
+      "copy_gpu_GB_per_second": 21.827497625016395,
+      "stats": {
+        "acquires": 1000,
+        "cache_hits": 999,
+        "copies": 949,
+        "copy_bytes": 429888436224,
+        "copy_wall_seconds": 0.0,
+        "prefetches": 999,
+        "prefetch_copies": 948,
+        "prefetch_skipped_pinned": 0,
+        "demand_misses": 1,
+        "copy_gpu_ms": 19694.81081199646,
+        "acquire_wait_gpu_ms": 79.89315250399522,
+        "copy_enqueue_seconds": 0.1074992001085775,
+        "acquire_wait_enqueue_seconds": 0.0667078002152266
+      }
+    },
+    "A3.2-delayed": {
+      "status": "PASS",
+      "full_payload_checks": 80,
+      "wrong_prefetch": false,
+      "sleep_cycles_per_request": 50000000,
+      "wall_seconds": 7.959133500000462,
+      "copy_compute_overlap_ms_from_cuda_events": 646.1681709289551,
+      "stats": {
+        "acquires": 80,
+        "cache_hits": 2,
+        "copies": 78,
+        "copy_bytes": 35333296128,
+        "copy_wall_seconds": 0.0,
+        "prefetches": 0,
+        "prefetch_copies": 0,
+        "prefetch_skipped_pinned": 0,
+        "demand_misses": 78,
+        "copy_gpu_ms": 810.2469787597656,
+        "acquire_wait_gpu_ms": 10.604288365255343,
+        "copy_enqueue_seconds": 0.004421999983605929,
+        "acquire_wait_enqueue_seconds": 0.0013973999593872577
+      }
+    },
+    "A3.3-wrong": {
+      "status": "PASS",
+      "full_payload_checks": 80,
+      "wrong_prefetch": true,
+      "sleep_cycles_per_request": 50000000,
+      "wall_seconds": 8.620472999988124,
+      "copy_compute_overlap_ms_from_cuda_events": 622.5227136611938,
+      "stats": {
+        "acquires": 80,
+        "cache_hits": 1,
+        "copies": 158,
+        "copy_bytes": 71572574208,
+        "copy_wall_seconds": 0.0,
+        "prefetches": 80,
+        "prefetch_copies": 79,
+        "prefetch_skipped_pinned": 0,
+        "demand_misses": 79,
+        "copy_gpu_ms": 1500.9386920928955,
+        "acquire_wait_gpu_ms": 633.5592963336676,
+        "copy_enqueue_seconds": 0.007197500133770518,
+        "acquire_wait_enqueue_seconds": 0.001502400016761385
+      }
+    },
+    "A3.4-operator": {
+      "status": "PASS",
+      "shape": [
+        4096,
+        2048,
+        512,
+        256,
+        8
+      ],
+      "comparisons": {
+        "output": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 18.860495691479397,
+          "bitwise_equal": true
+        },
+        "x": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 0.008743833786386343,
+          "bitwise_equal": true
+        },
+        "route_weights": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 0.04911455726419147,
+          "bitwise_equal": true
+        },
+        "Ag": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 0.09286112633273066,
+          "bitwise_equal": true
+        },
+        "Bg": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 0.023665780953612707,
+          "bitwise_equal": true
+        },
+        "Au": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 0.09349246580103182,
+          "bitwise_equal": true
+        },
+        "Bu": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 0.02395087161531242,
+          "bitwise_equal": true
+        },
+        "Ad": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 0.08317048856764234,
+          "bitwise_equal": true
+        },
+        "Bd": {
+          "relative_l2": 0.0,
+          "max_absolute": 0.0,
+          "reference_norm": 0.04232026352251894,
+          "bitwise_equal": true
+        }
+      },
+      "sync_memory": {
+        "seconds_including_cpu_results": 0.8609766999870772,
+        "allocated_before": 1865834496,
+        "allocated_after": 1932943360,
+        "peak_allocated_bytes": 2872050688,
+        "peak_reserved_bytes": 3319791616
+      },
+      "async_memory": {
+        "seconds_including_cpu_results": 0.533049799996661,
+        "allocated_before": 1932943360,
+        "allocated_after": 1932943360,
+        "peak_allocated_bytes": 2872050688,
+        "peak_reserved_bytes": 3248488448
+      },
+      "stats": {
+        "acquires": 2,
+        "cache_hits": 1,
+        "copies": 2,
+        "copy_bytes": 905981952,
+        "copy_wall_seconds": 0.0,
+        "prefetches": 2,
+        "prefetch_copies": 1,
+        "prefetch_skipped_pinned": 0,
+        "demand_misses": 1,
+        "copy_gpu_ms": 17.778079986572266,
+        "acquire_wait_gpu_ms": 8.594047838589177,
+        "copy_enqueue_seconds": 0.0001593000051798299,
+        "acquire_wait_enqueue_seconds": 4.4599990360438824E-05
+      }
+    },
+    "A3.5-profiler": {
+      "status": "PASS",
+      "h2d_events": 32,
+      "kernel_events": 26,
+      "overlapping_pairs": 15,
+      "first_pairs": [
+        {
+          "overlap_us": 8756.26513671875,
+          "copy": "Memcpy HtoD (Pinned -> Device)",
+          "kernel": "_ZN2at4cuda40_GLOBAL__N__6ceedc0f_8_Sleep_cu_1257454211spin_kernelEx",
+          "copy_stream": 29,
+          "kernel_stream": 7
+        },
+        {
+          "overlap_us": 8755.68896484375,
+          "copy": "Memcpy HtoD (Pinned -> Device)",
+          "kernel": "_ZN2at4cuda40_GLOBAL__N__6ceedc0f_8_Sleep_cu_1257454211spin_kernelEx",
+          "copy_stream": 29,
+          "kernel_stream": 7
+        },
+        {
+          "overlap_us": 8756.0087890625,
+          "copy": "Memcpy HtoD (Pinned -> Device)",
+          "kernel": "_ZN2at4cuda40_GLOBAL__N__6ceedc0f_8_Sleep_cu_1257454211spin_kernelEx",
+          "copy_stream": 29,
+          "kernel_stream": 7
+        },
+        {
+          "overlap_us": 8758.82470703125,
+          "copy": "Memcpy HtoD (Pinned -> Device)",
+          "kernel": "_ZN2at4cuda40_GLOBAL__N__6ceedc0f_8_Sleep_cu_1257454211spin_kernelEx",
+          "copy_stream": 29,
+          "kernel_stream": 7
+        },
+        {
+          "overlap_us": 8816.64794921875,
+          "copy": "Memcpy HtoD (Pinned -> Device)",
+          "kernel": "_ZN2at4cuda40_GLOBAL__N__6ceedc0f_8_Sleep_cu_1257454211spin_kernelEx",
+          "copy_stream": 29,
+          "kernel_stream": 7
+        },
+        {
+          "overlap_us": 8761.19287109375,
+          "copy": "Memcpy HtoD (Pinned -> Device)",
+          "kernel": "_ZN2at4cuda40_GLOBAL__N__6ceedc0f_8_Sleep_cu_1257454211spin_kernelEx",
+          "copy_stream": 29,
+          "kernel_stream": 7
+        },
+        {
+          "overlap_us": 8761.19287109375,
+          "copy": "Memcpy HtoD (Pinned -> Device)",
+          "kernel": "_ZN2at4cuda40_GLOBAL__N__6ceedc0f_8_Sleep_cu_1257454211spin_kernelEx",
+          "copy_stream": 29,
+          "kernel_stream": 7
+        },
+        {
+          "overlap_us": 8797.416015625,
+          "copy": "Memcpy HtoD (Pinned -> Device)",
+          "kernel": "_ZN2at4cuda40_GLOBAL__N__6ceedc0f_8_Sleep_cu_1257454211spin_kernelEx",
+          "copy_stream": 29,
+          "kernel_stream": 7
+        }
+      ],
+      "cuda_event_measurement": {
+        "status": "PASS",
+        "full_payload_checks": 16,
+        "wrong_prefetch": true,
+        "sleep_cycles_per_request": 50000000,
+        "wall_seconds": 1.7700800000020536,
+        "copy_compute_overlap_ms_from_cuda_events": 131.66057872772217,
+        "stats": {
+          "acquires": 16,
+          "cache_hits": 0,
+          "copies": 32,
+          "copy_bytes": 14495711232,
+          "copy_wall_seconds": 0.0,
+          "prefetches": 16,
+          "prefetch_copies": 16,
+          "prefetch_skipped_pinned": 0,
+          "demand_misses": 16,
+          "copy_gpu_ms": 295.9110698699951,
+          "acquire_wait_gpu_ms": 133.79657531934208,
+          "copy_enqueue_seconds": 0.0026572999922791496,
+          "acquire_wait_enqueue_seconds": 0.00038919999497011304
+        }
+      }
+    }
+  },
+  "frozen_store_hashes_unchanged": true,
+  "source_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T133606Z-real-async-qualification"
+}

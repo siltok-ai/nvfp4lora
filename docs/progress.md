@@ -1,6 +1,6 @@
 # 实施状态
 
-总体目标：依据 v2 在本机实现并验证真实 Qwen3.6-35B-A3B NVFP4 LoRA 训练，交付训练代码、可重载 adapter 和续训证据。当前推进 M1，不缩减最终目标。
+总体目标：依据 v2 在本机实现并验证真实 Qwen3.6-35B-A3B NVFP4 LoRA 训练，交付训练代码、可重载 adapter 和续训证据。M1 已在 `20261027T134521Z-m1-audit-final` 通过全部32个必需关卡，当前进入 P5～P8；最终目标仍未完成。
 
 ## P0 资格
 
@@ -63,8 +63,8 @@ HF tiny 的 BF16 来源、NVIDIA 同布局 NVFP4 来源和预处理结果已由 
 
 ## 待完成
 
-- 异步搬运事件竞争测试、回归和逐项 M1 审核。
-- M1 通过后的真实模型 P5～P8；当前没有真实训练 adapter。
+- 真实模型 P5～P8：128-token 前四层 CPU FP32 参考、语义前向、C3/专家 LoRA 训练、真实适配器发布与新进程续训。
+- 填写真实训练各阶段内存与吞吐实测；当前只有 tiny 训练 adapter，没有真实训练 adapter。
 
 ## P4 同步端到端验收
 
@@ -102,7 +102,31 @@ HF tiny 的 BF16 来源、NVIDIA 同布局 NVFP4 来源和预处理结果已由 
 
 首次带默认 memory-history 栈采集的 run `20261027T132104Z-tiny-training-100` 在第一个 CE 重算报 SystemError。改为 `context='alloc', stacks='python'` 后，短程及正式100步通过；保留原始失败。量化诊断首版的文件路径漏了 `experts/`，在读文件前失败，`20261027T132523Z-quantizer-layout` 保留。最新完整单元回归 `20261027T132008Z-training-regression` 共31项 PASS，包括损失归一化、参数重排恢复、四类 RNG、发布重载和数据游标。
 
-P0/P1/P2/P4 同步路径通过，P3 尚未验收；M1 未通过，没有真实完整模型训练 adapter。
+该同步 run 结束时 P3 尚未验收；后续 P3 与 M1 的结论见下一节。尚无真实完整模型训练 adapter。
+
+## P3 与 M1 完成
+
+[异步协议与命令](streaming.md)、[P3 摘要](evidence/p3-async-summary.json)、[逐关 M1 审核及原始证据 SHA256](evidence/m1-audit.json)。异步实现只支持一个 CUDA 计算流和一个拷贝流；CPU pinned bank 持久保存原始字节，槽由 `copy_done / last_reader / pins / generation` 共同保护。
+
+真实 bank 的 run `20261027T133606Z-real-async-qualification` 全部 PASS：
+
+| 关卡 | 实测 |
+| --- | --- |
+| A3.1 | 1000次随机 acquire，每次完整 payload D2H 逐字节等于 CPU 源；949次实际H2D，共429888436224字节 |
+| A3.2 | 0→39→39→0，共80次完整读回；每次 GPU 人为延迟50000000 cycles，release 后仍未完成的读不被覆盖 |
+| A3.3 | 同序列故意预测 L+17，80次完整读回仍正确；158次实际拷贝，71572574208字节，错误预测产生额外流量 |
+| A3.4 | 真实T4096/H2048/I512/E256/top8，输出、x/路由权重和六个A/B梯度相对同步全部 E2 |
+| A3.5 | 记录拷贝事件耗时/等待和字节；Profiler 32个H2D、26个kernel、15对跨流重叠。计算为人为sleep，只证明调度重叠，不冒充训练提速 |
+
+随机全量读回测试的 H2D GPU-event 带宽21.83GB/s、整个验证器有效H2D约4.96GB/s；后者包含D2H与CPU全字节比较，不能当训练吞吐。完整CPU bank训练用payload前后hash不变。
+
+`20261027T133917Z-async-full-regression` 共33项 PASS，含1000次小bank延迟读、pin/generation/跨流/close错误检查。源码 `1442f684ecb83a5fca5de752778118767c280e7f` 下，`20261027T134007Z-async-training-100` 的独立稠密对照、50→100精确续训、发布重载均 PASS，[异步训练摘要](evidence/p4-async-training-summary.json)。
+
+`20261027T134332Z-sync-async-100-comparison` [对照](evidence/sync-async-training-comparison.json)还检查了同步/异步之间的全部100步loss、全局/分组梯度范数、LR、样本顺序、四类RNG探针，以及第50/100步全部参数、Adam、scheduler、数据/RNG状态和最终探针：全部E2。两份逻辑配置除 streaming 选择外相同。
+
+`20261027T134521Z-m1-audit-final` 对32个必需关卡逐项审核通过，且原P2数学/格式解码/独立参考源码与真实目标形状验收快照SHA完全一致。200真实模板黄金样本、真实层量化布局诊断、tiny存活对象清单与无活跃解码权重快照作为辅助检查通过。GDN沿用已验证Torch回退；没有声称测试FLA。
+
+**M1 PASS 只授予进入 P5～P8 的资格；真实整模前向与训练仍待验证。**
 
 ## 本机证据根
 

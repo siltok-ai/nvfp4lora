@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "checks": {
+    "all_logical_config_except_streaming": true,
+    "step_count": true,
+    "all_100_steps_E2": true,
+    "checkpoint-middle.parameters": true,
+    "checkpoint-middle.optimizer.pt": true,
+    "checkpoint-middle.scheduler.pt": true,
+    "checkpoint-middle.rng.pt": true,
+    "checkpoint-middle.data_state.json": true,
+    "checkpoint-middle.trainer_state.json": true,
+    "checkpoint-final.parameters": true,
+    "checkpoint-final.optimizer.pt": true,
+    "checkpoint-final.scheduler.pt": true,
+    "checkpoint-final.rng.pt": true,
+    "checkpoint-final.data_state.json": true,
+    "checkpoint-final.trainer_state.json": true,
+    "probe_parameters_delta_loss": true
+  },
+  "differences": [],
+  "sync_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T132210Z-tiny-training-100-v2",
+  "async_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T134007Z-async-training-100"
+}
