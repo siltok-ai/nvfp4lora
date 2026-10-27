@@ -237,3 +237,9 @@ C3在2048和4096均完成新鲜初始化的2 optimizer step×累积8，完整答
 补测的2000000事件环同样已满，`history_complete=false`如实记录；不宣称完整轨迹。逐层重算峰值由每层入口reset和always_call退出时的CUDA独立峰值计数给出，不依赖事件环是否完整。表中2048第二步耗时已按原始metrics更正为187.78秒。
 
 `20261027T172124Z-real-c3-recompute4096` 同样PASS：[证据](evidence/real-c3-recompute4096.json)。40层重算最高allocated10149885440字节，整micro最高11530374656字节；独立快照审核 `20261027T172415Z-real-c3-recompute4096-snapshot` 无活跃解码块。两次补测均从已有Adam、梯度起始None的optimizer边界开始，只测一个micro；后续累积micro的总峰值仍以完整两步压力训练为准。
+
+## 专家r2真实2048压力训练
+
+`20261027T172405Z-real-expert-r2-sequence2048` 两步×累积8 PASS，[审核](evidence/real-expert-sequence2048-audit.json)。与C3使用同一8条压力记录、2048完整输入/1035完整答案，首步266.68秒、第二步251.57秒；已有Adam时最高allocated11045118464、reserved11303649280字节。全部40层未命中原始梯度0、从未命中参数/Adam矩不变，冻结hash不变。首micro快照审核无活跃解码权重；其200000事件轨迹截断状态不改变框架峰值读数。
+
+`20261027T173447Z-real-expert-r2-recompute2048` 独立补测PASS，[证据](evidence/real-expert-recompute2048.json)。从压力step2恢复真实Adam的首micro，40层重算最高allocated10672066560、整micro10699755520字节。去掉hook后同一micro的loss及全部740个A/B梯度字节E2，冻结hash不变；2000000事件环仍截断，峰值由逐层独立计数给出。4096专家压力仍待完成，不据此宣称全部长度或P7已通过。
