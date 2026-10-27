@@ -315,3 +315,5 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 同一父脚本已自动启动 `20261027T202444Z-real-c3-resume50`，从完整step50恢复、实际开始51～100，未重启或替换已完成的参考段。`20261027T202805Z-c3-resume50-prefix-check` [早期前缀](evidence/real-c3-resume50-prefix-check.json)只覆盖已完成第51步：loss、样本/监督/输入token、LR、总/分组梯度范数、路由审计、四类实际RNG探针九字段与基线完全相同。完整参数、Adam、scheduler、数据/RNG终态、发布probe和全部ΔW仍须等100结束后执行正式比较。
 
 `20261027T202710Z-m2-c3-full100-audit` [更新审核](evidence/m2-c3-full100-audit.json)仍为INCOMPLETE：16 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、15 PENDING。C3完整训练关闭了冻结/参数集合项；完整续训、GPU发布重建、独立效果/FP8观测、两套后验诊断、专家功能训练和最终交付仍未完成。保留原无条件A5.2失败及调整依据，真实用户效果阈值尚待决定，goal保持active。
+
+恢复期间的提前检查 `20261027T204044Z-c3-resume50-first10-check` 覆盖实际第51～60步的九项逐步记录，全部与不中断基线相同；[前10步收据](evidence/real-c3-resume50-first10-check.json)。原始metrics字节快照和SHA保留，观察时训练进程已继续第61步。它只核对该前缀的loss、样本/监督/输入token、LR、总/分组梯度范数、路由审计与四RNG探针，不能替代第100步的完整参数/Adam/scheduler/data/RNG/publish/ΔW比较；正式M2状态仍为INCOMPLETE。
