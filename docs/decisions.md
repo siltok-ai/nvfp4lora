@@ -22,3 +22,12 @@
 ## 2026-10-27：真实 P1 首轮过滤修复
 
 三个原始分片的 SHA256 已全部通过。首次真实预处理在布局检查阶段失败：范围过宽的 `.mlp.experts.` 选择同时计入 `mtp.layers.0.mlp.experts.{gate_up_proj,down_proj}`，使源专家集合比文本主干多两个名字。已用含 MTP 的小夹具复现；将专家集合限定为 `model.language_model.layers.*`。MTP 张量仍由原始分片保留，不加载为文本训练专家。失败 run 和空输出 `*-train-v1` 保留，修复后使用新的 `*-train-v2` 输出。
+
+## 2026-10-27：P2 与物化构建
+
+- 先采用逐专家 GEMM 的纯 Torch 数值基线；grouped_mm 资格已通过，但暂不叠加实现复杂度。真实目标形状前向、路由及六个 A/B 梯度与独立参考通过原阈值。BF16 dX 相对误差约 0.005084；FP32 为 7.3e-8，未调整容差。
+- 生产按 route 唯一位置写回，再按 top-k 的原槽顺序用 FP32 累加。局部 A/B 叶子只覆盖本块，不用 allow_unused 隐藏 None，不直接写 `.grad`。只支持一阶训练梯度。
+- CPU bank 的逻辑字节不是锁页 allocator 的物理分配量：真实构建时约 18.12GB 逻辑数据对应约 21.47GB pinned allocated，进程 peak working set 约 27.04GB。仍在本机主存预算内；后续按实测账本计算。
+- meta 模型先转非专家 BF16，再替换专家并分配。`to(BF16)` 也会影响 meta RoPE buffer 的 dtype；实际加载后用正常 CPU 构造重新注册 FP32 inv_freq/original_inv_freq，不能只 copy 到 BF16 buffer。
+- 专家 A 使用每个专家自己的 1/sqrt(fan_in) 范围，禁止对整个 [E,r,in] 套三维 Kaiming。PEFT 包装后显式恢复自有 A/B 的可训练性，并与预期 canonical 集合核对。
+- 仅 tiny 参考模型允许常驻解码 W。真实 A1.4 只做构建和参数读回，没有运行完整模型前向或训练；M1 仍等待 P4 与 P3。
