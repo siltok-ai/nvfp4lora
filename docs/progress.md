@@ -273,3 +273,9 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 调整项明确保留原无条件CPU FP32 1%失败；另用Git祖先关系和源文件内容核对，证明三个新夹具及CPU参考在运行前已提交于69a8cbd9d1123ab3c15b4443499e156b97dd2568，不能事后换夹具掩盖旧失败。`20261027T185508Z-m2-strict-incomplete-guard` 使用require-complete故意得到exit1，[门槛收据](evidence/m2-incomplete-guard.json)确认不完整状态会被拒绝；该run的FAIL是预期负向检查，未改为PASS，不是训练失败。
 
 最终审核仍须在实际100步/恢复/发布/风险/后验诊断和制品准备完成后重跑严格模式。效果阈值未由用户确定时不填造provenance；原始观测与正式门槛分别记录。当前16个待完成项完整保留，没有缩小goal。
+
+## C3中点检查点已具备；基线继续运行
+
+第50步的[固定评测](evidence/real-c3-evaluation-step50.json)仍为50/50且全部EOS停止，300回放NLL0.00000021567823518715448。完整step50已保存，原基线进程继续51～100，未在中点停止或用恢复进程替代后半程参考。
+
+`20261027T191524Z-c3-midpoint-checkpoint-audit` [CPU边界审核](evidence/real-c3-midpoint-checkpoint-audit.json)PASS：所有文件SHA一致，500个可训练参数/唯一命名optimizer集合一致，所有参数及FP32 Adam矩有限、形状正确，逐参数step均50；scheduler.last_epoch50，累积位置0，数据消耗400（epoch0/position400/seed113），四类RNG存在。该检查仅证明边界文件与状态完整，不能代替后续实际新进程50→100的E2对照，也不算一次模型发布重载。

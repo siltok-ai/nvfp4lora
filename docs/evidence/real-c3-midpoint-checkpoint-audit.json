@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "scope": "CPU boundary integrity/named-state audit only, not an actual resume or model reload",
+  "checkpoint": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\checkpoints\\step-000050",
+  "manifest_sha256": "0e30d8eed38d28a01f54d1c23c6881ae9e8d0bf2d5ae60e0051cf1a86df7b50c",
+  "tensors": 500,
+  "all_steps": 50,
+  "all_parameters_and_moments_finite": true,
+  "all_hashes_match": true,
+  "data_consumed": 400,
+  "accumulation_position": 0,
+  "four_rng_states_present": true,
+  "scheduler_last_epoch": 50
+}
