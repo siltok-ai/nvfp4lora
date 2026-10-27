@@ -78,3 +78,13 @@ built.streamer.close()
 该调用使用训练核心的无cache验证路径；性能测量需注明每个生成token都重跑完整前向。专家适配器由 `build_from_adapter` 连同PEFT参数一起加载。Speed/FreeToken的产品加载器、融合段映射、CUDA Graph及缓存隔离属于后续G2/A′，当前发布目录尚不能直接交给其原有加载器使用。
 
 本机完整真实验收使用 `tools/run_real_acceptance.ps1` 顺序执行C3、专家r2：从已验证step4继续到100（保存20/50/100，测量10/20/50/100），再新进程50→100、完整命名状态/逐步E2对照、发布ΔW重建、功能测量和FP8范围观测。各项使用新run并写独立task指针，首个失败立即停止。失败后按已有完成证据选择性继续，不重新启动整个脚本覆盖既有结果。`-ValidateOnly` 只校验现有路径、基线step4/逻辑100、专家rank和数据SHA，不启动GPU。该脚本尚未完成实际100步执行时，不表示完整验收已通过。
+
+串行campaign结束后，分别对C3和专家run补采v2 6.5的周期诊断：
+
+```powershell
+python -B tools/run_recorded.py --output <新的诊断run> -- tools/inspect_training_checkpoints.py `
+  --bundle <相同基座> --training-results <功能100步run>/results `
+  --corpus <canary-replay语料目录> --steps 20 50 100 --output '{run}/results'
+```
+
+它只读取完整且所有文件hash通过的检查点，逐名字/形状载入参数，测量50条canary留出NLL、A/B分组范数和固定前8条训练样本的40层路由。路由观测包括rank0，并排除padding；基座统一禁用作对照。输出MEASURED，不是续训或领域效果验收。当前已运行的旧版父campaign不会动态增加该步骤，应在其结束后显式执行，避免与训练争用GPU。

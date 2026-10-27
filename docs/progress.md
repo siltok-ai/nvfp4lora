@@ -253,3 +253,13 @@ C3在2048和4096均完成新鲜初始化的2 optimizer step×累积8，完整答
 `20261027T175535Z-real-expert-r2-recompute4096` PASS，[补测](evidence/real-expert-recompute4096.json)：已有Adam且梯度起始None的首micro，40层重算最高allocated12101009408、整micro13470559744字节。完整两步的后续累积micro峰值仍以上述14127787520为准，不用首micro低值代替。补测无optimizer更新，冻结hash不变，事件环仍截断。C3与专家r2、两种长度的四份非零B补测快照，最终存活解码块均0，[生命周期汇总](evidence/real-recompute-lifecycle.json)；最终快照全局存活块的检查不依赖有上限的事件尾部是否完整。
 
 到这里，两套配置的2048/4096各2步压力和重算补测全部通过；它们证明本机容量和训练机制，不代表金丝雀、领域效果或完整100步续训通过。下一步使用已准备的串行脚本完成真实600条功能语料的100步及50→100对照，保留独立压力适配器，不混入功能训练。
+
+## 完整真实验收已启动；C3第10步首次功能效果
+
+父run `20261027T180151Z-real-full-acceptance-campaign` 已实际启动，C3子run `20261027T180152Z-real-c3-functional100` 从同一600条功能语料的step4继续5～100。两套模型的独立50→100、比较、发布和风险观测仍未完成，不能把父run的RUNNING或已启动写成通过。
+
+C3第10步：[原始评测](evidence/real-c3-evaluation-step10.json)实际50条换模板留出全部正确（基座0/50），300条回放NLL 0.00005730681090969801（基座0.00021194423469130964）。这是单个人工关联的功能结果，不证明领域收益；训练继续到100，完整续训仍待验证。第10步仅有固定评测记录，不单独保存/发布适配器；预设保存点为20/50/100。
+
+审查v2 6.5发现：训练入口已有replay NLL和canary成功率，但C3的训练路由审计因rank0不持有专家A/B而不记录路由分布，也尚无canary留出NLL。新增 `inspect_training_checkpoints.py` 从保存的20/50/100参数离线重建这些诊断及A/B分组范数，固定训练数据前8条作探测批次，排除左padding；记录的是保存参数的离线重建，不伪称原训练时刻捕获。
+
+新增 `MaskedRouteProbe` 的3项CPU测试在 `20261027T181113Z-route-probe-cpu-regression` PASS：rank0仍记录、padding排除、错误mask/漏层拒绝及hook卸载。真实C3/专家step4的500/740个Tensor已在CPU逐字节载入对照，错误配置和形状均拒绝，`20261027T181325Z-checkpoint-diagnostics-cpu-loader` [摘要](evidence/checkpoint-diagnostics-cpu-loader.json)PASS。尚未在GPU执行新诊断工具，需在当前串行campaign之后分别对两套实际20/50/100执行；不并行占用训练GPU，不更改训练数学或现有逻辑配置。
