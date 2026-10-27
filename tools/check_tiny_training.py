@@ -100,7 +100,9 @@ def paired(args, output, config):
         batches = stream.next_group(config["accumulation_steps"])
         torch.cuda.reset_peak_memory_stats()
         if step == 1:
-            torch.cuda.memory._record_memory_history(max_entries=200000, clear_history=True)
+            # Windows 的 C++/free traceback 采集会干扰 checkpoint 的内部早停异常；
+            # 仅记录分配的 Python 栈，保留定位活跃对象所需的全部 allocation 证据。
+            torch.cuda.memory._record_memory_history(context="alloc", stacks="python", max_entries=200000, clear_history=True)
         try:
             am = actual.backward_group(batches)
             if step == 1:
