@@ -317,3 +317,7 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 `20261027T202710Z-m2-c3-full100-audit` [更新审核](evidence/m2-c3-full100-audit.json)仍为INCOMPLETE：16 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、15 PENDING。C3完整训练关闭了冻结/参数集合项；完整续训、GPU发布重建、独立效果/FP8观测、两套后验诊断、专家功能训练和最终交付仍未完成。保留原无条件A5.2失败及调整依据，真实用户效果阈值尚待决定，goal保持active。
 
 恢复期间的提前检查 `20261027T204044Z-c3-resume50-first10-check` 覆盖实际第51～60步的九项逐步记录，全部与不中断基线相同；[前10步收据](evidence/real-c3-resume50-first10-check.json)。原始metrics字节快照和SHA保留，观察时训练进程已继续第61步。它只核对该前缀的loss、样本/监督/输入token、LR、总/分组梯度范数、路由审计与四RNG探针，不能替代第100步的完整参数/Adam/scheduler/data/RNG/publish/ΔW比较；正式M2状态仍为INCOMPLETE。
+
+`20261027T210310Z-c3-resume50-epoch-boundary-check` [跨轮次检查](evidence/real-c3-resume50-epoch-boundary-check.json)PASS：恢复后51～76共26步的九项记录仍与不中断基线完全相同。拼接实际基线前400个样本和恢复后的208个样本，首轮600条accepted record各出现一次，第二轮前8条有效且顺序与不中断参考相同；检查没有调用采样器排序实现来生成参考。输入metrics原字节快照和固定输入SHA保留。这只证明已执行前缀及实际跨轮次覆盖，完整50→100终态比较仍未完成。
+
+工具更新使旧unified session36600失效后，已用实际父/子PID与持续新增日志重新确认原任务活跃，训练没有重启。后续通过PID、manifest和日志跟踪同一作业，旧等待句柄失效不作为训练退出的证据。
