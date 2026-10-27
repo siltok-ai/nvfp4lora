@@ -13,6 +13,8 @@ python -m venv .venv
 
 本机环境为 `C:/workspace/envs/T-20261027-nvfp4-lora/train`。`tools/prepare_environment.py` 供这台机器从现有 Speed 元数据重新解析、下载相同闭包；保存了原始 wheel 的离线库存。`accelerate==1.15.0` 是已批准的 PEFT 传递依赖，训练循环不使用它。当前不安装 FLA，先使用实测通过的 Transformers 纯 Torch chunk GDN。
 
+本机 `C:/workspace/envs/registry.json` 已以 `nvfp4-lora-win-cp312-cu130` 登记此路径和editable源码消费者，当前状态为 `preparing_real_g1_acceptance`：M1资格通过，真实G1完整验收仍在进行。依赖库存及pip check由独立run记录；正式验收结束后再更新复用状态。复用前读取该登记及主任务最新状态，不移动venv、不与其他editable checkout共用可变依赖。
+
 探针从仓库根运行，`{run}` 由记录器替换为实际运行目录。每次选择一个不存在的新路径：
 
 ```powershell

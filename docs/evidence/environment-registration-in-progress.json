@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "registered_status": "preparing_real_g1_acceptance",
+  "existing_environments_unchanged": 3,
+  "pinned_dependencies": 39,
+  "pip_check": "No broken requirements found.",
+  "inventory": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T194457Z-environment-registry-in-progress\\inventory.json"
+}

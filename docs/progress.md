@@ -287,3 +287,11 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 计划归档两套results结构（publish、完整20/50/100、summary/config/metrics/ΔW/评测），固定语料、关键比较/风险/诊断证据、锁文件、环境库存和使用说明。完整基座仍引用models/bundles；逐文件复制前后SHA一致后最后写manifest，`verified`只标记复制和机械来源资格，正式M2仍由严格审核决定。当前长训练尚未结束，没有实际交付制品。
 
 `20261027T193127Z-delivery-copy-cpu-regression` 两项CPU测试PASS：1MiB全字节范围二进制复制一致，既有目录拒绝且不变；注入损坏会拒绝认证、保留失败副本且不写manifest。`20261027T193245Z-delivery-incomplete-guard` 用当前INCOMPLETE预审正确exit1且未创建制品目录，[预期门槛收据](evidence/delivery-incomplete-guard.json)PASS；原run的FAIL保留为负向测试，不是训练失败。当前依赖再次读取39个版本，0差异；未重跑或并行占用GPU的旧回归。
+
+## 本机环境登记与实际首轮数据覆盖
+
+`20261027T194457Z-environment-registry-in-progress` [登记收据](evidence/environment-registration-in-progress.json)PASS，39个锁定版本无差异，pip check无缺失依赖；[当前库存](evidence/environment-current-inventory.json)。在C:/workspace/envs/registry.json新增nvfp4-lora-win-cp312-cu130，状态preparing_real_g1_acceptance，注明M1已过但真实G1完整验收仍在运行。原有三个Speed环境的条目逐对象比较保持不变；登记前/后原文均在该run保留。更新了对应环境README的旧预检描述，没有改变依赖或迁移venv。
+
+`20261027T194954Z-c3-data-epoch-coverage` [实际数据覆盖](evidence/real-c3-data-epoch-coverage.json)PASS：拼接原1～4步与当前5～76步的完整JSONL记录，逐步连续、每步8条；首轮600个实际sample_id与accepted_rows逐项计数相同，每条恰好一次。第76步已观测第二轮8条、与首轮前缀顺序不同。该检查不重用采样器排序实现作参考，只检查实际覆盖/重复遗漏；完整输入快照与SHA保留，仍不替代未来新进程50→100样本顺序/RNG/E2对照。
+
+当前仍只有原C3基线GPU作业，未重启、未并行推理，完整100步和后续专家阶段/发布/恢复仍由同一父脚本继续。
