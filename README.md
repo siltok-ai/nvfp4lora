@@ -16,6 +16,7 @@
 
 - [当前逐项状态与证据](docs/progress.md)
 - [环境安装与探针命令](docs/environment.md)
+- [预处理格式与数值边界](docs/format.md)
 - [实施决策](docs/decisions.md)
 
 计划采用独立核心库和精简训练入口：CPU 保存原始打包专家，GPU 按层搬运、按块解码，反向重新解码；非专家 LoRA 使用 PEFT，专家 LoRA 由核心库管理。

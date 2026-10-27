@@ -2,6 +2,8 @@
 
 import json
 import tempfile
+import subprocess
+import sys
 import unittest
 from pathlib import Path
 
@@ -54,6 +56,18 @@ def make_fixture(root):
 
 
 class PreprocessTests(unittest.TestCase):
+    def test_real_cli_rejects_single_shard_receipt(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            receipt = root / "receipt.json"
+            receipt.write_text(json.dumps({"status": "SHARD PASS; FULL G0.8 NOT RUN", "requested_weights": True}))
+            script = Path(__file__).resolve().parents[1] / "tools/preprocess_checkpoint.py"
+            completed = subprocess.run([sys.executable, "-B", str(script), "--model-dir", str(root),
+                                        "--output", str(root / "processed"), "--source-receipt", str(receipt)],
+                                       capture_output=True, text=True)
+            self.assertNotEqual(completed.returncode, 0)
+            self.assertFalse((root / "processed").exists())
+
     def test_packed_bytes_canonical_names_and_head(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

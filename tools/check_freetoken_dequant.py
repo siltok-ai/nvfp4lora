@@ -10,7 +10,6 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import torch
-from freetoken.models.qwen3_5_moe.weight import _dequant_nvfp4
 
 from nvfp4lora.format.nvfp4 import dequantize
 
@@ -25,6 +24,7 @@ def ulp_distance(a, b):
 
 def main():
     """raw FP32 global 和运行时 FP16 global 分开记录，避免混淆基座误差。"""
+    from freetoken.models.qwen3_5_moe.weight import _dequant_nvfp4
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
