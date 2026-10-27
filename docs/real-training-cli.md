@@ -36,6 +36,8 @@ python -B tools/run_recorded.py --output <另一个新run目录> -- tools/train_
 
 `tools/check_sequence_training.py` 进一步核对压力数据身份、完整8条答案、每步精确输入/监督数量、两步累积8、首步后Adam矩、冻结hash及首micro快照的解码生命周期。实际已执行的长度和配置仍以 `progress.md` 为准。
 
+`tools/profile_recompute_memory.py --bundle <基座> --training-results <压力run>/results --output <新目录>` 从压力step2恢复LoRA/Adam，独立测一个micro的40层重算峰值，不更新参数。`--control` 再去掉采集hook核对loss和全部梯度E2。它在每次reset之前收集合并旧峰值，always_call后hook覆盖非重入重算提前停止；不依赖有上限的快照事件环来推断CUDA峰值。`history_complete`单列事件环的完整性。
+
 本机当前路径如下，权重和数据均不在Git仓库中：
 
 | 用途 | 路径 |
@@ -74,3 +76,5 @@ built.streamer.close()
 ```
 
 该调用使用训练核心的无cache验证路径；性能测量需注明每个生成token都重跑完整前向。专家适配器由 `build_from_adapter` 连同PEFT参数一起加载。Speed/FreeToken的产品加载器、融合段映射、CUDA Graph及缓存隔离属于后续G2/A′，当前发布目录尚不能直接交给其原有加载器使用。
+
+本机完整真实验收使用 `tools/run_real_acceptance.ps1` 顺序执行C3、专家r2：从已验证step4继续到100（保存20/50/100，测量10/20/50/100），再新进程50→100、完整命名状态/逐步E2对照、发布ΔW重建、功能测量和FP8范围观测。各项使用新run并写独立task指针，首个失败立即停止。失败后按已有完成证据选择性继续，不重新启动整个脚本覆盖既有结果。`-ValidateOnly` 只校验现有路径、基线step4/逻辑100、专家rank和数据SHA，不启动GPU。该脚本尚未完成实际100步执行时，不表示完整验收已通过。
