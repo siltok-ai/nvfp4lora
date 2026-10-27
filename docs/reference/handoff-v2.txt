@@ -1,0 +1,344 @@
+Qwen3.6-35B-A3B NVFP4 LoRA
+v2 实施交接说明与关键风险核对
+
+日期：2026-10-27
+用途：帮助新的 Codex 正确阅读 v2、复用已有证据、安排实施和验收。
+主方案：桌面《Qwen3.6-NVFP4-LoRA方案规划与实施指导-v2.md》
+主方案 SHA256：dfa34cfbf6e7136242ad94326c5d7e078760853b515129ed22a8e04f3e117978
+
+本材料是分析和交接说明。本轮按用户最新要求，不实施，不安装环境，不下载权重，不运行新的训练实验。主方案原文件保持不变。
+下文区分“用户已确认”“源码核对”“历史小实验”“推断/建议”和“待验证”。不能将本材料当作 M1 已经通过的证明。
+
+阅读顺序建议：先读一、二、三，再对照 v2 第 0、4、5 节，最后按五至十逐项实施。附录保留证据入口。
+
+一、结论：可以进入有门槛的探索实现，尚不能承诺本机完整训练成功
+
+v2 接受了上一轮的关键修订：自定义 autograd 的顶层参数协议、显式精度策略、块内重算、正确的 Adam 语义、CUDA 事件管理、完整续训状态、从 hidden states 出发的分块损失，以及 tiny 模型对照。这使方案比 v1 明确得多。
+
+总体路线在原理上成立：冻结 NVFP4 专家放在 CPU 内存，以原始打包数据搬到 GPU；GPU 临时反量化并计算；专家 LoRA 在 GPU 上训练；反向重新解码，避免保存全部浮点专家。64GB 内存不必容纳一份完整 BF16 35B 基座。
+
+但它是一套自研的量化专家流式训练后端，工程内容远超“解开框架里的一个限制”。原生 Windows 的 GDN 训练路径、完整峰值、稳定吞吐、真实模型数值和 FreeToken 接入仍未验收。16GB 是有希望探索的预算，不是已验证的运行保证。
+
+接手者第一目标应是 M1＝P0～P4 的可信通过。M1 证明基础设施和 tiny 训练闭环成立；真实 35B LoRA 产物属于 M2，FreeToken 推理属于 G2，领域收益属于 G3。四者不能互相代替。
+
+二、用户已确定的范围：不要重新争论或悄悄改回旧方案
+
+1. 交付形态 A：独立核心库＋精简训练脚本；后续 A′：嵌入 Speed。LLaMA-Factory 集成、DeepSpeed ZeRO-3 不在本次交付范围。这个范围变化已获用户确认，不能因最初讨论过 LF＋ZeRO-3 就把它们重新列为必须项。
+2. 只用原生 Windows，不使用、也不探索 WSL。Linux/KT 不是本方案的默认回退。
+3. 独立 venv，和 Speed 已锁定/实装的依赖版本对齐，不修改现有 Speed 环境。不是安装整个 Speed 的所有可选功能，而是复用实际需要的依赖闭包及版本。
+4. 用户已额外批准：“允许安装同版本传递依赖”。已识别的具体例外是 accelerate==1.15.0，因 PEFT 0.18.1 硬性依赖并直接导入它。可以在独立 venv 安装；训练循环仍不使用 accelerate。v2 第 4 节的“不装 accelerate”应据此记入决策日志，不必再次询问同一个问题。新引入、Speed 中不存在的依赖仍按环境偏离规则处理。
+5. 精确保留指定 NVIDIA checkpoint 的专家码值和缩放；不重新量化成 NF4/INT8。短 revision 应解析并记录完整值：1355db6a052410cfd62085d94b58866fd0f2c3c5。
+6. 按标准 AdamW、weight_decay=0 运行，接受历史动量继续更新本步未命中专家。不要另做 masked optimizer。
+7. 首期是非思考、纯文本训练；不是证明 Speed 不支持思考，也不是验证多模态 LoRA。
+8. 当前会话已经切换为“只做分析交接”。新的 Codex 应依据用户给它的实施指令启动工作，本文件本身不替代该指令。
+
+三、任务的正确理解：谁被卸载，谁在计算，谁在更新
+
+训练主链：
+  固定来源 checkpoint → 流式预处理 → 非专家 BF16 权重＋原字节专家库
+  → meta 构建并替换专家模块 → 非专家与 LoRA 分配到 GPU
+  → 数据模板与标签 → 前向 → 分块 CE → 检查点重算/专家重算
+  → GPU 计算 LoRA 梯度 → AdamW 更新 → 发布产物/续训检查点。
+
+CPU：保管约 18.1GB 的冻结打包专家，或再配锁页中转缓冲。不承担本方案中的专家矩阵乘和 LoRA 参数更新。
+GPU：保留非专家 BF16 基座、专家层槽、LoRA 参数/梯度/Adam 状态；按块生成临时浮点专家，完成前后向。
+被冻结的专家 W：不求 dW，但反传到输入 x 仍需要 W，所以上游 attention/GDN LoRA 才能得到正确梯度。
+专家 LoRA A/B：有梯度，作为 GPU nn.Parameter 注册，由自己的优化器/保存逻辑管理；不交给 PEFT 的专家 Parameter 包装器。
+非专家 LoRA：用 PEFT 管理标准线性层。C3 是 attention＋GDN 投影＋shared expert；C3 不等于只训练 attention。
+路由器：当前配置冻结参数，但路由权重对 x 的梯度链仍要保留。top-k 的整数选择不可微，不代表浮点 top_k_weights 可以 detach。
+
+“A3B 每 token 激活约 3B”不能直接转换为训练显存或主机搬运量。4096 token 的一层中可能命中几乎全部 256 个专家；本方案首先按整层打包数据搬运，绝不是只搬 8/256 的全模型。
+
+四、已经做过什么；哪些绝不能写成已经通过
+
+历史证据：
+C:\workspace\runs\T-20261027-nvfp4-plan-review\20261027T091226Z-review
+
+已做的 CPU 小复现：
+  a. 将 LoRA Tensor 藏在 tuple 里传给 Function.apply，A/B 梯度为 None；改为顶层 Tensor 参数后梯度正常。
+  b. AdamW 当前梯度为 0、衰减为 0，历史动量仍能更新参数。
+  c. 自定义 Function.forward 内，外部开/关梯度时 is_grad_enabled() 都为 False。
+  d. 全局 scale 折进 BF16 权重与乘在输出端，不保证逐位一致；小例子的最大绝对差为 0.001953125。这个数不是实际模型误差。
+
+已做的 GPU 小预检：
+  RTX 5070 Ti、sm_120；BF16 matmul 输入反向通过。
+  grouped_mm 只测过 4 组、每组 8 行、K=64、N=32 的前向及输入反向，与逐组循环相对 L2 为 0。
+  PyTorch 峰值 allocated 为 17,098,240 字节，不包括驱动上下文。
+
+未验证：256 组真实形状及权重反向；GDN 前后向/检查点；18GB 锁页；真实 H2D；原始三分片校验；真实格式转换；完整 streamer；tiny 100 步；精确续训；35B 训练；最终 adapter；FreeToken LoRA；领域收益。
+没有可继承的“已完成 M1”结论。CPU 原型只能作复现或参考，不能直接当作正式实现。
+
+五、环境和本机路径：先核对，别重复造环境或污染基线
+
+本轮只读复核的 Speed runtime：
+  C:\workspace\envs\SP-20261026\runtime\Scripts\python.exe
+  Python 3.12.10
+  torch 2.11.0+cu130
+  triton-windows 3.6.0.post26
+  transformers 5.16.1
+  peft 0.18.1
+  accelerate 1.15.0
+  safetensors 0.8.0
+  tokenizers 0.23.2
+  flash-linear-attention、fla-core 未安装。
+
+这是一份 2026-10-27 的快照。新 Codex 应再次读元数据和锁文件，不能把范围约束“5.16.x”当作允许随意升级补丁版。
+triton-windows 采用实装 3.6.0.post26；不要照 pyproject 中“配 3.8”的注释自行升级。
+PEFT 0.18.1 已有 _register_custom_module；本方案也不依赖该接口，没有理由仅为它升级 PEFT。
+
+工作区入口：C:\workspace\AGENTS.md、C:\workspace\README.md。
+环境说明：C:\workspace\envs\README.md、envs\registry.json、envs\SP-20261026\README.md。
+固定依赖库存：C:\workspace\tasks\SP-20261026\runtime-locked.txt。
+源码：C:\workspace\repos\siltok-ai\siltok-speed（本轮 HEAD 265e5db8c54a41218b779e84c2fea5bd42bb15c1，工作树 clean）。
+材料仓：C:\workspace\repos\siltok-ai\BuildFreetokenForSpeed（HEAD 12bb7636c3b21d360ec296dbdd7462836360da99）。
+实际运行包：FreeToken 0.1.3+speed.mtpdecode2。当前材料合同主要绑定 Flash Next Q2，不能从其已验收直接推出 Qwen3.6 NVFP4 LoRA 也已验收。
+
+此前源码研究读过 Speed 255757e38b8b69afd9a34ed67168847caeedca50，与本地 HEAD 不同。涉及产品行为时记录实际 commit，不能混用行号和结论。
+
+基础 Python：C:\Users\PC\AppData\Local\Programs\Python\Python312\python.exe。
+原始权重放 models\inputs；新环境放 envs\任务号\用途；实现代码放 repos 或已登记 worktree；日志和快照放 runs\任务号\UTC时间-用途；不要在 System32 下建立项目。
+共享 uv 缓存可以复用；不要复制并移动整个旧 venv 当作新环境。需要的传递依赖锁定后生成可重建 lock，不要把“pip freeze 有版本”误当“已有下载文件和来源哈希”。
+
+六、阅读 v2 时必须补充的实现解释与风险
+
+6.1 新发现：5.16.1 已有纯 Torch 分块 GDN，不要先花数天重写
+
+本机 modeling_qwen3_5_moe.py 第 250～328 行已有 torch_chunk_gated_delta_rule，默认 chunk_size=64；332 行另有逐 token recurrent 实现。训练/多 token 路径在第 520 行调用 chunk 函数。
+因此 v2 第 2.1 节“纯 Torch 参考实现是逐 token”不适用于本机所有路径；G0.3 的“自己写分块回退”应先检查是否可以复用现成分块实现。
+
+边界：这次只读过源码，没有证明它能正确反向或满足 16GB/吞吐预算。源码含原地切片更新、分块 FP32 中间张量；必须测试 autograd、检查点重算和真实峰值，不能仅凭 forward 能跑就放行。
+函数带 dispatch 装饰器；安装 FLA 后，同一个 torch_chunk_* 名称可能调用 FLA。hub_kernels.py 第 822～865 行显示了选择逻辑。更换 FLA 候选版本时用新进程，记录真正执行的 callable/module，防止把同一条路径误测成两个后端。
+真实模型会把 16 个 q/k 头 repeat 到 32 个 v 头；测试独立 kernel 时必须确认输入已按所选 API 的约定展开。q/k 的 L2 norm、1/sqrt(d)、g 的定义和 causal conv 都要对齐。
+建议顺序：已有纯 Torch chunk 路径作候选/对照 → FLA 候选 → 需要时自写回退。回退也必须通过同一验收；速度是否可接受单独记录。依据：[本机源码 A]。
+
+6.2 M1 的真实权重边界与执行顺序需要澄清
+
+v2 写“M1 通过后才碰真实 35B”，但 G0.8、P1、P2 和 P4 格式检查已经要求真实 checkpoint 或真实一层。
+建议解释为：M1 允许获取/校验真实文件、读取头、流式格式处理和单层算子验证；M1 通过前不做完整 35B 模型训练或完整 GPU 运行。这是为消解文内矛盾的解释，应在决策日志明确；若用户将“不碰”定义为完全不下载，则需先调整 M1 标准，不能两边都宣称满足。
+
+P3 写同步版通过 P2/P4 后再做异步，而 P4 又依赖 store/streamer。可行顺序是：最小同步 store/streamer → P2 → P4 同步闭环 → P3 异步与竞争验收 → 重跑受影响的 P2/P4 → M1。
+不必因为章节编号而先写复杂预取，也不能用同步版通过冒充 A3 全部通过。
+
+6.3 定义独立的数学参考；别让两边共享同一个错误
+
+专家目标公式：
+  g = base_gate(x) + scaling_g * B_g(A_g(x))
+  u = base_up(x)   + scaling_u * B_u(A_u(x))
+  h = silu(g) * u
+  z = base_down(h) + scaling_d * B_d(A_d(h))
+  y_token = sum_k routing_weight_k * z_k
+
+路由权重乘在整个专家输出上，包含 down LoRA；gate/up 的 LoRA 改变 h，因此不能把三个投影的增量一律加在最终输出上。
+先用不共享排序/聚合/块内实现的稠密小参考验证数学、符号与梯度，再做同精度策略的参考。两边调用同一个 chunk_forward 只能检查调度包装，不能充分证明 chunk_forward 本身正确。
+
+6.4 v2 的“与 PEFT 语义一致”只成立于部分步骤
+
+PEFT 0.18.1 Linear 会先得到 base_layer 的输出，再加 LoRA，最后转回 base 输出 dtype（本机 layer.py 793～818 行）。
+v2 专家路径则规定基座缩放后保留 FP32、LoRA FP32 相加、SwiGLU FP32、进入 down 基座前再转 BF16。它是明确可实现的自定义精度策略，但不与所有“普通 BF16 Linear＋PEFT”路径逐算子等价。
+因此 P4 不能直接用“完整解码成 BF16 W 的普通 HF 专家”要求逐位对齐。要么给参考专家实现相同的缩放/舍入位置；要么承认它是跨精度 E3 对照，另有独立高精度正确性参考。
+记录实际 GEMM API、输入/输出 dtype 和中间舍入。普通 BF16 matmul 返回 BF16 后再 .float()，不能恢复已丢掉的低位。BF16 的 reduced-precision reduction 和 FP32 的 TF32 策略也应固定并记录。依据：[本机源码 B]；数值说明 [官方来源 3]。
+
+6.5 gradcheck 和“非零梯度”测试要能真正发现错误
+
+FP64 gradcheck 需要真正的 FP64 计算模式，不能把 perturbation 在内部强制转 BF16。固定整数 top_k_index；检查 x、浮点路由权重及六个 A/B，冻结量化码值不求梯度。
+标准 B=0 时 A 的首步梯度为 0 是正常的；如果只用 B=0 进行全部梯度验收，错误实现可能漏掉 dA 却仍过关。另做 A/B 均非零的随机测试。
+不能为了 B=0 的 E2 一致而在训练中直接跳过 LoRA 分支：B 虽为 0，其 dB 通常应非零，跳过会让 adapter 无法启动学习。“显式禁用 adapter”和“启用但 B=0”必须分开实现和测试。
+覆盖非均匀/极端路由、空专家、单 token、同一 token 的多个 expert、不同块边界、非连续输入或明确拒绝该输入。对预期有梯度的参数，不要用 allow_unused=True 将 None 静默补零而掩盖断链。
+dx 来自一个 token 的多条路由必须累加，不能“逆 perm”后只取一条。d_top_k_weights 必须映射回原 token/top-k 槽位。并检查 router→x 的梯度链，不只是孤立概率 Tensor。
+本设计可明确只支持一阶训练梯度；没有另行验收时不要声称支持 double backward、JVP 或 torch.compile。
+
+6.6 反向临时图也会吃显存；只返回梯度不等于自动省内存
+
+重算块内 A/B 应是 detach 后的局部叶子切片。否则每块直接对整个 [E,...] 参数求导，可能每次生成整组梯度或保留整组图。
+一块完成 autograd.grad 后，立刻结束局部引用生命周期，不 retain_graph、不 create_graph、不把局部输出/梯度存进日志列表。
+dx 和路由梯度按 route pair 还原并确定性求和；dA/dB 写预分配缓冲对应切片。ctx 保存输入/路由及需要的可训练 Tensor，不保存反量化 W、GPU 槽 view 或指向旧 generation 的可复用句柄。
+普通前向、层 checkpoint 重算、自定义 backward 的块内重算是三种阶段；“不保存中间结果”指减少持久激活，并非完全不保存输入。依据：[官方来源 1] 及已有反例。
+
+6.7 锁页中转方案必须同时管理 CPU 缓冲的生命周期
+
+v2 槽位协议主要保护 GPU 槽。若 G0.2 回退到 pageable bank＋pinned staging，CPU 中转槽也必须等上一轮 H2D 的 copy_done 后才能覆盖；GPU 的 last_reader 事件不能代替这条约束。
+CPU bank 必须保留到异步拷贝结束。层槽若以多个 copy_ 填充，copy_done 必须在该层所有 code/scale/global 数据写完之后记录。
+单个 last_reader 事件只在单一计算流或已有显式依赖时足够；若多个流能同时读一个槽，需要统一汇合或跟踪所有读者事件，不能让“最后在 CPU 调用 release 的读者”覆盖另一个未完成读者的保护。
+acquire 的 layer_id/generation 要关联一次装载，pin 住句柄到最后一次 GPU 读取入队；release 使用异常安全清理。错误预取不能驱逐当前需求层或导致无限等待。
+先只支持一条计算流＋一条拷贝流；并发训练/评估请求应明确拒绝或串行，不要默认它们安全。
+
+6.8 checkpoint 重算时，prefetch 方向只是提示
+
+非重入检查点可能提早停止重算，不能要求每次都完整访问层模块。显式 FORWARD/BACKWARD 是调度提示，真实 acquire 必须检查实际层号。
+生产默认沿用 v2 的非重入模式。A2.8 的重入测试还应满足其 requires_grad 前提；冻结 embedding 时，第一层输入可能不带梯度，不能把这种测试夹具问题误判为专家算子坏了。不得为修复它而把 embedding 改成可训练。依据：[官方来源 2]。
+拷贝次数需要实测。全层检查点重算和专家反向若命中同一槽，不一定导致额外 PCIe 拷贝；acquire 次数不是 copy 次数。
+
+6.9 数据与 CE：避免绕过大 logits 后又把它们存了回来
+
+不要调用默认 CausalLM.forward 得到全量 logits 再分块；本机 5.16.1 的 forward 在第 1829 行直接调用 lm_head。训练应走正确的 backbone hidden-state 路径，保留需要的 PEFT 模块调用，再执行独立 chunked CE。
+逐块计算还不够：若把各块 CE 的完整 autograd 图一直加到最终 loss，softmax/CE 保存的块张量可能随总长度累积。按 v2 对每块检查点，并用内存快照证明块大小实际限制峰值；注意 Python 闭包捕获 chunk 起止位置，避免所有重算块指向最后一块。
+相邻 CE 块的 causal shift 不能各自丢掉边界 token。显式只对有效答案位置算投影时，也要保持 logits[t]→label[t+1] 的对应。
+梯度累积按整个 optimizer step 的有效监督 token 总数归一化；先获知该 step 的分母，不再额外除一次 accumulation_steps。零监督 token 的样本要拒绝或显式跳过并记录。
+答案边界不要仅靠解码字符串定位；用完整 chat_template 渲染后的 token ID 金标准。生成提示与带答案样本的分词边界可能合并；不要假定“分别 tokenize 再拼接”永远正确。
+tiny vocab=2048 不能直接喂真实 tokenizer 的 248320 词表 ID。tiny 数值闭环用合成合法 ID 或明确的小 tokenizer；真实模板 200 条黄金测试独立进行。
+
+6.10 meta 构建、初始化和 PEFT 冻结顺序
+
+先替换全量专家再 to_empty，否则会分配约 64GB 的 BF16 专家。ExpertStore 的冻结 bank 不注册为 Parameter/buffer；A/B 则必须注册。
+to_empty 只分配未初始化内存；不能认为 meta 上已设置的 B=0、norm 常量、RoPE buffer 等值仍存在。每个对象都要有加载/初始化清单，A/B 明确在真实设备初始化。
+调用 PEFT 包装后复核 expert A/B 的 requires_grad；PEFT 可能将名字不属于其 LoRA 的参数冻结。router、embedding、lm_head 的可训练性也必须显式核对。
+不要把 config 中的 tie_word_embeddings、GDN 头数/维度、layer_types、RoPE 配置留给不符合 tiny 设计的默认值；H=256 并不保证其它默认参数也变小。
+参数集合检查采用一套规范名字映射：PEFT 内部名、state_dict 名和导出键未必字面相等。按 canonical name、shape、dtype、numel、scaling 比较，映射应可逆且拒绝冲突。
+
+6.11 续训要真正按名字恢复 optimizer；仅保存 param_names 不够
+
+v2 要求优化器状态按名字对应。PyTorch AdamW/Optimizer 的普通 load_state_dict 不会自动依 param_names 重排；名字字段的存在不等于实现了该合同。
+保存 canonical name→state，恢复时显式映射到当前 Parameter，并验证 param group、shape、dtype、step、exp_avg、exp_avg_sq；再恢复 scheduler、RNG 和数据位置。依据：[官方来源 4] 和本机 torch.optim.optimizer 源码。
+先构建/加载模型与 optimizer，再在正确时间恢复 RNG，避免重建时随机初始化改变续训序列。序列化/导出也不能隐式改变 RNG。
+训练 checkpoint 仅在 optimizer step 边界保存；约定保存发生在 optimizer/scheduler 更新及 zero_grad 的哪一侧。M1 先使用简单确定性的采样器/单进程数据读取，别一开始引入无法恢复的多 worker 预取。
+比较续训时，不只看 loss：参数、Adam 状态、学习率、数据 ID/顺序、监督 token 数也要比对。若按 v2 允许 E2 退为 E3，指出具体非确定性来源，不能只写“浮点误差”。
+
+6.12 发布/开关必须同时覆盖两套 LoRA
+
+PEFT 的 disable_adapter、save_pretrained 不会自动管理我们自定义的专家 LoRA。统一 adapter enable/disable、加载、导出和 manifest 校验，否则可能发生“非专家关了，专家仍开着”的假基线。
+发布目录应能在新进程只靠固定基座/预处理产物＋发布文件加载。比较小输入上的 A/B/scaling、投影增量及最终输出，不需要为整个模型生成稠密 ΔW。
+原始分片 hash 之外，建议 manifest 增补预处理产物 hash、数值策略版本、非专家缩放/舍入策略、tokenizer 全文件哈希、真实执行后端。它们影响实际基座函数，不只是模型名称。
+
+七、资源预算：读懂 v2 的估算，别把数值相加后直接宣布可行
+
+本节是公式推导，不是本机测量。统一区分十进制 GB 与二进制 GiB；Windows/驱动/PyTorch 的统计口径也不同。
+
+1. 非专家 BF16 基座：v2 约 4.9GB，即约 4.56GiB；需要用实际导出张量求和核实。其中 embedding 和 lm_head 不共享，各约 0.947GiB，合计约 1.895GiB。纯文本可以不加载视觉塔，但不会消除大词表的成本。
+2. 专家 packed bank：18,119,639,040 字节，约 16.88GiB，平均每层 432MiB；2 个 GPU 槽约 864MiB，3 个约 1.266GiB。
+3. 一次反量化 C 个专家的 gate/up/down BF16 权重：C×3×512×2048×2 字节；C=8 为 48MiB，32 为 192MiB，256 为 1.5GiB。纯 Torch 解码还会产生码值索引、FP32 scale/LUT 输出等临时张量，不能只预算最终 BF16 W。
+4. 检查点层输入：40×4096×2048×2＝640MiB，另有其它保存状态。不是整模型全部激活的精确上限。
+5. CE 的一块 512×248320 FP32 logits 约 0.474GiB；还可能同时有 BF16 投影输出、FP32 转换、softmax/log-softmax 和梯度。v2 的“约乘 2”需要实际替换。
+6. C3 参数按 v2 配置为 19,169,280；FP32 参数＋梯度＋Adam 一、二阶状态按 16 字节/参数，共约 0.286GiB。
+7. 专家 LoRA 参数量为 40×256×3×r×(2048+512)＝78,643,200×r。r=2 为 157,286,400 参数，16 字节账本约 2.344GiB；r=4 约 4.688GiB。专家低 rank 也会增加真实的常驻预算。
+8. 16 字节账本不含 optimizer 更新临时空间。CUDA 默认可能选择 foreach；PyTorch 文档说明它可能增加约一份参数大小的峰值。应记录 foreach/fused 设置，必要时以 foreach=False 建立低峰值基线，再验收优化。依据：[官方来源 4]。
+
+峰值是同一时刻存活对象之和，不能把不同生命周期的峰值简单相加，也不能漏掉解码 FP32 张量、局部 autograd 图、排序副本、dA/dB 缓冲、GDN/SDPA 工作区、加载和保存副本。
+PyTorch allocated、reserved、进程 GPU 占用和整卡占用分别记录；CPU 记录 working set/RSS、private/commit、锁页量与系统可用内存。mmap/page cache 与主动复制要区分，防止原始文件、预处理输出和 pinned bank 形成多份常驻。
+此前显卡总量 16303MiB、已有约 1104MiB 占用是历史快照，不是当前空闲量。不要自动停 Speed 服务或其它用户进程来“通过”预算；若必须释放它们才能继续，明确报告具体资源冲突。
+
+速度方面：若每个 micro-batch 约搬运两遍全体 packed 专家，约 36.24GB 的 H2D 流量；有效链路带宽 25GB/s 时链路占用约 1.45 秒。梯度累积 8 时约 290GB/optimizer step；若变成三遍则更大。
+这些只是给定条件下的流量/带宽计算，拷贝可与计算部分重叠，不能当作实测 wall time，也不包括反量化和计算。报告 tokens/s、micro-step/s、optimizer-step/s 时写清长度和累积数，不能互换。
+
+显存不足的优先排查顺序建议：确认没有误加载全量专家/全 logits → 缩小 CE 块和专家块 → 核对图/临时引用泄漏 → 检查槽数和 checkpoint → 测 optimizer 峰值 → 再评估 CPU optimizer、减少专家 LoRA 层或 rank。不要先变更基座量化格式。
+
+八、推荐实施顺序与每一步的交付证据
+
+阶段 0：任务和版本封存。
+  读取规则，核对 v2 hash；记录用户决定与 accelerate 例外；记录各仓 commit/dirty、env 库存和实时硬件；建立独立任务/run。此时不改产品源码。
+
+阶段 1：P0 环境资格。
+  新 venv 锁定依赖；G0.1、G0.4、G0.5 先做。G0.2 从较小分配逐步升到目标，结束后确认资源释放。G0.3 验证真实 GDN 输入、所有所需梯度和检查点。G0.6 区分真实前向、dX 和所需 LoRA 参数梯度。
+  base W 冻结，不要求为真实全模型长期分配 dW；_grouped_mm 的 dW 资格测试要使用受控单层/单投影预算，避免把测试自己变成 OOM。
+  输出：env.lock、关卡 JSON、命令、错误、回退的同标准验收、真实执行后端与性能。
+
+阶段 2：P1 格式与最小同步存储。
+  固定完整 revision＋三个完整 SHA256；使用 safetensors 流式读取，不生成完整 BF16 35B 副本；保留原始文件。逐张量解析格式而不是仅信 quant_method。
+  真实权重处理与完整模型运行的边界按 6.2 记录。输出布局清单、字节采样对照、文件 hash、预处理峰值和非专家键名/初始化清单。
+
+阶段 3：P2 正确性。
+  先小形状 FP64、固定路由、非零 A/B，再目标形状；先逐专家循环，后 grouped_mm。基座 C3 版本也必须返回 dx/d路由权重。
+  对零 B、无 LoRA、梯度累积、确定性、两种 checkpoint、空专家及块大小变化逐项留证据。速度慢可记录，不能省略正确性。
+
+阶段 4：P4 同步 tiny 闭环。
+  tiny 架构显式设小，含 3 GDN＋1 full attention；生成 NVIDIA 同布局权重；独立参考；100 个 optimizer step、累积 2。记录每步真实数据 ID、loss 和梯度/参数比较。
+  第 50 步保存，新进程恢复；另做发布文件新进程重载。冻结 hash 与 canonical 参数集合检查不能省。
+
+阶段 5：P3 异步与回归。
+  两 GPU 槽、有限 staging、事件/generation 协议；人工延迟、随机顺序、完全错误预取。用实际 kernel 读完的数据验证，而不只检查 CPU 上的 metadata。
+  组合专家 forward/backward，对同步/异步做 E2；补跑 tiny 重载/续训。计数器分别记录 acquire、cache hit、真实 copy、字节、等待和重叠。
+
+阶段 6：M1 审核。
+  按 v2 G0/A1/A2/A3/A4 建一行一项矩阵，状态只能为 PASS、FAIL、NOT RUN、FALLBACK PASS。可选 G0.7 单独标注；跳过不能伪装通过。
+  M1 通过才进入真实 35B 的 P5～P8。M1 若只是数学正确但慢，应单列“性能仍不满足产品要求”，不要把它隐藏进成功表述。
+
+阶段 7：M2 与 G2/G3。
+  P5 短序列逐层校验，P6 先 C3，P7 再 r_e=2，P8 两种产物。专家 LoRA 是否优于 C3 由同数据、同评价和参数预算说明决定，不预设“只训 C3 一定无效”。
+  G2 接入另立验收；G3 再看指定领域收益和通用能力回归。不要直接把 M1 的 tiny adapter 标成可用于 Speed 的成品。
+
+九、FreeToken 接入：产物在数学上可旁路，实际接入不可省略
+
+训练输出不必和基座使用相同 bit 数。保留原 NVFP4/FP8 基座，用浮点 A/B 分支叠加是合理路径；这并不意味着当前 FreeToken 可以直接加载这个目录。
+
+需要影响的部位：
+  a. loader/manifest：绑定 checkpoint 和预处理/数值策略；验证 rank、alpha、dtype、目标段、专家编号和模板。
+  b. 稠密与融合投影：q_proj 包含按头交错的 query/gate；qkv、qkvz、ba（b 在前）、共享 gate/up 都有段映射。不要靠简单拼名字推断布局。
+  c. 路由专家执行：保存原始 expert_id，区分其与 GPU 缓存槽号；在 kernel 覆盖输入前读取 x；gate/up 的 LoRA 参与 h，down LoRA 参与路由加权。
+  d. CUDA Graph/缓存：adapter 在录图前创建稳定存储；前缀/KV/GDN 状态必须按 adapter 身份隔离或失效；专家换入换出不能丢失或串用 LoRA。
+  e. prefill 与 decode：两条路径都要有数值和开关测试；不仅检查合成 ΔW，还要检查最终投影增量、logits/生成和缓存行为。
+
+特别注意“同一 checkpoint”不等于“同一数值函数”。训练端把非专家 FP8 解码为 BF16；推理端可能用 W8A8 激活量化。此次还读到已安装 FreeToken 的 weight.py 第 226～230 行将每投影 global scale 转 FP16 并扩展为每输出行；训练方案保留原 FP32 标量。需核对所用算子是否消费该表示，不能仅凭原始字节一致宣称整个运行数值 E2 一致。
+_dequant_nvfp4 的 wrapper/kernel 对 global scale 的 shape 也有要求，不能把 raw checkpoint 的标量未经规范化直接塞进运行时接口。优先读取实际安装版/已应用补丁后的源码，不能只看 upstream 快照。依据：[本机源码 C]。
+
+v2 P5 的 FreeToken logits 对照可选，是训练阶段的安排；若最终目标是 FreeToken 部署，G2 的真实推理验收仍是必要工作。现阶段不要承诺改动量很小或仅改 loader 即可。
+材料仓 upstream\FreeToken 是不可改的官方快照。日后改引擎须按材料仓规则创建应用补丁后的新输出树、保留有序 patch、更新版本并重新构建，不能直接编辑官方快照或已验收 wheel/AOT。
+
+十、验收解释与需要及时汇报的事项
+
+E1：原始 code/scale 字节；E2：同实现、同计算顺序、同输入和状态；E3：跨实现/精度的容差。非专家的 BF16 解码和 FreeToken 激活量化属于数值策略差异，不能混进 E1 声明。
+相对 L2 要明确参考分母、零向量规则、比较 dtype 和按模块/张量的统计；零梯度/零 B 的余弦相似度没有正常定义，单列绝对误差或精确零检查。不能拿一个全模型平均值掩盖某层错位。
+A2.9 的峰值随块大小“明显变化”是诊断目标；若其它工作区主导峰值，先用内存快照定位，不要仅凭总峰值变化小认定分块没工作。
+v2 允许基于原理和实测调整容差，这不等于看到失败就放宽阈值。先定位错误或预期舍入来源，留下调整前后的结果，再定标准。
+
+以下可以直接按已定回退推进并记录，不必重复申请：同步后异步；grouped_mm 不可用改逐专家；大 pinned pool 失败改 staging；现成 FLA 不行改合格的纯 Torch chunk；已批准的同版本传递依赖。
+以下应具体汇报，不能自行改变目标：只能靠 WSL/Linux 通过；需要改 Speed 已验收环境；要换基座/重新量化；要省略路由梯度；完整训练必须常驻全部专家；要变更已定非思考数据合同；关键资格仍失败却想宣布下一阶段通过。
+预计工期仅为规划。GDN 若需改写、数值对照难收敛或吞吐不理想，可能显著超出 v2 的 1.5～2 周 M1 估算。
+
+每阶段汇报至少包含：目标和输入 hash、实际环境/代码 commit、逐项关卡结果、峰值/耗时/搬运计数、与 v2 的偏离及证据、是否触及硬约束、产物路径、未完成项与下一步。遇到失败保留原始日志，不用一次重试成功覆盖它。
+
+十一、可交给新 Codex 的启动任务文本（示例，须由用户发出实施指令）
+
+请先阅读桌面 v2 方案和《Qwen3.6-NVFP4-LoRA-v2实施交接说明与关键风险.txt》，再读 C:\workspace\AGENTS.md、README.md 和涉及仓库规则。
+目标先完成 v2 的 M1＝P0～P4；实现独立核心库＋精简训练脚本，不做 LF/ZeRO-3，不用 WSL，不修改 Speed 现有环境。新 venv 所需依赖与 Speed 对齐；已允许安装同版本传递依赖，包含 PEFT 必需的 accelerate 1.15.0，训练循环不用 accelerate。
+先复核已有纯 Torch chunk GDN 和本机版本；先同步专家算子/streamer与 tiny 闭环，再加异步预取。已有小尺寸实验只是预研，不算 M1 通过。真实文件校验/预处理/单层实验与完整 35B 训练分开标识；M1 通过前不要启动完整模型训练。
+按关卡留下可复现证据和阶段汇报。碰到与硬约束冲突的实测结果，说明具体问题和可选决定，不能自行改成其它目标。M1 完成时总结哪些被证明、哪些仍属于 M2/G2/G3，并报告所有偏离。
+
+附录：证据与原始来源
+
+本机源码 A：
+C:\workspace\envs\SP-20261026\runtime\Lib\site-packages\transformers\models\qwen3_5_moe\modeling_qwen3_5_moe.py
+SHA256 682f99cb07b1df9d57b8a68006cc8e74cb4b1aa5263fd53f5f1bf4b886d6f55e
+关键位置：250 chunk GDN；332 recurrent GDN；501 q/k repeat；520 训练 chunk 调用；670 query/gate 拆分；736 experts 签名；771 router；1752 CausalLM；1829 完整 logits。
+dispatch：同一 site-packages 下 transformers\integrations\hub_kernels.py 第 822～865 行。
+
+本机源码 B：
+C:\workspace\envs\SP-20261026\runtime\Lib\site-packages\peft\tuners\lora\layer.py
+SHA256 e8a47a49cf69f92ded68bf7ab286aeaf068f0ac809ab3465ad16f78a8f9f8b63
+关键位置：793～818 普通 Linear LoRA 的 dtype 和相加顺序。
+PEFT 依赖来自 importlib.metadata.requires('peft')；其中 accelerate>=0.21.0。本轮核对已安装版本为 1.15.0，用户批准复用此版本。
+
+本机源码 C：
+C:\workspace\envs\SP-20261026\runtime\Lib\site-packages\freetoken\models\qwen3_5_moe\weight.py
+SHA256 f64988df5dd7204247efc1d417d9d042681d3ea7d68e424f3f4ee717c10a250b
+关键位置：83～93 _dequant_nvfp4；226～230 global scale 的运行时转换。
+对应 kernel：同一 site-packages 下 freetoken\kernel\triton\nvfp4_dequant.py。
+
+官方来源 1，自定义 autograd：
+https://docs.pytorch.org/docs/2.11/notes/extending.html
+官方来源 2，checkpoint 两种模式：
+https://docs.pytorch.org/docs/2.11/checkpoint.html
+官方来源 3，浮点精度、TF32、BF16 reduction：
+https://docs.pytorch.org/docs/2.11/notes/numerical_accuracy.html
+官方来源 4，AdamW 的 foreach 内存与恢复名字语义：
+https://docs.pytorch.org/docs/2.11/generated/torch.optim.AdamW.html
+
+模型原始 checkpoint（必须由接手者实际下载校验，不能用网页可访问代替）：
+https://huggingface.co/nvidia/Qwen3.6-35B-A3B-NVFP4/tree/1355db6a052410cfd62085d94b58866fd0f2c3c5
+此前结构分析所用 Transformers commit c0d024fbc873ab0325e1b40fc1bd69069609de65 不是本机 5.16.1 的替代凭据；本次优先使用上述本机文件 hash。
+原版 FreeToken 固定源码：
+https://github.com/FlashML-org/FreeToken/tree/078132480ea4a0424f677a27eb22085624d331e6
+PEFT 0.18.1 源码：
+https://github.com/huggingface/peft/blob/v0.18.1/src/peft/tuners/lora/layer.py
+
+历史实验文件：
+C:\workspace\runs\T-20261027-nvfp4-plan-review\20261027T091226Z-review\reproduction-results.json
+C:\workspace\runs\T-20261027-nvfp4-plan-review\20261027T091226Z-review\small-gpu-preflight.json
+同目录 reproduce_review_findings.py、small_gpu_preflight.py 保存复现方法。
+
+此前深入调研归档：
+C:\workspace\runs\T-20261027-lora-offload-design\20261027T081150Z-analysis
+其中 citation-registry.json 为原始来源索引；primary-source-snapshots.json、routing-source-snapshots.json、speed-current-snapshots.json 为固定版本内容；cpu_design_audit.py 仅为早期小原型。
+桌面《Qwen3.6-NVFP4-LoRA实施方案v1-评估与偏离总结.txt》可读背景，但范围和已修订接口以 v2＋用户最新决定为准。
+
+本次交接审计目录：
+C:\workspace\runs\T-20261027-nvfp4-v2-handoff\20261027T101304Z-handoff
+该目录保存原方案副本、交接材料副本和 manifest；本文没有修改原方案，没有把建议写成已完成实现。

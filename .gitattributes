@@ -1,0 +1,3 @@
+* text=auto
+docs/reference/design-v2.md -text
+docs/reference/handoff-v2.txt -text
