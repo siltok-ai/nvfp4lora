@@ -23,10 +23,12 @@ GPU：RTX 5070 Ti 16GB，主存约 61.6GiB。GDN 原始内核 allocated 峰值�
 
 专家输出保留 `weight`、`weight_scale` 的原始 uint8 字节、FP32 `weight_scale_2` 和 `input_scale`，不重数量化。非专家采用 FP32 解码再舍入 BF16 的显式策略；lm_head 按行限制解码临时空间。格式夹具测试不替代真实 checkpoint 的 A1 验收，更不替代 P4 的 HF tiny 训练。
 
+最小同步 `ExpertStore`/`SyncLayerStreamer` 已实现：直接读取 CPU 原字节 payload、校验实际文件与索引、在两个层槽间做同步拷贝，保留 pin/generation 与计数。CPU 和 CUDA 的实际数据、占用失败、释放后句柄、校验和篡改检测已纳入 13 项测试并通过；尚未与专家 autograd 组合，也没有异步预取资格。`20261027T114214Z-sync-store-unit` 的首次失败来自“后续访问仍只有一次缓存命中”的错误测试预期；修正后证据为 `20261027T114256Z-sync-store-regression`，原始失败未覆盖。
+
 ## 待完成
 
 - 完整 G0.8；真实预处理及 A1.1～A1.5（A1.4 还依赖模型构建）。
-- 同步 store、专家 autograd、真实目标形状和 FP64 数学资格。
+- 同步 store 的真实 bank 和专家 autograd 组合、真实目标形状及 FP64 数学资格。
 - 含 3 GDN+1 full attention 的 HF tiny：100 步、发布重载、新进程续训和全部不变量。
 - 异步搬运事件竞争测试、回归和逐项 M1 审核。
 - M1 通过后的真实模型 P5～P8；当前没有真实训练 adapter。
