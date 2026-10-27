@@ -1,0 +1,1177 @@
+{
+  "status": "PASS",
+  "scope": "One steady-state microbatch with restored Adam; no optimizer update or effect certification",
+  "checks": {
+    "all_40_layers_recomputed": true,
+    "adam_present": true,
+    "uninstrumented_loss_E2": true,
+    "all_uninstrumented_gradients_E2": true,
+    "frozen_hashes_unchanged": true
+  },
+  "max_length": 2048,
+  "expert_rank": 0,
+  "input_tokens": 2048,
+  "supervised_tokens": 1035,
+  "history_limit": 2000000,
+  "history_trace_lengths": [
+    2000000
+  ],
+  "history_complete": false,
+  "loss_sum": 67.46087646484375,
+  "memory": {
+    "restored_adam": {
+      "gpu_allocated": 6032760832,
+      "gpu_reserved": 6054477824,
+      "gpu_peak_allocated": 6032760832,
+      "gpu_peak_reserved": 6054477824,
+      "cpu_working_set": 22644482048,
+      "cpu_private": 30015213568
+    },
+    "inventory": {
+      "frozen_gpu_parameters": 4896711936,
+      "model_buffers": 256,
+      "lora_parameters": 76677120,
+      "gradients": 0,
+      "adam_gpu_state": 153354240,
+      "adam_cpu_step_state": 2000,
+      "expert_cpu_pinned_payload": 18119639040,
+      "expert_gpu_slots": 905981952
+    },
+    "whole_micro_peak_allocated": 8421765120,
+    "whole_micro_peak_reserved": 8787066880,
+    "layer_recompute_peak_allocated": 8410685440,
+    "layer_recompute_peak_reserved": 8782872576,
+    "recomputations": [
+      {
+        "layer": 39,
+        "start": {
+          "gpu_allocated": 6444344832,
+          "gpu_reserved": 7335837696,
+          "gpu_peak_allocated": 6444344832,
+          "gpu_peak_reserved": 7335837696,
+          "cpu_working_set": 24319475712,
+          "cpu_private": 33233567744
+        },
+        "end": {
+          "gpu_allocated": 7084269056,
+          "gpu_reserved": 8006926336,
+          "gpu_peak_allocated": 7792932864,
+          "gpu_peak_reserved": 8006926336,
+          "cpu_working_set": 24323313664,
+          "cpu_private": 33908187136
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 38,
+        "start": {
+          "gpu_allocated": 6437824000,
+          "gpu_reserved": 8290041856,
+          "gpu_peak_allocated": 6437824000,
+          "gpu_peak_reserved": 8290041856,
+          "cpu_working_set": 24363286528,
+          "cpu_private": 34240008192
+        },
+        "end": {
+          "gpu_allocated": 7702201856,
+          "gpu_reserved": 8688500736,
+          "gpu_peak_allocated": 8410685440,
+          "gpu_peak_reserved": 8688500736,
+          "cpu_working_set": 24370040832,
+          "cpu_private": 34650828800
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 37,
+        "start": {
+          "gpu_allocated": 6431368704,
+          "gpu_reserved": 8707375104,
+          "gpu_peak_allocated": 6431368704,
+          "gpu_peak_reserved": 8707375104,
+          "cpu_working_set": 24375513088,
+          "cpu_private": 34672144384
+        },
+        "end": {
+          "gpu_allocated": 7696557568,
+          "gpu_reserved": 8707375104,
+          "gpu_peak_allocated": 8407626752,
+          "gpu_peak_reserved": 8707375104,
+          "cpu_working_set": 24381337600,
+          "cpu_private": 34676346880
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 36,
+        "start": {
+          "gpu_allocated": 6424913408,
+          "gpu_reserved": 8707375104,
+          "gpu_peak_allocated": 6424913408,
+          "gpu_peak_reserved": 8707375104,
+          "cpu_working_set": 24386740224,
+          "cpu_private": 34677604352
+        },
+        "end": {
+          "gpu_allocated": 7688889856,
+          "gpu_reserved": 8707375104,
+          "gpu_peak_allocated": 8397398016,
+          "gpu_peak_reserved": 8707375104,
+          "cpu_working_set": 24392544256,
+          "cpu_private": 34681733120
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 35,
+        "start": {
+          "gpu_allocated": 6418458112,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 6418458112,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24397983744,
+          "cpu_private": 34741043200
+        },
+        "end": {
+          "gpu_allocated": 7058382336,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 7767226368,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24401686528,
+          "cpu_private": 34743242752
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 34,
+        "start": {
+          "gpu_allocated": 6411937280,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 6411937280,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24407298048,
+          "cpu_private": 34745585664
+        },
+        "end": {
+          "gpu_allocated": 7675962880,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 8389278208,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24413126656,
+          "cpu_private": 34749710336
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 33,
+        "start": {
+          "gpu_allocated": 6405481984,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 6405481984,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24419123200,
+          "cpu_private": 34751238144
+        },
+        "end": {
+          "gpu_allocated": 7670670848,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 8382035456,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24424353792,
+          "cpu_private": 34754813952
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 32,
+        "start": {
+          "gpu_allocated": 6399026688,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 6399026688,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24430288896,
+          "cpu_private": 34756481024
+        },
+        "end": {
+          "gpu_allocated": 7663314432,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 8370703872,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24435585024,
+          "cpu_private": 34760052736
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 31,
+        "start": {
+          "gpu_allocated": 6392571392,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 6392571392,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24441913344,
+          "cpu_private": 34762133504
+        },
+        "end": {
+          "gpu_allocated": 7032495616,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 7742655488,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24446214144,
+          "cpu_private": 34764886016
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 30,
+        "start": {
+          "gpu_allocated": 6386050560,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 6386050560,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24451956736,
+          "cpu_private": 34767085568
+        },
+        "end": {
+          "gpu_allocated": 7649822208,
+          "gpu_reserved": 8717860864,
+          "gpu_peak_allocated": 8364805120,
+          "gpu_peak_reserved": 8717860864,
+          "cpu_working_set": 24457121792,
+          "cpu_private": 34770526208
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 29,
+        "start": {
+          "gpu_allocated": 6379595264,
+          "gpu_reserved": 8724152320,
+          "gpu_peak_allocated": 6379595264,
+          "gpu_peak_reserved": 8724152320,
+          "cpu_working_set": 24463581184,
+          "cpu_private": 34779172864
+        },
+        "end": {
+          "gpu_allocated": 7643600384,
+          "gpu_reserved": 8724152320,
+          "gpu_peak_allocated": 8354669568,
+          "gpu_peak_reserved": 8724152320,
+          "cpu_working_set": 24469151744,
+          "cpu_private": 34783031296
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 28,
+        "start": {
+          "gpu_allocated": 6373139968,
+          "gpu_reserved": 8724152320,
+          "gpu_peak_allocated": 6373139968,
+          "gpu_peak_reserved": 8724152320,
+          "cpu_working_set": 24475430912,
+          "cpu_private": 34784837632
+        },
+        "end": {
+          "gpu_allocated": 7636792832,
+          "gpu_reserved": 8724152320,
+          "gpu_peak_allocated": 8344112640,
+          "gpu_peak_reserved": 8724152320,
+          "cpu_working_set": 24480792576,
+          "cpu_private": 34788413440
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 27,
+        "start": {
+          "gpu_allocated": 6366684672,
+          "gpu_reserved": 8728346624,
+          "gpu_peak_allocated": 6366684672,
+          "gpu_peak_reserved": 8728346624,
+          "cpu_working_set": 24487337984,
+          "cpu_private": 34866089984
+        },
+        "end": {
+          "gpu_allocated": 7006608896,
+          "gpu_reserved": 8728346624,
+          "gpu_peak_allocated": 7714633728,
+          "gpu_peak_reserved": 8728346624,
+          "cpu_working_set": 24491442176,
+          "cpu_private": 34868563968
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 26,
+        "start": {
+          "gpu_allocated": 6360163840,
+          "gpu_reserved": 8728346624,
+          "gpu_peak_allocated": 6360163840,
+          "gpu_peak_reserved": 8728346624,
+          "cpu_working_set": 24497778688,
+          "cpu_private": 34871324672
+        },
+        "end": {
+          "gpu_allocated": 7624369664,
+          "gpu_reserved": 8728346624,
+          "gpu_peak_allocated": 8332275200,
+          "gpu_peak_reserved": 8728346624,
+          "cpu_working_set": 24503148544,
+          "cpu_private": 34874904576
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 25,
+        "start": {
+          "gpu_allocated": 6353708544,
+          "gpu_reserved": 8732540928,
+          "gpu_peak_allocated": 6353708544,
+          "gpu_peak_reserved": 8732540928,
+          "cpu_working_set": 24509956096,
+          "cpu_private": 34881331200
+        },
+        "end": {
+          "gpu_allocated": 7617521152,
+          "gpu_reserved": 8732540928,
+          "gpu_peak_allocated": 8325472256,
+          "gpu_peak_reserved": 8732540928,
+          "cpu_working_set": 24515317760,
+          "cpu_private": 34884907008
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 24,
+        "start": {
+          "gpu_allocated": 6347253248,
+          "gpu_reserved": 8738832384,
+          "gpu_peak_allocated": 6347253248,
+          "gpu_peak_reserved": 8738832384,
+          "cpu_working_set": 24521924608,
+          "cpu_private": 34893148160
+        },
+        "end": {
+          "gpu_allocated": 7610803712,
+          "gpu_reserved": 8738832384,
+          "gpu_peak_allocated": 8318414336,
+          "gpu_peak_reserved": 8738832384,
+          "cpu_working_set": 24527618048,
+          "cpu_private": 34896994304
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 23,
+        "start": {
+          "gpu_allocated": 6340797952,
+          "gpu_reserved": 8738832384,
+          "gpu_peak_allocated": 6340797952,
+          "gpu_peak_reserved": 8738832384,
+          "cpu_working_set": 24534216704,
+          "cpu_private": 34899079168
+        },
+        "end": {
+          "gpu_allocated": 6980722176,
+          "gpu_reserved": 8738832384,
+          "gpu_peak_allocated": 7689459712,
+          "gpu_peak_reserved": 8738832384,
+          "cpu_working_set": 24538583040,
+          "cpu_private": 34901827584
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 22,
+        "start": {
+          "gpu_allocated": 6334277120,
+          "gpu_reserved": 8738832384,
+          "gpu_peak_allocated": 6334277120,
+          "gpu_peak_reserved": 8738832384,
+          "cpu_working_set": 24544985088,
+          "cpu_private": 34904723456
+        },
+        "end": {
+          "gpu_allocated": 7598224896,
+          "gpu_reserved": 8738832384,
+          "gpu_peak_allocated": 8305745408,
+          "gpu_peak_reserved": 8738832384,
+          "cpu_working_set": 24550219776,
+          "cpu_private": 34908164096
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 21,
+        "start": {
+          "gpu_allocated": 6327821824,
+          "gpu_reserved": 8740929536,
+          "gpu_peak_allocated": 6327821824,
+          "gpu_peak_reserved": 8740929536,
+          "cpu_working_set": 24557244416,
+          "cpu_private": 34912620544
+        },
+        "end": {
+          "gpu_allocated": 7591949824,
+          "gpu_reserved": 8740929536,
+          "gpu_peak_allocated": 8298950144,
+          "gpu_peak_reserved": 8740929536,
+          "cpu_working_set": 24562339840,
+          "cpu_private": 34915921920
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 20,
+        "start": {
+          "gpu_allocated": 6321366528,
+          "gpu_reserved": 8749318144,
+          "gpu_peak_allocated": 6321366528,
+          "gpu_peak_reserved": 8749318144,
+          "cpu_working_set": 24568803328,
+          "cpu_private": 34926268416
+        },
+        "end": {
+          "gpu_allocated": 7585568256,
+          "gpu_reserved": 8749318144,
+          "gpu_peak_allocated": 8292097024,
+          "gpu_peak_reserved": 8749318144,
+          "cpu_working_set": 24574181376,
+          "cpu_private": 34929844224
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 19,
+        "start": {
+          "gpu_allocated": 6314911232,
+          "gpu_reserved": 8749318144,
+          "gpu_peak_allocated": 6314911232,
+          "gpu_peak_reserved": 8749318144,
+          "cpu_working_set": 24580505600,
+          "cpu_private": 34931781632
+        },
+        "end": {
+          "gpu_allocated": 6954835456,
+          "gpu_reserved": 8749318144,
+          "gpu_peak_allocated": 7662749184,
+          "gpu_peak_reserved": 8749318144,
+          "cpu_working_set": 24584806400,
+          "cpu_private": 34934530048
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 18,
+        "start": {
+          "gpu_allocated": 6308390400,
+          "gpu_reserved": 8749318144,
+          "gpu_peak_allocated": 6308390400,
+          "gpu_peak_reserved": 8749318144,
+          "cpu_working_set": 24590905344,
+          "cpu_private": 34937147392
+        },
+        "end": {
+          "gpu_allocated": 7572846080,
+          "gpu_reserved": 8749318144,
+          "gpu_peak_allocated": 8282071552,
+          "gpu_peak_reserved": 8749318144,
+          "cpu_working_set": 24595775488,
+          "cpu_private": 34940174336
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 17,
+        "start": {
+          "gpu_allocated": 6301935104,
+          "gpu_reserved": 8751415296,
+          "gpu_peak_allocated": 6301935104,
+          "gpu_peak_reserved": 8751415296,
+          "cpu_working_set": 24602980352,
+          "cpu_private": 34944921600
+        },
+        "end": {
+          "gpu_allocated": 7566050816,
+          "gpu_reserved": 8751415296,
+          "gpu_peak_allocated": 8273001984,
+          "gpu_peak_reserved": 8751415296,
+          "cpu_working_set": 24608288768,
+          "cpu_private": 34948497408
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 16,
+        "start": {
+          "gpu_allocated": 6295479808,
+          "gpu_reserved": 8753512448,
+          "gpu_peak_allocated": 6295479808,
+          "gpu_peak_reserved": 8753512448,
+          "cpu_working_set": 24614678528,
+          "cpu_private": 34952536064
+        },
+        "end": {
+          "gpu_allocated": 7559771648,
+          "gpu_reserved": 8753512448,
+          "gpu_peak_allocated": 8266312704,
+          "gpu_peak_reserved": 8753512448,
+          "cpu_working_set": 24619974656,
+          "cpu_private": 34956111872
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 15,
+        "start": {
+          "gpu_allocated": 6289024512,
+          "gpu_reserved": 8753512448,
+          "gpu_peak_allocated": 6289024512,
+          "gpu_peak_reserved": 8753512448,
+          "cpu_working_set": 24626380800,
+          "cpu_private": 35065352192
+        },
+        "end": {
+          "gpu_allocated": 6928948736,
+          "gpu_reserved": 8753512448,
+          "gpu_peak_allocated": 7638444544,
+          "gpu_peak_reserved": 8753512448,
+          "cpu_working_set": 24630247424,
+          "cpu_private": 35067826176
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 14,
+        "start": {
+          "gpu_allocated": 6282503680,
+          "gpu_reserved": 8753512448,
+          "gpu_peak_allocated": 6282503680,
+          "gpu_peak_reserved": 8753512448,
+          "cpu_working_set": 24635559936,
+          "cpu_private": 35069890560
+        },
+        "end": {
+          "gpu_allocated": 7546578432,
+          "gpu_reserved": 8753512448,
+          "gpu_peak_allocated": 8253262848,
+          "gpu_peak_reserved": 8753512448,
+          "cpu_working_set": 24640598016,
+          "cpu_private": 35073200128
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 13,
+        "start": {
+          "gpu_allocated": 6276048384,
+          "gpu_reserved": 8755609600,
+          "gpu_peak_allocated": 6276048384,
+          "gpu_peak_reserved": 8755609600,
+          "cpu_working_set": 24647127040,
+          "cpu_private": 35077591040
+        },
+        "end": {
+          "gpu_allocated": 7539459584,
+          "gpu_reserved": 8755609600,
+          "gpu_peak_allocated": 8247098880,
+          "gpu_peak_reserved": 8755609600,
+          "cpu_working_set": 24652091392,
+          "cpu_private": 35080888320
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 12,
+        "start": {
+          "gpu_allocated": 6269593088,
+          "gpu_reserved": 8763998208,
+          "gpu_peak_allocated": 6269593088,
+          "gpu_peak_reserved": 8763998208,
+          "cpu_working_set": 24658354176,
+          "cpu_private": 35091230720
+        },
+        "end": {
+          "gpu_allocated": 7533598208,
+          "gpu_reserved": 8763998208,
+          "gpu_peak_allocated": 8245405184,
+          "gpu_peak_reserved": 8763998208,
+          "cpu_working_set": 24663650304,
+          "cpu_private": 35094806528
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 11,
+        "start": {
+          "gpu_allocated": 6263137792,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 6263137792,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24670044160,
+          "cpu_private": 35098988544
+        },
+        "end": {
+          "gpu_allocated": 6903062016,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 7610545664,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24673689600,
+          "cpu_private": 35101192192
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 10,
+        "start": {
+          "gpu_allocated": 6256616960,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 6256616960,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24679563264,
+          "cpu_private": 35103809536
+        },
+        "end": {
+          "gpu_allocated": 7520900608,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 8227991040,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24684527616,
+          "cpu_private": 35107110912
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 9,
+        "start": {
+          "gpu_allocated": 6250161664,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 6250161664,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24690327552,
+          "cpu_private": 35108642816
+        },
+        "end": {
+          "gpu_allocated": 7514125824,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 8225232384,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24695177216,
+          "cpu_private": 35111940096
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 8,
+        "start": {
+          "gpu_allocated": 6243706368,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 6243706368,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24701108224,
+          "cpu_private": 35113877504
+        },
+        "end": {
+          "gpu_allocated": 7508006400,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 8214633472,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24705949696,
+          "cpu_private": 35117182976
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 7,
+        "start": {
+          "gpu_allocated": 6237251072,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 6237251072,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24711548928,
+          "cpu_private": 35118845952
+        },
+        "end": {
+          "gpu_allocated": 6877175296,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 7584761344,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24715055104,
+          "cpu_private": 35121045504
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 6,
+        "start": {
+          "gpu_allocated": 6230730240,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 6230730240,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24720068608,
+          "cpu_private": 35123113984
+        },
+        "end": {
+          "gpu_allocated": 7494116864,
+          "gpu_reserved": 8766095360,
+          "gpu_peak_allocated": 8203497984,
+          "gpu_peak_reserved": 8766095360,
+          "cpu_working_set": 24724770816,
+          "cpu_private": 35126280192
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 5,
+        "start": {
+          "gpu_allocated": 6224274944,
+          "gpu_reserved": 8768192512,
+          "gpu_peak_allocated": 6224274944,
+          "gpu_peak_reserved": 8768192512,
+          "cpu_working_set": 24729407488,
+          "cpu_private": 35130044416
+        },
+        "end": {
+          "gpu_allocated": 7488087552,
+          "gpu_reserved": 8768192512,
+          "gpu_peak_allocated": 8196616192,
+          "gpu_peak_reserved": 8768192512,
+          "cpu_working_set": 24729407488,
+          "cpu_private": 35130044416
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 4,
+        "start": {
+          "gpu_allocated": 6217819648,
+          "gpu_reserved": 8776581120,
+          "gpu_peak_allocated": 6217819648,
+          "gpu_peak_reserved": 8776581120,
+          "cpu_working_set": 24729677824,
+          "cpu_private": 35138736128
+        },
+        "end": {
+          "gpu_allocated": 7481705984,
+          "gpu_reserved": 8776581120,
+          "gpu_peak_allocated": 8190304256,
+          "gpu_peak_reserved": 8776581120,
+          "cpu_working_set": 24729677824,
+          "cpu_private": 35138736128
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 3,
+        "start": {
+          "gpu_allocated": 6211364352,
+          "gpu_reserved": 8776581120,
+          "gpu_peak_allocated": 6211364352,
+          "gpu_peak_reserved": 8776581120,
+          "cpu_working_set": 24730083328,
+          "cpu_private": 35139166208
+        },
+        "end": {
+          "gpu_allocated": 6851288576,
+          "gpu_reserved": 8776581120,
+          "gpu_peak_allocated": 7558809088,
+          "gpu_peak_reserved": 8776581120,
+          "cpu_working_set": 24730083328,
+          "cpu_private": 35139166208
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 2,
+        "start": {
+          "gpu_allocated": 6204843520,
+          "gpu_reserved": 8776581120,
+          "gpu_peak_allocated": 6204843520,
+          "gpu_peak_reserved": 8776581120,
+          "cpu_working_set": 24730218496,
+          "cpu_private": 35139309568
+        },
+        "end": {
+          "gpu_allocated": 7469299200,
+          "gpu_reserved": 8776581120,
+          "gpu_peak_allocated": 8176045056,
+          "gpu_peak_reserved": 8776581120,
+          "cpu_working_set": 24730218496,
+          "cpu_private": 35139309568
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 1,
+        "start": {
+          "gpu_allocated": 6198388224,
+          "gpu_reserved": 8780775424,
+          "gpu_peak_allocated": 6198388224,
+          "gpu_peak_reserved": 8780775424,
+          "cpu_working_set": 24730255360,
+          "cpu_private": 35143512064
+        },
+        "end": {
+          "gpu_allocated": 7463581184,
+          "gpu_reserved": 8780775424,
+          "gpu_peak_allocated": 8171806720,
+          "gpu_peak_reserved": 8780775424,
+          "cpu_working_set": 24730255360,
+          "cpu_private": 35143512064
+        },
+        "nonreentrant_early_stop": true
+      },
+      {
+        "layer": 0,
+        "start": {
+          "gpu_allocated": 6191932928,
+          "gpu_reserved": 8782872576,
+          "gpu_peak_allocated": 6191932928,
+          "gpu_peak_reserved": 8782872576,
+          "cpu_working_set": 24730247168,
+          "cpu_private": 35145613312
+        },
+        "end": {
+          "gpu_allocated": 7456224768,
+          "gpu_reserved": 8782872576,
+          "gpu_peak_allocated": 8164528128,
+          "gpu_peak_reserved": 8782872576,
+          "cpu_working_set": 24730247168,
+          "cpu_private": 35145613312
+        },
+        "nonreentrant_early_stop": true
+      }
+    ],
+    "intervals_before_each_reset_and_final": [
+      {
+        "gpu_allocated": 6444344832,
+        "gpu_reserved": 7335837696,
+        "gpu_peak_allocated": 7211966976,
+        "gpu_peak_reserved": 7335837696,
+        "cpu_working_set": 24319418368,
+        "cpu_private": 33233567744
+      },
+      {
+        "gpu_allocated": 6437824000,
+        "gpu_reserved": 8290041856,
+        "gpu_peak_allocated": 7804192768,
+        "gpu_peak_reserved": 8290041856,
+        "cpu_working_set": 24363286528,
+        "cpu_private": 34240008192
+      },
+      {
+        "gpu_allocated": 6431368704,
+        "gpu_reserved": 8707375104,
+        "gpu_peak_allocated": 8421765120,
+        "gpu_peak_reserved": 8707375104,
+        "cpu_working_set": 24375513088,
+        "cpu_private": 34672144384
+      },
+      {
+        "gpu_allocated": 6424913408,
+        "gpu_reserved": 8707375104,
+        "gpu_peak_allocated": 8420381696,
+        "gpu_peak_reserved": 8707375104,
+        "cpu_working_set": 24386740224,
+        "cpu_private": 34677604352
+      },
+      {
+        "gpu_allocated": 6418458112,
+        "gpu_reserved": 8717860864,
+        "gpu_peak_allocated": 8408502272,
+        "gpu_peak_reserved": 8717860864,
+        "cpu_working_set": 24397983744,
+        "cpu_private": 34741043200
+      },
+      {
+        "gpu_allocated": 6411937280,
+        "gpu_reserved": 8717860864,
+        "gpu_peak_allocated": 7778666496,
+        "gpu_peak_reserved": 8717860864,
+        "cpu_working_set": 24407298048,
+        "cpu_private": 34745585664
+      },
+      {
+        "gpu_allocated": 6405481984,
+        "gpu_reserved": 8717860864,
+        "gpu_peak_allocated": 8405187072,
+        "gpu_peak_reserved": 8717860864,
+        "cpu_working_set": 24419123200,
+        "cpu_private": 34751238144
+      },
+      {
+        "gpu_allocated": 6399026688,
+        "gpu_reserved": 8717860864,
+        "gpu_peak_allocated": 8395994624,
+        "gpu_peak_reserved": 8717860864,
+        "cpu_working_set": 24430288896,
+        "cpu_private": 34756481024
+      },
+      {
+        "gpu_allocated": 6392571392,
+        "gpu_reserved": 8717860864,
+        "gpu_peak_allocated": 8380689920,
+        "gpu_peak_reserved": 8717860864,
+        "cpu_working_set": 24441913344,
+        "cpu_private": 34762133504
+      },
+      {
+        "gpu_allocated": 6386050560,
+        "gpu_reserved": 8717860864,
+        "gpu_peak_allocated": 7755410432,
+        "gpu_peak_reserved": 8717860864,
+        "cpu_working_set": 24451956736,
+        "cpu_private": 34767085568
+      },
+      {
+        "gpu_allocated": 6379595264,
+        "gpu_reserved": 8724152320,
+        "gpu_peak_allocated": 8382381056,
+        "gpu_peak_reserved": 8724152320,
+        "cpu_working_set": 24463581184,
+        "cpu_private": 34779172864
+      },
+      {
+        "gpu_allocated": 6373139968,
+        "gpu_reserved": 8724152320,
+        "gpu_peak_allocated": 8367698944,
+        "gpu_peak_reserved": 8724152320,
+        "cpu_working_set": 24475430912,
+        "cpu_private": 34784837632
+      },
+      {
+        "gpu_allocated": 6366684672,
+        "gpu_reserved": 8728346624,
+        "gpu_peak_allocated": 8354029056,
+        "gpu_peak_reserved": 8728346624,
+        "cpu_working_set": 24487337984,
+        "cpu_private": 34866089984
+      },
+      {
+        "gpu_allocated": 6360163840,
+        "gpu_reserved": 8728346624,
+        "gpu_peak_allocated": 7725254656,
+        "gpu_peak_reserved": 8728346624,
+        "cpu_working_set": 24497778688,
+        "cpu_private": 34871324672
+      },
+      {
+        "gpu_allocated": 6353708544,
+        "gpu_reserved": 8732540928,
+        "gpu_peak_allocated": 8342777344,
+        "gpu_peak_reserved": 8732540928,
+        "cpu_working_set": 24509956096,
+        "cpu_private": 34881331200
+      },
+      {
+        "gpu_allocated": 6347253248,
+        "gpu_reserved": 8738832384,
+        "gpu_peak_allocated": 8336019456,
+        "gpu_peak_reserved": 8738832384,
+        "cpu_working_set": 24521924608,
+        "cpu_private": 34893148160
+      },
+      {
+        "gpu_allocated": 6340797952,
+        "gpu_reserved": 8738832384,
+        "gpu_peak_allocated": 8328621568,
+        "gpu_peak_reserved": 8738832384,
+        "cpu_working_set": 24534216704,
+        "cpu_private": 34899079168
+      },
+      {
+        "gpu_allocated": 6334277120,
+        "gpu_reserved": 8738832384,
+        "gpu_peak_allocated": 7700793344,
+        "gpu_peak_reserved": 8738832384,
+        "cpu_working_set": 24544985088,
+        "cpu_private": 34904723456
+      },
+      {
+        "gpu_allocated": 6327821824,
+        "gpu_reserved": 8740929536,
+        "gpu_peak_allocated": 8315862528,
+        "gpu_peak_reserved": 8740929536,
+        "cpu_working_set": 24557244416,
+        "cpu_private": 34912620544
+      },
+      {
+        "gpu_allocated": 6321366528,
+        "gpu_reserved": 8749318144,
+        "gpu_peak_allocated": 8308547072,
+        "gpu_peak_reserved": 8749318144,
+        "cpu_working_set": 24568803328,
+        "cpu_private": 34926268416
+      },
+      {
+        "gpu_allocated": 6314911232,
+        "gpu_reserved": 8749318144,
+        "gpu_peak_allocated": 8301222912,
+        "gpu_peak_reserved": 8749318144,
+        "cpu_working_set": 24580505600,
+        "cpu_private": 34931781632
+      },
+      {
+        "gpu_allocated": 6308390400,
+        "gpu_reserved": 8749318144,
+        "gpu_peak_allocated": 7673259520,
+        "gpu_peak_reserved": 8749318144,
+        "cpu_working_set": 24590905344,
+        "cpu_private": 34937147392
+      },
+      {
+        "gpu_allocated": 6301935104,
+        "gpu_reserved": 8751415296,
+        "gpu_peak_allocated": 8293892608,
+        "gpu_peak_reserved": 8751415296,
+        "cpu_working_set": 24602980352,
+        "cpu_private": 34944921600
+      },
+      {
+        "gpu_allocated": 6295479808,
+        "gpu_reserved": 8753512448,
+        "gpu_peak_allocated": 8282549760,
+        "gpu_peak_reserved": 8753512448,
+        "cpu_working_set": 24614678528,
+        "cpu_private": 34952536064
+      },
+      {
+        "gpu_allocated": 6289024512,
+        "gpu_reserved": 8753512448,
+        "gpu_peak_allocated": 8275450880,
+        "gpu_peak_reserved": 8753512448,
+        "cpu_working_set": 24626380800,
+        "cpu_private": 35065352192
+      },
+      {
+        "gpu_allocated": 6282503680,
+        "gpu_reserved": 8753512448,
+        "gpu_peak_allocated": 7650535936,
+        "gpu_peak_reserved": 8753512448,
+        "cpu_working_set": 24635559936,
+        "cpu_private": 35069890560
+      },
+      {
+        "gpu_allocated": 6276048384,
+        "gpu_reserved": 8755609600,
+        "gpu_peak_allocated": 8262544384,
+        "gpu_peak_reserved": 8755609600,
+        "cpu_working_set": 24647127040,
+        "cpu_private": 35077591040
+      },
+      {
+        "gpu_allocated": 6269593088,
+        "gpu_reserved": 8763998208,
+        "gpu_peak_allocated": 8257334784,
+        "gpu_peak_reserved": 8763998208,
+        "cpu_working_set": 24658354176,
+        "cpu_private": 35091230720
+      },
+      {
+        "gpu_allocated": 6263137792,
+        "gpu_reserved": 8766095360,
+        "gpu_peak_allocated": 8259806720,
+        "gpu_peak_reserved": 8766095360,
+        "cpu_working_set": 24670044160,
+        "cpu_private": 35098988544
+      },
+      {
+        "gpu_allocated": 6256616960,
+        "gpu_reserved": 8766095360,
+        "gpu_peak_allocated": 7620625920,
+        "gpu_peak_reserved": 8766095360,
+        "cpu_working_set": 24679563264,
+        "cpu_private": 35103809536
+      },
+      {
+        "gpu_allocated": 6250161664,
+        "gpu_reserved": 8766095360,
+        "gpu_peak_allocated": 8237678080,
+        "gpu_peak_reserved": 8766095360,
+        "cpu_working_set": 24690327552,
+        "cpu_private": 35108642816
+      },
+      {
+        "gpu_allocated": 6243706368,
+        "gpu_reserved": 8766095360,
+        "gpu_peak_allocated": 8238933504,
+        "gpu_peak_reserved": 8766095360,
+        "cpu_working_set": 24701108224,
+        "cpu_private": 35113877504
+      },
+      {
+        "gpu_allocated": 6237251072,
+        "gpu_reserved": 8766095360,
+        "gpu_peak_allocated": 8223857664,
+        "gpu_peak_reserved": 8766095360,
+        "cpu_working_set": 24711548928,
+        "cpu_private": 35118845952
+      },
+      {
+        "gpu_allocated": 6230730240,
+        "gpu_reserved": 8766095360,
+        "gpu_peak_allocated": 7594944000,
+        "gpu_peak_reserved": 8766095360,
+        "cpu_working_set": 24720068608,
+        "cpu_private": 35123113984
+      },
+      {
+        "gpu_allocated": 6224274944,
+        "gpu_reserved": 8768192512,
+        "gpu_peak_allocated": 8215474688,
+        "gpu_peak_reserved": 8768192512,
+        "cpu_working_set": 24729407488,
+        "cpu_private": 35130044416
+      },
+      {
+        "gpu_allocated": 6217819648,
+        "gpu_reserved": 8776581120,
+        "gpu_peak_allocated": 8207740928,
+        "gpu_peak_reserved": 8776581120,
+        "cpu_working_set": 24729677824,
+        "cpu_private": 35138736128
+      },
+      {
+        "gpu_allocated": 6211364352,
+        "gpu_reserved": 8776581120,
+        "gpu_peak_allocated": 8201498624,
+        "gpu_peak_reserved": 8776581120,
+        "cpu_working_set": 24730083328,
+        "cpu_private": 35139166208
+      },
+      {
+        "gpu_allocated": 6204843520,
+        "gpu_reserved": 8776581120,
+        "gpu_peak_allocated": 7568926208,
+        "gpu_peak_reserved": 8776581120,
+        "cpu_working_set": 24730218496,
+        "cpu_private": 35139309568
+      },
+      {
+        "gpu_allocated": 6198388224,
+        "gpu_reserved": 8780775424,
+        "gpu_peak_allocated": 8185388032,
+        "gpu_peak_reserved": 8780775424,
+        "cpu_working_set": 24730255360,
+        "cpu_private": 35143512064
+      },
+      {
+        "gpu_allocated": 6191932928,
+        "gpu_reserved": 8782872576,
+        "gpu_peak_allocated": 8182628352,
+        "gpu_peak_reserved": 8782872576,
+        "cpu_working_set": 24730247168,
+        "cpu_private": 35145613312
+      },
+      {
+        "gpu_allocated": 6176546816,
+        "gpu_reserved": 8787066880,
+        "gpu_peak_allocated": 8175427584,
+        "gpu_peak_reserved": 8787066880,
+        "cpu_working_set": 24653246464,
+        "cpu_private": 35072790528
+      }
+    ]
+  }
+}

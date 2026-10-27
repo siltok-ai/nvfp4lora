@@ -218,3 +218,18 @@ B已经更新为非零后，又运行8个micro的真实损失反向、没有第�
 `20261027T165738Z-real-expert-r2-release-delta-verify` 在新进程仅凭bundle+publish建模，固定loss、禁用基线loss、全部GPU参数和4090份ΔW指纹全部E2，[发布摘要](evidence/real-expert-release-delta-summary.json)。与C3的250份对应，4090份含250个非专家矩阵及40层×3投影×32个专家分块；分块内按FP32 scaling×B@A逐字节哈希，未合并或改写基座。
 
 两套真实2→4步证据都只是短程验证。v2 A6.3/A7.3的完整第50→100步对照仍待执行；不将tiny的100步或真实短程结果代替该项。
+
+## C3真实长序列压力训练
+
+C3在2048和4096均完成新鲜初始化的2 optimizer step×累积8，完整答案1035 token/条、每步8280个监督token。各长度均有首micro快照、首步及已有Adam的第二步、checkpoint1/2和独立压力发布目录。冻结参数/hash不变；Adam矩按全部可训练元素实际分配；所有8条完整答案保留。没有使用这些压力适配器作金丝雀或P8效果证据。
+
+| 长度 | 训练run | 训练两步最高allocated / reserved字节 | 每步wall秒 |
+| --- | --- | --- | --- |
+| 2048 | `20261027T170053Z-real-c3-sequence2048` | 8499081728 / 8793358336 | 177.37 / 176.38 |
+| 4096 | `20261027T170840Z-real-c3-sequence4096` | 11606167040 / 12664700928 | 213.81 / 211.20 |
+
+[2048审核](evidence/real-c3-sequence2048-audit.json)、[4096审核](evidence/real-c3-sequence4096-audit.json)包含加载、首micro、首步、稳态、保存、发布/探针各阶段及CPU对象清单、每步H2D/等待、分组A/B范数。CPU工作集字段是观测点，不能当作区间峰值。吞吐按实际输入token数除以step wall，wall包含审计开销。
+
+两份原始首micro快照的200000事件环已满，保留了尾部轨迹；allocated/reserved的框架峰值计数独立于该环，仍有效。快照全局存活块检查均无活跃解码权重，但不能用尾部轨迹宣称覆盖整个micro。为分离逐层重算峰值，新增 `profile_recompute_memory.py`：从各压力step2恢复LoRA与真实Adam，只做一个micro的反向，用always_call层hook覆盖非重入检查点的提前停止，各次reset前合并原峰值，另采集上限2000000的轨迹。它不更新或发布参数。
+
+`20261027T171813Z-real-c3-recompute2048` PASS：40层重算全部记录，逐层重算最高allocated8410685440字节，整micro最高8421765120字节。去掉采集hook再跑同一micro，loss与全部500个A/B梯度原始字节E2；冻结hash不变，[证据](evidence/real-c3-recompute2048.json)。这次profile带已有Adam，其吞吐不代替原压力训练的吞吐。

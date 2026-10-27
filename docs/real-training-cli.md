@@ -33,3 +33,44 @@ python -B tools/run_recorded.py --output <另一个新run目录> -- tools/train_
 长序列压力数据用 `tools/prepare_sequence_stress.py` 生成，8条记录保留完整1035-token答案，在2048/4096上只左截断提示。使用同一训练入口、相应长度配置、累积8、至少2个optimizer step并保留首micro快照，分别观察Adam首次分配和已有Adam的稳态。压力语料的适配器独立保存，不混入功能训练。压力运行可用 `--skip-delta-fingerprint`，因此不能充作P8证据。
 
 `tools/summarize_training_session.py --results <run>/results --output <新文件>` 从已结束会话提取阶段内存、吞吐、H2D/等待和保存点A/B分组L2范数。其 `MEASURED` 状态只表示已汇总原始观测，不宣称金丝雀或完整阶段验收通过。
+
+`tools/check_sequence_training.py` 进一步核对压力数据身份、完整8条答案、每步精确输入/监督数量、两步累积8、首步后Adam矩、冻结hash及首micro快照的解码生命周期。实际已执行的长度和配置仍以 `progress.md` 为准。
+
+本机当前路径如下，权重和数据均不在Git仓库中：
+
+| 用途 | 路径 |
+| --- | --- |
+| 解释器 | `C:/workspace/envs/T-20261027-nvfp4-lora/train/Scripts/python.exe` |
+| 预处理基座 | `C:/workspace/models/bundles/qwen3.6-nvfp4-lora/1355db6a052410cf-train-v2` |
+| 功能语料 | `C:/workspace/data/datasets/nvfp4lora/canary-replay-v1` |
+| 长序列压力语料 | `C:/workspace/data/datasets/nvfp4lora/long-sequence-v1` |
+| 完整执行证据 | `C:/workspace/runs/T-20261027-nvfp4-lora` |
+| 活动进程和最新指针 | `C:/workspace/tasks/T-20261027-nvfp4-lora/README.md` |
+
+每次运行先确认上一项GPU作业已结束，在仓库根调用入口。中断后从最后一个 `checkpoint_manifest.json` 标记complete且hash校验通过的optimizer边界恢复，使用原数据、逻辑配置和版本；新输出使用新目录。`publish` 不包含Adam/数据/RNG状态，续训需要 `checkpoints/step-NNNNNN`。
+
+发布目录可由核心库直接载入，以下为Python调用示例，`adapter` 替换为已选定run的 `results/publish`：
+
+```python
+from transformers import AutoTokenizer
+from nvfp4lora.export.artifacts import build_from_adapter
+from nvfp4lora.model.generate import greedy_batch
+from nvfp4lora.train.evaluate import evaluation_mode
+from nvfp4lora.train.loop import configure_training
+
+configure_training(20261028)
+bundle = "C:/workspace/models/bundles/qwen3.6-nvfp4-lora/1355db6a052410cf-train-v2"
+adapter = "<已验证功能训练run>/results/publish"
+tokenizer = AutoTokenizer.from_pretrained(bundle, local_files_only=True)
+built = build_from_adapter(bundle, adapter)
+prompt = tokenizer.apply_chat_template(
+    [{"role": "user", "content": "请计算2+2，仅输出数字。"}],
+    tokenize=True, add_generation_prompt=True, enable_thinking=False, return_dict=False)
+with evaluation_mode(built):
+    reply = greedy_batch(built, [prompt], eos_token_ids={248044, 248046},
+                         pad_token_id=248044, max_new_tokens=32)
+print(tokenizer.decode(reply["tokens"][0], skip_special_tokens=True))
+built.streamer.close()
+```
+
+该调用使用训练核心的无cache验证路径；性能测量需注明每个生成token都重跑完整前向。专家适配器由 `build_from_adapter` 连同PEFT参数一起加载。Speed/FreeToken的产品加载器、融合段映射、CUDA Graph及缓存隔离属于后续G2/A′，当前发布目录尚不能直接交给其原有加载器使用。
