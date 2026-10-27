@@ -279,3 +279,11 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 第50步的[固定评测](evidence/real-c3-evaluation-step50.json)仍为50/50且全部EOS停止，300回放NLL0.00000021567823518715448。完整step50已保存，原基线进程继续51～100，未在中点停止或用恢复进程替代后半程参考。
 
 `20261027T191524Z-c3-midpoint-checkpoint-audit` [CPU边界审核](evidence/real-c3-midpoint-checkpoint-audit.json)PASS：所有文件SHA一致，500个可训练参数/唯一命名optimizer集合一致，所有参数及FP32 Adam矩有限、形状正确，逐参数step均50；scheduler.last_epoch50，累积位置0，数据消耗400（epoch0/position400/seed113），四类RNG存在。该检查仅证明边界文件与状态完整，不能代替后续实际新进程50→100的E2对照，也不算一次模型发布重载。
+
+## 制品归档工具准备
+
+`tools/archive_training_delivery.py` 为最终交付准备，只写不存在的新目录。输入是新一次M2预审：所有技术项必须已通过，仅允许交付目录本身和真实用户门槛未提供两类PENDING；后者不等同效果批准。它重新核对预审source SHA、已完成run、原运行的数值源码及实际后验诊断源码，并核对39个锁定依赖版本。
+
+计划归档两套results结构（publish、完整20/50/100、summary/config/metrics/ΔW/评测），固定语料、关键比较/风险/诊断证据、锁文件、环境库存和使用说明。完整基座仍引用models/bundles；逐文件复制前后SHA一致后最后写manifest，`verified`只标记复制和机械来源资格，正式M2仍由严格审核决定。当前长训练尚未结束，没有实际交付制品。
+
+`20261027T193127Z-delivery-copy-cpu-regression` 两项CPU测试PASS：1MiB全字节范围二进制复制一致，既有目录拒绝且不变；注入损坏会拒绝认证、保留失败副本且不写manifest。`20261027T193245Z-delivery-incomplete-guard` 用当前INCOMPLETE预审正确exit1且未创建制品目录，[预期门槛收据](evidence/delivery-incomplete-guard.json)PASS；原run的FAIL保留为负向测试，不是训练失败。当前依赖再次读取39个版本，0差异；未重跑或并行占用GPU的旧回归。

@@ -92,3 +92,13 @@ python -B tools/run_recorded.py --output <新的诊断run> -- tools/inspect_trai
 `tools/audit_m2.py --task <任务目录> --bundle <基座> --output <新目录>` 逐项读取原始run证据，并对缺少或仍在运行的项保留PENDING。它检查严格50→100对照、两套2048/4096压力/40层重算/非零B解码生命周期、完整参数集合、训练与发布后评测一致、周期诊断及FP8风险。原A5.2无条件1%失败与调整后的判据分列，还核对新夹具和CPU参考已存在于测量前的Git提交。
 
 最终门槛添加 `--require-complete`；任何PENDING或FAIL都会返回非零。效果门槛需显式传入 `--minimum-canary-accuracy`、`--max-replay-nll-increase` 和真实的 `--threshold-provenance`（用户决定的来源），工具不能代替用户确认。最终 `--artifact-dir` 应包含经hash验证、与已通过的原始run逐文件一致的publish及完整step50/100检查点；仅有名为manifest的空文件不满足交付检查。当前部分审核结果是INCOMPLETE，不能据此宣称M2通过。
+
+所有技术项及两套后验诊断完成后，再以新预审生成制品：
+
+```powershell
+python -B tools/run_recorded.py --output <新的归档run> -- tools/archive_training_delivery.py `
+  --task <任务目录> --bundle <相同基座> --corpus <功能语料目录> `
+  --pre-audit <新M2预审>/m2-audit.json --output <artifacts/nvfp4lora/0.0.1/新的UTC目录>
+```
+
+`--validate-only` 只校验计划，不复制。它拒绝未完成的技术门槛，允许真实用户效果阈值尚未提供但相关观测已完成的情形；归档本身不能批准阈值。实际归档要求源码已提交、输出不存在且不在输入树内。制品保持每套results的相对目录，包含20/50/100完整检查点和固定数据，可从50重现到100；最后才写完整manifest。随后用本制品目录再执行M2严格审核。当前工具仅通过CPU复制和拒绝未完成输入的检查，尚未生成真实制品。

@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "scope": "Negative archive-input guard only, not a real artifact build",
+  "expected_exit": 1,
+  "observed_exit": 1,
+  "artifact_directory_created": false
+}
