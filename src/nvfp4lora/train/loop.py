@@ -91,7 +91,7 @@ class LoRATrainer:
         built.model.train()
         self.optimizer.zero_grad(set_to_none=True)
 
-    def backward_group(self, batches):
+    def backward_group(self, batches, *, on_microbatch=None):
         """多 microbatch CE 之和除以总监督数，没有第二次 accumulation 除法。"""
         if len(batches) != self.config["accumulation_steps"]:
             raise ValueError("Unexpected accumulation group length")
@@ -108,6 +108,8 @@ class LoRATrainer:
             self.built.streamer.phase = "BACKWARD"
             (value / denominator).backward()
             self.state["accumulation_position"] = index + 1
+            if on_microbatch is not None:
+                on_microbatch(index, self)
         for name, parameter in self.built.trainable.items():
             if parameter.grad is None or not torch.isfinite(parameter.grad).all():
                 raise FloatingPointError(f"Missing/nonfinite gradient: {name}")

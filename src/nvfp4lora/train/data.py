@@ -1,10 +1,14 @@
 """单进程确定性样本流；tiny 使用合法合成词表 ID，独立于真实模板验收。"""
 
 import random
+import hashlib
+import json
+from pathlib import Path
 
 import torch
 
 from .checkpoint import configuration_hash
+from .template import render_sample
 
 
 class SyntheticTinyDataset:
@@ -28,6 +32,35 @@ class SyntheticTinyDataset:
         labels = ids.clone()
         labels[:, :prompt] = -100
         return {"input_ids": ids, "labels": labels, "sample_id": index}
+
+
+class ChatJSONLDataset:
+    """真实 tokenizer 的预编码单样本数据集；内容/模板/分词器/截断策略共同绑定续训。"""
+
+    def __init__(self, path, tokenizer, *, max_length):
+        raw = Path(path).read_bytes()
+        self.samples, discarded = [], []
+        rows = [json.loads(line) for line in raw.decode("utf-8-sig").splitlines() if line.strip()]
+        for index, row in enumerate(rows):
+            sample = render_sample(tokenizer, row["messages"], max_length=max_length)
+            if sample is None:
+                discarded.append(index)
+                continue
+            self.samples.append({"input_ids": sample["input_ids"], "labels": sample["labels"], "sample_id": index})
+        if not self.samples:
+            raise ValueError("No complete supervised samples after truncation")
+        self.identity = {"layout": "chat-jsonl-v1", "file_sha256": hashlib.sha256(raw).hexdigest(),
+                         "tokenizer_sha256": hashlib.sha256(tokenizer.backend_tokenizer.to_str().encode()).hexdigest(),
+                         "chat_template_sha256": hashlib.sha256(tokenizer.chat_template.encode()).hexdigest(),
+                         "max_length": max_length, "enable_thinking": False, "input_rows": len(rows),
+                         "accepted_rows": [sample["sample_id"] for sample in self.samples], "discarded_answer_too_long": discarded}
+        self.fingerprint = configuration_hash(self.identity)
+
+    def __len__(self):
+        return len(self.samples)
+
+    def __getitem__(self, index):
+        return self.samples[index]
 
 
 class DeterministicSampleStream:
