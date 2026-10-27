@@ -335,3 +335,9 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 `20261027T214601Z-m2-c3-stages-audit` [更新逐项审核](evidence/m2-c3-stages-audit.json)INCOMPLETE：20 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、11 PENDING。C3完整续训、容量阶段和发布重建已关闭；C3效果观测/重载一致已检查，但owner thresholds/provenance未提供仍PENDING。两套20/50/100后验诊断、专家完整功能训练/续训/发布/风险及最终交付也尚未完成。
 
 原父脚本现已串行进入 `20261027T214341Z-real-expert-r2-functional100`：从原step4继续5～100，C3 r16/alpha32＋全部40×256专家r2/alpha4，标准AdamW、累积8、相同600条数据和逻辑100配置。该进程的git head88d2f86且启动工作树clean，数值提交仍24888c9；没有重启已通过C3阶段或额外占用GPU。训练、后验诊断和最终交付尚需继续，goal保持active。
+
+## 专家r2第10步功能观测与实际输入核对
+
+第10步[原始评测](evidence/real-expert-evaluation-step10.json)留出50/50且全部EOS结束（基座0/50）；300条回放的981个监督token平均NLL2.7792592353503638e-5，基座0.00021194423469130964。同样步数的C3为50/50和5.730681090969801e-5。它们是人工关联/算术回放的阶段观测，不证明专家LoRA的领域收益；专家完整100步和50→100对照仍在后续。第10步只评测，独立保存点仍为20/50/100。
+
+`20261027T220041Z-expert-step10-progress-audit` [CPU前缀审核](evidence/real-expert-step10-progress-audit.json)PASS：拼接各自原1～4步与实际5～10步，C3和专家的80个实际sample_id、每步输入/监督token数相同，数据和评测身份也一致。专家1～10步loss/梯度有限；40层各256个路由计数精确求和为8×实际输入token，排除了把检查点重算重复算成真实路由的情形。全部步骤未命中原始梯度0、从未命中参数不变/Adam矩0；第10步仍有2507个从未命中专家层对，同时7510个历史命中但本步未命中的参数行因动量变化，属于预期标准AdamW语义。源metrics字节快照与固定输入SHA保留；该审核不替代完整100步/发布/续训或真实owner效果门槛。
