@@ -349,3 +349,11 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 `20261027T222027Z-expert-step20-checkpoint-audit` [CPU检查点核查](evidence/real-expert-step20-checkpoint-audit.json)PASS：step20及接受的step4参考检查点全部文件SHA一致，逻辑配置hash相同。740个唯一命名FP32参数/176455680元素及Adam矩形状正确且有限，二阶矩非负，逐参数step均20；两组标准AdamW元数据、scheduler.last_epoch20/LR0.0002、累积位置0、四RNG及data.consumed160/epoch0/position160/seed113完整。
 
 该CPU检查没有调用运行时ExpertRouteAudit重算结论：直接从1～20实际路由计数构造每层ever集合，与保存history逐层相同；第4步ever集合是其子集。对当前2200个从未路由专家层组合的6组A/B，共13200个参数行，直接读取SF比对step20与已验证step4原字节相同，保存的两类Adam矩严格零。原1～20步的原始未命中梯度检查记录也全通过。它证明持久状态和相对已接受step4的归纳链，不代替实际GPU恢复、发布重建或完整100步验收；最终M2仍INCOMPLETE。
+
+## 专家中点已保存，原进程继续后半程参考
+
+第50步[原始评测](evidence/real-expert-evaluation-step50.json)留出50/50且全部EOS结束；回放平均NLL1.1498948365688314e-5，低于基座0.00021194423469130964。本配置第20步的回升仍保留，没有覆盖或删去；阶段回落不代表最终100步、发布重载或部署质量已经通过。
+
+`20261027T231833Z-expert-midpoint-checkpoint-audit` [CPU中点核查](evidence/real-expert-midpoint-checkpoint-audit.json)PASS：检查点全部文件SHA一致，740个唯一参数及FP32 Adam矩有限，二阶矩非负，逐参数CPU step50；标准AdamW两组元数据、scheduler.last_epoch50/LR0.0002、累积0、四RNG和data.consumed400/epoch0/position400/seed113完整。保存的40层ever与实际1～50步路由计数逐层相同，step4 ever为其子集；1957个从未路由专家层组合的11742个A/B参数行与已验证step4原字节相同，两类Adam矩严格零。该CPU核查仍不代替实际新进程50→100或GPU发布重建。
+
+原专家full100进程保存50后已经继续51～100，没有中途停止或用恢复进程替代参考。完整50→100比较由父脚本在该参考正常结束后执行；当前M2仍INCOMPLETE，goal保持active。
