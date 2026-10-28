@@ -1,0 +1,31 @@
+{
+  "status": "QUALIFIED_WITH_DOCUMENTED_CHANGE",
+  "scope": "G1 native Windows training, publication, precise resume and local delivery",
+  "artifact_directory": "C:\\workspace\\artifacts\\nvfp4lora\\0.0.1\\20261028T024826Z",
+  "artifact_manifest_sha256": "e6bf104787f588c6c2605e332287124a8755324242d0835b8a073a76ed29dcea",
+  "manifest_files": 101,
+  "manifest_file_bytes": 7838582554,
+  "artifact_source_commit": "80c31b9c091c0245f453c9faa265acdb1b27221a",
+  "numerical_training_commits": {
+    "c3": "24888c9983d51e1ea476f363d867d60765a94ce8",
+    "expert": "24888c9983d51e1ea476f363d867d60765a94ce8"
+  },
+  "m2_final_audit": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T024918Z-m2-final-strict-audit\\results\\m2-audit.json",
+  "m2_final_audit_sha256": "b1bd9dcc9f51594f4841238d866268b795499c4fdfc823b90461e235c3780521",
+  "m2_counts": {
+    "PASS": 31,
+    "PASS_WITH_DOCUMENTED_CHANGE": 1
+  },
+  "owner_decision_file": "docs/evidence/effect-threshold-owner-decision.json",
+  "owner_decision_sha256": "f559749e0700123834d21a319578024f80f0a6c1e96292a6e21ca0dee221c503",
+  "effect_thresholds": {
+    "minimum_canary_accuracy": 0.9,
+    "max_replay_nll_increase": 0.01
+  },
+  "limitations": [
+    "Original unconditional A5.2 1% FP32 reference failure is retained; route-conditioned criterion was pre-recorded before new fixtures",
+    "Owner functional thresholds confirmed after full100 observations, not a preregistered blind test",
+    "FP8 input-range observations are not W8A8 inference equivalence",
+    "G2, A-prime Speed integration and G3 domain benefits remain separate"
+  ]
+}

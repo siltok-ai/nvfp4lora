@@ -1,0 +1,34 @@
+{
+  "status": "VERIFIED_G1_ENVIRONMENT_REGISTERED",
+  "final_m2": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T024918Z-m2-final-strict-audit\\results\\m2-audit.json",
+  "final_m2_sha256": "b1bd9dcc9f51594f4841238d866268b795499c4fdfc823b90461e235c3780521",
+  "artifact_directory": "C:\\workspace\\artifacts\\nvfp4lora\\0.0.1\\20261028T024826Z",
+  "inventory": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T023330Z-final-workspace-boundary\\inventory.json",
+  "inventory_sha256": "4d2e3d6f69d2e40a312838b31a6894af34d4ffaf2b516ac908baca382cb7cb18",
+  "old_three_speed_entries_semantically_unchanged": true,
+  "no_packages_installed_or_venv_moved": true,
+  "registered_entry": {
+    "name": "nvfp4-lora-win-cp312-cu130",
+    "path": "C:\\workspace\\envs\\T-20261027-nvfp4-lora\\train",
+    "python": "C:\\workspace\\envs\\T-20261027-nvfp4-lora\\train\\Scripts\\python.exe",
+    "status": "verified_g1_with_documented_change",
+    "purpose": "Native Windows NVFP4 streaming LoRA training; M1 and real G1 qualified, A5.2 reference adjustment documented; G2/G3 remain separate",
+    "task": "T-20261027-nvfp4-lora",
+    "readme": "T-20261027-nvfp4-lora/README.md",
+    "inventory": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T023330Z-final-workspace-boundary\\inventory.json",
+    "source_checkout": "C:\\workspace\\repos\\siltok-ai\\nvfp4lora",
+    "source_repository": "https://github.com/wenlive/nvfp4lora",
+    "qualified_milestones": {
+      "M1": "C:/workspace/runs/T-20261027-nvfp4-lora/20261027T134521Z-m1-audit-final/results/m1-audit.json",
+      "M2": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T024918Z-m2-final-strict-audit\\results\\m2-audit.json",
+      "M2_sha256": "b1bd9dcc9f51594f4841238d866268b795499c4fdfc823b90461e235c3780521"
+    },
+    "task_evidence": "C:/workspace/tasks/T-20261027-nvfp4-lora/README.md",
+    "artifact_directory": "C:\\workspace\\artifacts\\nvfp4lora\\0.0.1\\20261028T024826Z",
+    "acceptance_source_commit": "80c31b9c091c0245f453c9faa265acdb1b27221a",
+    "validated_numerical_commit": "24888c9983d51e1ea476f363d867d60765a94ce8",
+    "boundary_evidence": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T023330Z-final-workspace-boundary\\results.json"
+  },
+  "registry_before_sha256": "fedb81d55be89a9132a56ed1cd3665b7800c22ab052ba28f5b59cfe335d09cc9",
+  "registry_after_sha256": "1b4e8f08f3efd0f743f6f8432580bd8404bd95a628d6bf74dc83fc76bf33f16e"
+}

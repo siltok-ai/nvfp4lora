@@ -28,7 +28,7 @@ python -B tools/run_recorded.py --output <另一个新run目录> -- tools/train_
 
 当前功能语料由 `tools/prepare_canary_replay.py` 固定生成：单个人工关联的300条训练问题、50条未用过模板的改写问题、300条真实基座生成的算术回放。它是功能金丝雀，不能推广为领域或通用能力评测。评测的NLL按全部监督token加权；短语料可批量左padding，其他长语料应降低 `--eval-batch-size` 控制显存。
 
-`tools/compare_real_resume.py` 比较基线与恢复执行的逐步数值、完整命名检查点、发布探针及训练内ΔW指纹。`tools/verify_training_release.py` 在新进程只用bundle/publish重建模型，核对固定loss、全部参数字节和全部ΔW。C3已完成50→100步的完整十项E2比较和250份ΔW发布重建；专家100步也已完成，正在新进程执行50→100对照。先前两套2→4步的结果保留为短程证据，不能替代专家尚未完成的完整续训和GPU发布验收。
+`tools/compare_real_resume.py` 比较基线与恢复执行的逐步数值、完整命名检查点、发布探针及训练内ΔW指纹。`tools/verify_training_release.py` 在新进程只用bundle/publish重建模型，核对固定loss、全部参数字节和全部ΔW。C3与专家均完成100步、完整50→100十项E2、250或4090份ΔW发布重建；先前2→4步保留为短程证据，正式结论以完整50→100为准。
 
 长序列压力数据用 `tools/prepare_sequence_stress.py` 生成，8条记录保留完整1035-token答案，在2048/4096上只左截断提示。使用同一训练入口、相应长度配置、累积8、至少2个optimizer step并保留首micro快照，分别观察Adam首次分配和已有Adam的稳态。压力语料的适配器独立保存，不混入功能训练。压力运行可用 `--skip-delta-fingerprint`，因此不能充作P8证据。
 
@@ -91,7 +91,7 @@ python -B tools/run_recorded.py --output <新的诊断run> -- tools/inspect_trai
 
 `tools/audit_m2.py --task <任务目录> --bundle <基座> --output <新目录>` 逐项读取原始run证据，并对缺少或仍在运行的项保留PENDING。它检查严格50→100对照、两套2048/4096压力/40层重算/非零B解码生命周期、完整参数集合、训练与发布后评测一致、周期诊断及FP8风险。原A5.2无条件1%失败与调整后的判据分列，还核对新夹具和CPU参考已存在于测量前的Git提交。
 
-最终门槛添加 `--require-complete`；任何PENDING或FAIL都会返回非零。效果门槛需显式传入 `--minimum-canary-accuracy`、`--max-replay-nll-increase` 和真实的 `--threshold-provenance`（用户决定的来源），工具不能代替用户确认。最终 `--artifact-dir` 应包含经hash验证、与已通过的原始run逐文件一致的publish及完整step50/100检查点；仅有名为manifest的空文件不满足交付检查。当前部分审核结果是INCOMPLETE，不能据此宣称M2通过。
+最终门槛添加 `--require-complete`；任何PENDING或FAIL都会返回非零。效果门槛需显式传入 `--minimum-canary-accuracy`、`--max-replay-nll-increase` 和真实的 `--threshold-provenance`（用户决定的来源），工具不能代替用户确认。最终 `--artifact-dir` 应包含经hash验证、与已通过的原始run逐文件一致的publish及完整step50/100检查点；仅有名为manifest的空文件不满足交付检查。本轮最终严格审核已通过，31 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、0待办，见[结果](results.md)。
 
 本轮用户已明确确认`--minimum-canary-accuracy 0.9 --max-replay-nll-increase 0.01`，见[决定记录](evidence/effect-threshold-owner-decision.json)。provenance须引用真实回复“那还是采用你的阈值吧”，并注明批准在两套100步观测披露之后；不沿用已被替代的0.8/0.1，不修改历史原始评测文件的MEASURED状态。其它数据或未来任务不能自动继承本次批准。
 
@@ -103,6 +103,24 @@ python -B tools/run_recorded.py --output <新的归档run> -- tools/archive_trai
   --pre-audit <新M2预审>/m2-audit.json --output <artifacts/nvfp4lora/0.0.1/新的UTC目录>
 ```
 
-`--validate-only` 只校验计划，不复制。它拒绝未完成的技术门槛，允许真实用户效果阈值尚未提供但相关观测已完成的情形；归档本身不能批准阈值。实际归档要求源码已提交、输出不存在且不在输入树内。制品保持每套results的相对目录，包含20/50/100完整检查点和固定数据，可从50重现到100；最后才写完整manifest。随后用本制品目录再执行M2严格审核。当前工具仅通过CPU复制和拒绝未完成输入的检查，尚未生成真实制品。
+`--validate-only` 只校验计划，不复制。它拒绝未完成的技术门槛，允许真实用户效果阈值尚未提供但相关观测已完成的情形；归档本身不能批准阈值。实际归档要求源码已提交、输出不存在且不在输入树内。制品保持每套results的相对目录，包含20/50/100完整检查点和固定数据，可从50重现到100；最后才写完整manifest。本轮实际制品为`C:/workspace/artifacts/nvfp4lora/0.0.1/20261028T024826Z`，受校验101文件共7,838,582,554字节（另有根manifest），复制及后续严格M2均通过。[制品清单](evidence/delivery-manifest.json)和[最终审核](evidence/m2-final-strict-audit.json)可读回核对。
 
 数据与基座身份按内容绑定，执行路径记录在`execution.json`，不会把数据的绝对目录作为逻辑配置身份。已用真实600条数据的新路径副本核对两套step50采样器到100的全部400个样本及token数量，并验证改动原文件内容会被拒绝，见[CPU重定位证据](evidence/delivery-data-portability.json)。最终制品仍须完成实际复制及全文件hash核验，不能仅凭此CPU核查宣称GPU续训或制品已经验收。
+
+以下是从已交付专家step50重新执行到100的可运行命令，在仓库根使用；它会另跑完整50步，需要相应时间。数值代码、依赖及数据身份应与制品一致，输出按当前UTC新建，不覆盖已验收run：
+
+```powershell
+$py = 'C:/workspace/envs/T-20261027-nvfp4-lora/train/Scripts/python.exe'
+$bundle = 'C:/workspace/models/bundles/qwen3.6-nvfp4-lora/1355db6a052410cf-train-v2'
+$delivery = 'C:/workspace/artifacts/nvfp4lora/0.0.1/20261028T024826Z'
+$run = Join-Path 'C:/workspace/runs/T-20261027-nvfp4-lora' ((Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssZ') + '-artifact-expert-resume50')
+$commit = & 'C:/Program Files/Git/cmd/git.exe' rev-parse HEAD
+& $py -B tools/run_recorded.py --output $run -- tools/train_lora.py `
+  --bundle $bundle --data "$delivery/data/canary-replay-v1/train.jsonl" `
+  --config "$delivery/expert-r2/checkpoints/step-000050/train_config.json" `
+  --resume "$delivery/expert-r2/checkpoints/step-000050" --stop-at 100 `
+  --checkpoint-steps 100 --evaluation-steps 100 `
+  --eval-corpus "$delivery/data/canary-replay-v1" --code-commit $commit --output '{run}/results'
+```
+
+C3可将上述两处`expert-r2`替换为`c3`并使用另一新run。模型生成示例中的adapter分别指向本制品`c3/publish`或`expert-r2/publish`。本轮原12阶段及两套另行后验诊断均已正常结束，不需为了读取交付物重新运行整个campaign。

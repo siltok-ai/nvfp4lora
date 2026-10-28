@@ -31,4 +31,4 @@ python -B tools/run_recorded.py --output <另一新运行目录> -- tools/check_
 
 该工具仅做1个optimizer step×累积8、B非零后的两层C3解析梯度、冻结不变量及发布；真实数据只有8条短合成问答。`tools/check_real_adapter_reload.py` 在另一个进程只用bundle+publish建模，固定batch与GPU参数原字节均已通过E2。不能把这个探针的 `max_steps=1` 配置静默延长成多步验收。
 
-后续真实多步入口见 [真实训练CLI](real-training-cli.md)。独立配置预设逻辑上限100步；C3及专家r2的第2→4步新进程续训、训练内ΔW与发布重建全部E2，以及2048/4096长序列两步压力验证均已通过。两套配置现均完成完整100步；C3已通过50→100十项E2和仅用bundle/publish的新进程全部参数/固定probe/250份ΔW重建，专家正在执行完整50→100对照。用户已确认本轮功能门槛为留出≥90%、回放NLL增量≤0.01 nat/token，C3新审核已满足；专家GPU发布重建/独立效果、两套后验诊断和最终交付仍待完成，最新实测记录以 [进度](progress.md) 为准。
+后续真实多步入口见 [真实训练CLI](real-training-cli.md)。两套配置均完成逻辑100步、完整50→100十项E2以及仅用bundle/publish的新进程全部参数/固定probe/250或4090份ΔW重建；2048/4096两步压力及20/50/100后验诊断完成。用户确认的留出≥90%、回放NLL增量≤0.01 nat/token功能门槛两套均满足，实际制品及严格M2已通过（31 PASS、1按已记录调整通过），见[实施结果](results.md)和[逐项进度](progress.md)。

@@ -1,6 +1,6 @@
 # 实施状态
 
-总体目标：依据 v2 在本机实现并验证真实 Qwen3.6-35B-A3B NVFP4 LoRA 训练，交付训练代码、可重载 adapter 和续训证据。M1 已在 `20261027T134521Z-m1-audit-final` 通过全部32个必需关卡，当前进入 P5～P8；最终目标仍未完成。
+总体目标：依据 v2 在本机实现并验证真实 Qwen3.6-35B-A3B NVFP4 LoRA 训练，交付训练代码、可重载 adapter 和续训证据。本机G1现已完成：M1在`20261027T134521Z-m1-audit-final`通过全部32项必需关卡，最终严格M2在`20261028T024918Z-m2-final-strict-audit`为31 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、0待办。原失败、调整和历史状态按发生顺序保留；当前交付入口见[实施结果](results.md)。
 
 ## P0 资格
 
@@ -61,12 +61,12 @@ GPU：RTX 5070 Ti 16GB，主存约 61.6GiB。GDN 原始内核 allocated 峰值�
 
 HF tiny 的 BF16 来源、NVIDIA 同布局 NVFP4 来源和预处理结果已由 `20261027T123808Z-tiny-assets` 持久生成。位置见主任务 `tiny-bundle.txt`。初次 tiny 集成测试有一处标量直接 `view(uint8)` 的测试错误，保留在 `20261027T123509Z-hf-tiny-build-unit`；reshape 后 `20261027T123631Z-hf-tiny-build-regression` 和完整回归通过。
 
-## 待完成
+## 当前交付状态
 
-- 两套真实100步及2048/4096压力、独立40层重算峰值和解码生命周期补测已完成；C3完整50→100及GPU发布也已通过。
-- 专家r2正在新进程执行50→100，之后仍须完整状态/逐步比较、GPU发布重建及独立效果/FP8范围观测。
-- 两套20/50/100检查点后验诊断已经串行排队，当前等待原整轮成功退出；最终预审、制品实际归档、严格M2及环境/Speed边界收尾待完成。
-- 用户已确认本轮功能效果门槛为留出≥90%（45/50）、回放NLL增量≤0.01 nat/token；[决定与批准时序](evidence/effect-threshold-owner-decision.json)。历史阶段的“尚待决定”记录保留为当时状态，最终审核使用新门槛，不能把当前观测或部分审核当作M2整体通过。
+- 两套真实100步、2048/4096压力、独立40层重算峰值及解码生命周期补测完成。
+- 两套完整50→100均十项E2，GPU发布的全部参数/固定probe及250或4090份ΔW重建一致，独立生成/回放与训练端一致。
+- 两套20/50/100后验诊断、FP8范围观测、实际制品归档、最终严格M2及环境/Speed边界收尾均完成；相关训练/诊断进程已退出。
+- 用户确认的留出≥90%、回放NLL增量≤0.01门槛均满足；[决定与批准时序](evidence/effect-threshold-owner-decision.json)。当前G1没有待用户操作项，G2/A′及G3另行。
 
 ## P5 真实整模前向与参考
 
@@ -383,3 +383,27 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 用户在获知两套100步结果后，先接受80%/0.1，随后明确选择实施者推荐的更严格一档：**留出成功率≥90%（45/50）、回放NLL增量≤0.01 nat/token**。后一组替代前一组，批准时序及原话保存在[决定记录](evidence/effect-threshold-owner-decision.json)，不追记为训练前批准。
 
 `20261028T015123Z-m2-owner-threshold-audit` [新M2审核](evidence/m2-owner-threshold-audit.json)携带0.9/0.01和真实对话provenance，INCOMPLETE：23 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、8 PENDING。C3发布后留出/回放与训练端一致，50/50及NLL变化-0.00021182721574524864满足已确认门槛，故该效果项正式关闭；原evaluation.json保留原始MEASURED状态。专家完整新进程续训及GPU发布/独立效果/FP8、两套诊断、最终制品仍待完成，不能将本次部分审核视作M2整体通过。功能阈值不改变G2/G3范围或原A5.2失败/调整说明。
+
+## 完整专家续训、发布与独立观测已完成
+
+专家`20261028T005502Z-real-expert-r2-resume50`正常PASS/exit0，实际完成51～100共50步，冻结hash不变。`20261028T023427Z-real-expert-r2-resume50-comparison` [完整比较](evidence/real-expert-resume50-comparison.json)十项全E2、差异为空，覆盖完整参数/命名Adam/scheduler/四RNG/data/trainer/config/50步记录/publish probe/训练内ΔW；此前早期前缀不再是最终比较的替代。
+
+`20261028T023433Z-real-expert-r2-functional-release` [发布重建](evidence/real-expert-functional-release.json)PASS：仅用bundle/publish新进程建模，全部740参数原字节、固定启用/禁用loss和4090份ΔW一致。启用loss1.3907748552810517e-7、禁用4.523958683013916。
+
+`20261028T023659Z-real-expert-r2-functional-evaluation` [独立效果](evidence/real-expert-functional-evaluation.json)MEASURED、进程PASS；50/50、完整生成结果及回放记录与训练step100一致，回放NLL0.0009931222000904999、增量0.0007811779653991903，满足用户已确认0.9/0.01门槛。启用/禁用提示logits差异L2=1532.694091796875、max_abs38.59375，248023个词表项变化。
+
+`20261028T023903Z-real-expert-r2-functional-fp8` [FP8观测](evidence/real-expert-functional-fp8.json)OBSERVED、进程PASS；130模块两阶段各600条，重新校验原三分片，禁用5个/启用4个越过原尺度，无新增，最大2.5142857142857142。启用越界为第2/5/8/10层GDN out_proj，第5层约1.5443、第8层约1.4844。它只记录训练后端输入范围，不是W8A8截断率或部署质量证明。原父`20261027T180151Z-real-full-acceptance-campaign`的12阶段均PASS/exit0。
+
+## 两套后验诊断与最终边界检查
+
+串行队列`20261028T014038Z-post-campaign-diagnostics`正常PASS/exit0，原12阶段退出后才调用GPU。C3`20261028T024238Z-real-c3-checkpoint-diagnostics`及专家`20261028T024409Z-real-expert-checkpoint-diagnostics`均PASS：保存20/50/100的A/B范数、50条留出NLL及固定8条实际样本的40层路由，冻结hash不变。[C3原始记录](evidence/real-c3-checkpoint-diagnostics.json)、[专家原始记录](evidence/real-expert-checkpoint-diagnostics.json)。结果是明确标注的离线重建，不是原训练时刻采集。
+
+`20261028T023330Z-final-workspace-boundary` [最终边界](evidence/final-workspace-boundary-audit.json)PASS：原文桌面/仓库/Git blob SHA一致，Speed/材料仓版本与clean状态未变，97个Speed锁定版本、39个必要依赖、Speed Qwen源码及原33个数值源码一致，pip check通过。Speed环境只读标准库元数据，未导入Torch/Transformers。范围不扩张为每个venv文件的字节库存。
+
+## 实际制品与严格M2收尾
+
+`20261028T024724Z-m2-pre-delivery-audit` [预审](evidence/m2-pre-delivery-audit.json)为30 PASS、1调整、仅Delivery PENDING。随后`20261028T024826Z-archive-training-delivery`实际归档到`C:/workspace/artifacts/nvfp4lora/0.0.1/20261028T024826Z`：101个受校验文件（另有根manifest）、7,838,582,554字节，两套publish及完整20/50/100检查点、固定数据和复现信息均逐文件校验。[清单](evidence/delivery-manifest.json)、[收据](evidence/delivery-verification-summary.json)。未复制或合并全量基座。
+
+`20261028T024918Z-m2-final-strict-audit` 带实际artifact-dir、用户0.9/0.01及真实对话provenance执行`--require-complete`，正常exit0，[结果](evidence/m2-final-strict-audit.json)为**QUALIFIED_WITH_DOCUMENTED_CHANGE：31 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、0待办**。原无条件A5.2失败继续保留，调整与测量前Git证明未改写。所有GPU训练/诊断进程均已结束。
+
+`20261028T025233Z-environment-final-registration` [环境收尾](evidence/environment-final-registration.json)正常退出：训练环境登记为verified_g1_with_documented_change，绑定最终M2和[最终39依赖库存](evidence/environment-final-inventory.json)，原三个Speed环境条目语义保持不变，未安装新包或迁移venv。当前本机G1交付完成，复现和边界见[实施结果](results.md)；G2/A′及G3另行。

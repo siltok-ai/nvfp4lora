@@ -1,0 +1,2458 @@
+{
+  "status": "OBSERVED",
+  "scope": "Input-range risk observation, not a W8A8 inference-equivalence claim",
+  "dataset": {
+    "layout": "chat-jsonl-v1",
+    "file_sha256": "ea94a7a2420a72ddd3990bd5e12f7880b4ee03f99852c2458de541ed5c19cfc0",
+    "tokenizer_sha256": "ffb7a28b27dabcc333662fd3e0b0005d9e79a1c22e31453ab5a3017fbd5f25c0",
+    "chat_template_sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+    "max_length": 2048,
+    "enable_thinking": false,
+    "input_rows": 600,
+    "accepted_rows": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200,
+      201,
+      202,
+      203,
+      204,
+      205,
+      206,
+      207,
+      208,
+      209,
+      210,
+      211,
+      212,
+      213,
+      214,
+      215,
+      216,
+      217,
+      218,
+      219,
+      220,
+      221,
+      222,
+      223,
+      224,
+      225,
+      226,
+      227,
+      228,
+      229,
+      230,
+      231,
+      232,
+      233,
+      234,
+      235,
+      236,
+      237,
+      238,
+      239,
+      240,
+      241,
+      242,
+      243,
+      244,
+      245,
+      246,
+      247,
+      248,
+      249,
+      250,
+      251,
+      252,
+      253,
+      254,
+      255,
+      256,
+      257,
+      258,
+      259,
+      260,
+      261,
+      262,
+      263,
+      264,
+      265,
+      266,
+      267,
+      268,
+      269,
+      270,
+      271,
+      272,
+      273,
+      274,
+      275,
+      276,
+      277,
+      278,
+      279,
+      280,
+      281,
+      282,
+      283,
+      284,
+      285,
+      286,
+      287,
+      288,
+      289,
+      290,
+      291,
+      292,
+      293,
+      294,
+      295,
+      296,
+      297,
+      298,
+      299,
+      300,
+      301,
+      302,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311,
+      312,
+      313,
+      314,
+      315,
+      316,
+      317,
+      318,
+      319,
+      320,
+      321,
+      322,
+      323,
+      324,
+      325,
+      326,
+      327,
+      328,
+      329,
+      330,
+      331,
+      332,
+      333,
+      334,
+      335,
+      336,
+      337,
+      338,
+      339,
+      340,
+      341,
+      342,
+      343,
+      344,
+      345,
+      346,
+      347,
+      348,
+      349,
+      350,
+      351,
+      352,
+      353,
+      354,
+      355,
+      356,
+      357,
+      358,
+      359,
+      360,
+      361,
+      362,
+      363,
+      364,
+      365,
+      366,
+      367,
+      368,
+      369,
+      370,
+      371,
+      372,
+      373,
+      374,
+      375,
+      376,
+      377,
+      378,
+      379,
+      380,
+      381,
+      382,
+      383,
+      384,
+      385,
+      386,
+      387,
+      388,
+      389,
+      390,
+      391,
+      392,
+      393,
+      394,
+      395,
+      396,
+      397,
+      398,
+      399,
+      400,
+      401,
+      402,
+      403,
+      404,
+      405,
+      406,
+      407,
+      408,
+      409,
+      410,
+      411,
+      412,
+      413,
+      414,
+      415,
+      416,
+      417,
+      418,
+      419,
+      420,
+      421,
+      422,
+      423,
+      424,
+      425,
+      426,
+      427,
+      428,
+      429,
+      430,
+      431,
+      432,
+      433,
+      434,
+      435,
+      436,
+      437,
+      438,
+      439,
+      440,
+      441,
+      442,
+      443,
+      444,
+      445,
+      446,
+      447,
+      448,
+      449,
+      450,
+      451,
+      452,
+      453,
+      454,
+      455,
+      456,
+      457,
+      458,
+      459,
+      460,
+      461,
+      462,
+      463,
+      464,
+      465,
+      466,
+      467,
+      468,
+      469,
+      470,
+      471,
+      472,
+      473,
+      474,
+      475,
+      476,
+      477,
+      478,
+      479,
+      480,
+      481,
+      482,
+      483,
+      484,
+      485,
+      486,
+      487,
+      488,
+      489,
+      490,
+      491,
+      492,
+      493,
+      494,
+      495,
+      496,
+      497,
+      498,
+      499,
+      500,
+      501,
+      502,
+      503,
+      504,
+      505,
+      506,
+      507,
+      508,
+      509,
+      510,
+      511,
+      512,
+      513,
+      514,
+      515,
+      516,
+      517,
+      518,
+      519,
+      520,
+      521,
+      522,
+      523,
+      524,
+      525,
+      526,
+      527,
+      528,
+      529,
+      530,
+      531,
+      532,
+      533,
+      534,
+      535,
+      536,
+      537,
+      538,
+      539,
+      540,
+      541,
+      542,
+      543,
+      544,
+      545,
+      546,
+      547,
+      548,
+      549,
+      550,
+      551,
+      552,
+      553,
+      554,
+      555,
+      556,
+      557,
+      558,
+      559,
+      560,
+      561,
+      562,
+      563,
+      564,
+      565,
+      566,
+      567,
+      568,
+      569,
+      570,
+      571,
+      572,
+      573,
+      574,
+      575,
+      576,
+      577,
+      578,
+      579,
+      580,
+      581,
+      582,
+      583,
+      584,
+      585,
+      586,
+      587,
+      588,
+      589,
+      590,
+      591,
+      592,
+      593,
+      594,
+      595,
+      596,
+      597,
+      598,
+      599
+    ],
+    "discarded_answer_too_long": []
+  },
+  "fp8_modules": 130,
+  "phases": {
+    "base_disabled": {
+      "model.layers.0.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0959821492433548,
+        "ratio": 0.999999933464587
+      },
+      "model.layers.0.linear_attn.in_proj_z": {
+        "max_abs_input": 43.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0959821492433548,
+        "ratio": 0.999999933464587
+      },
+      "model.layers.0.linear_attn.out_proj": {
+        "max_abs_input": 2.078125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.006417410913854837,
+        "ratio": 0.7228260644780222
+      },
+      "model.layers.1.linear_attn.in_proj_qkv": {
+        "max_abs_input": 31.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0719866082072258,
+        "ratio": 0.9612402958649584
+      },
+      "model.layers.1.linear_attn.in_proj_z": {
+        "max_abs_input": 31.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0719866082072258,
+        "ratio": 0.9612402958649584
+      },
+      "model.layers.1.linear_attn.out_proj": {
+        "max_abs_input": 0.9453125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0032261440064758062,
+        "ratio": 0.6540540473107617
+      },
+      "model.layers.10.linear_attn.in_proj_qkv": {
+        "max_abs_input": 34.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0814732164144516,
+        "ratio": 0.9452054547556666
+      },
+      "model.layers.10.linear_attn.in_proj_z": {
+        "max_abs_input": 34.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0814732164144516,
+        "ratio": 0.9452054547556666
+      },
+      "model.layers.10.linear_attn.out_proj": {
+        "max_abs_input": 69.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.137834832072258,
+        "ratio": 1.11740882059562
+      },
+      "model.layers.11.self_attn.k_proj": {
+        "max_abs_input": 38.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0876116082072258,
+        "ratio": 0.9808917078286468
+      },
+      "model.layers.11.self_attn.o_proj": {
+        "max_abs_input": 1.0234375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.007080078590661287,
+        "ratio": 0.3226600773006069
+      },
+      "model.layers.11.self_attn.q_proj": {
+        "max_abs_input": 38.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0876116082072258,
+        "ratio": 0.9808917078286468
+      },
+      "model.layers.11.self_attn.v_proj": {
+        "max_abs_input": 38.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0876116082072258,
+        "ratio": 0.9808917078286468
+      },
+      "model.layers.12.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0987723246216774,
+        "ratio": 0.988700533009097
+      },
+      "model.layers.12.linear_attn.in_proj_z": {
+        "max_abs_input": 43.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0987723246216774,
+        "ratio": 0.988700533009097
+      },
+      "model.layers.12.linear_attn.out_proj": {
+        "max_abs_input": 1.1640625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0032261440064758062,
+        "ratio": 0.8054053971016817
+      },
+      "model.layers.13.linear_attn.in_proj_qkv": {
+        "max_abs_input": 47.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1071428656578064,
+        "ratio": 0.9895832546883222
+      },
+      "model.layers.13.linear_attn.in_proj_z": {
+        "max_abs_input": 47.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1071428656578064,
+        "ratio": 0.9895832546883222
+      },
+      "model.layers.13.linear_attn.out_proj": {
+        "max_abs_input": 1.3515625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.01555524580180645,
+        "ratio": 0.1939461850231122
+      },
+      "model.layers.14.linear_attn.in_proj_qkv": {
+        "max_abs_input": 48.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.109933041036129,
+        "ratio": 0.9898476678176499
+      },
+      "model.layers.14.linear_attn.in_proj_z": {
+        "max_abs_input": 48.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.109933041036129,
+        "ratio": 0.9898476678176499
+      },
+      "model.layers.14.linear_attn.out_proj": {
+        "max_abs_input": 0.98046875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.006173270288854837,
+        "ratio": 0.3545197625504048
+      },
+      "model.layers.15.self_attn.k_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9859154532292009
+      },
+      "model.layers.15.self_attn.o_proj": {
+        "max_abs_input": 1.3203125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.00554548017680645,
+        "ratio": 0.531446515379779
+      },
+      "model.layers.15.self_attn.q_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9859154532292009
+      },
+      "model.layers.15.self_attn.v_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9859154532292009
+      },
+      "model.layers.16.linear_attn.in_proj_qkv": {
+        "max_abs_input": 46.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1043526828289032,
+        "ratio": 0.9839571791069651
+      },
+      "model.layers.16.linear_attn.in_proj_z": {
+        "max_abs_input": 46.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1043526828289032,
+        "ratio": 0.9839571791069651
+      },
+      "model.layers.16.linear_attn.out_proj": {
+        "max_abs_input": 0.72265625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005092076025903225,
+        "ratio": 0.316780813640939
+      },
+      "model.layers.2.linear_attn.in_proj_qkv": {
+        "max_abs_input": 32.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.078683041036129,
+        "ratio": 0.9148935551411003
+      },
+      "model.layers.2.linear_attn.in_proj_z": {
+        "max_abs_input": 32.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.078683041036129,
+        "ratio": 0.9148935551411003
+      },
+      "model.layers.2.linear_attn.out_proj": {
+        "max_abs_input": 4.5625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0042724609375,
+        "ratio": 2.3836734693877553
+      },
+      "model.layers.3.self_attn.k_proj": {
+        "max_abs_input": 41.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9213483047340875
+      },
+      "model.layers.3.self_attn.o_proj": {
+        "max_abs_input": 1.125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.002947126282379031,
+        "ratio": 0.8520709578344268
+      },
+      "model.layers.3.self_attn.q_proj": {
+        "max_abs_input": 41.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9213483047340875
+      },
+      "model.layers.3.self_attn.v_proj": {
+        "max_abs_input": 41.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9213483047340875
+      },
+      "model.layers.4.linear_attn.in_proj_qkv": {
+        "max_abs_input": 20.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0527343787252903,
+        "ratio": 0.8783068162610522
+      },
+      "model.layers.4.linear_attn.in_proj_z": {
+        "max_abs_input": 20.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0527343787252903,
+        "ratio": 0.8783068162610522
+      },
+      "model.layers.4.linear_attn.out_proj": {
+        "max_abs_input": 0.6640625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0029820033814758062,
+        "ratio": 0.4970760178473844
+      },
+      "model.layers.5.linear_attn.in_proj_qkv": {
+        "max_abs_input": 26.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.06640625,
+        "ratio": 0.8949579831932774
+      },
+      "model.layers.5.linear_attn.in_proj_z": {
+        "max_abs_input": 26.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.06640625,
+        "ratio": 0.8949579831932774
+      },
+      "model.layers.5.linear_attn.out_proj": {
+        "max_abs_input": 1.8671875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0027553015388548374,
+        "ratio": 1.5126581182848204
+      },
+      "model.layers.6.linear_attn.in_proj_qkv": {
+        "max_abs_input": 25.125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.065011166036129,
+        "ratio": 0.8626608735881958
+      },
+      "model.layers.6.linear_attn.in_proj_z": {
+        "max_abs_input": 25.125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.065011166036129,
+        "ratio": 0.8626608735881958
+      },
+      "model.layers.6.linear_attn.out_proj": {
+        "max_abs_input": 14.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0398995541036129,
+        "ratio": 0.8181818072688255
+      },
+      "model.layers.7.self_attn.k_proj": {
+        "max_abs_input": 35.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8819875044981141
+      },
+      "model.layers.7.self_attn.o_proj": {
+        "max_abs_input": 1.640625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0043770927004516125,
+        "ratio": 0.8366533737387277
+      },
+      "model.layers.7.self_attn.q_proj": {
+        "max_abs_input": 35.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8819875044981141
+      },
+      "model.layers.7.self_attn.v_proj": {
+        "max_abs_input": 35.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8819875044981141
+      },
+      "model.layers.8.linear_attn.in_proj_qkv": {
+        "max_abs_input": 45.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1043526828289032,
+        "ratio": 0.9786095857422533
+      },
+      "model.layers.8.linear_attn.in_proj_z": {
+        "max_abs_input": 45.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1043526828289032,
+        "ratio": 0.9786095857422533
+      },
+      "model.layers.8.linear_attn.out_proj": {
+        "max_abs_input": 2.46875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.003923689015209675,
+        "ratio": 1.404444301576982
+      },
+      "model.layers.9.linear_attn.in_proj_qkv": {
+        "max_abs_input": 37.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9677418759412534
+      },
+      "model.layers.9.linear_attn.in_proj_z": {
+        "max_abs_input": 37.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9677418759412534
+      },
+      "model.layers.9.linear_attn.out_proj": {
+        "max_abs_input": 0.5859375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0029994421638548374,
+        "ratio": 0.43604648261537227
+      },
+      "model.layers.17.linear_attn.in_proj_qkv": {
+        "max_abs_input": 41.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.094308041036129,
+        "ratio": 0.9881656247107587
+      },
+      "model.layers.17.linear_attn.in_proj_z": {
+        "max_abs_input": 41.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.094308041036129,
+        "ratio": 0.9881656247107587
+      },
+      "model.layers.17.linear_attn.out_proj": {
+        "max_abs_input": 1.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.004778181202709675,
+        "ratio": 0.8175181798850139
+      },
+      "model.layers.18.linear_attn.in_proj_qkv": {
+        "max_abs_input": 44.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9887640343487768
+      },
+      "model.layers.18.linear_attn.in_proj_z": {
+        "max_abs_input": 44.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9887640343487768
+      },
+      "model.layers.18.linear_attn.out_proj": {
+        "max_abs_input": 1.1640625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.004778181202709675,
+        "ratio": 0.5437955750127994
+      },
+      "model.layers.19.self_attn.k_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8695651452798309
+      },
+      "model.layers.19.self_attn.o_proj": {
+        "max_abs_input": 1.3125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005615234840661287,
+        "ratio": 0.5217390871678985
+      },
+      "model.layers.19.self_attn.q_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8695651452798309
+      },
+      "model.layers.19.self_attn.v_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8695651452798309
+      },
+      "model.layers.20.linear_attn.in_proj_qkv": {
+        "max_abs_input": 57.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.130022332072258,
+        "ratio": 0.9871243827128608
+      },
+      "model.layers.20.linear_attn.in_proj_z": {
+        "max_abs_input": 57.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.130022332072258,
+        "ratio": 0.9871243827128608
+      },
+      "model.layers.20.linear_attn.out_proj": {
+        "max_abs_input": 0.80078125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.003435407532379031,
+        "ratio": 0.5203045433400467
+      },
+      "model.layers.21.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0976562574505806,
+        "ratio": 0.9885713531494198
+      },
+      "model.layers.21.linear_attn.in_proj_z": {
+        "max_abs_input": 43.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0976562574505806,
+        "ratio": 0.9885713531494198
+      },
+      "model.layers.21.linear_attn.out_proj": {
+        "max_abs_input": 0.58984375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.00676618330180645,
+        "ratio": 0.19458762121347561
+      },
+      "model.layers.22.linear_attn.in_proj_qkv": {
+        "max_abs_input": 38.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0870535746216774,
+        "ratio": 0.9935897071450903
+      },
+      "model.layers.22.linear_attn.in_proj_z": {
+        "max_abs_input": 38.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0870535746216774,
+        "ratio": 0.9935897071450903
+      },
+      "model.layers.22.linear_attn.out_proj": {
+        "max_abs_input": 0.984375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005440848413854837,
+        "ratio": 0.40384613903316574
+      },
+      "model.layers.23.self_attn.k_proj": {
+        "max_abs_input": 37.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1121651828289032,
+        "ratio": 0.7363183800116248
+      },
+      "model.layers.23.self_attn.o_proj": {
+        "max_abs_input": 1.5625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005894252564758062,
+        "ratio": 0.5917159429405742
+      },
+      "model.layers.23.self_attn.q_proj": {
+        "max_abs_input": 37.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1121651828289032,
+        "ratio": 0.7363183800116248
+      },
+      "model.layers.23.self_attn.v_proj": {
+        "max_abs_input": 37.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1121651828289032,
+        "ratio": 0.7363183800116248
+      },
+      "model.layers.24.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0987723246216774,
+        "ratio": 0.9830508156776164
+      },
+      "model.layers.24.linear_attn.in_proj_z": {
+        "max_abs_input": 43.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0987723246216774,
+        "ratio": 0.9830508156776164
+      },
+      "model.layers.24.linear_attn.out_proj": {
+        "max_abs_input": 0.921875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0042724609375,
+        "ratio": 0.4816326530612245
+      },
+      "model.layers.25.linear_attn.in_proj_qkv": {
+        "max_abs_input": 45.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1037946492433548,
+        "ratio": 0.9838709072069409
+      },
+      "model.layers.25.linear_attn.in_proj_z": {
+        "max_abs_input": 45.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1037946492433548,
+        "ratio": 0.9838709072069409
+      },
+      "model.layers.25.linear_attn.out_proj": {
+        "max_abs_input": 4.4375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.01771763525903225,
+        "ratio": 0.559055076129412
+      },
+      "model.layers.26.linear_attn.in_proj_qkv": {
+        "max_abs_input": 47.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1065848246216774,
+        "ratio": 0.984293164229473
+      },
+      "model.layers.26.linear_attn.in_proj_z": {
+        "max_abs_input": 47.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1065848246216774,
+        "ratio": 0.984293164229473
+      },
+      "model.layers.26.linear_attn.out_proj": {
+        "max_abs_input": 1.78125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005336216650903225,
+        "ratio": 0.7450980206384092
+      },
+      "model.layers.27.self_attn.k_proj": {
+        "max_abs_input": 33.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1054687574505806,
+        "ratio": 0.6984126490750535
+      },
+      "model.layers.27.self_attn.o_proj": {
+        "max_abs_input": 2.328125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.01018415205180645,
+        "ratio": 0.5102739592702693
+      },
+      "model.layers.27.self_attn.q_proj": {
+        "max_abs_input": 33.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1054687574505806,
+        "ratio": 0.6984126490750535
+      },
+      "model.layers.27.self_attn.v_proj": {
+        "max_abs_input": 33.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1054687574505806,
+        "ratio": 0.6984126490750535
+      },
+      "model.layers.28.linear_attn.in_proj_qkv": {
+        "max_abs_input": 48.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1088169664144516,
+        "ratio": 0.9846153653537972
+      },
+      "model.layers.28.linear_attn.in_proj_z": {
+        "max_abs_input": 48.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1088169664144516,
+        "ratio": 0.9846153653537972
+      },
+      "model.layers.28.linear_attn.out_proj": {
+        "max_abs_input": 1.0625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.004673549439758062,
+        "ratio": 0.5074626504511869
+      },
+      "model.layers.29.linear_attn.in_proj_qkv": {
+        "max_abs_input": 42.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0970982164144516,
+        "ratio": 0.9827585991441004
+      },
+      "model.layers.29.linear_attn.in_proj_z": {
+        "max_abs_input": 42.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0970982164144516,
+        "ratio": 0.9827585991441004
+      },
+      "model.layers.29.linear_attn.out_proj": {
+        "max_abs_input": 1.984375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005126953125,
+        "ratio": 0.8639455782312925
+      },
+      "model.layers.30.linear_attn.in_proj_qkv": {
+        "max_abs_input": 42.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0959821492433548,
+        "ratio": 0.9825580741599721
+      },
+      "model.layers.30.linear_attn.in_proj_z": {
+        "max_abs_input": 42.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0959821492433548,
+        "ratio": 0.9825580741599721
+      },
+      "model.layers.30.linear_attn.out_proj": {
+        "max_abs_input": 1.1875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.00927734375,
+        "ratio": 0.2857142857142857
+      },
+      "model.layers.31.self_attn.k_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9419354259161533
+      },
+      "model.layers.31.self_attn.o_proj": {
+        "max_abs_input": 16.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0379464291036129,
+        "ratio": 0.9852941038286812
+      },
+      "model.layers.31.self_attn.q_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9419354259161533
+      },
+      "model.layers.31.self_attn.v_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9419354259161533
+      },
+      "model.layers.32.linear_attn.in_proj_qkv": {
+        "max_abs_input": 29.875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.078683041036129,
+        "ratio": 0.8475176731733448
+      },
+      "model.layers.32.linear_attn.in_proj_z": {
+        "max_abs_input": 29.875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.078683041036129,
+        "ratio": 0.8475176731733448
+      },
+      "model.layers.32.linear_attn.out_proj": {
+        "max_abs_input": 1.9453125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.01625279150903225,
+        "ratio": 0.26716736010380693
+      },
+      "model.layers.33.linear_attn.in_proj_qkv": {
+        "max_abs_input": 27.125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0753348246216774,
+        "ratio": 0.8037036696383015
+      },
+      "model.layers.33.linear_attn.in_proj_z": {
+        "max_abs_input": 27.125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0753348246216774,
+        "ratio": 0.8037036696383015
+      },
+      "model.layers.33.linear_attn.out_proj": {
+        "max_abs_input": 2.734375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0280412957072258,
+        "ratio": 0.2176616832804634
+      },
+      "model.layers.34.linear_attn.in_proj_qkv": {
+        "max_abs_input": 31.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0758928582072258,
+        "ratio": 0.9301470457785684
+      },
+      "model.layers.34.linear_attn.in_proj_z": {
+        "max_abs_input": 31.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0758928582072258,
+        "ratio": 0.9301470457785684
+      },
+      "model.layers.34.linear_attn.out_proj": {
+        "max_abs_input": 2.484375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0106026791036129,
+        "ratio": 0.5230262895370137
+      },
+      "model.layers.35.self_attn.k_proj": {
+        "max_abs_input": 34.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9577464402797952
+      },
+      "model.layers.35.self_attn.o_proj": {
+        "max_abs_input": 7.90625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.017578125,
+        "ratio": 1.003968253968254
+      },
+      "model.layers.35.self_attn.q_proj": {
+        "max_abs_input": 34.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9577464402797952
+      },
+      "model.layers.35.self_attn.v_proj": {
+        "max_abs_input": 34.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9577464402797952
+      },
+      "model.layers.36.linear_attn.in_proj_qkv": {
+        "max_abs_input": 34.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.08203125,
+        "ratio": 0.9455782312925171
+      },
+      "model.layers.36.linear_attn.in_proj_z": {
+        "max_abs_input": 34.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.08203125,
+        "ratio": 0.9455782312925171
+      },
+      "model.layers.36.linear_attn.out_proj": {
+        "max_abs_input": 3.03125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1026785746216774,
+        "ratio": 0.06589673708117308
+      },
+      "model.layers.37.linear_attn.in_proj_qkv": {
+        "max_abs_input": 35.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0809151828289032,
+        "ratio": 0.9793102932996924
+      },
+      "model.layers.37.linear_attn.out_proj": {
+        "max_abs_input": 7.21875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0633370578289032,
+        "ratio": 0.25440526924265927
+      },
+      "model.layers.37.linear_attn.in_proj_z": {
+        "max_abs_input": 35.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0809151828289032,
+        "ratio": 0.9793102932996924
+      },
+      "model.layers.38.linear_attn.in_proj_qkv": {
+        "max_abs_input": 34.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0814732164144516,
+        "ratio": 0.9383561398661329
+      },
+      "model.layers.38.linear_attn.in_proj_z": {
+        "max_abs_input": 34.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0814732164144516,
+        "ratio": 0.9383561398661329
+      },
+      "model.layers.38.linear_attn.out_proj": {
+        "max_abs_input": 8.3125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.20652172200395982
+      },
+      "model.layers.39.self_attn.k_proj": {
+        "max_abs_input": 36.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.082589291036129,
+        "ratio": 0.9797296665984446
+      },
+      "model.layers.39.self_attn.o_proj": {
+        "max_abs_input": 12.875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0348772332072258,
+        "ratio": 0.8239999748535164
+      },
+      "model.layers.39.self_attn.q_proj": {
+        "max_abs_input": 36.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.082589291036129,
+        "ratio": 0.9797296665984446
+      },
+      "model.layers.39.self_attn.v_proj": {
+        "max_abs_input": 36.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.082589291036129,
+        "ratio": 0.9797296665984446
+      }
+    },
+    "adapter_enabled": {
+      "model.layers.0.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0959821492433548,
+        "ratio": 0.999999933464587
+      },
+      "model.layers.0.linear_attn.in_proj_z": {
+        "max_abs_input": 43.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0959821492433548,
+        "ratio": 0.999999933464587
+      },
+      "model.layers.0.linear_attn.out_proj": {
+        "max_abs_input": 2.078125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.006417410913854837,
+        "ratio": 0.7228260644780222
+      },
+      "model.layers.1.linear_attn.in_proj_qkv": {
+        "max_abs_input": 30.875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0719866082072258,
+        "ratio": 0.957364326930019
+      },
+      "model.layers.1.linear_attn.in_proj_z": {
+        "max_abs_input": 30.875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0719866082072258,
+        "ratio": 0.957364326930019
+      },
+      "model.layers.1.linear_attn.out_proj": {
+        "max_abs_input": 0.921875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0032261440064758062,
+        "ratio": 0.6378378312617345
+      },
+      "model.layers.10.linear_attn.in_proj_qkv": {
+        "max_abs_input": 34.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0814732164144516,
+        "ratio": 0.9520547696452005
+      },
+      "model.layers.10.linear_attn.in_proj_z": {
+        "max_abs_input": 34.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0814732164144516,
+        "ratio": 0.9520547696452005
+      },
+      "model.layers.10.linear_attn.out_proj": {
+        "max_abs_input": 68.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.137834832072258,
+        "ratio": 1.109311655228985
+      },
+      "model.layers.11.self_attn.k_proj": {
+        "max_abs_input": 38.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0876116082072258,
+        "ratio": 0.9808917078286468
+      },
+      "model.layers.11.self_attn.o_proj": {
+        "max_abs_input": 1.015625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.007080078590661287,
+        "ratio": 0.32019702327541144
+      },
+      "model.layers.11.self_attn.q_proj": {
+        "max_abs_input": 38.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0876116082072258,
+        "ratio": 0.9808917078286468
+      },
+      "model.layers.11.self_attn.v_proj": {
+        "max_abs_input": 38.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0876116082072258,
+        "ratio": 0.9808917078286468
+      },
+      "model.layers.12.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0987723246216774,
+        "ratio": 0.9830508156776164
+      },
+      "model.layers.12.linear_attn.in_proj_z": {
+        "max_abs_input": 43.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0987723246216774,
+        "ratio": 0.9830508156776164
+      },
+      "model.layers.12.linear_attn.out_proj": {
+        "max_abs_input": 1.1484375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0032261440064758062,
+        "ratio": 0.7945945864023303
+      },
+      "model.layers.13.linear_attn.in_proj_qkv": {
+        "max_abs_input": 47.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1071428656578064,
+        "ratio": 0.98437492176891
+      },
+      "model.layers.13.linear_attn.in_proj_z": {
+        "max_abs_input": 47.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1071428656578064,
+        "ratio": 0.98437492176891
+      },
+      "model.layers.13.linear_attn.out_proj": {
+        "max_abs_input": 1.03125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.01555524580180645,
+        "ratio": 0.1479820602488486
+      },
+      "model.layers.14.linear_attn.in_proj_qkv": {
+        "max_abs_input": 48.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.109933041036129,
+        "ratio": 0.9847715259314055
+      },
+      "model.layers.14.linear_attn.in_proj_z": {
+        "max_abs_input": 48.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.109933041036129,
+        "ratio": 0.9847715259314055
+      },
+      "model.layers.14.linear_attn.out_proj": {
+        "max_abs_input": 0.88671875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.006173270288854837,
+        "ratio": 0.32062145856152147
+      },
+      "model.layers.15.self_attn.k_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9859154532292009
+      },
+      "model.layers.15.self_attn.o_proj": {
+        "max_abs_input": 1.21875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.00554548017680645,
+        "ratio": 0.4905660141967191
+      },
+      "model.layers.15.self_attn.q_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9859154532292009
+      },
+      "model.layers.15.self_attn.v_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9859154532292009
+      },
+      "model.layers.16.linear_attn.in_proj_qkv": {
+        "max_abs_input": 46.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1043526828289032,
+        "ratio": 0.9839571791069651
+      },
+      "model.layers.16.linear_attn.in_proj_z": {
+        "max_abs_input": 46.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1043526828289032,
+        "ratio": 0.9839571791069651
+      },
+      "model.layers.16.linear_attn.out_proj": {
+        "max_abs_input": 0.7265625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005092076025903225,
+        "ratio": 0.3184931423633225
+      },
+      "model.layers.2.linear_attn.in_proj_qkv": {
+        "max_abs_input": 32.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.078683041036129,
+        "ratio": 0.9078013570392313
+      },
+      "model.layers.2.linear_attn.in_proj_z": {
+        "max_abs_input": 32.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.078683041036129,
+        "ratio": 0.9078013570392313
+      },
+      "model.layers.2.linear_attn.out_proj": {
+        "max_abs_input": 4.8125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0042724609375,
+        "ratio": 2.5142857142857142
+      },
+      "model.layers.3.self_attn.k_proj": {
+        "max_abs_input": 41.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9213483047340875
+      },
+      "model.layers.3.self_attn.o_proj": {
+        "max_abs_input": 1.09375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.002947126282379031,
+        "ratio": 0.8284023201168038
+      },
+      "model.layers.3.self_attn.q_proj": {
+        "max_abs_input": 41.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9213483047340875
+      },
+      "model.layers.3.self_attn.v_proj": {
+        "max_abs_input": 41.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9213483047340875
+      },
+      "model.layers.4.linear_attn.in_proj_qkv": {
+        "max_abs_input": 21.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0527343787252903,
+        "ratio": 0.8888888260955227
+      },
+      "model.layers.4.linear_attn.in_proj_z": {
+        "max_abs_input": 21.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0527343787252903,
+        "ratio": 0.8888888260955227
+      },
+      "model.layers.4.linear_attn.out_proj": {
+        "max_abs_input": 0.64453125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0029820033814758062,
+        "ratio": 0.48245613496952017
+      },
+      "model.layers.5.linear_attn.in_proj_qkv": {
+        "max_abs_input": 26.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.06640625,
+        "ratio": 0.8823529411764706
+      },
+      "model.layers.5.linear_attn.in_proj_z": {
+        "max_abs_input": 26.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.06640625,
+        "ratio": 0.8823529411764706
+      },
+      "model.layers.5.linear_attn.out_proj": {
+        "max_abs_input": 1.90625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0027553015388548374,
+        "ratio": 1.5443036856129548
+      },
+      "model.layers.6.linear_attn.in_proj_qkv": {
+        "max_abs_input": 25.125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.065011166036129,
+        "ratio": 0.8626608735881958
+      },
+      "model.layers.6.linear_attn.in_proj_z": {
+        "max_abs_input": 25.125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.065011166036129,
+        "ratio": 0.8626608735881958
+      },
+      "model.layers.6.linear_attn.out_proj": {
+        "max_abs_input": 15.0625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0398995541036129,
+        "ratio": 0.8426573314178929
+      },
+      "model.layers.7.self_attn.k_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.9068322229346807
+      },
+      "model.layers.7.self_attn.o_proj": {
+        "max_abs_input": 1.640625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0043770927004516125,
+        "ratio": 0.8366533737387277
+      },
+      "model.layers.7.self_attn.q_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.9068322229346807
+      },
+      "model.layers.7.self_attn.v_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.9068322229346807
+      },
+      "model.layers.8.linear_attn.in_proj_qkv": {
+        "max_abs_input": 46.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1043526828289032,
+        "ratio": 0.9839571791069651
+      },
+      "model.layers.8.linear_attn.in_proj_z": {
+        "max_abs_input": 46.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1043526828289032,
+        "ratio": 0.9839571791069651
+      },
+      "model.layers.8.linear_attn.out_proj": {
+        "max_abs_input": 2.609375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.003923689015209675,
+        "ratio": 1.4844442934389621
+      },
+      "model.layers.9.linear_attn.in_proj_qkv": {
+        "max_abs_input": 37.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9741934884475284
+      },
+      "model.layers.9.linear_attn.in_proj_z": {
+        "max_abs_input": 37.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9741934884475284
+      },
+      "model.layers.9.linear_attn.out_proj": {
+        "max_abs_input": 0.609375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0029994421638548374,
+        "ratio": 0.4534883419199871
+      },
+      "model.layers.17.linear_attn.in_proj_qkv": {
+        "max_abs_input": 41.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.094308041036129,
+        "ratio": 0.9881656247107587
+      },
+      "model.layers.17.linear_attn.in_proj_z": {
+        "max_abs_input": 41.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.094308041036129,
+        "ratio": 0.9881656247107587
+      },
+      "model.layers.17.linear_attn.out_proj": {
+        "max_abs_input": 1.703125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.004778181202709675,
+        "ratio": 0.7956203714952368
+      },
+      "model.layers.18.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9831460568808861
+      },
+      "model.layers.18.linear_attn.in_proj_z": {
+        "max_abs_input": 43.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0993303582072258,
+        "ratio": 0.9831460568808861
+      },
+      "model.layers.18.linear_attn.out_proj": {
+        "max_abs_input": 0.85546875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.004778181202709675,
+        "ratio": 0.39963500311343314
+      },
+      "model.layers.19.self_attn.k_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8695651452798309
+      },
+      "model.layers.19.self_attn.o_proj": {
+        "max_abs_input": 1.375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005615234840661287,
+        "ratio": 0.5465838056044651
+      },
+      "model.layers.19.self_attn.q_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8695651452798309
+      },
+      "model.layers.19.self_attn.v_proj": {
+        "max_abs_input": 35.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.8695651452798309
+      },
+      "model.layers.20.linear_attn.in_proj_qkv": {
+        "max_abs_input": 57.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.130022332072258,
+        "ratio": 0.9871243827128608
+      },
+      "model.layers.20.linear_attn.in_proj_z": {
+        "max_abs_input": 57.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.130022332072258,
+        "ratio": 0.9871243827128608
+      },
+      "model.layers.20.linear_attn.out_proj": {
+        "max_abs_input": 0.62109375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.003435407532379031,
+        "ratio": 0.4035532799564265
+      },
+      "model.layers.21.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0976562574505806,
+        "ratio": 0.9885713531494198
+      },
+      "model.layers.21.linear_attn.in_proj_z": {
+        "max_abs_input": 43.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0976562574505806,
+        "ratio": 0.9885713531494198
+      },
+      "model.layers.21.linear_attn.out_proj": {
+        "max_abs_input": 0.4609375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.00676618330180645,
+        "ratio": 0.1520618496900008
+      },
+      "model.layers.22.linear_attn.in_proj_qkv": {
+        "max_abs_input": 38.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0870535746216774,
+        "ratio": 0.9871794509699607
+      },
+      "model.layers.22.linear_attn.in_proj_z": {
+        "max_abs_input": 38.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0870535746216774,
+        "ratio": 0.9871794509699607
+      },
+      "model.layers.22.linear_attn.out_proj": {
+        "max_abs_input": 0.76171875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005440848413854837,
+        "ratio": 0.3124999885375687
+      },
+      "model.layers.23.self_attn.k_proj": {
+        "max_abs_input": 37.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1121651828289032,
+        "ratio": 0.7363183800116248
+      },
+      "model.layers.23.self_attn.o_proj": {
+        "max_abs_input": 1.546875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005894252564758062,
+        "ratio": 0.5857987835111684
+      },
+      "model.layers.23.self_attn.q_proj": {
+        "max_abs_input": 37.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1121651828289032,
+        "ratio": 0.7363183800116248
+      },
+      "model.layers.23.self_attn.v_proj": {
+        "max_abs_input": 37.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1121651828289032,
+        "ratio": 0.7363183800116248
+      },
+      "model.layers.24.linear_attn.in_proj_qkv": {
+        "max_abs_input": 43.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0987723246216774,
+        "ratio": 0.9830508156776164
+      },
+      "model.layers.24.linear_attn.in_proj_z": {
+        "max_abs_input": 43.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0987723246216774,
+        "ratio": 0.9830508156776164
+      },
+      "model.layers.24.linear_attn.out_proj": {
+        "max_abs_input": 0.94140625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0042724609375,
+        "ratio": 0.49183673469387756
+      },
+      "model.layers.25.linear_attn.in_proj_qkv": {
+        "max_abs_input": 45.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1037946492433548,
+        "ratio": 0.9838709072069409
+      },
+      "model.layers.25.linear_attn.in_proj_z": {
+        "max_abs_input": 45.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1037946492433548,
+        "ratio": 0.9838709072069409
+      },
+      "model.layers.25.linear_attn.out_proj": {
+        "max_abs_input": 3.4375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.01771763525903225,
+        "ratio": 0.4330708336213755
+      },
+      "model.layers.26.linear_attn.in_proj_qkv": {
+        "max_abs_input": 47.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1065848246216774,
+        "ratio": 0.984293164229473
+      },
+      "model.layers.26.linear_attn.in_proj_z": {
+        "max_abs_input": 47.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1065848246216774,
+        "ratio": 0.984293164229473
+      },
+      "model.layers.26.linear_attn.out_proj": {
+        "max_abs_input": 1.4921875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005336216650903225,
+        "ratio": 0.6241829909734042
+      },
+      "model.layers.27.self_attn.k_proj": {
+        "max_abs_input": 33.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1054687574505806,
+        "ratio": 0.6984126490750535
+      },
+      "model.layers.27.self_attn.o_proj": {
+        "max_abs_input": 2.09375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.01018415205180645,
+        "ratio": 0.4589040975987657
+      },
+      "model.layers.27.self_attn.q_proj": {
+        "max_abs_input": 33.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1054687574505806,
+        "ratio": 0.6984126490750535
+      },
+      "model.layers.27.self_attn.v_proj": {
+        "max_abs_input": 33.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1054687574505806,
+        "ratio": 0.6984126490750535
+      },
+      "model.layers.28.linear_attn.in_proj_qkv": {
+        "max_abs_input": 47.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1088169664144516,
+        "ratio": 0.9794871603259129
+      },
+      "model.layers.28.linear_attn.in_proj_z": {
+        "max_abs_input": 47.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1088169664144516,
+        "ratio": 0.9794871603259129
+      },
+      "model.layers.28.linear_attn.out_proj": {
+        "max_abs_input": 1.1328125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.004673549439758062,
+        "ratio": 0.5410447376133978
+      },
+      "model.layers.29.linear_attn.in_proj_qkv": {
+        "max_abs_input": 42.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0970982164144516,
+        "ratio": 0.9827585991441004
+      },
+      "model.layers.29.linear_attn.in_proj_z": {
+        "max_abs_input": 42.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0970982164144516,
+        "ratio": 0.9827585991441004
+      },
+      "model.layers.29.linear_attn.out_proj": {
+        "max_abs_input": 1.9375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.005126953125,
+        "ratio": 0.8435374149659864
+      },
+      "model.layers.30.linear_attn.in_proj_qkv": {
+        "max_abs_input": 42.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0959821492433548,
+        "ratio": 0.9825580741599721
+      },
+      "model.layers.30.linear_attn.in_proj_z": {
+        "max_abs_input": 42.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0959821492433548,
+        "ratio": 0.9825580741599721
+      },
+      "model.layers.30.linear_attn.out_proj": {
+        "max_abs_input": 1.15625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.00927734375,
+        "ratio": 0.2781954887218045
+      },
+      "model.layers.31.self_attn.k_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9419354259161533
+      },
+      "model.layers.31.self_attn.o_proj": {
+        "max_abs_input": 16.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0379464291036129,
+        "ratio": 0.9852941038286812
+      },
+      "model.layers.31.self_attn.q_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9419354259161533
+      },
+      "model.layers.31.self_attn.v_proj": {
+        "max_abs_input": 36.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.086495541036129,
+        "ratio": 0.9419354259161533
+      },
+      "model.layers.32.linear_attn.in_proj_qkv": {
+        "max_abs_input": 30.375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.078683041036129,
+        "ratio": 0.8617020693770828
+      },
+      "model.layers.32.linear_attn.in_proj_z": {
+        "max_abs_input": 30.375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.078683041036129,
+        "ratio": 0.8617020693770828
+      },
+      "model.layers.32.linear_attn.out_proj": {
+        "max_abs_input": 2.21875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.01625279150903225,
+        "ratio": 0.3047210050983179
+      },
+      "model.layers.33.linear_attn.in_proj_qkv": {
+        "max_abs_input": 27.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0753348246216774,
+        "ratio": 0.8185184838251827
+      },
+      "model.layers.33.linear_attn.in_proj_z": {
+        "max_abs_input": 27.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0753348246216774,
+        "ratio": 0.8185184838251827
+      },
+      "model.layers.33.linear_attn.out_proj": {
+        "max_abs_input": 2.703125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0280412957072258,
+        "ratio": 0.21517412118582954
+      },
+      "model.layers.34.linear_attn.in_proj_qkv": {
+        "max_abs_input": 31.875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0758928582072258,
+        "ratio": 0.9374999868519168
+      },
+      "model.layers.34.linear_attn.in_proj_z": {
+        "max_abs_input": 31.875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0758928582072258,
+        "ratio": 0.9374999868519168
+      },
+      "model.layers.34.linear_attn.out_proj": {
+        "max_abs_input": 2.84375,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0106026791036129,
+        "ratio": 0.5986841804763302
+      },
+      "model.layers.35.self_attn.k_proj": {
+        "max_abs_input": 33.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9436619338050922
+      },
+      "model.layers.35.self_attn.o_proj": {
+        "max_abs_input": 7.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.017578125,
+        "ratio": 0.9841269841269841
+      },
+      "model.layers.35.self_attn.q_proj": {
+        "max_abs_input": 33.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9436619338050922
+      },
+      "model.layers.35.self_attn.v_proj": {
+        "max_abs_input": 33.5,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0792410746216774,
+        "ratio": 0.9436619338050922
+      },
+      "model.layers.36.linear_attn.in_proj_qkv": {
+        "max_abs_input": 32.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.08203125,
+        "ratio": 0.8707482993197279
+      },
+      "model.layers.36.linear_attn.in_proj_z": {
+        "max_abs_input": 32.0,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.08203125,
+        "ratio": 0.8707482993197279
+      },
+      "model.layers.36.linear_attn.out_proj": {
+        "max_abs_input": 3.03125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.1026785746216774,
+        "ratio": 0.06589673708117308
+      },
+      "model.layers.37.linear_attn.in_proj_qkv": {
+        "max_abs_input": 32.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0809151828289032,
+        "ratio": 0.8896551256032417
+      },
+      "model.layers.37.linear_attn.out_proj": {
+        "max_abs_input": 4.71875,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0633370578289032,
+        "ratio": 0.1662995482928206
+      },
+      "model.layers.37.linear_attn.in_proj_z": {
+        "max_abs_input": 32.25,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0809151828289032,
+        "ratio": 0.8896551256032417
+      },
+      "model.layers.38.linear_attn.in_proj_qkv": {
+        "max_abs_input": 31.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0814732164144516,
+        "ratio": 0.8664383335260278
+      },
+      "model.layers.38.linear_attn.in_proj_z": {
+        "max_abs_input": 31.625,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0814732164144516,
+        "ratio": 0.8664383335260278
+      },
+      "model.layers.38.linear_attn.out_proj": {
+        "max_abs_input": 10.8125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0898437574505806,
+        "ratio": 0.26863351809537633
+      },
+      "model.layers.39.self_attn.k_proj": {
+        "max_abs_input": 36.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.082589291036129,
+        "ratio": 0.9932431792411818
+      },
+      "model.layers.39.self_attn.o_proj": {
+        "max_abs_input": 12.8125,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.0348772332072258,
+        "ratio": 0.8199999749755867
+      },
+      "model.layers.39.self_attn.q_proj": {
+        "max_abs_input": 36.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.082589291036129,
+        "ratio": 0.9932431792411818
+      },
+      "model.layers.39.self_attn.v_proj": {
+        "max_abs_input": 36.75,
+        "calls": 19,
+        "valid_token_vectors": 21454,
+        "original_input_scale": 0.082589291036129,
+        "ratio": 0.9932431792411818
+      }
+    }
+  },
+  "above_original_range": {
+    "base_disabled": [
+      "model.layers.10.linear_attn.out_proj",
+      "model.layers.2.linear_attn.out_proj",
+      "model.layers.5.linear_attn.out_proj",
+      "model.layers.8.linear_attn.out_proj",
+      "model.layers.35.self_attn.o_proj"
+    ],
+    "adapter_enabled": [
+      "model.layers.10.linear_attn.out_proj",
+      "model.layers.2.linear_attn.out_proj",
+      "model.layers.5.linear_attn.out_proj",
+      "model.layers.8.linear_attn.out_proj"
+    ]
+  }
+}
