@@ -93,6 +93,8 @@ python -B tools/run_recorded.py --output <新的诊断run> -- tools/inspect_trai
 
 最终门槛添加 `--require-complete`；任何PENDING或FAIL都会返回非零。效果门槛需显式传入 `--minimum-canary-accuracy`、`--max-replay-nll-increase` 和真实的 `--threshold-provenance`（用户决定的来源），工具不能代替用户确认。最终 `--artifact-dir` 应包含经hash验证、与已通过的原始run逐文件一致的publish及完整step50/100检查点；仅有名为manifest的空文件不满足交付检查。当前部分审核结果是INCOMPLETE，不能据此宣称M2通过。
 
+本轮用户已明确确认`--minimum-canary-accuracy 0.9 --max-replay-nll-increase 0.01`，见[决定记录](evidence/effect-threshold-owner-decision.json)。provenance须引用真实回复“那还是采用你的阈值吧”，并注明批准在两套100步观测披露之后；不沿用已被替代的0.8/0.1，不修改历史原始评测文件的MEASURED状态。其它数据或未来任务不能自动继承本次批准。
+
 所有技术项及两套后验诊断完成后，再以新预审生成制品：
 
 ```powershell

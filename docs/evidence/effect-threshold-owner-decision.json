@@ -1,0 +1,21 @@
+{
+  "status": "OWNER_CONFIRMED",
+  "recorded_at_utc": "2026-10-28T01:50:15Z",
+  "scope": "G1 functional canary/replay acceptance for both C3 and expert-r2 on the fixed canary-replay-v1 corpus",
+  "minimum_canary_accuracy": 0.9,
+  "minimum_correct_of_50": 45,
+  "max_replay_nll_increase": 0.01,
+  "nll_units": "nat per supervised token, including the existing EOS supervision",
+  "comparison": "Published adapter versus the same fixed base, corpus and evaluation protocol",
+  "decision_source": "Current conversation: after the assistant recommended accuracy >=90% and replay NLL increase <=0.01, the user replied: 那还是采用你的阈值吧",
+  "decision_timing": "Confirmed after both full100 training evaluations were disclosed. This is not recorded as approval before training or as a preregistered unseen-data test.",
+  "superseded_decision": {
+    "minimum_canary_accuracy": 0.8,
+    "max_replay_nll_increase": 0.1,
+    "approval_observed_at_utc": "2026-10-28T01:48:13Z",
+    "user_reply": "同意你的建议",
+    "status": "SUPERSEDED_BY_CURRENT_OWNER_CONFIRMED_THRESHOLDS"
+  },
+  "rationale": "Assistant engineering choice for this functional acceptance: require at least 45 of 50 held-out paraphrases and cap replay perplexity ratio at exp(0.01), approximately 1.01005. This is not claimed to be a universal standard or domain/general-capability acceptance.",
+  "metric_definition_reference": "https://huggingface.co/docs/transformers/en/perplexity"
+}
