@@ -371,3 +371,9 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 父已自动启动 `20261028T005502Z-real-expert-r2-resume50`，从完整50恢复并实际执行51～100。`20261028T010210Z-expert-resume50-prefix-check` [早期前缀](evidence/real-expert-resume50-prefix-check.json)只覆盖已完成51～53步，九项记录与不中断参考全部相同，包括样本、loss、梯度范数、路由审计和四RNG探针；最终全参数/Adam/scheduler/data/RNG/trainer/config/逐步/publish/ΔW比较仍未完成。
 
 `20261028T010211Z-m2-expert-full100-audit` [更新M2](evidence/m2-expert-full100-audit.json)仍INCOMPLETE：22 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、9 PENDING。专家完整冻结/集合与路由历史项已关闭；完整恢复、GPU发布、独立效果/FP8、两套周期诊断和最终交付尚未完成。原A5.2失败/修订依据及真实owner门槛未提供的状态继续保留，goal保持active。
+
+## 交付数据重定位核查与后续诊断排队
+
+`20261028T014301Z-delivery-data-portability` [CPU核查](evidence/delivery-data-portability.json)PASS/exit0。固定600条train.jsonl复制到新的run内路径后，文件SHA、数据身份及全部input_ids/labels原字节一致；C3和专家的绑定逻辑配置保持不变。分别读取hash校验的step50数据状态，用重定位的数据实际生成51～100共400个样本，逐步sample_id、输入/监督token数量与不中断基线全部匹配，终点游标与step100相同。仅追加空行的负例虽然编码样本不变，仍因原文件SHA改变被绑定配置拒绝。过程未初始化CUDA，证明数据/配置/采样器的路径可移植性，不代替GPU恢复或最终制品实际复制核验。
+
+`20261028T014038Z-post-campaign-diagnostics` 已记录串行后续任务，先等待原父runner6480的Windows进程句柄；原整轮及12个子阶段都PASS/exit0后，才依次为C3、专家调用现有`inspect_training_checkpoints.py --steps 20 50 100`。当前等待过程不占GPU，尚不能写成诊断完成；实际阶段由`real-post-campaign-diagnostics-run.txt`及`continuation.json`追踪。该任务不改训练数值代码，最终M2预审、制品归档及用户效果门槛仍单独处理。

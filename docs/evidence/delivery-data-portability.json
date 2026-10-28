@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "scope": "CPU portability qualification of relocated data/config and saved sampler state; not an additional GPU resume or final artifact copy verification",
+  "source_file_sha256": "ea94a7a2420a72ddd3990bd5e12f7880b4ee03f99852c2458de541ed5c19cfc0",
+  "relocated_file_sha256": "ea94a7a2420a72ddd3990bd5e12f7880b4ee03f99852c2458de541ed5c19cfc0",
+  "same_600_encoded_samples_E2": true,
+  "variants": {
+    "c3": {
+      "bound_configuration_unchanged": true,
+      "next_50_steps_sample_ids_sequence_and_supervision_counts_match": true,
+      "sample_count": 400,
+      "final_sampler_state_matches_step100": true,
+      "changed_file_rejected": true,
+      "sample_id_sequence_sha256": "ed815d6d64a937c5784ad5a79b32d91389cfd04c2ce4d818a0020c62257b4fe9"
+    },
+    "expert": {
+      "bound_configuration_unchanged": true,
+      "next_50_steps_sample_ids_sequence_and_supervision_counts_match": true,
+      "sample_count": 400,
+      "final_sampler_state_matches_step100": true,
+      "changed_file_rejected": true,
+      "sample_id_sequence_sha256": "ed815d6d64a937c5784ad5a79b32d91389cfd04c2ce4d818a0020c62257b4fe9"
+    }
+  },
+  "cuda_initialized": false
+}
