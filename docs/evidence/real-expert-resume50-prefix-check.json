@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "scope": "Early resumed per-step metric prefix only; final parameters/Adam/scheduler/data/RNG/publish comparison still requires the completed 50->100 run.",
+  "steps": [
+    51,
+    52,
+    53
+  ],
+  "fields": [
+    "loss",
+    "supervised_tokens",
+    "sequence_tokens",
+    "sample_ids",
+    "learning_rates",
+    "gradient_norm",
+    "group_gradient_norms",
+    "route_audit",
+    "rng_probe"
+  ],
+  "differences": [],
+  "inputs": [
+    {
+      "source": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\metrics.jsonl",
+      "captured_sha256": "9207f508bfb3f61490b6beca29b9d9317479c760e18a1378891d187439c836cd",
+      "complete_rows": 96,
+      "partial_trailing_line": false
+    },
+    {
+      "source": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T005502Z-real-expert-r2-resume50\\results\\metrics.jsonl",
+      "captured_sha256": "f848d09e606c8f3c06e4e77b6f66b32348464353c701f93a5bb6d9b07aedb42f",
+      "complete_rows": 3,
+      "partial_trailing_line": false
+    }
+  ]
+}

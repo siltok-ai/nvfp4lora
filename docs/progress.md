@@ -357,3 +357,17 @@ C3第20步仍50/50且50条均EOS停止，回放NLL0.00006776975508623592，低�
 `20261027T231833Z-expert-midpoint-checkpoint-audit` [CPU中点核查](evidence/real-expert-midpoint-checkpoint-audit.json)PASS：检查点全部文件SHA一致，740个唯一参数及FP32 Adam矩有限，二阶矩非负，逐参数CPU step50；标准AdamW两组元数据、scheduler.last_epoch50/LR0.0002、累积0、四RNG和data.consumed400/epoch0/position400/seed113完整。保存的40层ever与实际1～50步路由计数逐层相同，step4 ever为其子集；1957个从未路由专家层组合的11742个A/B参数行与已验证step4原字节相同，两类Adam矩严格零。该CPU核查仍不代替实际新进程50→100或GPU发布重建。
 
 原专家full100进程保存50后已经继续51～100，没有中途停止或用恢复进程替代参考。完整50→100比较由父脚本在该参考正常结束后执行；当前M2仍INCOMPLETE，goal保持active。
+
+## 专家完整100步结束，新进程50→100进行中
+
+`20261027T214341Z-real-expert-r2-functional100` 已正常PASS/exit0：从已接受step4连续完成5～100，在50保存后同一进程继续至100，冻结hash不变，740个FP32参数/176455680元素，完整20/50/100与publish保留。训练进程已计算4090份FP32 ΔW指纹；没有写出全量增量矩阵或合并原始专家。
+
+第100步[原始评测](evidence/real-expert-evaluation-step100.json)留出50/50且全部EOS，回放NLL0.0009931222000904999，较基座0.00021194423469130964增加约0.0007811779654。第20步回升、第50步回落及第100步再次回升全部保留；不能只引用中点较好的值，或由该功能语料宣称领域收益。C3终点回放NLL为1.1701894606100652e-7，两者最终效果门槛仍待真实用户决定。
+
+`20261028T010022Z-expert-final-checkpoint-audit` [CPU终点审核](evidence/real-expert-final-checkpoint-audit.json)PASS：全部文件SHA与唯一命名状态集合一致，740个参数/FP32矩有限、二阶矩非负，逐参数CPU step100、scheduler.last_epoch100/LR0.0002、累积0、四RNG及data800/epoch1/position200完整。实际1～100步的40层路由计数构造ever与保存值一致；1812个从未路由组合的10872个A/B参数行与已接受step4原字节相同，两矩严格零。CPU发布参数与最终检查点逐字节相同，800个实际样本首轮600条各一次、第二轮200条有效不重复，全部100步实际输入/监督数量与C3一致。该核查不是实际恢复或GPU发布重建。
+
+`20261028T010022Z-real-expert-functional100-observations` 汇总MEASURED，完整观测留在run。5～100共96步平均113.770秒、中位113.016秒，step wall合计10921.90秒（另计评测/保存）；短功能样本各记录阶段最高allocated9323847168/reserved9508487168字节，不替代4096压力验证的更高峰值。
+
+父已自动启动 `20261028T005502Z-real-expert-r2-resume50`，从完整50恢复并实际执行51～100。`20261028T010210Z-expert-resume50-prefix-check` [早期前缀](evidence/real-expert-resume50-prefix-check.json)只覆盖已完成51～53步，九项记录与不中断参考全部相同，包括样本、loss、梯度范数、路由审计和四RNG探针；最终全参数/Adam/scheduler/data/RNG/trainer/config/逐步/publish/ΔW比较仍未完成。
+
+`20261028T010211Z-m2-expert-full100-audit` [更新M2](evidence/m2-expert-full100-audit.json)仍INCOMPLETE：22 PASS、1 PASS_WITH_DOCUMENTED_CHANGE、9 PENDING。专家完整冻结/集合与路由历史项已关闭；完整恢复、GPU发布、独立效果/FP8、两套周期诊断和最终交付尚未完成。原A5.2失败/修订依据及真实owner门槛未提供的状态继续保留，goal保持active。

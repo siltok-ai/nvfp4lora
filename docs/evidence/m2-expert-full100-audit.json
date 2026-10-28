@@ -1,0 +1,368 @@
+{
+  "status": "INCOMPLETE",
+  "scope": "G1 training only; G2/Speed integration and G3 domain benefits remain separate",
+  "gates": {
+    "M1 prerequisite": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T134521Z-m1-audit-final",
+        "required_gates": 32,
+        "original_P2_math_unchanged": true
+      }
+    },
+    "A5.1 materialization and memory": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135549Z-real-forward-cpu-reference",
+        "loaded_inventory": {
+          "nonexpert_frozen_gpu": 4896711936,
+          "lora_gpu": 76677120,
+          "expert_gpu_slots": 905981952,
+          "expert_cpu_payload": 18119639040,
+          "rope_buffers": 256
+        },
+        "original_reference_status": "FAIL"
+      }
+    },
+    "A5.2 adjusted reference": {
+      "status": "PASS_WITH_DOCUMENTED_CHANGE",
+      "facts": {
+        "original_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135549Z-real-forward-cpu-reference",
+        "original_unconditioned_1percent": "FAIL retained",
+        "qualified_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T140549Z-routed-reference-new-fixtures",
+        "decision_and_fixture_commit": "69a8cbd9d1123ab3c15b4443499e156b97dd2568",
+        "policy": "Pre-recorded route-conditioned FP32 and independent route checks; see decisions.md"
+      }
+    },
+    "A5.4 short greedy semantics": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135759Z-real-greedy-sanity",
+        "answers": [
+          "2",
+          "北京",
+          "Hello"
+        ]
+      }
+    },
+    "A5.5 forward timing decomposition": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135549Z-real-forward-cpu-reference",
+        "cuda_intervals_may_overlap": true,
+        "wall_seconds": 3.5308328999963123
+      }
+    },
+    "Capacity c3 T2048": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T170817Z-real-c3-sequence2048-audit",
+        "recompute_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T171813Z-real-c3-recompute2048",
+        "length": 2048,
+        "peak_allocated": 8499081728,
+        "history_complete": false,
+        "live_decoded_blocks": 0
+      }
+    },
+    "Capacity c3 T4096": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T171823Z-real-c3-sequence4096-audit",
+        "recompute_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T172124Z-real-c3-recompute4096",
+        "length": 4096,
+        "peak_allocated": 11606167040,
+        "history_complete": false,
+        "live_decoded_blocks": 0
+      }
+    },
+    "A6.1 zero adapters E2": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T141616Z-real-c3-step-probe",
+        "scope": "Actual zero and nonzero-B unified-disable fixed probes"
+      }
+    },
+    "A6.2 two-layer C3 gradients": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T141616Z-real-c3-step-probe",
+        "A_B_tensors": 26,
+        "max_relative_l2": 2.788991942595412e-07
+      }
+    },
+    "A6.3 real 50->100 resume": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213801Z-real-c3-resume50-comparison",
+        "start": 50,
+        "end": 100,
+        "all_ten_state_and_step_checks": true
+      }
+    },
+    "A6.4 effects and reload agreement": {
+      "status": "PENDING",
+      "reason": "Effect observations exist at C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213837Z-real-c3-functional-evaluation; owner thresholds/provenance not supplied"
+    },
+    "A6.5 frozen weights and sets": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100",
+        "tensors": 500,
+        "numel": 19169280,
+        "frozen": true
+      }
+    },
+    "A6.6 training stages and capacity": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100",
+        "restore_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T202444Z-real-c3-resume50",
+        "long_lengths": [
+          2048,
+          4096
+        ],
+        "cpu_fields": "Working-set observations and process-lifetime peaks, not per-stage CPU interval peaks"
+      }
+    },
+    "A8.1/A8.2 c3 publish rebuild": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213804Z-real-c3-functional-release",
+        "all_delta_W_and_fixed_probe_E2": true
+      }
+    },
+    "A8.3 c3 short real resume": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T162936Z-real-c3-resume-comparison",
+        "start": 2,
+        "end": 4,
+        "all_ten_state_and_step_checks": true
+      }
+    },
+    "6.5 c3 periodic diagnostics": {
+      "status": "PENDING",
+      "reason": "Stage not yet recorded: real-c3-checkpoint-diagnostics-run.txt"
+    },
+    "7 c3 FP8 risk observations": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214023Z-real-c3-functional-fp8",
+        "above_original_range": {
+          "base_disabled": [
+            "model.layers.10.linear_attn.out_proj",
+            "model.layers.2.linear_attn.out_proj",
+            "model.layers.5.linear_attn.out_proj",
+            "model.layers.8.linear_attn.out_proj",
+            "model.layers.35.self_attn.o_proj"
+          ],
+          "adapter_enabled": [
+            "model.layers.10.linear_attn.out_proj",
+            "model.layers.2.linear_attn.out_proj",
+            "model.layers.5.linear_attn.out_proj",
+            "model.layers.8.linear_attn.out_proj"
+          ]
+        },
+        "scope": "Input-range risk observation, not a W8A8 inference-equivalence claim"
+      }
+    },
+    "Capacity expert T2048": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T173445Z-real-expert-r2-sequence2048-audit",
+        "recompute_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T173447Z-real-expert-r2-recompute2048",
+        "length": 2048,
+        "peak_allocated": 11045118464,
+        "history_complete": false,
+        "live_decoded_blocks": 0
+      }
+    },
+    "Capacity expert T4096": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175532Z-real-expert-r2-sequence4096-audit",
+        "recompute_run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175535Z-real-expert-r2-recompute4096",
+        "length": 4096,
+        "peak_allocated": 14127787520,
+        "history_complete": false,
+        "live_decoded_blocks": 0
+      }
+    },
+    "A7.3/A6.1 zero adapters E2": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T142254Z-real-expert-r2-step-probe",
+        "scope": "Actual zero and nonzero-B unified-disable fixed probes"
+      }
+    },
+    "A7.3/A6.2 two-layer C3 gradients": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T142254Z-real-expert-r2-step-probe",
+        "A_B_tensors": 26,
+        "max_relative_l2": 2.7686407531648477e-07
+      }
+    },
+    "A7.3/A6.3 real 50->100 resume": {
+      "status": "PENDING",
+      "reason": "Stage not yet recorded: real-expert-resume50-comparison-run.txt"
+    },
+    "A7.3/A6.4 effects and reload agreement": {
+      "status": "PENDING",
+      "reason": "Stage not yet recorded: real-expert-functional-evaluation-run.txt"
+    },
+    "A7.3/A6.5 frozen weights and sets": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100",
+        "tensors": 740,
+        "numel": 176455680,
+        "frozen": true
+      }
+    },
+    "A7.3/A6.6 training stages and capacity": {
+      "status": "PENDING",
+      "reason": "Recorded stage still running: C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T005502Z-real-expert-r2-resume50"
+    },
+    "A8.1/A8.2 expert publish rebuild": {
+      "status": "PENDING",
+      "reason": "Stage not yet recorded: real-expert-functional-release-run.txt"
+    },
+    "A8.3 expert short real resume": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T165726Z-real-expert-r2-resume-comparison",
+        "start": 2,
+        "end": 4,
+        "all_ten_state_and_step_checks": true
+      }
+    },
+    "6.5 expert periodic diagnostics": {
+      "status": "PENDING",
+      "reason": "Stage not yet recorded: real-expert-checkpoint-diagnostics-run.txt"
+    },
+    "7 expert FP8 risk observations": {
+      "status": "PENDING",
+      "reason": "Stage not yet recorded: real-expert-functional-fp8-run.txt"
+    },
+    "A7.1 expert actual-activation VJP": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T154022Z-real-expert-activation-vjp",
+        "layers": [
+          0,
+          3
+        ]
+      }
+    },
+    "A7.2 raw unused gradients and Adam history": {
+      "status": "PASS",
+      "facts": {
+        "run": "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100",
+        "never_and_historical_cases_nonvacuous_in_prefix": true
+      }
+    },
+    "Delivery reproducible code and resumable artifacts": {
+      "status": "PENDING",
+      "reason": "Final artifact directory not supplied"
+    }
+  },
+  "counts": {
+    "PASS": 22,
+    "PASS_WITH_DOCUMENTED_CHANGE": 1,
+    "PENDING": 9
+  },
+  "source_files_sha256": {
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T134521Z-m1-audit-final\\manifest.json": "bb5c186d735168cd46c2ac9041cda3bb4059f42ee434e357fdfc9b81f6a8aa7e",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T134521Z-m1-audit-final\\results\\m1-audit.json": "b31a59c1e15649aaacb240f7e24087290f1dd92452fb8aaeb558ddaa6755a491",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T121353Z-expert-target\\manifest.json": "575fc74b33c9fddea2aefed9ffe150079e0803b07065edc8cf586111021053e5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135549Z-real-forward-cpu-reference\\manifest.json": "f62cdf3f8461378d3f67e37cce7f2201643e31fb4149d0302b01a611e5969dd8",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135549Z-real-forward-cpu-reference\\results\\results.json": "536df23ed13b622cf78c3c17520a77ba29b16e30054713f0ddb8da698c4a3aa4",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T140549Z-routed-reference-new-fixtures\\manifest.json": "5da37b30f18024b44ee2f8d13ea48c7b1a7786ab8b961d33c3bfdaaaabca5954",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T140549Z-routed-reference-new-fixtures\\results\\results.json": "b5a230891b8194198138cd87b5fd5d6de7f86f66fb418cc16da8e6979a05c54d",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T140549Z-routed-reference-new-fixtures\\source\\tools\\check_routed_reference.py": "0ffee320d429c5f34cc0a9ee3b82bc5bbd01854ae25c6d1d1dee2bfd4c43feb5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T140549Z-routed-reference-new-fixtures\\source\\src\\nvfp4lora\\validation\\cpu_layers.py": "80d25b03d365b9a4198b7551597ea86d7fff03af8c73dd0b9e42da34519f2909",
+    "C:\\workspace\\repos\\siltok-ai\\nvfp4lora\\docs\\decisions.md": "0344dc8064549de7d2c841d4372191d02d90b9e78bab2ffed764dc100fd3b17b",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135759Z-real-greedy-sanity\\manifest.json": "5901408baae5cc0faa7699a34c009f73e18a94209140e149be745bf5e4ec29a6",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T135759Z-real-greedy-sanity\\results\\answers.json": "7bb4001cf58f399fde6b9677f25c2d80f520567598374e1c9da9a661fff13389",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T170817Z-real-c3-sequence2048-audit\\manifest.json": "c51d8389fd66951da5782ae0a90fe0968e388e05886547e20a964e303f06322a",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T170817Z-real-c3-sequence2048-audit\\audit.json": "4f3ed4ef0b80a76f5e62636323253084b75627663a54afd67f79cd0e1c1b750a",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T171813Z-real-c3-recompute2048\\manifest.json": "2ee07e63640665424da09e3a5145787255f4cd360fb44f8a7023f59af9edb559",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T171813Z-real-c3-recompute2048\\results\\results.json": "b42bb3ae817d0ba8b5cbcbd008817f56171061434da14e953c81b2d15a13c1c4",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175719Z-real-c3-recompute2048-snapshot\\manifest.json": "31359f8138c44caba16b3a43b36336257cd9261f86675e965ed06056f9e01212",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175719Z-real-c3-recompute2048-snapshot\\snapshot-audit.json": "f913291bba06fb8489eba0b487eba32bf11f4302a1dfa0cc5bfea9c14c28659a",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T171823Z-real-c3-sequence4096-audit\\manifest.json": "8ab26d59deb5583090145bb3e1a82b6e5906bfca1b4bce2e9b8e90cd55224c2b",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T171823Z-real-c3-sequence4096-audit\\audit.json": "01cb08f37801626514de89824a36b2a1d192595760cac8b0879b5847dbbd0a22",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T172124Z-real-c3-recompute4096\\manifest.json": "df7941a4e3493cbdc1880cbf2607077b0712d308603f3d41341b3aaef2ca8d1c",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T172124Z-real-c3-recompute4096\\results\\results.json": "8dfdadfb304cd89642335f47ebc086ddc8870bebf2e0a6deb8b3de5c9bca1e69",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T172415Z-real-c3-recompute4096-snapshot\\manifest.json": "ac3b40121a1c938f8baa7eaa094a01d1df5bde6f6e4c837b5f8af6b0572aaad0",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T172415Z-real-c3-recompute4096-snapshot\\snapshot-audit.json": "652fcad828af3e2baa2a456800daccb7e132a53c9984ef2a142cd7cbe2d849f5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T141616Z-real-c3-step-probe\\manifest.json": "3a60743c25b1b55183d3335bc22aec07fb1dc44bee695c63e43e1158e85ee04b",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T141616Z-real-c3-step-probe\\results\\results.json": "0b90326fb7caca9d3d0a6e6b643245d76525e4c557d69f75adb69bda3641ce6a",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\manifest.json": "17020406b371d8a61d2771c1ddf69dcf022ca2fb3903423dd2f90c8eaf1ba9f4",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\summary.json": "277950710008b2c6a7184e04787a9119a69e7199b40dcc589f37f39f108c5cb1",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\train_config.json": "96096adca6e010facbe42ac9c0535c9b704c3d3258dc519130f2b47d55b31f49",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\metrics.jsonl": "7fe7640c8740fc64c5153e545c8cb0cc5c8427bc1866539fc073785f07cde550",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\checkpoints\\step-000050\\checkpoint_manifest.json": "0e30d8eed38d28a01f54d1c23c6881ae9e8d0bf2d5ae60e0051cf1a86df7b50c",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\checkpoints\\step-000050\\trainer_state.json": "46f558b64cc06fda3b926a626351abd84f50abf79935a63b302eb1b2e6f216a0",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213801Z-real-c3-resume50-comparison\\manifest.json": "ad0c77932a7238d2bddb47fd03b584d0970ac412580920143cd4212a2ceb87c3",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213801Z-real-c3-resume50-comparison\\comparison.json": "f6c0c7fa315b3aa3975b401428df0f6d3ec1adb912150459e540ac3f4b03a6fe",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213837Z-real-c3-functional-evaluation\\manifest.json": "64de453f92d0971e84cce38513b82173a387666f32bb70fc9d78a06fac770a8b",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213837Z-real-c3-functional-evaluation\\results\\results.json": "c90db1cc4323567226995e05f3a229c699454e4ad401210026fee3d4f5966d01",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\evaluation-step000100.json": "9252e02893e272008941981a54ebc31332e7669c8bc3c4e4c95fc2c330ffdc53",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\publish\\manifest.json": "f53aae060a18ccdd9e5f55865c0e39f26ebec7d3a38f5c6ef49f901905018564",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T180152Z-real-c3-functional100\\results\\publish\\adapter_config.json": "d30aa1bb567d9a7e1cbf4b747c82265143a189fd84f6ec3c4f5283bc5851e592",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T202444Z-real-c3-resume50\\manifest.json": "c0a38acf184e287be43dc476b26d4d7e33e5ff7c8a992545cc9aeaa31d256d81",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T202444Z-real-c3-resume50\\results\\summary.json": "7a55847be09f27993030c38ebb92610251ff32dc17861dae76a4d2ccc587dfa5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213804Z-real-c3-functional-release\\manifest.json": "f14822c6cf2bebe7ecbbc46db6b69abc843ab4eea90633444ef1fe1eee096ce8",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T213804Z-real-c3-functional-release\\results\\results.json": "e3779482ec06e232c495d22fd1b5e46bfa27fddb35cc5827f3791f0eee380617",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T162936Z-real-c3-resume-comparison\\manifest.json": "ba633bb5766f4678fd17c8edf9765dcaca85c258b68b39076c60ebf342579650",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T162936Z-real-c3-resume-comparison\\comparison.json": "ef703950638288e0dfac49fb99d56d0a0b71ce900912eec3bac0710745c9253a",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214023Z-real-c3-functional-fp8\\manifest.json": "c48badd2cc8f1e77c611a8beaac0f6e27d898a95d47879dd7c70c7d0c709fb4e",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214023Z-real-c3-functional-fp8\\results\\results.json": "7855bae9313eed4f6995bc84e48a51d34f52736d275d5befc23cc05c00e4fa30",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T173445Z-real-expert-r2-sequence2048-audit\\manifest.json": "f31adebcf9136fa0e7901bf5afc633f71f55c40467359d3972bf904adb7ba2ff",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T173445Z-real-expert-r2-sequence2048-audit\\audit.json": "e88bd9c8ca0ae98fd0463e78c889b09f9e326d6ac1bd6fed78158e8b4b3e6f54",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T173447Z-real-expert-r2-recompute2048\\manifest.json": "dcd429ffb254b002de47844f3f6bff5812936f180167ae9c6d71b00a1d73be4b",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T173447Z-real-expert-r2-recompute2048\\results\\results.json": "9fd532d8d180f6f180269edc6b30a52fa788910fe90fb5d4784cd12db81c3bc0",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175723Z-real-expert-r2-recompute2048-snapshot\\manifest.json": "73ad704547c98f332e305608ad24f86f4534b6b7aa38bc2d6d1bfba2eb85b72e",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175723Z-real-expert-r2-recompute2048-snapshot\\snapshot-audit.json": "ca2477baea417b37dd99e88bb542c2f782cf6b91e41788edef845c0e3e50d38f",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175532Z-real-expert-r2-sequence4096-audit\\manifest.json": "e46c940ab58a43b70d846936b1f7a62f2cb75692d25aafd78722b4cabe3d1e5e",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175532Z-real-expert-r2-sequence4096-audit\\audit.json": "eab5f0bd50c3965b182620f59b950c8f264c01addb9d810079de2e7c64be15cd",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175535Z-real-expert-r2-recompute4096\\manifest.json": "fa8a89fafb7a6e2a6a0d49ef7d43150742271400823366d94e11918e7ed6a717",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175535Z-real-expert-r2-recompute4096\\results\\results.json": "18ebab0368e3b4303d166583c8b1deb81fbe877cd325eeccb13df9f4e4a0d864",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175959Z-real-expert-r2-recompute4096-snapshot\\manifest.json": "21e662a009ed000b102643a3f86ec143aae53c3c460c1cfeb029f2965a5ea9d7",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T175959Z-real-expert-r2-recompute4096-snapshot\\snapshot-audit.json": "8549f058209f994318f2559f970092044087741fa58a4e3a873a4a4884889304",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T142254Z-real-expert-r2-step-probe\\manifest.json": "3feba9171535312f2a80869aed5309648e19a59f27041e3dc44bdeea2aa5f6d8",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T142254Z-real-expert-r2-step-probe\\results\\results.json": "8833560d1764cd5f51e413da2342912d13a0f0a0393790ec463da8dcd51ed3a5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\manifest.json": "912dd1c9bb467f4fdbce0cde8c435dacf2a178f5ae3490a1e6b4b1002710c7b0",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\summary.json": "3bab1037121503e6dba9fa4bbb64aac44aceacdb1b460d721ac3dcbd2e365992",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\train_config.json": "19649e2f35b37e882088efc0738f5b1422cc2a3ffdf5d92870cdb35dde3688e8",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\metrics.jsonl": "9207f508bfb3f61490b6beca29b9d9317479c760e18a1378891d187439c836cd",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\checkpoints\\step-000050\\checkpoint_manifest.json": "bc452205ae99f9e8fe6fae98fcd595b3a26e84cea5c6fabbdb7f61767a3ae3f1",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\checkpoints\\step-000050\\trainer_state.json": "2c0ea313783a04dbb94cadde2f1ab09a6b6f324a5e004f8b4f13b3280b5b6854",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\publish\\manifest.json": "d96d764e8a6b27fe83e35b5f1e4cd54f9f41016217b78a0c7bedbe401b5cd2ae",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T214341Z-real-expert-r2-functional100\\results\\publish\\adapter_config.json": "d30aa1bb567d9a7e1cbf4b747c82265143a189fd84f6ec3c4f5283bc5851e592",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261028T005502Z-real-expert-r2-resume50\\manifest.json": "11f629ed989df6b84060cdec18cf78044df101896973afb73c46e081b7d2a0c5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T165726Z-real-expert-r2-resume-comparison\\manifest.json": "77573da692aa7bceec2747ef986b958df22d883235b4ef56a8e21e135410abe0",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T165726Z-real-expert-r2-resume-comparison\\comparison.json": "ef703950638288e0dfac49fb99d56d0a0b71ce900912eec3bac0710745c9253a",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T154022Z-real-expert-activation-vjp\\manifest.json": "5b9b5240d186396f6a0c828f820a101ce4371b322904a0567dcbe727b80f0ba3",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T154022Z-real-expert-activation-vjp\\results\\results.json": "228de7f2e686d2935e5a13c7eac71ad52310602d17d0f240e54cf83119b6c3d5",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T163147Z-real-expert-r2-multistep-baseline\\manifest.json": "af4cba44990d30014cae6dc95d0a9be7f16ff3583fe10f4b1e596ce8a4790595",
+    "C:\\workspace\\runs\\T-20261027-nvfp4-lora\\20261027T163147Z-real-expert-r2-multistep-baseline\\results\\summary.json": "6b7f6f25a1653c2c3679ebf2102ff63ed1d8d0a30d945d0283bf4816b480ebe9"
+  },
+  "thresholds": {
+    "minimum_canary_accuracy": null,
+    "max_replay_nll_increase": null,
+    "owner_decision_provenance": null
+  },
+  "optional_not_run": [
+    "A5.3 FreeToken teacher-forcing comparison",
+    "Expert rank4",
+    "FLA; selected validated Torch chunk fallback"
+  ],
+  "limitations": [
+    "Original unconditional A5.2 1% FP32 reference FAIL is retained, not relabeled PASS",
+    "Canary/replay is a functional synthetic association/arithmetic corpus, not domain/general capability evidence",
+    "Threshold provenance is a caller statement and must reflect the actual owner decision"
+  ]
+}
