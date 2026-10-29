@@ -231,3 +231,12 @@ v2第6.2节明确容差是起点，允许依据实测和原理调整。这里不
 - 决定：2026-10-29约13:35 UTC向用户提出新门槛确认：推荐留出>=45/50且回放NLL增量<=0.01（最终<=0.010234008436333332）；另提供>=48/50且增量<=0.005。此时尚无用户答复，推荐选项不是批准，未运行DA6.4正式100步。等待期间继续用户独立授权的FreeToken推理适配。
 - 影响范围：正式功能验收准入，其他已通过资格不变。
 - 硬约束：遵守必停。用户确认：**尚未收到，不得写成已确认**；收到后另记原话、时间和最终数值。
+
+### 2026-10-29：用户新增FreeToken范围的真实整模资格
+
+- 设计原文：0.1/G2-D及9将FreeToken/Speed推理排除；用户随后明确新增自己的FreeToken fork推理适配和验收范围，已在本日志前文保留确认原话。训练方案和DA门槛仍不变。
+- 实测：独立FreeToken分支在原生Windows、原独立推理环境上已加载全部64层和首步资格adapter。来源为同一RadixArk固定revision及三SHA，新的dense读取器启动时校验全部原分片/metadata/tokenizer及两个PEFT文件；旧read_adapter仍拒绝dense。400源投影/800张量映射256融合op，FP32源435,159,040B、融合驻留657,457,152B。64层finalized packed bytes共16,903,096,320B，physical pinned16GiB+29B辅助缓存；单GPU槽267,000,512B。
+- 决定：FreeToken只增加显式eager流式选项，沿用其CPU checkpoint reader和每层quant finalizer，按compute stream顺序复用单槽；不引入训练库依赖或新kernel。共享生成RoPE缓存排除在层bank外，保留引擎既有embedding/head策略；**训练CPU embedding、FP32 global、PackedLinear及lm_head策略完全不改**。推理仍为FreeToken既有NVFP4 W4A16、FP8 W8A8和FP16 runtime global，不宣称与训练BF16整模E2。
+- 验收：三条greedy2/北京/Hello；zeroB对disabled完整首步词表logits E2；重复开关E2；非零adapter相对logit效应0.06536/0.07307/0.05590。新进程全部3提示×5模式的答案和logits E2，64 bank hash不变。54项源码LoRA测试通过，包含40项原测试。首轮harness把disabled_repeat仍按enabled执行而FAIL，捕获Tensor证明与enabled E2；只修正测试mode选择后新run通过，失败保留。真实初次通过peak allocated5,199,308,288B/reserved5,414,846,464B，重载监控minimum free9838MiB。设计30.4GB是既有驻留Speed路径的估算，不能用于否定另一个实际流式引擎，也不能将本次数字当Speed结果。
+- 影响范围：仅用户fork `feat/dense27b-nvfp4-lora`，资格提交`b697fd9`，证据`docs/evidence/dense/streamed-real-qualification-summary.json`位于该fork。参考安装wheel不改，以显式PYTHONPATH测试新source。不是领域评测、完整吞吐或最终100步adapter推理验收；最终产物及Qwen3.6仍待做。两个分支均未推送。
+- 硬约束：训练硬约束无变化；原有v1读取器fail-closed保留，无新增依赖，无WSL。用户确认：沿用前文逐字保存的新增FreeToken授权；DA6.3正式100步门槛**仍待明确答复**。
