@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **D0 qualified with a documented SDPA fallback; D1 passed; D2 qualified with documented FP32 reference controls; D3 tiny and real streaming passed. D4-D7 pending. No whole-model dense training or release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
+Current state: **M1-D qualified with documented adjustments: D0 SDPA fallback, D2 FP32 reference controls, D1/D3/D4 passed. D5-D7 pending. Real 27B construction is verified; no real 27B forward/training/release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -70,3 +70,21 @@ Fifty unit tests pass (41 original, four D1 and five D2). CPUEmbedding holds its
 | DA3.5 | PASS | Per-layer acquires/hits/copies/bytes/GPU copy and wait times retained. Random read run: 999 hits, 973 copies, 256,056,737,264 H2D bytes; event wait total 13.17ms. |
 
 Physical pinned allocation is 16GiB. Validation process peak working set 19,325,108,224 B; peak GPU allocated/reserved 2,934,964,224/3,370,123,264 B. Frozen CPU store hashes remain unchanged. The 264.84s random-read wall time includes full D2H, CPU comparisons and hashing, and is not training throughput. Delayed-reader copy event totals correspond to 43.93GB/s (no prefetch) and 47.61GB/s (wrong prefetch); copy/compute overlap from CUDA event intervals is retained separately. No full training-memory or speed claim follows from these qualification peaks.
+
+## D4 / M1-D
+
+[D4 summary](../evidence/dense/d4-summary.json) and [M1 audit](../evidence/dense/m1-audit.json) bind the actual commands and source snapshots. M1-D uses the recorded qualified D0/D2 paths; the original failed gates remain failed, with no change to the production PackedLinear arithmetic or any DA4 threshold.
+
+| Gate | State | Measured evidence |
+| --- | --- | --- |
+| DA4.1 | PASS | Tiny and actual real construction: no meta parameters/buffers, exact nonstream keys, FP32 RoPE, ordinary CPU embedding, expected canonical trainables. Actual real D-ALL r16: 800 FP32 CUDA tensors / 108,789,760 elements; all B=0; 400 packed projections. Fingerprint mutation controls detect CPU table, raw bank and frozen GPU norm changes. |
+| DA4.2 same expression | PASS | 100 optimizer steps, two microbatches each. Every loss E2; first gradients relative L2=0; final weights relative L2=0. |
+| DA4.2 HF+PEFT | PASS | Independent HF BF16 pre-scaled frozen Linear weights + ordinary PEFT. First gradient min cosine 0.9995077116; max relative L2 0.0316625 is reported, while the design criterion is cosine>=0.999. Max per-step relative loss 0.000251277849 (<0.02); final weight min cosine 0.9998401944. |
+| DA4.3 | PASS | New process step50-to100: all ten checkpoint/history/probe/DeltaW checks E2; all 50 subsequent losses, sample IDs, LR, gradient norms and consumed RNG values agree. |
+| DA4.4 | PASS | New process reconstructs from preprocessed bundle+publish: all parameter bytes, frozen fingerprint, enabled/disabled FP32 probe loss and 25 DeltaW fingerprints E2. Standard PEFT reads published files on independent HF BF16 base: relative probe loss 0.000110244147 (<0.02). |
+| DA4.5 | PASS | Optimizer IDs == expected canonical set == 50 published tensors. Production and both references' frozen fingerprints unchanged. Tiny probe enabled7.4265113 vs disabled7.6956329 demonstrates effect in this synthetic test. |
+| DA4.6 | PASS | 56 unit tests. Feature MoE tiny2 matches original B0 first two metric rows E2; final states/probe match an unchanged-main two-step supplement E2. Both MoE logical configs/hashes unchanged; original MoE reader rejects dense release layout. Full D7 campaign remains pending. |
+
+Real construction only: frozen GPU parameters2,595,273,728 B; LoRA435,159,040 B; two raw GPU slots531,497,056 B; CPU embedding2,542,796,800 B. Construction GPU peak allocated/reserved is about3.576/3.586GB; this excludes activations, gradients and initialized Adam moments. The 64 layer banks consume exactly16GiB pinned; validation Boolean readback adds a separate cached1-byte allocation. Both measurements and the initial overly broad assertion failure are retained. The alternative D-ATTN count in design3.5 is corrected to416 tensors in decisions; its element count and default D-ALL counts are unchanged, and D-ATTN is not enabled.
+
+Next: D5 full real forward, independent CPU FP32 first-four-layer reference at the original unconditional1% threshold, generation and checkpoint-specific tokenizer/template goldens. No real training before those gates and no formal100-step run before DA6.3 user confirmation. FreeToken dense inference remains an independent unfinished deliverable.

@@ -161,3 +161,36 @@ v2第6.2节明确容差是起点，允许依据实测和原理调整。这里不
 - 资源与口径：真实锁页物理17,179,869,184字节（16GiB），working-set峰值19,325,108,224字节；GPU峰值allocated2,934,964,224/reserved3,370,123,264字节。1000次完整回读、CPU逐字节比对及SHA共264.84s，含双向传输和验证器开销，不代表训练速度或纯H2D带宽。同run延迟读场景H2D事件合计约43.93GB/s，错误预取约47.61GB/s；全程和逐层原始计时分列。真实训练耗时仍待D5/D6，不用验证器吞吐替代。
 - 影响范围：D3验证器、逐层统计和证据；ExpertStore实际加载相同原字节，streamer与MoE数值文件不改，无依赖变更。
 - 硬约束：遵守，无变更。用户确认：一般工程和清单外验收入口已获实施授权，未请求额外确认。
+
+### 2026-10-29：D4 CPU embedding冻结指纹与构建边界
+
+- 设计：3.1、DA4.1要求CPU embedding为普通属性，但现有train.loop.frozen_fingerprint只扫描Parameter/buffer和store.hashes；第4节要求不改MoE loop/build。
+- 实测：tiny整模的B=0开关loss E2，同表达式非零LoRA前向/全部梯度E2；分别修改CPU表、raw层字节、GPU冻结norm，指纹都能检测变化。真实构建实际得到800个FP32 CUDA LoRA张量、108,789,760元素，400个无参数PackedLinear及400个LoRA旁路，全部B严格为零，无meta残留，RoPE为FP32。没有进行真实前向、反向或optimizer step。
+- 决定：在新build_dense.py内用DenseLayerStore子类复用ExpertStore，hashes加入当前CPUEmbedding表并把layer键统一为字符串，直接接入原冻结检查；每个模型独立绑定表，拒绝复用已绑定store，tiny参考用自己的store。新增dense attention/mask registry键，不覆盖原sdpa。核心生产LoRA不通过PEFT注入。
+- 影响范围：新dense构建文件，以及共享adapters.py中增加LoRAPackedLinear开关类型；原MoE build/loop/experts_fn、checkpoint、data/template/generate数学未改。清单外新增tests/test_dense_build.py覆盖构建、冻结、梯度、发布拒绝和逻辑配置；仓外真实构建验证器源码随run保存。
+- 硬约束：遵守。用户确认：实现方式属于已授权工程范围；embedding仍在CPU，bf16小张量仍独立文件，数值策略不变，无需额外确认。
+
+### 2026-10-29：D4 / 3.5的D-ATTN张量数勘误
+
+- 设计原文：3.5列D-ATTN为352个张量、39,583,744元素；D-ALL为800个、108,789,760元素。
+- 实测：16个全注意力层各4投影，48个GDN层各3投影，共208个投影、每个A/B两个张量，D-ATTN应为416个。其39,583,744元素正确。默认D-ALL的800个及108,789,760元素同时经独立形状计算和真实构建确认。
+- 决定：保留原设计，修正新增验收中D-ATTN预期为416。初次构建单测照抄352时失败，原run保留，修正后56项全部单测通过。首期实际配置仍为D-ALL r16，没有缩小LoRA范围或rank。
+- 影响范围：文档勘误和备选范围的形状核对；不改变默认训练、发布语义或参数预算。
+- 硬约束：不涉及变更。用户确认：未声称用户另行批准D-ATTN训练；本项仅事实勘误，不启用备选方案。
+
+### 2026-10-29：D4真实锁页统计的1字节辅助分配
+
+- 设计：DA0.9及停止点关注64层被取整成512MiB或分配失败；DA4.1真实构建记录资源。
+- 实测：首轮模型所有构建检查均通过，但验证器在GPU布尔值读回后要求整个host allocator恰为16GiB，实际为17,179,869,185字节，因多1字节FAIL。新进程分开记录：构建后64次host分配、17,179,869,184字节；执行CUDA布尔标量验证后65次分配、17,179,869,185字节。由验证阶段新增的1字节缓存造成，不是层bank取整改变或分配失败。
+- 决定：在构建前后隔离测量bank增量，保留验证后的完整统计和首轮FAIL。层bank仍恰好16GiB。真实构建峰值allocated约3.576GB、reserved约3.586GB；GPU frozen参数2,595,273,728字节、LoRA435,159,040字节、双槽531,497,056字节、CPU embedding2,542,796,800字节。它不是完整训练显存。
+- 影响范围：仓外测量器及资源证据；生产实现、allocator、依赖未改。
+- 硬约束：遵守，无变更。用户确认：测量口径修复已授权，无需额外确认。
+
+### 2026-10-29：D4发布、两个参考及MoE中途回归
+
+- 设计：DA4.2–DA4.6及第4节要求两个100步参考、50→100十项状态、发布重建、PEFT兼容和MoE位级中途回归。
+- 实测：tiny100步与同表达式参考loss全程E2；独立HF bf16预乘global+标准PEFT参考首步最小梯度余弦0.9995077116（最大相对L2为3.16625%，只作观测，设计首步判据是余弦≥0.999），每步loss最大相对误差0.0251278%，最终最小权重余弦0.9998401944。新进程50→100十项完整状态E2；发布重建所有参数、冻结指纹、固定loss及25个DeltaW指纹E2；标准PEFT加载后的probe相对误差0.0110244%。adapter开/关probe loss分别7.4265113/7.6956329，均为tiny结果，不是27B功能结论。
+- 决定：artifacts.py按新layout分派，dense只发布标准PEFT A/B文件及配置，不写MoE专家文件；校验family、目标集合、rank/alpha/scaling、基座和逐文件hash后再复制参数。原main的v1读取器在独立旧环境中明确拒绝新layout；新load_adapter也拒绝把dense装进MoE/未知family。session.py仅对显式dense family新增独立logical_config/build/无路由audit/profile，MoE默认分支保持原值。
+- MoE回归：56项单测通过；新分支MoE两步metrics与原B0100步的前两步E2。B0原run未保存step2参数，因此在未改动的main上补做两步，终点参数/Adam/scheduler/RNG/data/trainer/config/probe/DeltaW与新分支两步全E2。补充run不替换原B0、不冒称代码改动前已记录step2权重。两套真实logical_config及e58cf9.../2f8da3...哈希仍完全一致。D7完整100步、真实首步和已交付checkpoint身份回归仍待完成。
+- 影响范围：设计清单内dense tiny工具、configs和共享family/layout分派；只修正D-ATTN计数和测量器，不调整DA4阈值。不新增依赖。
+- 硬约束：遵守。用户确认：常规工程已授权；DA6.3功能门槛尚未确认，未开始真实27B训练。
