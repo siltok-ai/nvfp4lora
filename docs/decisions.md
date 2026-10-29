@@ -55,3 +55,22 @@ v2第6.2节明确容差是起点，允许依据实测和原理调整。这里不
 - 保留未固定路由的完整CPU FP32误差、选路变化个数及cutoff margin，不能把调整后的条件对照写成原无条件1%通过。
 
 依据是top-k在cutoff处不连续：微小投影舍入或相等分数的CPU/GPU tie次序可替换第8个专家，产生有限输出跳变。只比较两条不同路由图的最终残差，无法单独验收反量化/矩阵乘/GDN。拆分后分别检验数值图和路由选择，原始自由路由结果继续作为跨精度诊断。若新的独立提示不能满足拆分判据，继续诊断，不自动放宽。
+
+## dense 27B
+
+### 2026-10-29：D0 / DA0.1 原文封存和分支来源
+
+- 设计：0.4、4、D0 / DA0.1；用户要求首个提交保存设计原文、交接提示及 SHA256。
+- 实测：目标 `siltok-ai/nvfp4lora` 和旧 checkout 的 `wenlive/nvfp4lora` main 均为 `efdfc55a26d9531c904470a55ab35793004ed104`。旧 checkout clean，原 editable 环境仍绑定旧路径。
+- 决定：独立 clone 为 `C:/workspace/wt/T-20261029-nvfp4-dense/nvfp4lora`；其 origin 指向 `git@github.com:siltok-ai/nvfp4lora.git`，从已 fetch 的 origin/main 建 `feat/dense27b-lora`。不更改旧 checkout 的分支或 remotes。
+- 原文 SHA256：`docs/reference/dense27b-design-v1.md` = `81fc79306ae0458b4a28f3aa7a5ee5148d202a62a426fdfd6c07b5182e9f95a8`（桌面原字节）；`docs/reference/dense27b-handoff-v1.md` = `8937c60abc0da98a67faaa2cd03aa3dacd6c335c70e3e3df03d0017227f34778`（本次用户交接提示，UTF-8/LF，末尾换行）。
+- 影响范围：仅文档封存与 Git 属性；第4节清单外新增 `.gitattributes` 两条 `-text`，用于保证原文字节不会被行尾转换。不修改数值代码；B0 在未改动的 main 上记录。
+- 硬约束：遵守，无变更。用户确认：原交接明确授权创建分支、独立环境和首个提交；没有请求额外确认。
+
+### 2026-10-29：用户新增 FreeToken 推理交付范围
+
+- 设计原文：0.1 / G2-D、9 将 FreeToken/Speed dense LoRA 推理排除在训练分支范围之外。
+- 实测：训练方案估算的30.4GB推理占用尚未在新 fork 验证；不能当作本机成功推理的证据。
+- 决定：按用户最新指令，另从 `wenlive/FreeToken` 最新 main 建独立特性分支，参考已有 `feat/qwen36-nvfp4-lora`，适配并独立记录验收；训练分支硬约束与 DA 编号不变。完整模型推理和局部算子验收分别判定。
+- 影响范围：扩展 G2 交付，单独仓库、分支、环境和证据，不改设计原文。
+- 硬约束：不变更训练硬约束。用户已确认，原话：“最终实际带lora推理可以参考一下 https://github.com/wenlive/FreeToken 这个我自己的fork仓库 此前有feat/qwen36-nvfp4-lora 这么一个分支来做moe模型带lora推理 你可以基于这个仓库main搞个新分支来做适配和验收 （也要推送到我的freetoken fork上以独立分支）”。

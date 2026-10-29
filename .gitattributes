@@ -1,3 +1,5 @@
 * text=auto
 docs/reference/design-v2.md -text
 docs/reference/handoff-v2.txt -text
+docs/reference/dense27b-design-v1.md -text
+docs/reference/dense27b-handoff-v1.md -text
