@@ -24,6 +24,7 @@ from nvfp4lora.model.build_dense import build_dense_model, expected_dense_traina
 from nvfp4lora.train.data import SyntheticTinyDataset
 from nvfp4lora.train.loop import configure_training, frozen_fingerprint, loss_sum
 from nvfp4lora.train.session import logical_config
+from nvfp4lora.validation.cpu_layers_dense import reference_layers_dense
 
 
 def same(a, b):
@@ -194,6 +195,32 @@ class DenseBuildTests(unittest.TestCase):
             logical_config({"family": "qwen3_5_dense", "build": {"expert_rank": 2}}, self.root / "bundle", dataset)
         with self.assertRaisesRegex(ValueError, "Invalid dense build"):
             logical_config({"family": "qwen3_5_dense", "build": {"family": "qwen3_5_moe"}}, self.root / "bundle", dataset)
+
+    def test_cpu_token_recurrence_matches_ordinary_fp32_chunk(self):
+        built = self.build()
+        captures, hooks = [], []
+        ids = torch.randint(3, 2048, (1, 65), generator=torch.Generator().manual_seed(73))
+        try:
+            built.model.eval()
+            for block in built.model.model.layers:
+                hooks.append(block.register_forward_hook(lambda module, args, output: captures.append(output.detach().cpu())))
+            with torch.no_grad(), disable_adapters(built.model):
+                built.model.model(input_ids=ids.to(self.device), use_cache=False)
+            reference = reference_layers_dense(self.root / "bundle", built.store, ids)
+            ordinary = reference_layers_dense(self.root / "bundle", built.store, ids, recurrent_gdn=False)
+            self.assertEqual(len(reference), 4)
+            cross_precision = []
+            for index, (actual, expected, control) in enumerate(zip(captures, reference, ordinary)):
+                # This unit qualifies the independent FP32 recurrence. The real
+                # unconditional BF16/FP32 1% gate lives in check_dense_forward.
+                self.assertLessEqual(float((expected.double() - control.double()).norm() / control.double().norm()), 1e-6, index)
+                cross_precision.append(float((actual.double() - expected.double()).norm() / expected.double().norm()))
+            print("tiny BF16/FP32 diagnostic (not real DA5.2):", cross_precision)
+        finally:
+            for hook in hooks:
+                hook.remove()
+            if hasattr(built.streamer, "close"):
+                built.streamer.close()
 
 
 if __name__ == "__main__":

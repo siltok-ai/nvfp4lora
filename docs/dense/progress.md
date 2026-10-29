@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **M1-D qualified with documented adjustments: D0 SDPA fallback, D2 FP32 reference controls, D1/D3/D4 passed. D5-D7 pending. Real 27B construction is verified; no real 27B forward/training/release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
+Current state: **M1-D qualified with documented D0/D2 adjustments; D5 real base forward passed at the original unconditional1% criterion. D6-D7 pending. No real optimizer step or release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -88,3 +88,20 @@ Physical pinned allocation is 16GiB. Validation process peak working set 19,325,
 Real construction only: frozen GPU parameters2,595,273,728 B; LoRA435,159,040 B; two raw GPU slots531,497,056 B; CPU embedding2,542,796,800 B. Construction GPU peak allocated/reserved is about3.576/3.586GB; this excludes activations, gradients and initialized Adam moments. The 64 layer banks consume exactly16GiB pinned; validation Boolean readback adds a separate cached1-byte allocation. Both measurements and the initial overly broad assertion failure are retained. The alternative D-ATTN count in design3.5 is corrected to416 tensors in decisions; its element count and default D-ALL counts are unchanged, and D-ATTN is not enabled.
 
 Next: D5 full real forward, independent CPU FP32 first-four-layer reference at the original unconditional1% threshold, generation and checkpoint-specific tokenizer/template goldens. No real training before those gates and no formal100-step run before DA6.3 user confirmation. FreeToken dense inference remains an independent unfinished deliverable.
+
+## D5
+
+[D5 evidence](../evidence/dense/d5-summary.json) retains complete commands, resources and per-projection ranges; raw tensor captures stay outside Git with SHA256. The source remains RadixArk@319f741c with the original three-shard bindings. These are full training-model base forwards, not FreeToken inference-engine acceptance.
+
+| Gate | State | Measured evidence |
+| --- | --- | --- |
+| DA5.1 | PASS | Load allocated/reserved3,573,386,240/3,586,129,920 B. Observed128-token forward peak3,906,082,304/3,961,520,128 B; whole-card remaining11,214MiB. Raw layer banks16GiB pinned plus ordinary CPU table2,542,796,800 B; full allocator/process snapshots retained. |
+| DA5.2 | PASS | Original unconditional CPU FP32 first-four-layer relative L2:0.0029163732,0.0029407353,0.0040695826,0.0033973938, all<=0.01. Token-recursive GDN and eager attention, one FP32 layer at a time. |
+| DA5.3 | PASS | Greedy outputs2,北京,Hello; each followed immediately by im_end248046. Short uncached sanity only. |
+| DA5.4 | PASS | One128-token instrumented forward: H2D332.21ms, decode1218.13ms, projection GEMM99.78ms; GDN inclusive543.65ms and non-projection467.66ms; attention inclusive51.54ms and non-projection26.71ms. Copy/compute overlap and enqueue gaps mean the intervals cannot be summed. Actual SDPA operator count:16 efficient, zero math; repeated hidden states byte-E2. |
+| DA5.5 | PASS: observation complete | All208 FP8 source projections observed. Three ratios above original448*input_scale range, max1.022831; layer51 o_proj and layer62 in_proj_qkv/in_proj_z. This does not certify zero clipping or W8A8 equivalence. |
+| DA5.6 | PASS | Dense tokenizer/template200 Speed AST goldens; every prompt/label, forced left truncation and answer-too-long rejection passes. Tokenizer options match Speed. |
+
+The first additional random-tiny BF16/FP32 test exceeded1% at layer3 (1.191991%); its failed run is preserved. Independent token-recursive FP32 vs ordinary HF chunk FP32 agrees within6.379013e-7, and both yield the same larger tiny cross-precision error. The reference-algorithm unit checks that mathematical control. The real DA5.2 criterion was never relaxed and passes independently. Full unit suite:57 tests. Frozen model parameters, buffers, raw banks and CPU table remain unchanged through reference and generation.
+
+Next: D6 own-base replay300, canary300/holdout50, actual one-step mechanisms,2048/4096 two-step pressure, then **DA6.3 user confirmation before formal100 steps**. FreeToken dense inference and the later Qwen3.6 campaign remain unfinished.

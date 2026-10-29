@@ -194,3 +194,22 @@ v2第6.2节明确容差是起点，允许依据实测和原理调整。这里不
 - MoE回归：56项单测通过；新分支MoE两步metrics与原B0100步的前两步E2。B0原run未保存step2参数，因此在未改动的main上补做两步，终点参数/Adam/scheduler/RNG/data/trainer/config/probe/DeltaW与新分支两步全E2。补充run不替换原B0、不冒称代码改动前已记录step2权重。两套真实logical_config及e58cf9.../2f8da3...哈希仍完全一致。D7完整100步、真实首步和已交付checkpoint身份回归仍待完成。
 - 影响范围：设计清单内dense tiny工具、configs和共享family/layout分派；只修正D-ATTN计数和测量器，不调整DA4阈值。不新增依赖。
 - 硬约束：遵守。用户确认：常规工程已授权；DA6.3功能门槛尚未确认，未开始真实27B训练。
+
+### 2026-10-29：D5独立CPU参考、tiny诊断与原真实1%判据
+
+- 设计：DA5.2要求128-token真实提示、无条件CPU FP32前四层各≤1%，GDN独立逐token、attention eager；第4节允许新cpu_layers_dense.py，不修改MoE参考。
+- 实测：真实层0/1/2/3误差依次0.291637%、0.294074%、0.406958%、0.339739%，原判据全部通过。GPU完整64层有限；重复前向隐藏状态按U8逐字节E2；实际16个全注意力调用均为既有efficient SDPA，冻结指纹不变。
+- tiny诊断：最初额外把真实1%门槛施加到65-token随机tiny，误差依次0.532428%、0.769469%、0.960096%、1.191991%，最后一层FAIL，原run保留。控制实验中，同一独立CPU递推与普通HF CPU FP32分块GDN四层端到端最大差6.379013e-7；BF16对普通HF FP32同样为1.191991%，说明该随机tiny的跨精度累积不来自递推算法错误。未通过修改生产精度来迎合tiny。
+- 决定：新增参考算法单测改为检验独立FP32递推对普通FP32分块的≤1e-6数学控制，继续打印tiny BF16误差，明确原tiny1%仍FAIL。真实DA5.2仍使用原始无条件1%门槛、没有放宽或teacher输入。CPU逐层只保留当前层FP32矩阵，按行限定解码中间量；复用原CPURecurrentGDN的无路由数学，不改MoE代码。57项完整单测通过。
+- 影响范围：新dense CPU参考/前向工具和已有dense构建测试；不改PackedLinear、HF前向、量化格式、依赖或真实验收判据。
+- 硬约束：遵守。用户确认：一般诊断/工程修复已授权，真实原门槛通过，无需额外确认。
+
+### 2026-10-29：D5真实前向、FP8范围与计时口径
+
+- 设计：DA5.1、DA5.3–DA5.6要求资源、短回答、单次前向拆分、原FP8 input_scale观测和200条Speed模板黄金样本。
+- 实测：加载allocated3,573,386,240/reserved3,586,129,920字节；128-token带捕获/范围观测前向峰值allocated3,906,082,304/reserved3,961,520,128字节，整卡剩余11,214MiB。前向观察时working set21.773GB，进程private峰值约30.61GB，均非训练峰值。三条非思考greedy分别输出2、北京、Hello，每条下一token就是im_end（248046），不再生成。200条使用原dense tokenizer/template的Speed提示、标签、截断/丢弃黄金全部通过；直接编译engine_bridge.py当前_prompt_tokens AST，函数SHA725a75...，保持与Speed相同加载选项。
+- FP8：基座单条128-token提示覆盖全部208个来源投影，3个比值>1，最大1.022831（51层o_proj、62层in_proj_qkv/in_proj_z）。这是完成观测，不是“无截断”通过；D6.8还需训练后语料观测，不模拟W8A8或修改训练数学。
+- 计时：真实128-token仪器化CUDA区间，投影GEMM99.78ms、解码1218.13ms、H2D332.21ms、acquire等待8.44ms；GDN含投影/解码总区间543.65ms，扣除投影/解码后467.66ms；attention分别51.54/26.71ms。事件区间包括CPU入队空隙，H2D可与计算重叠，inclusive与exclusive口径分列，不能直接相加。整体仪器化wall包含CPU profiler启动/结束成本，不作纯计算或训练速度。原始CPU/GPU Tensor轨迹只留仓外，仓库保存摘要及sha。
+- 决定：audit_fp8_input_ranges.py只增加显式dense family路径，复用PackedLinear输入hook和原bank FP32 scale；dense可无adapter观察基座，有adapter时双相位。MoE现有参数命令和数学分支不改。训练/推理regex警告按原样保留，没有擅自启用fix_mistral_regex改变Speed token协议。
+- 影响范围：设计清单内前向工具及FP8观测分派、证据；真实训练、FP8模拟或性能kernel均未加入。
+- 硬约束：遵守。用户确认：一般工程已授权，DA6.3尚未确认，仍未进行真实训练。
