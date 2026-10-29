@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **D0 qualified with a documented SDPA fallback. D1-D7 not started. No real dense training or release yet.** Latest compact receipts: [D0 summary](../evidence/dense/d0-summary.json). Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
+Current state: **D0 qualified with a documented SDPA fallback; D1 tiny and real preprocessing passed. D2-D7 pending. No real dense training or release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -22,3 +22,20 @@ DA0.9's first measurement failed because CUDA was not initialized before queryin
 Budget implications: pinned allocation matches the 16GiB estimate. Full GDN is at the upper edge of the planned range, while LoRA/packed-layer and whole-model memory remain unmeasured. Large-shape GEMM is faster than the estimated 40-60TFLOPS, but the measured GDN cost increases the provisional long-sequence time budget. See [D0 budget](d0-budget.md) for scope and estimates. No functional threshold is approved by this measurement.
 
 User additionally requested a separate FreeToken inference branch. It exists locally as `wenlive/FreeToken:feat/dense27b-nvfp4-lora` from latest main `f417397f339050e6f400e75db0f1e6acbc40f13a`; reference MoE branch is `b354e6df87108143d1277f62520ce070806e03a2`. Reused Python adapter infrastructure and LoRA tests match the reference Git blobs; 40 existing tests pass in the new isolated inference environment. That is a reference-foundation result, not dense model inference. Current FreeToken head is `2f0165a`; dense format/mapping/capacity remain pending and unpushed.
+
+## D1
+
+[D1 summary](../evidence/dense/d1-summary.json) includes independent readback and optional FreeToken sampling. Tiny was generated and passed before real preprocessing. The minimal store layout argument was added for DA1.4; the MoE default is unchanged. The 45-test suite passes (41 existing plus 4 dense format tests).
+
+| Gate | State | Measured evidence |
+| --- | --- | --- |
+| DA1.1 | PASS | Real 64-layer geometry matches; 400 quantized linears, 1,392 streamed fields. Tiny contains 8 deliberately misleading MTP/visual keys; all excluded. Real excludes 348 non-text tensors. |
+| DA1.2 | PASS | Every streamed byte compared after serialization and independently from original shards to loaded CPU store. Real payload 16,840,133,760 B. |
+| DA1.3 | PASS | All 7,214,202,880 FP8 weight code elements convert exactly to BF16. Optional 36 real MLP samples over gate/up/down in layers 0/3/31/63 match FreeToken raw-FP32-global decoding at 0 ULP; FP16 runtime global differs by at most 1 ULP, reported separately. |
+| DA1.4 | PASS | Every layer below 256MiB, max 265,748,528 B; index/header/file SHA checked. Independent store reload reproduces all payload hashes. |
+| DA1.5 | PASS | Real preprocessing peak working set 6,071,853,056 B. Independent pageable-store validation is a separate process and not included in this preprocessing peak. |
+| DA1.6 | PASS | Nonstream payload 5,138,070,528 B; BF16 embed/head/small-parameter keys complete. No streamed MLP/attention weight decoded into these files. Head uses existing nonexpert policy; source config/tokenizer and output hashes recorded. |
+
+Real bundle: `C:/workspace/models/bundles/qwen3.8-27b-nvfp4-lora/319f741cce68d791-train-v1`.
+Tiny bundle: `C:/workspace/models/bundles/nvfp4lora-tiny-dense/seed-20261029-train-v1`.
+They are preprocessing artifacts, not trained adapters. The first optional FreeToken invocation failed before computation because its environment lacks psutil; the reference-only import path was reduced to its actual dependencies and rerun without installing any package. The failed run remains separate.

@@ -116,3 +116,20 @@ v2第6.2节明确容差是起点，允许依据实测和原理调整。这里不
 - 决定：补齐清单外D0工具的完整模块关卡；将各范围分别报告。根据大GEMM、解码与GDN测量暂以2048约12～18s/micro、4096约25～35s/micro规划（均为推算），不把GPU事件或独立峰值相加当实测整模性能；见docs/dense/d0-budget.md。D6用真实值替换，原超过两倍且原因不明的停止规则不变。
 - 影响范围：资格覆盖及规划预算；不改模型数学、LoRA范围/rank或lm_head策略。
 - 硬约束：无变更。用户确认：原方案允许按实测修正规划估计；用户明确“无时间限制可持续推进”，无需新增确认。
+
+### 2026-10-29：D1最小store接口、独立读回与lm_head策略
+
+- 设计：第4节列出ExpertStore的layout_version参数；DA1.4已经要求store加载后哈希可复现，而完整streamer关卡在D3。
+- 实测：tiny dense生成、预处理及四项格式/拒绝测试通过；按默认构造的MoE store拒绝dense布局，显式传`packed-dense-layers-v1`后全字段原字节和重载哈希一致。全部8个MTP/visual假键被排除，剩余非流式键集合完整。
+- 决定：在D1提前加入最小layout_version构造参数（默认MoE原值不变），供DA1.4读回；D3竞争/异步等完整关卡仍按顺序执行。清单外新增`tools/check_dense_preprocessed.py`和`tests/test_dense_preprocess.py`，分别提供独立源→store全量E1/两次加载验证及来源、过滤、fail-closed回归。预处理和大型store检查在不同进程，分别报告内存，不能将store分配算作预处理峰值。
+- lm_head：按设计3.1、第4节显式例外，使用现有`_decode_nvfp4_rows`和`nonexpert-fp32-decode-bf16-v1`离线生成bf16；MLP NVFP4及注意力/GDN FP8仅原字节分层保存。交接摘要的通用原字节表述以设计中更具体的lm_head安排为准；没有启用O3或更改其数值策略。
+- 影响范围：D1格式、夹具、store最小接口与验收；不改MoE解码、构建、streamer或训练数学。原文不改。
+- 硬约束：无变更。用户确认：既有实施授权与设计的明确安排，不请求额外确认。
+
+### 2026-10-29：DA1.3可选FreeToken对照的依赖隔离
+
+- 设计：DA1.3可选只读调用FreeToken；0.4.2禁止新增依赖。
+- 实测：首轮参考工具在计算前因infer环境无psutil退出，未产生数值对照。psutil只是完整store检查所需的监测依赖，解码采样不需要；将其及训练格式模块导入移至完整检查路径后，原推理环境无需安装任何包即可执行36个真实样本。FP32原global对照最大0 ULP；运行时FP16 global另列最大1 ULP。
+- 决定：保留首轮FAIL及新run，不给infer环境添加psutil，不修改锁文件。两种global精度结果分列，不能把FP16 runtime误差混入训练原FP32策略。
+- 影响范围：清单外D1检查入口的可选参考路径；无数值实现或依赖变更。
+- 硬约束：遵守。用户确认：无需新增确认，实际未新增依赖。

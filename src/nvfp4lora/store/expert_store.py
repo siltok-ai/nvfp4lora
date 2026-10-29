@@ -12,10 +12,10 @@ from nvfp4lora.format.inspect import read_header
 class ExpertStore:
     """从已校验的预处理文件直接读入 CPU uint8 bank，保留全部缩放字节。"""
 
-    def __init__(self, directory, *, pin_memory=True):
+    def __init__(self, directory, *, pin_memory=True, layout_version="packed-nvfp4-experts-v1"):
         self.directory = Path(directory)
         index = json.loads((self.directory / "index.json").read_text(encoding="utf-8"))
-        if index["layout_version"] != "packed-nvfp4-experts-v1":
+        if index["layout_version"] != layout_version:
             raise ValueError("Unsupported expert store layout")
         self.geometry, self.source = index["geometry"], index["source"]
         self.entries, self.banks = {}, {}
