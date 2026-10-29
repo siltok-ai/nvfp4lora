@@ -2,6 +2,8 @@
 
 探索在原生 Windows、RTX 5070 Ti 16 GB 与 64 GB 主存上，使用部署用的 Qwen3.6-35B-A3B NVFP4 checkpoint 训练 LoRA。
 
+> **下一阶段改进：[性能与演进路线图](ROADMAP.md)**。优先补齐真实训练端到端 profiler、专家计算与重算优化、实际推理后端质量闭环；同时整理训练范围配置、分级存储与成熟训练前端集成。这是后续计划，尚未实施。
+
 ## 设计与交接原文
 
 - [技术方案 v2](docs/reference/design-v2.md)
