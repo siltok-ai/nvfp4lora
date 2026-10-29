@@ -213,3 +213,21 @@ v2第6.2节明确容差是起点，允许依据实测和原理调整。这里不
 - 决定：audit_fp8_input_ranges.py只增加显式dense family路径，复用PackedLinear输入hook和原bank FP32 scale；dense可无adapter观察基座，有adapter时双相位。MoE现有参数命令和数学分支不改。训练/推理regex警告按原样保留，没有擅自启用fix_mistral_regex改变Speed token协议。
 - 影响范围：设计清单内前向工具及FP8观测分派、证据；真实训练、FP8模拟或性能kernel均未加入。
 - 硬约束：遵守。用户确认：一般工程已授权，DA6.3尚未确认，仍未进行真实训练。
+
+### 2026-10-29：D6资格工具、真实梯度和压力测量
+
+- 设计：DA6.0–DA6.2、第4节及5.1/5.3；第4节未单列真实梯度捕获和dense逐层重算的独立入口。
+- 实测：旧canary300/holdout50文本SHA逐字节相同，replay300由当前dense基座生成；基座留出0/50、回放981监督tokens的NLL为0.00023400843633333113。真实1步×acc8的B=0开关loss均为4.820327281951904、FP32bits1083850783；全部B首步梯度非零。更新后probe4.715414047241211，禁用恢复原loss位级相同，冻结不变。两种层共13投影的真实激活/dY对照，同表达式output/dx/dA/dB E2，FP32参考forward<=1%、梯度<=2%且cos>=.999；八次累积A/B与实际训练梯度E2。首层冻结输入的qkv/z没有实际dx边，明确由隔离replay检查，不能声称捕获了不存在的dx。
+- 决定：清单外新增tools/check_dense_training.py、tools/profile_dense_recompute_memory.py；后者直接复用原RecomputePeaks，不改MoE profiler。audit_snapshot.py仅新增显式dense检测，把decode_codes内FP8 cast和NVFP4预分配矩阵纳入，原MoE默认路径不变。仓外baseline、整卡监控和证据收集器保存自身源码；只把摘要和manifest入仓。prepare_canary_replay.py新增family分派及dense自身EOS/pad，旧MoE默认seed/EOS/pad不变。verify_training_release.py增加dense布局读取分派，完整真实DA6.6仍待正式训练。
+- 资源：2048两步×acc8为129.03/128.47s，allocated9,005,052,416B、reserved9,483,321,344B、整卡最低剩余5938MiB；4096为284.10/284.72s，allocated12,996,858,368B、reserved13,398,704,128B、整卡最低剩余2204MiB。整卡每秒采样可能漏过亚秒瞬态，Torch峰值另存。2048/4096 steady-state各恢复真实step2 Adam（870,318,080B）、64层重算、完整history、loss/全部800梯度对无仪器U8 E2、冻结不变；首micro及重算快照均证明反向后无decoded分配存活。
+- 计时决定：用实测替换估算；2048约16.1s/micro、4096约35.6s/micro，接近D0修订预算12–18/25–35。相对原5.3上沿没有超过两倍；保留原估算与实测差异，不把资格step当正式训练性能。profile的单micro峰值较完整acc8小约435MB，是初始尚无累积grad，不能替代压力峰值。4096剩余>1GiB，无需O1；未启用O3/O4，也未改lm_head、rank、范围或数值策略。
+- 影响范围：D6资格和family加法，未新增依赖、未改变生产PackedLinearFn/训练循环/MoE数学。57项单测通过。首步max1检查点是资格产物，不延长配置为正式100步；压力logical max100但stop-at2，明确不是功能100步。
+- 硬约束：遵守，无变更。用户确认：一般工程已授权；DA6.3尚待明确确认，未开始正式100步。证据见docs/evidence/dense/d6-preflight-summary.json。
+
+### 2026-10-29：DA6.3功能门槛确认请求（待答）
+
+- 设计：DA6.3要求“确认后再跑正式100步”，并记录确认原话和时间；不能继承旧MoE门槛。
+- 实测：基座留出0/50，回放NLL0.00023400843633333113 nat/token；2048/4096压力均通过，4096整卡最低剩余2204MiB。
+- 决定：2026-10-29约13:35 UTC向用户提出新门槛确认：推荐留出>=45/50且回放NLL增量<=0.01（最终<=0.010234008436333332）；另提供>=48/50且增量<=0.005。此时尚无用户答复，推荐选项不是批准，未运行DA6.4正式100步。等待期间继续用户独立授权的FreeToken推理适配。
+- 影响范围：正式功能验收准入，其他已通过资格不变。
+- 硬约束：遵守必停。用户确认：**尚未收到，不得写成已确认**；收到后另记原话、时间和最终数值。

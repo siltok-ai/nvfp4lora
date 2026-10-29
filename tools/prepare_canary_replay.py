@@ -65,20 +65,36 @@ def main():
     parser.add_argument("--dataset-output", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--family", choices=["moe", "dense"])
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     args.dataset_output.mkdir(parents=True, exist_ok=False)
-    configure_training(20261028)
+    bundle_manifest = json.loads((args.bundle / "manifest.json").read_text(encoding="utf-8"))
+    dense = bundle_manifest.get("family") == "qwen3_5_dense"
+    if args.family is not None and (args.family == "dense") != dense:
+        raise ValueError("Requested replay family differs from bundle")
+    configure_training(20261029 if dense else 20261028)
     tokenizer = AutoTokenizer.from_pretrained(args.bundle, local_files_only=True)
-    built = build_model(args.bundle, expert_rank=0, c3_rank=0, streaming="async")
+    if dense:
+        from nvfp4lora.model.build_dense import build_dense_model
+        built = build_dense_model(args.bundle, lora_rank=0, streaming="async")
+    else:
+        built = build_model(args.bundle, expert_rank=0, c3_rank=0, streaming="async")
     built.model.eval()
-    stops = {248044, tokenizer.convert_tokens_to_ids("<|im_end|>")}
+    if dense:
+        generation = json.loads((args.bundle / "generation_config.json").read_text(encoding="utf-8"))
+        eos = generation["eos_token_id"]
+        stops = set(eos if isinstance(eos, list) else [eos]) | {tokenizer.eos_token_id, tokenizer.convert_tokens_to_ids("<|im_end|>")}
+        pad_token = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
+    else:
+        stops = {248044, tokenizer.convert_tokens_to_ids("<|im_end|>")}
+        pad_token = 248044
     def encode(messages):
         return tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=True,
                                               enable_thinking=False, return_dict=False)
     def generate(rows, max_tokens=8):
         return greedy_batch(built, [encode(row["messages"]) for row in rows], eos_token_ids=stops,
-                            pad_token_id=248044, max_new_tokens=max_tokens)
+                            pad_token_id=pad_token, max_new_tokens=max_tokens)
     train, holdout = canaries()
     questions = replay_questions()
     controls = [questions[0], questions[7], questions[12]]

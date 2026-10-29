@@ -33,7 +33,12 @@ def main():
         disabled = loss_sum(built, batch, ce_chunk_size=config["ce_chunk_size"], recompute=False) / supervised_tokens(batch["labels"])
     checks = {"fixed_batch_loss_E2": int(enabled.view(torch.int32)) == expected["loss_fp32_bits"],
               "disabled_loss_E2": int(disabled.view(torch.int32)) == expected["disabled_loss_fp32_bits"]}
-    values, _ = _artifact_tensors(source / "publish")
+    publish_manifest = json.loads((source / "publish/manifest.json").read_text(encoding="utf-8"))
+    if publish_manifest.get("layout_version") == "nvfp4-lora-dense-v1":
+        from nvfp4lora.export.artifacts import _dense_artifact_tensors
+        values, _ = _dense_artifact_tensors(source / "publish")
+    else:
+        values, _ = _artifact_tensors(source / "publish")
     checks["all_parameter_bytes_equal"] = values.keys() == built.trainable.keys() and all(
         torch.equal(parameter.detach().cpu().contiguous().view(torch.uint8), values[name].contiguous().view(torch.uint8))
         for name, parameter in built.trainable.items())
