@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **D0 qualified with a documented SDPA fallback; D1 tiny and real preprocessing passed. D2-D7 pending. No real dense training or release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
+Current state: **D0 qualified with a documented SDPA fallback; D1 tiny and real preprocessing passed; D2 qualified with documented FP32 reference controls. D3-D7 pending. No real dense training or release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -39,3 +39,20 @@ User additionally requested a separate FreeToken inference branch. It exists loc
 Real bundle: `C:/workspace/models/bundles/qwen3.8-27b-nvfp4-lora/319f741cce68d791-train-v1`.
 Tiny bundle: `C:/workspace/models/bundles/nvfp4lora-tiny-dense/seed-20261029-train-v1`.
 They are preprocessing artifacts, not trained adapters. The first optional FreeToken invocation failed before computation because its environment lacks psutil; the reference-only import path was reduced to its actual dependencies and rerun without installing any package. The failed run remains separate.
+
+## D2
+
+[D2 summary](../evidence/dense/d2-summary.json) preserves the original FP32 failure and independent controls. Production arithmetic follows design 3.3 exactly: BF16 code-value GEMM, FP32 output scale, BF16 result; backward reacquires/redecodes, and ctx stores only layer/name/config. FP32 LoRA is an ordinary autograd side path with zero B. No production PEFT injection or MoE numerical changes.
+
+| Gate | State | Measured evidence |
+| --- | --- | --- |
+| DA2.1 | PASS | All ten real projection shapes at T4096: forward and dx E2 vs independently materialized same-expression ordinary autograd. |
+| DA2.2 | PASS | NVFP4 and FP8 small FP64 gradcheck; no saved base tensors or Tensor attributes in ctx. |
+| DA2.3 original | PARTIAL / FAIL | Small shapes pass original 1e-6; real down_proj forward 1.0246188661e-6 fails. Ordinary FP32 autograd matches that result E2. Original failed run retained. |
+| DA2.3 amended | QUALIFIED | All ten real shapes satisfy ordinary-autograd E2 plus FP64 relative L2 <=2e-6. Thirty-six predeclared held-out controls over down/gate/o, three seeds and four lengths: both precision modes E2 vs ordinary autograd, max L2 1.31958903495e-6. See the dated decision; this is not original-threshold PASS. |
+| DA2.4 | PASS | Max direct decoder peak delta 287,310,336 B, returned live delta 0; max extra weight workspace over materialized control 178,257,920 B, within matrix+chunk bound. Full forward/backward peak delta max 891,289,600 B includes required activation/cast workspace and is separately reported. No saved base tensor; gate allocator snapshot retained outside Git with SHA256. |
+| DA2.5 | PASS | All ten real shape repeated forward/dx E2. |
+| DA2.6 | PASS | All ten real shapes: two-backward accumulation, reentrant checkpoint and non-reentrant checkpoint E2. |
+| DA2.7 | PASS | All ten real shapes: B=0 enabled/disabled output E2; nonzero LoRA output/dx/dA/dB E2 vs handwritten ordinary autograd expression. Whole-model zero-step loss remains D4. |
+
+Fifty unit tests pass (41 original, four D1 and five D2). CPUEmbedding holds its frozen CPU BF16 table as an ordinary attribute, with no parameters/buffers/state_dict entries; D4 must still prove whole-model fingerprint coverage. The tiny-only reference keeps decoded matrices and clones global scales to survive slot reuse; real-checkpoint materialization is explicitly rejected. These operator qualifications do not establish whole-model training, exact resume, publication or inference; those remain subsequent gates.

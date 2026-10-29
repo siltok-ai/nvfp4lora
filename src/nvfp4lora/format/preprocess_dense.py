@@ -15,11 +15,11 @@ from transformers import Qwen3_5ForCausalLM, Qwen3_5TextConfig
 
 from .inspect import inspect_checkpoint, read_header
 from .preprocess import FIELDS, NUMERICAL_POLICY, _decode_nvfp4_rows, file_hash, load_group
+from nvfp4lora.ops.packed_linear_fn import NUMERICAL_POLICY as LINEAR_POLICY
 
 FAMILY = "qwen3_5_dense"
 LAYOUT = "nvfp4-stream-dense-v1"
 LAYER_LAYOUT = "packed-dense-layers-v1"
-LINEAR_POLICY = "dense-packed-linear-bf16code-fp32scale-v1"
 TEXT_PREFIX = "model.language_model."
 METADATA_FILES = ("config.json", "hf_quant_config.json", "model.safetensors.index.json", "tokenizer.json",
                   "tokenizer_config.json", "chat_template.jinja", "vocab.json", "generation_config.json",

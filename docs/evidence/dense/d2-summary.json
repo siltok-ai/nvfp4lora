@@ -1,0 +1,1123 @@
+{
+  "status": "QUALIFIED_WITH_DOCUMENTED_REFERENCE_CONTROL",
+  "scope": "D2 linear operators only; not whole-model training, resume or release",
+  "gates": {
+    "DA2.1": "PASS",
+    "DA2.2": "PASS",
+    "DA2.3": "QUALIFIED_WITH_DOCUMENTED_REFERENCE_CONTROL",
+    "DA2.4": "PASS",
+    "DA2.5": "PASS",
+    "DA2.6": "PASS",
+    "DA2.7": "PASS"
+  },
+  "source": {
+    "kind": "real-dense-checkpoint",
+    "repo": "RadixArk/Qwen3.8-27B-NVFP4",
+    "revision": "319f741cce68d7914884900c138a1fbb70a42f30",
+    "shards": [
+      {
+        "filename": "model-00001-of-00003.safetensors",
+        "sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+      },
+      {
+        "filename": "model-00002-of-00003.safetensors",
+        "sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+      },
+      {
+        "filename": "model-00003-of-00003.safetensors",
+        "sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+      }
+    ],
+    "metadata": [
+      {
+        "filename": "LICENSE",
+        "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+      },
+      {
+        "filename": "README.md",
+        "sha256": "3cfd18e07422e6eff20fcdf8dcdb3c864976dcef0e1e0f2c3f8bf788603203c2"
+      },
+      {
+        "filename": "chat_template.jinja",
+        "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+      },
+      {
+        "filename": "config.json",
+        "sha256": "7ff41ec6f96ad50efea3c92751cd261b63839d39936eb6e6ffc9066db8672740"
+      },
+      {
+        "filename": "generation_config.json",
+        "sha256": "a4cef85934ea1fdcb207944dbc6eee70dbbf16806874428556ae33023336c0a4"
+      },
+      {
+        "filename": "hf_quant_config.json",
+        "sha256": "0f39e8cd23abdfb79adc89ac1b19acad990aa6ac32973f9ab0a67d1e3449535c"
+      },
+      {
+        "filename": "model.safetensors.index.json",
+        "sha256": "7aa103a2582b7d26631988de33dea19e8a308ee9c239e8e14feb374af30905e2"
+      },
+      {
+        "filename": "tokenizer.json",
+        "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+      },
+      {
+        "filename": "tokenizer_config.json",
+        "sha256": "e5d078b00e6c1223b32444db8c1001dc71d86ceef8ee706b5bf084c3a43a1f9c"
+      },
+      {
+        "filename": "vocab.json",
+        "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+      }
+    ]
+  },
+  "linear_policy": "dense-packed-linear-bf16code-fp32scale-v1",
+  "runs": {
+    "d2-small": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T114903Z-d2-small-linear",
+      "status": "PASS",
+      "exit_code": 0,
+      "manifest_sha256": "281153606e6ade7e002c5ae14966254b72bc2fce128a2c526cc2349a46f8e5ee"
+    },
+    "d2-qualified": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T120023Z-d2-final-real",
+      "status": "PASS",
+      "exit_code": 0,
+      "manifest_sha256": "f78772d44f9a37a5618720fd2bab9961ebac2796c0b3338d99cd623eb397f459"
+    },
+    "d2-heldout-scope": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T115712Z-d2-fp32-heldout-scope",
+      "status": "PASS",
+      "exit_code": 0,
+      "manifest_sha256": "c4da7a018b8a95b944ef2f47f256b46e8791409cb7c96e926326319f2ca0d045"
+    },
+    "d2-regression": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T115916Z-d2-unit-regression",
+      "status": "PASS",
+      "exit_code": 0,
+      "manifest_sha256": "c3726af910ea8eb3578100bc8865f401c5a34dbefcd37e11a4ac24971e566f58"
+    },
+    "d2-real": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T115202Z-d2-real-linear",
+      "status": "FAIL",
+      "exit_code": 1,
+      "manifest_sha256": "1418a513ec4ed7e4fff2cbe475f110f8e7c9de44a1d6cece6c37da2b3a784836"
+    },
+    "d2-precision": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T115523Z-d2-precision-diagnostic",
+      "status": "FAIL",
+      "exit_code": 1,
+      "manifest_sha256": "29d1d6d632b5285231dbb4d7d9d71da0311c16dd8414d6ac0b63742e5357519e"
+    },
+    "d2-heldout": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T115617Z-d2-fp32-heldout",
+      "status": "FAIL",
+      "exit_code": 1,
+      "manifest_sha256": "b088698be2cca62b5ccbcaa90bb7a9616fa877671f8e34f14495a501382bcafc"
+    }
+  },
+  "real_T4096_cases": [
+    {
+      "layer": 3,
+      "name": "self_attn.q_proj",
+      "kind": "fp8",
+      "shape": [
+        4096,
+        5120,
+        12288
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 534774272,
+        "peak_allocated": 1071645184,
+        "peak_delta": 536870912
+      },
+      "packed_memory": {
+        "before_allocated": 476053504,
+        "peak_allocated": 1105199104,
+        "peak_reserved": 1147142144,
+        "peak_delta": 629145600,
+        "forward_live_delta": 100663296,
+        "after_backward_live_delta": 142606336,
+        "io_bytes": 142606336,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 92274688,
+        "matrix_bytes": 125829120,
+        "chunk_intermediates_bound": 4096,
+        "decoder_only": {
+          "peak_delta": 125829120,
+          "decoded_matrix_bytes": 125829120,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 4.849365609580966e-07,
+        "dx": 3.803963061326849e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 3,
+      "name": "self_attn.k_proj",
+      "kind": "fp8",
+      "shape": [
+        4096,
+        5120,
+        1024
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 394265088,
+        "peak_allocated": 452985344,
+        "peak_delta": 58720256
+      },
+      "packed_memory": {
+        "before_allocated": 383778816,
+        "peak_allocated": 452984832,
+        "peak_reserved": 501219328,
+        "peak_delta": 69206016,
+        "forward_live_delta": 8388608,
+        "after_backward_live_delta": 50331648,
+        "io_bytes": 50331648,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 10485760,
+        "matrix_bytes": 10485760,
+        "chunk_intermediates_bound": 4096,
+        "decoder_only": {
+          "peak_delta": 10485760,
+          "decoded_matrix_bytes": 10485760,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 2.865385372429907e-07,
+        "dx": 2.6274145549229557e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 3,
+      "name": "self_attn.v_proj",
+      "kind": "fp8",
+      "shape": [
+        4096,
+        5120,
+        1024
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 394265088,
+        "peak_allocated": 452985344,
+        "peak_delta": 58720256
+      },
+      "packed_memory": {
+        "before_allocated": 383778816,
+        "peak_allocated": 452984832,
+        "peak_reserved": 501219328,
+        "peak_delta": 69206016,
+        "forward_live_delta": 8388608,
+        "after_backward_live_delta": 50331648,
+        "io_bytes": 50331648,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 10485760,
+        "matrix_bytes": 10485760,
+        "chunk_intermediates_bound": 4096,
+        "decoder_only": {
+          "peak_delta": 10485760,
+          "decoded_matrix_bytes": 10485760,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 2.8513721677981256e-07,
+        "dx": 2.6878349950427475e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 3,
+      "name": "self_attn.o_proj",
+      "kind": "fp8",
+      "shape": [
+        4096,
+        6144,
+        5120
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 488636928,
+        "peak_allocated": 698352128,
+        "peak_delta": 209715200
+      },
+      "packed_memory": {
+        "before_allocated": 425721856,
+        "peak_allocated": 698351616,
+        "peak_reserved": 731906048,
+        "peak_delta": 272629760,
+        "forward_live_delta": 41943040,
+        "after_backward_live_delta": 92274688,
+        "io_bytes": 92274688,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 62914560,
+        "matrix_bytes": 62914560,
+        "chunk_intermediates_bound": 4096,
+        "decoder_only": {
+          "peak_delta": 62914560,
+          "decoded_matrix_bytes": 62914560,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 6.347861350432076e-07,
+        "dx": 6.513429888955519e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 0,
+      "name": "linear_attn.in_proj_qkv",
+      "kind": "fp8",
+      "shape": [
+        4096,
+        5120,
+        10240
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 564134400,
+        "peak_allocated": 983564800,
+        "peak_delta": 419430400
+      },
+      "packed_memory": {
+        "before_allocated": 459276288,
+        "peak_allocated": 983564288,
+        "peak_reserved": 1025507328,
+        "peak_delta": 524288000,
+        "forward_live_delta": 83886080,
+        "after_backward_live_delta": 125829120,
+        "io_bytes": 125829120,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 104857600,
+        "matrix_bytes": 104857600,
+        "chunk_intermediates_bound": 4096,
+        "decoder_only": {
+          "peak_delta": 104857600,
+          "decoded_matrix_bytes": 104857600,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 5.667316842053087e-07,
+        "dx": 3.4720860233010346e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 0,
+      "name": "linear_attn.in_proj_z",
+      "kind": "fp8",
+      "shape": [
+        4096,
+        5120,
+        6144
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 488636928,
+        "peak_allocated": 740295168,
+        "peak_delta": 251658240
+      },
+      "packed_memory": {
+        "before_allocated": 425721856,
+        "peak_allocated": 740294656,
+        "peak_reserved": 765460480,
+        "peak_delta": 314572800,
+        "forward_live_delta": 50331648,
+        "after_backward_live_delta": 92274688,
+        "io_bytes": 92274688,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 62914560,
+        "matrix_bytes": 62914560,
+        "chunk_intermediates_bound": 4096,
+        "decoder_only": {
+          "peak_delta": 62914560,
+          "decoded_matrix_bytes": 62914560,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 3.569886171714768e-07,
+        "dx": 6.270241286471352e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 0,
+      "name": "linear_attn.out_proj",
+      "kind": "fp8",
+      "shape": [
+        4096,
+        6144,
+        5120
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 488636928,
+        "peak_allocated": 698352128,
+        "peak_delta": 209715200
+      },
+      "packed_memory": {
+        "before_allocated": 425721856,
+        "peak_allocated": 698351616,
+        "peak_reserved": 731906048,
+        "peak_delta": 272629760,
+        "forward_live_delta": 41943040,
+        "after_backward_live_delta": 92274688,
+        "io_bytes": 92274688,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 62914560,
+        "matrix_bytes": 62914560,
+        "chunk_intermediates_bound": 4096,
+        "decoder_only": {
+          "peak_delta": 62914560,
+          "decoded_matrix_bytes": 62914560,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 6.218088096179321e-07,
+        "dx": 6.594565642679422e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 0,
+      "name": "mlp.gate_proj",
+      "kind": "nvfp4",
+      "shape": [
+        4096,
+        5120,
+        17408
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 696254976,
+        "peak_allocated": 1409286656,
+        "peak_delta": 713031680
+      },
+      "packed_memory": {
+        "before_allocated": 517996544,
+        "peak_allocated": 1409286144,
+        "peak_reserved": 1537212416,
+        "peak_delta": 891289600,
+        "forward_live_delta": 142606336,
+        "after_backward_live_delta": 184549376,
+        "io_bytes": 184549376,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 178257920,
+        "matrix_bytes": 178257920,
+        "chunk_intermediates_bound": 167776256,
+        "decoder_only": {
+          "peak_delta": 287310336,
+          "decoded_matrix_bytes": 178257920,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 8.74134611485532e-07,
+        "dx": 4.359594166143433e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 0,
+      "name": "mlp.up_proj",
+      "kind": "nvfp4",
+      "shape": [
+        4096,
+        5120,
+        17408
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 696254976,
+        "peak_allocated": 1409286656,
+        "peak_delta": 713031680
+      },
+      "packed_memory": {
+        "before_allocated": 517996544,
+        "peak_allocated": 1409286144,
+        "peak_reserved": 1537212416,
+        "peak_delta": 891289600,
+        "forward_live_delta": 142606336,
+        "after_backward_live_delta": 184549376,
+        "io_bytes": 184549376,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 178257920,
+        "matrix_bytes": 178257920,
+        "chunk_intermediates_bound": 167776256,
+        "decoder_only": {
+          "peak_delta": 287310336,
+          "decoded_matrix_bytes": 178257920,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 8.750469017098404e-07,
+        "dx": 4.389329208150515e-07
+      },
+      "fp32_original_1e6_pass": true,
+      "fp32_ordinary_autograd_E2": true
+    },
+    {
+      "layer": 0,
+      "name": "mlp.down_proj",
+      "kind": "nvfp4",
+      "shape": [
+        4096,
+        17408,
+        5120
+      ],
+      "checks": {
+        "forward_E2": true,
+        "dx_E2": true
+      },
+      "reference_memory": {
+        "before_allocated": 696254976,
+        "peak_allocated": 922747392,
+        "peak_delta": 226492416
+      },
+      "packed_memory": {
+        "before_allocated": 517996544,
+        "peak_allocated": 922746880,
+        "peak_reserved": 1134559232,
+        "peak_delta": 404750336,
+        "forward_live_delta": 41943040,
+        "after_backward_live_delta": 184549376,
+        "io_bytes": 184549376,
+        "saved_base_tensors": 0
+      },
+      "weight_workspace": {
+        "extra_peak_bytes": 178257920,
+        "matrix_bytes": 178257920,
+        "chunk_intermediates_bound": 167776256,
+        "decoder_only": {
+          "peak_delta": 287310336,
+          "decoded_matrix_bytes": 178257920,
+          "live_delta_after_release": 0
+        },
+        "bound_pass": true
+      },
+      "repeat_E2": true,
+      "non-reentrant_E2": true,
+      "reentrant_E2": true,
+      "accumulation_E2": true,
+      "lora_E2": {
+        "B0_enabled_disabled": true,
+        "output": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_vs_fp64": {
+        "forward": 1.0246188661070007e-06,
+        "dx": 4.442192395720577e-07
+      },
+      "fp32_original_1e6_pass": false,
+      "fp32_ordinary_autograd_E2": true
+    }
+  ],
+  "small_cpu_tests": 5,
+  "full_unit_regression_tests": 50,
+  "DA2.3": {
+    "original_small_shape_1e6": "PASS",
+    "original_all_real_shape_1e6": "FAIL",
+    "original_failure_preserved": {
+      "forward": 1.0246188661070007e-06,
+      "dx": 4.442192395720577e-07
+    },
+    "ordinary_autograd_diagnostic": {
+      "plain_autograd_E2": [
+        true,
+        true
+      ],
+      "zero_padded_M": {
+        "32": {
+          "forward": 1.0246188661070007e-06,
+          "dx": 4.442192395720577e-07
+        },
+        "128": {
+          "forward": 8.645468064814076e-07,
+          "dx": 5.056483651499375e-07
+        },
+        "4096": {
+          "forward": 1.330857107683975e-06,
+          "dx": 1.2219674639625694e-06
+        }
+      }
+    },
+    "amended_real_criterion": "FP32 ordinary materialized autograd E2 AND relative L2 vs FP64 <= 2e-6",
+    "held_out_controls": [
+      {
+        "layer": 0,
+        "name": "mlp.down_proj",
+        "precision_controls": [
+          {
+            "seed": 20261030,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 1.0309523635488105e-06,
+              "dx": 4.4627834133669296e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261030,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 8.63932138046934e-07,
+              "dx": 5.066009231725906e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261030,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 6.919361188865706e-07,
+              "dx": 7.172777721968545e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261030,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 1.3195890349487634e-06,
+              "dx": 1.227456954946246e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261031,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 1.0259353644073762e-06,
+              "dx": 4.4417860424951025e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261031,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 8.645696112708163e-07,
+              "dx": 5.079778382668718e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261031,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 6.906843315245697e-07,
+              "dx": 7.168381528614443e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261031,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 1.3190292541788138e-06,
+              "dx": 1.2277001202253374e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261101,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 1.019520260812133e-06,
+              "dx": 4.428755007076157e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261101,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 8.632790483789624e-07,
+              "dx": 5.076140337259624e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261101,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 6.934460540249458e-07,
+              "dx": 7.168837547739476e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261101,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 1.3193410710529116e-06,
+              "dx": 1.2277893108184353e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          }
+        ]
+      },
+      {
+        "layer": 0,
+        "name": "mlp.gate_proj",
+        "precision_controls": [
+          {
+            "seed": 20261030,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 8.724627341965109e-07,
+              "dx": 4.3926224276339475e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261030,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 5.563581258046997e-07,
+              "dx": 6.13778810841945e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261030,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 8.761406317346027e-07,
+              "dx": 1.0246074283597478e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261030,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 1.2372549388849913e-06,
+              "dx": 1.3181894770007365e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261031,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 8.67427283485468e-07,
+              "dx": 4.425099107552454e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261031,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 5.558398389977883e-07,
+              "dx": 6.145521584580889e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261031,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 8.748430170633322e-07,
+              "dx": 1.0246296579707618e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261031,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 1.237130791461722e-06,
+              "dx": 1.318888095214453e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261101,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 8.735197511149826e-07,
+              "dx": 4.377195074261267e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261101,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 5.555936529243699e-07,
+              "dx": 6.128404195618442e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261101,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 8.740217097225739e-07,
+              "dx": 1.0268400017298663e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261101,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 1.2369254869724655e-06,
+              "dx": 1.3194405653740528e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          }
+        ]
+      },
+      {
+        "layer": 3,
+        "name": "self_attn.o_proj",
+        "precision_controls": [
+          {
+            "seed": 20261030,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 6.477668396645454e-07,
+              "dx": 6.606563510919274e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261030,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 5.354582068462814e-07,
+              "dx": 4.6217615517426835e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261030,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 4.327867805799412e-07,
+              "dx": 5.611420368693772e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261030,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 8.11567380819549e-07,
+              "dx": 1.260425043094049e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261031,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 6.33214943129478e-07,
+              "dx": 6.5297321834639e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261031,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 5.359138031165991e-07,
+              "dx": 4.637664055758294e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261031,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 4.3058143290248e-07,
+              "dx": 5.639781098535735e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261031,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 8.118129846088045e-07,
+              "dx": 1.260724043904653e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          },
+          {
+            "seed": 20261101,
+            "tokens": 17,
+            "relative_l2": {
+              "forward": 6.365813784798276e-07,
+              "dx": 6.555053380437169e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261101,
+            "tokens": 128,
+            "relative_l2": {
+              "forward": 5.359808346438945e-07,
+              "dx": 4.6465309845172583e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261101,
+            "tokens": 257,
+            "relative_l2": {
+              "forward": 4.31817087825741e-07,
+              "dx": 5.640544998086789e-07
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": true
+          },
+          {
+            "seed": 20261101,
+            "tokens": 4096,
+            "relative_l2": {
+              "forward": 8.122581861387771e-07,
+              "dx": 1.260345399480977e-06
+            },
+            "ordinary_autograd_E2_both_precisions": true,
+            "original_1e6_pass": false
+          }
+        ]
+      }
+    ],
+    "held_out_max_relative_l2": 1.3195890349487634e-06,
+    "decision": "docs/decisions.md: D2 / DA2.3"
+  },
+  "memory_snapshot": {
+    "path": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T120023Z-d2-final-real\\results\\nvfp4-gate-memory.pickle",
+    "sha256": "8045dbd1049fb97d9d1fcd518ec2c02cc048b18f0bf2c31a84a2b1f7e45f8d44",
+    "bytes": 43563
+  },
+  "max_full_forward_backward_peak_delta": 891289600,
+  "max_decoder_peak_delta": 287310336,
+  "max_extra_weight_workspace_delta": 178257920,
+  "max_decoder_live_bytes_after_release": 0,
+  "failed_runs": {
+    "d2-real": "Original real-shape FP32 1e-6 failed; all production BF16 E2 checks passed.",
+    "d2-precision": "Original assertion still fails; ordinary-autograd and zero-padding controls retained.",
+    "d2-heldout": "FP64 first-use cuBLAS workspace triggered a production-BF16 liveness assertion; no complete control result."
+  },
+  "unchanged": [
+    "BF16 production numerical expression",
+    "original dependency lock",
+    "MoE numerical implementation"
+  ]
+}
