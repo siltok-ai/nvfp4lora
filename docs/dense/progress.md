@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **D0 qualified with a documented SDPA fallback; D1 tiny and real preprocessing passed; D2 qualified with documented FP32 reference controls. D3-D7 pending. No real dense training or release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
+Current state: **D0 qualified with a documented SDPA fallback; D1 passed; D2 qualified with documented FP32 reference controls; D3 tiny and real streaming passed. D4-D7 pending. No whole-model dense training or release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -56,3 +56,17 @@ They are preprocessing artifacts, not trained adapters. The first optional FreeT
 | DA2.7 | PASS | All ten real shapes: B=0 enabled/disabled output E2; nonzero LoRA output/dx/dA/dB E2 vs handwritten ordinary autograd expression. Whole-model zero-step loss remains D4. |
 
 Fifty unit tests pass (41 original, four D1 and five D2). CPUEmbedding holds its frozen CPU BF16 table as an ordinary attribute, with no parameters/buffers/state_dict entries; D4 must still prove whole-model fingerprint coverage. The tiny-only reference keeps decoded matrices and clones global scales to survive slot reuse; real-checkpoint materialization is explicitly rejected. These operator qualifications do not establish whole-model training, exact resume, publication or inference; those remain subsequent gates.
+
+## D3
+
+[D3 summary](../evidence/dense/d3-summary.json) contains every layer's counters and timings. Production SyncLayerStreamer and AsyncLayerStreamer are unchanged; the explicit dense store layout argument is the D1 addition. Tiny passes before the real 64-layer run.
+
+| Gate | State | Measured evidence |
+| --- | --- | --- |
+| DA3.1 | PASS | 1,000 random acquires, all 64 layers covered; 263,169,033,008 full payload bytes read back and compared directly with CPU source, not just hashes. |
+| DA3.2 | PASS | 128 full-payload reads with 50,000,000 GPU sleep cycles per request; released readers survive subsequent slot reuse. Pins, stale generation, double release, close and alternate compute stream guards pass. |
+| DA3.3 | PASS | 128 deliberately wrong prefetches; full bytes equal source and combined readback SHA matches no-prefetch run. All 13 operator projections also match no-prefetch output/dx/dA/dB E2. |
+| DA3.4 | PASS | GDN and full-attention layers, 13 projections covering ten shapes, T4096: synchronous vs asynchronous forward/dx/LoRA A/B gradients E2. |
+| DA3.5 | PASS | Per-layer acquires/hits/copies/bytes/GPU copy and wait times retained. Random read run: 999 hits, 973 copies, 256,056,737,264 H2D bytes; event wait total 13.17ms. |
+
+Physical pinned allocation is 16GiB. Validation process peak working set 19,325,108,224 B; peak GPU allocated/reserved 2,934,964,224/3,370,123,264 B. Frozen CPU store hashes remain unchanged. The 264.84s random-read wall time includes full D2H, CPU comparisons and hashing, and is not training throughput. Delayed-reader copy event totals correspond to 43.93GB/s (no prefetch) and 47.61GB/s (wrong prefetch); copy/compute overlap from CUDA event intervals is retained separately. No full training-memory or speed claim follows from these qualification peaks.
