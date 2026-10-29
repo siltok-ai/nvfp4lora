@@ -1,10 +1,10 @@
 {
-  "status": "RUNNING",
-  "start": 1793270521.2119434,
+  "status": "PASS",
+  "start": 1793272990.076413,
   "command": [
     "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train\\Scripts\\python.exe",
     "-B",
-    "C:\\workspace\\tasks\\T-20261029-nvfp4-dense\\checkpoint_source.py",
+    "C:\\workspace\\tasks\\T-20261029-nvfp4-dense\\checkpoint_http_shard.py",
     "--repo",
     "RadixArk/Qwen3.8-27B-NVFP4",
     "--revision",
@@ -13,14 +13,17 @@
     "--model-dir",
     "C:\\workspace\\models\\inputs\\qwen3.8-27b-nvfp4\\319f741cce68d7914884900c138a1fbb70a42f30",
     "--output",
-    "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T104201Z-dense-checkpoint-download/results"
+    "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T112309Z-dense-checkpoint-full-receipt/results"
   ],
   "cwd": "C:\\workspace\\wt\\T-20261029-nvfp4-dense\\nvfp4lora",
-  "runner_pid": 9728,
+  "runner_pid": 8932,
   "python": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train\\Scripts\\python.exe",
   "platform": "Windows-11-10.0.26200-SP0",
-  "git_head": "cb5d5d801d66f3525cad8389abdfb70564951578",
-  "git_status": [],
+  "git_head": "2904a998a55d7c6d3df502bbf5101bf42b7718ce",
+  "git_status": [
+    " M tools/check_dense_preflight.py",
+    "?? docs/dense/d0-budget.md"
+  ],
   "packages": {
     "torch": "2.11.0+cu130",
     "transformers": "5.16.1",
@@ -56,6 +59,10 @@
     {
       "path": "tools/check_async.py",
       "sha256": "358c02a44b7d4b31ada3ec4ffa87a7bdbb7bee48f819a2a57b8e388f6f199002"
+    },
+    {
+      "path": "tools/check_dense_preflight.py",
+      "sha256": "9ee610bf5fd81c0319fb0624565f94e03fc52ea2933b9985fe5ae9be1d6e4b51"
     },
     {
       "path": "tools/check_environment.py",
@@ -147,7 +154,7 @@
     },
     {
       "path": "tools/fetch_checkpoint.py",
-      "sha256": "43d45eb494f057e07e55ac8db7018778caee8f1fece910034670cc0bd2e0487f"
+      "sha256": "47f3c3cd6356b5357c46bbb5477a8ed28fee137b3511794ff8b052e11732c558"
     },
     {
       "path": "tools/inspect_training_checkpoints.py",
@@ -430,5 +437,7 @@
       "sha256": "8c3d1f2db4b335977a89adf5f47b9ae2b19af62c28674d5bc19595a8869cf9a4"
     }
   ],
-  "child_pid": 8608
+  "child_pid": 14640,
+  "exit_code": 0,
+  "end": 1793273016.6797206
 }

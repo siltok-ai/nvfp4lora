@@ -1,7 +1,59 @@
 {
-  "status": "D0 IN PROGRESS",
+  "status": "QUALIFIED_WITH_DOCUMENTED_FALLBACK",
   "baseline": "main efdfc55a26d9531c904470a55ab35793004ed104",
-  "note": "Original default HF SDPA failed; isolated explicit-repeat fallback qualified. Checkpoint SHA verification pending.",
+  "note": "Original default HF SDPA failure and interrupted download transports retained; no real dense training run yet.",
+  "gates": {
+    "DA0.1": {
+      "status": "PASS"
+    },
+    "DA0.2": {
+      "status": "PASS"
+    },
+    "DA0.3": {
+      "status": "PASS"
+    },
+    "DA0.4": {
+      "status": "PASS",
+      "shards": [
+        {
+          "filename": "model-00001-of-00003.safetensors",
+          "bytes": 9965652544,
+          "lfs_sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79",
+          "sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+        },
+        {
+          "filename": "model-00002-of-00003.safetensors",
+          "bytes": 9985757064,
+          "lfs_sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85",
+          "sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+        },
+        {
+          "filename": "model-00003-of-00003.safetensors",
+          "bytes": 1970287672,
+          "lfs_sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581",
+          "sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+        }
+      ]
+    },
+    "DA0.5": {
+      "status": "PASS"
+    },
+    "DA0.6": {
+      "status": "PASS"
+    },
+    "DA0.8": {
+      "status": "PASS"
+    },
+    "DA0.9": {
+      "status": "PASS"
+    },
+    "DA0.7": {
+      "status": "FALLBACK_PASS",
+      "original_default_HF_status": "FAIL",
+      "policy": "dense explicit KV repeat using existing efficient SDPA",
+      "whole_model_integration": "D4/D5 NOT RUN"
+    }
+  },
   "runs": {
     "b0-unit": {
       "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T103626Z-b0-unit-main",
@@ -3681,10 +3733,219 @@
       }
     },
     "dense-checkpoint": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T112309Z-dense-checkpoint-full-receipt",
+      "manifest_sha256": "f2f25a0016d5eb1b4f58fa28a4fc092f0802e70b34500bfdd10b34f07be07d7b",
+      "status": "PASS",
+      "exit_code": 0,
+      "git_head": "2904a998a55d7c6d3df502bbf5101bf42b7718ce",
+      "receipt": {
+        "source": {
+          "repo": "RadixArk/Qwen3.8-27B-NVFP4",
+          "revision": "319f741cce68d7914884900c138a1fbb70a42f30",
+          "observed_at": 1793272991.2111814,
+          "files": [
+            {
+              "filename": ".gitattributes",
+              "bytes": 1570,
+              "lfs_sha256": null
+            },
+            {
+              "filename": ".quant_summary.txt",
+              "bytes": 314291,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "LICENSE",
+              "bytes": 11544,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "README.md",
+              "bytes": 4574,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "chat_template.jinja",
+              "bytes": 8952,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "config.json",
+              "bytes": 73003,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "conversion-manifest.json",
+              "bytes": 23587,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "generation_config.json",
+              "bytes": 214,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "hf_quant_config.json",
+              "bytes": 53749,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "merges.txt",
+              "bytes": 3353259,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "model-00001-of-00003.safetensors",
+              "bytes": 9965652544,
+              "lfs_sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+            },
+            {
+              "filename": "model-00002-of-00003.safetensors",
+              "bytes": 9985757064,
+              "lfs_sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+            },
+            {
+              "filename": "model-00003-of-00003.safetensors",
+              "bytes": 1970287672,
+              "lfs_sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+            },
+            {
+              "filename": "model.safetensors.index.json",
+              "bytes": 214866,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "preprocessor_config.json",
+              "bytes": 390,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification-criteria.json",
+              "bytes": 1145,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification.json",
+              "bytes": 2717,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tensor-audit.json",
+              "bytes": 539,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tokenizer.json",
+              "bytes": 12809320,
+              "lfs_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+            },
+            {
+              "filename": "tokenizer_config.json",
+              "bytes": 1121,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "video_preprocessor_config.json",
+              "bytes": 385,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "vocab.json",
+              "bytes": 6722759,
+              "lfs_sha256": null
+            }
+          ]
+        },
+        "requested_weights": true,
+        "downloaded": [
+          {
+            "filename": "LICENSE",
+            "bytes": 11544,
+            "lfs_sha256": null,
+            "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+          },
+          {
+            "filename": "README.md",
+            "bytes": 4574,
+            "lfs_sha256": null,
+            "sha256": "3cfd18e07422e6eff20fcdf8dcdb3c864976dcef0e1e0f2c3f8bf788603203c2"
+          },
+          {
+            "filename": "chat_template.jinja",
+            "bytes": 8952,
+            "lfs_sha256": null,
+            "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+          },
+          {
+            "filename": "config.json",
+            "bytes": 73003,
+            "lfs_sha256": null,
+            "sha256": "7ff41ec6f96ad50efea3c92751cd261b63839d39936eb6e6ffc9066db8672740"
+          },
+          {
+            "filename": "generation_config.json",
+            "bytes": 214,
+            "lfs_sha256": null,
+            "sha256": "a4cef85934ea1fdcb207944dbc6eee70dbbf16806874428556ae33023336c0a4"
+          },
+          {
+            "filename": "hf_quant_config.json",
+            "bytes": 53749,
+            "lfs_sha256": null,
+            "sha256": "0f39e8cd23abdfb79adc89ac1b19acad990aa6ac32973f9ab0a67d1e3449535c"
+          },
+          {
+            "filename": "model.safetensors.index.json",
+            "bytes": 214866,
+            "lfs_sha256": null,
+            "sha256": "7aa103a2582b7d26631988de33dea19e8a308ee9c239e8e14feb374af30905e2"
+          },
+          {
+            "filename": "tokenizer.json",
+            "bytes": 12809320,
+            "lfs_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+            "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "bytes": 1121,
+            "lfs_sha256": null,
+            "sha256": "e5d078b00e6c1223b32444db8c1001dc71d86ceef8ee706b5bf084c3a43a1f9c"
+          },
+          {
+            "filename": "vocab.json",
+            "bytes": 6722759,
+            "lfs_sha256": null,
+            "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+          },
+          {
+            "filename": "model-00001-of-00003.safetensors",
+            "bytes": 9965652544,
+            "lfs_sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79",
+            "sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+          },
+          {
+            "filename": "model-00002-of-00003.safetensors",
+            "bytes": 9985757064,
+            "lfs_sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85",
+            "sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+          },
+          {
+            "filename": "model-00003-of-00003.safetensors",
+            "bytes": 1970287672,
+            "lfs_sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581",
+            "sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+          }
+        ],
+        "status": "PASS",
+        "ended_at": 1793273016.6499825
+      }
+    },
+    "dense-checkpoint-xet": {
       "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T104201Z-dense-checkpoint-download",
-      "manifest_sha256": "42e5ab0ed8514c8638f622403d6279a4a9191e9b04887cc9426732b0e59803af",
-      "status": "RUNNING",
-      "exit_code": null,
+      "manifest_sha256": "4ca2b6fb15ec9b0321a37e15532af67e159c77fcb239b3b0a12b5d2e7d70d0cc",
+      "status": "FAIL",
+      "exit_code": 4294967295,
       "git_head": "cb5d5d801d66f3525cad8389abdfb70564951578",
       "receipt": {
         "source": {
@@ -3868,6 +4129,610 @@
           }
         ],
         "status": "RUNNING"
+      }
+    },
+    "dense-checkpoint-http-shard3": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T105236Z-dense-checkpoint-http-shard3",
+      "manifest_sha256": "60a2ce633c9cd8675d8c3e91f85d01bd53a8bb388d1caff98c6b1fb660b92c52",
+      "status": "FAIL",
+      "exit_code": 4294967295,
+      "git_head": "cb5d5d801d66f3525cad8389abdfb70564951578",
+      "receipt": {
+        "source": {
+          "repo": "RadixArk/Qwen3.8-27B-NVFP4",
+          "revision": "319f741cce68d7914884900c138a1fbb70a42f30",
+          "observed_at": 1793271158.1752906,
+          "files": [
+            {
+              "filename": ".gitattributes",
+              "bytes": 1570,
+              "lfs_sha256": null
+            },
+            {
+              "filename": ".quant_summary.txt",
+              "bytes": 314291,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "LICENSE",
+              "bytes": 11544,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "README.md",
+              "bytes": 4574,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "chat_template.jinja",
+              "bytes": 8952,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "config.json",
+              "bytes": 73003,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "conversion-manifest.json",
+              "bytes": 23587,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "generation_config.json",
+              "bytes": 214,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "hf_quant_config.json",
+              "bytes": 53749,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "merges.txt",
+              "bytes": 3353259,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "model-00001-of-00003.safetensors",
+              "bytes": 9965652544,
+              "lfs_sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+            },
+            {
+              "filename": "model-00002-of-00003.safetensors",
+              "bytes": 9985757064,
+              "lfs_sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+            },
+            {
+              "filename": "model-00003-of-00003.safetensors",
+              "bytes": 1970287672,
+              "lfs_sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+            },
+            {
+              "filename": "model.safetensors.index.json",
+              "bytes": 214866,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "preprocessor_config.json",
+              "bytes": 390,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification-criteria.json",
+              "bytes": 1145,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification.json",
+              "bytes": 2717,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tensor-audit.json",
+              "bytes": 539,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tokenizer.json",
+              "bytes": 12809320,
+              "lfs_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+            },
+            {
+              "filename": "tokenizer_config.json",
+              "bytes": 1121,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "video_preprocessor_config.json",
+              "bytes": 385,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "vocab.json",
+              "bytes": 6722759,
+              "lfs_sha256": null
+            }
+          ]
+        },
+        "requested_weights": true,
+        "downloaded": [
+          {
+            "filename": "LICENSE",
+            "bytes": 11544,
+            "lfs_sha256": null,
+            "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+          },
+          {
+            "filename": "README.md",
+            "bytes": 4574,
+            "lfs_sha256": null,
+            "sha256": "3cfd18e07422e6eff20fcdf8dcdb3c864976dcef0e1e0f2c3f8bf788603203c2"
+          },
+          {
+            "filename": "chat_template.jinja",
+            "bytes": 8952,
+            "lfs_sha256": null,
+            "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+          },
+          {
+            "filename": "config.json",
+            "bytes": 73003,
+            "lfs_sha256": null,
+            "sha256": "7ff41ec6f96ad50efea3c92751cd261b63839d39936eb6e6ffc9066db8672740"
+          },
+          {
+            "filename": "generation_config.json",
+            "bytes": 214,
+            "lfs_sha256": null,
+            "sha256": "a4cef85934ea1fdcb207944dbc6eee70dbbf16806874428556ae33023336c0a4"
+          },
+          {
+            "filename": "hf_quant_config.json",
+            "bytes": 53749,
+            "lfs_sha256": null,
+            "sha256": "0f39e8cd23abdfb79adc89ac1b19acad990aa6ac32973f9ab0a67d1e3449535c"
+          },
+          {
+            "filename": "model.safetensors.index.json",
+            "bytes": 214866,
+            "lfs_sha256": null,
+            "sha256": "7aa103a2582b7d26631988de33dea19e8a308ee9c239e8e14feb374af30905e2"
+          },
+          {
+            "filename": "tokenizer.json",
+            "bytes": 12809320,
+            "lfs_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+            "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "bytes": 1121,
+            "lfs_sha256": null,
+            "sha256": "e5d078b00e6c1223b32444db8c1001dc71d86ceef8ee706b5bf084c3a43a1f9c"
+          },
+          {
+            "filename": "vocab.json",
+            "bytes": 6722759,
+            "lfs_sha256": null,
+            "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+          }
+        ],
+        "status": "RUNNING"
+      }
+    },
+    "dense-checkpoint-ranges8": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T105726Z-dense-checkpoint-ranges",
+      "manifest_sha256": "0b2e952210b38612a39bdd55e8f139544d719fd2097223c3d129f2fb63662086",
+      "status": "FAIL",
+      "exit_code": 4294967295,
+      "git_head": "2904a998a55d7c6d3df502bbf5101bf42b7718ce",
+      "receipt": {
+        "source": {
+          "repo": "RadixArk/Qwen3.8-27B-NVFP4",
+          "revision": "319f741cce68d7914884900c138a1fbb70a42f30",
+          "observed_at": 1793271447.3720117,
+          "files": [
+            {
+              "filename": ".gitattributes",
+              "bytes": 1570,
+              "lfs_sha256": null
+            },
+            {
+              "filename": ".quant_summary.txt",
+              "bytes": 314291,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "LICENSE",
+              "bytes": 11544,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "README.md",
+              "bytes": 4574,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "chat_template.jinja",
+              "bytes": 8952,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "config.json",
+              "bytes": 73003,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "conversion-manifest.json",
+              "bytes": 23587,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "generation_config.json",
+              "bytes": 214,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "hf_quant_config.json",
+              "bytes": 53749,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "merges.txt",
+              "bytes": 3353259,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "model-00001-of-00003.safetensors",
+              "bytes": 9965652544,
+              "lfs_sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+            },
+            {
+              "filename": "model-00002-of-00003.safetensors",
+              "bytes": 9985757064,
+              "lfs_sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+            },
+            {
+              "filename": "model-00003-of-00003.safetensors",
+              "bytes": 1970287672,
+              "lfs_sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+            },
+            {
+              "filename": "model.safetensors.index.json",
+              "bytes": 214866,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "preprocessor_config.json",
+              "bytes": 390,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification-criteria.json",
+              "bytes": 1145,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification.json",
+              "bytes": 2717,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tensor-audit.json",
+              "bytes": 539,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tokenizer.json",
+              "bytes": 12809320,
+              "lfs_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+            },
+            {
+              "filename": "tokenizer_config.json",
+              "bytes": 1121,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "video_preprocessor_config.json",
+              "bytes": 385,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "vocab.json",
+              "bytes": 6722759,
+              "lfs_sha256": null
+            }
+          ]
+        },
+        "requested_weights": true,
+        "downloaded": [],
+        "status": "RUNNING",
+        "transport": "bounded parallel HTTP Range; 32MiB; full upstream SHA256 mandatory",
+        "workers": 8
+      }
+    },
+    "dense-checkpoint-ranges32": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T110518Z-dense-checkpoint-ranges32-resume",
+      "manifest_sha256": "028db244a70e8ec3651f6227ffe33960aafb51f76eeaaaa1e10b578c075049c4",
+      "status": "FAIL",
+      "exit_code": 4294967295,
+      "git_head": "2904a998a55d7c6d3df502bbf5101bf42b7718ce",
+      "receipt": {
+        "source": {
+          "repo": "RadixArk/Qwen3.8-27B-NVFP4",
+          "revision": "319f741cce68d7914884900c138a1fbb70a42f30",
+          "observed_at": 1793271920.0379372,
+          "files": [
+            {
+              "filename": ".gitattributes",
+              "bytes": 1570,
+              "lfs_sha256": null
+            },
+            {
+              "filename": ".quant_summary.txt",
+              "bytes": 314291,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "LICENSE",
+              "bytes": 11544,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "README.md",
+              "bytes": 4574,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "chat_template.jinja",
+              "bytes": 8952,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "config.json",
+              "bytes": 73003,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "conversion-manifest.json",
+              "bytes": 23587,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "generation_config.json",
+              "bytes": 214,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "hf_quant_config.json",
+              "bytes": 53749,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "merges.txt",
+              "bytes": 3353259,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "model-00001-of-00003.safetensors",
+              "bytes": 9965652544,
+              "lfs_sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+            },
+            {
+              "filename": "model-00002-of-00003.safetensors",
+              "bytes": 9985757064,
+              "lfs_sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+            },
+            {
+              "filename": "model-00003-of-00003.safetensors",
+              "bytes": 1970287672,
+              "lfs_sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+            },
+            {
+              "filename": "model.safetensors.index.json",
+              "bytes": 214866,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "preprocessor_config.json",
+              "bytes": 390,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification-criteria.json",
+              "bytes": 1145,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification.json",
+              "bytes": 2717,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tensor-audit.json",
+              "bytes": 539,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tokenizer.json",
+              "bytes": 12809320,
+              "lfs_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+            },
+            {
+              "filename": "tokenizer_config.json",
+              "bytes": 1121,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "video_preprocessor_config.json",
+              "bytes": 385,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "vocab.json",
+              "bytes": 6722759,
+              "lfs_sha256": null
+            }
+          ]
+        },
+        "requested_weights": true,
+        "downloaded": [],
+        "status": "RUNNING",
+        "transport": "bounded parallel HTTP Range; 32MiB; full upstream SHA256 mandatory",
+        "workers": 32
+      }
+    },
+    "dense-checkpoint-ranges": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T112059Z-dense-checkpoint-last-range-resume",
+      "manifest_sha256": "9abf48e05f84f118a4e91b0c0e67b49930066c75ccdc5e7602f40853301ee9cd",
+      "status": "PASS",
+      "exit_code": 0,
+      "git_head": "2904a998a55d7c6d3df502bbf5101bf42b7718ce",
+      "receipt": {
+        "source": {
+          "repo": "RadixArk/Qwen3.8-27B-NVFP4",
+          "revision": "319f741cce68d7914884900c138a1fbb70a42f30",
+          "observed_at": 1793272860.8286881,
+          "files": [
+            {
+              "filename": ".gitattributes",
+              "bytes": 1570,
+              "lfs_sha256": null
+            },
+            {
+              "filename": ".quant_summary.txt",
+              "bytes": 314291,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "LICENSE",
+              "bytes": 11544,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "README.md",
+              "bytes": 4574,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "chat_template.jinja",
+              "bytes": 8952,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "config.json",
+              "bytes": 73003,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "conversion-manifest.json",
+              "bytes": 23587,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "generation_config.json",
+              "bytes": 214,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "hf_quant_config.json",
+              "bytes": 53749,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "merges.txt",
+              "bytes": 3353259,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "model-00001-of-00003.safetensors",
+              "bytes": 9965652544,
+              "lfs_sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+            },
+            {
+              "filename": "model-00002-of-00003.safetensors",
+              "bytes": 9985757064,
+              "lfs_sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+            },
+            {
+              "filename": "model-00003-of-00003.safetensors",
+              "bytes": 1970287672,
+              "lfs_sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+            },
+            {
+              "filename": "model.safetensors.index.json",
+              "bytes": 214866,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "preprocessor_config.json",
+              "bytes": 390,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification-criteria.json",
+              "bytes": 1145,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "qualification.json",
+              "bytes": 2717,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tensor-audit.json",
+              "bytes": 539,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "tokenizer.json",
+              "bytes": 12809320,
+              "lfs_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3"
+            },
+            {
+              "filename": "tokenizer_config.json",
+              "bytes": 1121,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "video_preprocessor_config.json",
+              "bytes": 385,
+              "lfs_sha256": null
+            },
+            {
+              "filename": "vocab.json",
+              "bytes": 6722759,
+              "lfs_sha256": null
+            }
+          ]
+        },
+        "requested_weights": true,
+        "downloaded": [
+          {
+            "filename": "model-00001-of-00003.safetensors",
+            "bytes": 9965652544,
+            "lfs_sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79",
+            "sha256": "fbcdb5ba1cdda462b5f38592d071e772c4d398afea61a0aa9188b32d1a239a79"
+          },
+          {
+            "filename": "model-00002-of-00003.safetensors",
+            "bytes": 9985757064,
+            "lfs_sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85",
+            "sha256": "db6146a5464fb0a891181b93c81593f0ca65c602eb14120a1c2b1b09bca11f85"
+          },
+          {
+            "filename": "model-00003-of-00003.safetensors",
+            "bytes": 1970287672,
+            "lfs_sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581",
+            "sha256": "d3cfb92742e30c8b46564665791dbe0a86ed64cfc02b1275081530793c0c9581"
+          }
+        ],
+        "status": "PASS",
+        "transport": "bounded parallel HTTP Range; 32MiB; full upstream SHA256 mandatory",
+        "workers": 4,
+        "ended_at": 1793272888.6293774,
+        "wall_seconds": 14.51174770000216
       }
     },
     "d0-meta": {
@@ -5537,6 +6402,24 @@
         "ended_at": 1793270722.9291327
       }
     },
+    "d0-pinned-initial": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T104515Z-d0-pinned",
+      "manifest_sha256": "d418096b80b5921412f4dfab07312a74a7641cefbd815f02ae36023fd1f7029e",
+      "status": "FAIL",
+      "exit_code": 1,
+      "git_head": "cb5d5d801d66f3525cad8389abdfb70564951578",
+      "results": {
+        "status": "FAIL",
+        "gate": "pinned",
+        "cases": [],
+        "started_at": 1793270721.9374697,
+        "modeling_source": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train\\Lib\\site-packages\\transformers\\models\\qwen3_5\\modeling_qwen3_5.py",
+        "modeling_sha256": "788d4bad50a8d39be2fe79125f0f40134773cd23b1791606fb6b3ab0bc6d2263",
+        "precision": "deterministic; TF32 off; BF16 reduced precision reduction off",
+        "traceback": "Traceback (most recent call last):\n  File \"C:\\workspace\\wt\\T-20261029-nvfp4-dense\\nvfp4lora\\tools\\check_dense_preflight.py\", line 270, in main\n    globals()[args.gate + '_gate'](args.config, emit)\n  File \"C:\\workspace\\wt\\T-20261029-nvfp4-dense\\nvfp4lora\\tools\\check_dense_preflight.py\", line 235, in pinned_gate\n    physical = after['allocated_bytes.current'] - before['allocated_bytes.current']\n               ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^\nKeyError: 'allocated_bytes.current'\n",
+        "ended_at": 1793270725.1738083
+      }
+    },
     "d0-pinned": {
       "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T104551Z-d0-pinned-initialized",
       "manifest_sha256": "d7b02c1a8c58cdf67a0aa9b0853bfa8833b5cd750c05a8c3bd6887db04a8abed",
@@ -6454,6 +7337,493 @@
         "modeling_sha256": "788d4bad50a8d39be2fe79125f0f40134773cd23b1791606fb6b3ab0bc6d2263",
         "precision": "deterministic; TF32 off; BF16 reduced precision reduction off",
         "ended_at": 1793270782.187629
+      }
+    },
+    "d0-gdn-module": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T111130Z-d0-gdn-full-module",
+      "manifest_sha256": "b4ea365fd7587153629d1eefc87e576997845ee5daa8d6da171468be757ff3d9",
+      "status": "PASS",
+      "exit_code": 0,
+      "git_head": "2904a998a55d7c6d3df502bbf5101bf42b7718ce",
+      "results": {
+        "status": "PASS",
+        "gate": "gdn_module",
+        "cases": [
+          {
+            "gate": "DA0.6",
+            "scope": "independent recurrence with production bf16 beta",
+            "T": 129,
+            "comparisons": {
+              "output": {
+                "relative_l2": 3.664300046507448e-05,
+                "max_absolute": 0.000244140625,
+                "reference_norm": 10.875315671587522,
+                "bitwise_equal": false
+              },
+              "q": {
+                "relative_l2": 6.922016328139445e-05,
+                "max_absolute": 2.384185791015625e-07,
+                "reference_norm": 0.012375798374072891,
+                "bitwise_equal": false
+              },
+              "k": {
+                "relative_l2": 5.2354432260262205e-05,
+                "max_absolute": 2.384185791015625e-07,
+                "reference_norm": 0.012556675977837536,
+                "bitwise_equal": false
+              },
+              "v": {
+                "relative_l2": 4.818142811679432e-05,
+                "max_absolute": 2.384185791015625e-07,
+                "reference_norm": 0.012197512313824004,
+                "bitwise_equal": false
+              },
+              "g": {
+                "relative_l2": 5.041960328269381e-07,
+                "max_absolute": 9.74978320300579e-10,
+                "reference_norm": 0.033156853307040206,
+                "bitwise_equal": false
+              },
+              "beta": {
+                "relative_l2": 1.3807377868171105e-06,
+                "max_absolute": 2.9802322387695312e-08,
+                "reference_norm": 0.022248634799884322,
+                "bitwise_equal": false
+              }
+            },
+            "direct": {
+              "mode": "direct",
+              "seconds": 0.22730569999839645,
+              "memory": {
+                "gpu_allocated": 75638784,
+                "gpu_reserved": 241172480,
+                "gpu_peak_allocated": 229874688,
+                "gpu_peak_reserved": 241172480,
+                "cpu_working_set": 1455411200,
+                "cpu_private": 3008843776,
+                "system_available": 54969065472,
+                "host": {
+                  "active_bytes.allocated": 10,
+                  "active_bytes.current": 10,
+                  "active_bytes.freed": 0,
+                  "active_bytes.peak": 10,
+                  "active_requests.allocated": 10,
+                  "active_requests.current": 10,
+                  "active_requests.freed": 0,
+                  "active_requests.peak": 10,
+                  "allocated_bytes.allocated": 1,
+                  "allocated_bytes.current": 1,
+                  "allocated_bytes.freed": 0,
+                  "allocated_bytes.peak": 1,
+                  "allocations.allocated": 1,
+                  "allocations.current": 1,
+                  "allocations.freed": 0,
+                  "allocations.peak": 1,
+                  "host_alloc_time.avg": 555,
+                  "host_alloc_time.count": 1,
+                  "host_alloc_time.max": 555,
+                  "host_alloc_time.min": 555,
+                  "host_alloc_time.total": 555,
+                  "host_free_time.avg": 0,
+                  "host_free_time.count": 0,
+                  "host_free_time.max": 0,
+                  "host_free_time.min": 0,
+                  "host_free_time.total": 0,
+                  "num_host_alloc": 1,
+                  "num_host_free": 0
+                },
+                "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]\n16303 MiB, 1238 MiB, 14758 MiB, 5 %"
+              }
+            },
+            "reference": {
+              "mode": "direct",
+              "seconds": 0.14750580000691116,
+              "memory": {
+                "gpu_allocated": 76126208,
+                "gpu_reserved": 1025507328,
+                "gpu_peak_allocated": 920427520,
+                "gpu_peak_reserved": 1025507328,
+                "cpu_working_set": 1498804224,
+                "cpu_private": 3963904000,
+                "system_available": 54920228864,
+                "host": {
+                  "active_bytes.allocated": 20,
+                  "active_bytes.current": 20,
+                  "active_bytes.freed": 0,
+                  "active_bytes.peak": 20,
+                  "active_requests.allocated": 20,
+                  "active_requests.current": 20,
+                  "active_requests.freed": 0,
+                  "active_requests.peak": 20,
+                  "allocated_bytes.allocated": 1,
+                  "allocated_bytes.current": 1,
+                  "allocated_bytes.freed": 0,
+                  "allocated_bytes.peak": 1,
+                  "allocations.allocated": 1,
+                  "allocations.current": 1,
+                  "allocations.freed": 0,
+                  "allocations.peak": 1,
+                  "host_alloc_time.avg": 555,
+                  "host_alloc_time.count": 1,
+                  "host_alloc_time.max": 555,
+                  "host_alloc_time.min": 555,
+                  "host_alloc_time.total": 555,
+                  "host_free_time.avg": 0,
+                  "host_free_time.count": 0,
+                  "host_free_time.max": 0,
+                  "host_free_time.min": 0,
+                  "host_free_time.total": 0,
+                  "num_host_alloc": 1,
+                  "num_host_free": 0
+                },
+                "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]\n16303 MiB, 1986 MiB, 14010 MiB, 0 %"
+              }
+            }
+          },
+          {
+            "gate": "DA0.6",
+            "scope": "full HF GDN module; frozen synthetic bf16 projections; no LoRA",
+            "T": 2048,
+            "mode": "direct",
+            "seconds": 0.2899034000001848,
+            "memory": {
+              "gpu_allocated": 382748160,
+              "gpu_reserved": 2359296000,
+              "gpu_peak_allocated": 2156756480,
+              "gpu_peak_reserved": 2359296000,
+              "cpu_working_set": 1891921920,
+              "cpu_private": 5632647168,
+              "system_available": 54515654656,
+              "host": {
+                "active_bytes.allocated": 22,
+                "active_bytes.current": 22,
+                "active_bytes.freed": 0,
+                "active_bytes.peak": 22,
+                "active_requests.allocated": 22,
+                "active_requests.current": 22,
+                "active_requests.freed": 0,
+                "active_requests.peak": 22,
+                "allocated_bytes.allocated": 1,
+                "allocated_bytes.current": 1,
+                "allocated_bytes.freed": 0,
+                "allocated_bytes.peak": 1,
+                "allocations.allocated": 1,
+                "allocations.current": 1,
+                "allocations.freed": 0,
+                "allocations.peak": 1,
+                "host_alloc_time.avg": 555,
+                "host_alloc_time.count": 1,
+                "host_alloc_time.max": 555,
+                "host_alloc_time.min": 555,
+                "host_alloc_time.total": 555,
+                "host_free_time.avg": 0,
+                "host_free_time.count": 0,
+                "host_free_time.max": 0,
+                "host_free_time.min": 0,
+                "host_free_time.total": 0,
+                "num_host_alloc": 1,
+                "num_host_free": 0
+              },
+              "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]\n16303 MiB, 3258 MiB, 12738 MiB, 4 %"
+            }
+          },
+          {
+            "gate": "DA0.6",
+            "scope": "full HF GDN module",
+            "T": 2048,
+            "mode": "non-reentrant",
+            "seconds": 0.17016480000165757,
+            "memory": {
+              "gpu_allocated": 382748160,
+              "gpu_reserved": 2394947584,
+              "gpu_peak_allocated": 2154941440,
+              "gpu_peak_reserved": 2394947584,
+              "cpu_working_set": 1937846272,
+              "cpu_private": 5727698944,
+              "system_available": 54463688704,
+              "host": {
+                "active_bytes.allocated": 24,
+                "active_bytes.current": 24,
+                "active_bytes.freed": 0,
+                "active_bytes.peak": 24,
+                "active_requests.allocated": 24,
+                "active_requests.current": 24,
+                "active_requests.freed": 0,
+                "active_requests.peak": 24,
+                "allocated_bytes.allocated": 1,
+                "allocated_bytes.current": 1,
+                "allocated_bytes.freed": 0,
+                "allocated_bytes.peak": 1,
+                "allocations.allocated": 1,
+                "allocations.current": 1,
+                "allocations.freed": 0,
+                "allocations.peak": 1,
+                "host_alloc_time.avg": 555,
+                "host_alloc_time.count": 1,
+                "host_alloc_time.max": 555,
+                "host_alloc_time.min": 555,
+                "host_alloc_time.total": 555,
+                "host_free_time.avg": 0,
+                "host_free_time.count": 0,
+                "host_free_time.max": 0,
+                "host_free_time.min": 0,
+                "host_free_time.total": 0,
+                "num_host_alloc": 1,
+                "num_host_free": 0
+              },
+              "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]\n16303 MiB, 3292 MiB, 12704 MiB, 65 %"
+            },
+            "comparisons": {
+              "output": {
+                "relative_l2": 0.0,
+                "max_absolute": 0.0,
+                "reference_norm": 292.68609789813144,
+                "bitwise_equal": true
+              },
+              "x": {
+                "relative_l2": 0.0,
+                "max_absolute": 0.0,
+                "reference_norm": 0.1877791975323328,
+                "bitwise_equal": true
+              }
+            }
+          },
+          {
+            "gate": "DA0.6",
+            "scope": "full HF GDN module",
+            "T": 2048,
+            "mode": "reentrant",
+            "seconds": 0.15892259999236558,
+            "memory": {
+              "gpu_allocated": 382748160,
+              "gpu_reserved": 2394947584,
+              "gpu_peak_allocated": 2175938048,
+              "gpu_peak_reserved": 2394947584,
+              "cpu_working_set": 2273636352,
+              "cpu_private": 6132408320,
+              "system_available": 54127984640,
+              "host": {
+                "active_bytes.allocated": 26,
+                "active_bytes.current": 26,
+                "active_bytes.freed": 0,
+                "active_bytes.peak": 26,
+                "active_requests.allocated": 26,
+                "active_requests.current": 26,
+                "active_requests.freed": 0,
+                "active_requests.peak": 26,
+                "allocated_bytes.allocated": 1,
+                "allocated_bytes.current": 1,
+                "allocated_bytes.freed": 0,
+                "allocated_bytes.peak": 1,
+                "allocations.allocated": 1,
+                "allocations.current": 1,
+                "allocations.freed": 0,
+                "allocations.peak": 1,
+                "host_alloc_time.avg": 555,
+                "host_alloc_time.count": 1,
+                "host_alloc_time.max": 555,
+                "host_alloc_time.min": 555,
+                "host_alloc_time.total": 555,
+                "host_free_time.avg": 0,
+                "host_free_time.count": 0,
+                "host_free_time.max": 0,
+                "host_free_time.min": 0,
+                "host_free_time.total": 0,
+                "num_host_alloc": 1,
+                "num_host_free": 0
+              },
+              "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]\n16303 MiB, 3292 MiB, 12704 MiB, 80 %"
+            },
+            "comparisons": {
+              "output": {
+                "relative_l2": 0.0,
+                "max_absolute": 0.0,
+                "reference_norm": 292.68609789813144,
+                "bitwise_equal": true
+              },
+              "x": {
+                "relative_l2": 0.0,
+                "max_absolute": 0.0,
+                "reference_norm": 0.1877791975323328,
+                "bitwise_equal": true
+              }
+            }
+          },
+          {
+            "gate": "DA0.6",
+            "scope": "full HF GDN module; frozen synthetic bf16 projections; no LoRA",
+            "T": 4096,
+            "mode": "direct",
+            "seconds": 0.39592710000579245,
+            "memory": {
+              "gpu_allocated": 466634240,
+              "gpu_reserved": 4441767936,
+              "gpu_peak_allocated": 4005840384,
+              "gpu_peak_reserved": 4441767936,
+              "cpu_working_set": 2299834368,
+              "cpu_private": 8185192448,
+              "system_available": 54108405760,
+              "host": {
+                "active_bytes.allocated": 28,
+                "active_bytes.current": 28,
+                "active_bytes.freed": 0,
+                "active_bytes.peak": 28,
+                "active_requests.allocated": 28,
+                "active_requests.current": 28,
+                "active_requests.freed": 0,
+                "active_requests.peak": 28,
+                "allocated_bytes.allocated": 1,
+                "allocated_bytes.current": 1,
+                "allocated_bytes.freed": 0,
+                "allocated_bytes.peak": 1,
+                "allocations.allocated": 1,
+                "allocations.current": 1,
+                "allocations.freed": 0,
+                "allocations.peak": 1,
+                "host_alloc_time.avg": 555,
+                "host_alloc_time.count": 1,
+                "host_alloc_time.max": 555,
+                "host_alloc_time.min": 555,
+                "host_alloc_time.total": 555,
+                "host_free_time.avg": 0,
+                "host_free_time.count": 0,
+                "host_free_time.max": 0,
+                "host_free_time.min": 0,
+                "host_free_time.total": 0,
+                "num_host_alloc": 1,
+                "num_host_free": 0
+              },
+              "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]\n16303 MiB, 5244 MiB, 10752 MiB, 95 %"
+            }
+          },
+          {
+            "gate": "DA0.6",
+            "scope": "full HF GDN module",
+            "T": 4096,
+            "mode": "non-reentrant",
+            "seconds": 0.4404985000001034,
+            "memory": {
+              "gpu_allocated": 466634240,
+              "gpu_reserved": 4427087872,
+              "gpu_peak_allocated": 4000412672,
+              "gpu_peak_reserved": 4427087872,
+              "cpu_working_set": 2388361216,
+              "cpu_private": 8300548096,
+              "system_available": 54016000000,
+              "host": {
+                "active_bytes.allocated": 30,
+                "active_bytes.current": 30,
+                "active_bytes.freed": 0,
+                "active_bytes.peak": 30,
+                "active_requests.allocated": 30,
+                "active_requests.current": 30,
+                "active_requests.freed": 0,
+                "active_requests.peak": 30,
+                "allocated_bytes.allocated": 1,
+                "allocated_bytes.current": 1,
+                "allocated_bytes.freed": 0,
+                "allocated_bytes.peak": 1,
+                "allocations.allocated": 1,
+                "allocations.current": 1,
+                "allocations.freed": 0,
+                "allocations.peak": 1,
+                "host_alloc_time.avg": 555,
+                "host_alloc_time.count": 1,
+                "host_alloc_time.max": 555,
+                "host_alloc_time.min": 555,
+                "host_alloc_time.total": 555,
+                "host_free_time.avg": 0,
+                "host_free_time.count": 0,
+                "host_free_time.max": 0,
+                "host_free_time.min": 0,
+                "host_free_time.total": 0,
+                "num_host_alloc": 1,
+                "num_host_free": 0
+              },
+              "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]\n16303 MiB, 5230 MiB, 10766 MiB, 64 %"
+            },
+            "comparisons": {
+              "output": {
+                "relative_l2": 0.0,
+                "max_absolute": 0.0,
+                "reference_norm": 415.67042494729424,
+                "bitwise_equal": true
+              },
+              "x": {
+                "relative_l2": 0.0,
+                "max_absolute": 0.0,
+                "reference_norm": 0.18740204519602774,
+                "bitwise_equal": true
+              }
+            }
+          },
+          {
+            "gate": "DA0.6",
+            "scope": "full HF GDN module",
+            "T": 4096,
+            "mode": "reentrant",
+            "seconds": 0.43152830000326503,
+            "memory": {
+              "gpu_allocated": 466634240,
+              "gpu_reserved": 4427087872,
+              "gpu_peak_allocated": 4042380800,
+              "gpu_peak_reserved": 4427087872,
+              "cpu_working_set": 2757562368,
+              "cpu_private": 8703987712,
+              "system_available": 53654917120,
+              "host": {
+                "active_bytes.allocated": 32,
+                "active_bytes.current": 32,
+                "active_bytes.freed": 0,
+                "active_bytes.peak": 32,
+                "active_requests.allocated": 32,
+                "active_requests.current": 32,
+                "active_requests.freed": 0,
+                "active_requests.peak": 32,
+                "allocated_bytes.allocated": 1,
+                "allocated_bytes.current": 1,
+                "allocated_bytes.freed": 0,
+                "allocated_bytes.peak": 1,
+                "allocations.allocated": 1,
+                "allocations.current": 1,
+                "allocations.freed": 0,
+                "allocations.peak": 1,
+                "host_alloc_time.avg": 555,
+                "host_alloc_time.count": 1,
+                "host_alloc_time.max": 555,
+                "host_alloc_time.min": 555,
+                "host_alloc_time.total": 555,
+                "host_free_time.avg": 0,
+                "host_free_time.count": 0,
+                "host_free_time.max": 0,
+                "host_free_time.min": 0,
+                "host_free_time.total": 0,
+                "num_host_alloc": 1,
+                "num_host_free": 0
+              },
+              "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB], utilization.gpu [%]\n16303 MiB, 5230 MiB, 10766 MiB, 78 %"
+            },
+            "comparisons": {
+              "output": {
+                "relative_l2": 0.0,
+                "max_absolute": 0.0,
+                "reference_norm": 415.67042494729424,
+                "bitwise_equal": true
+              },
+              "x": {
+                "relative_l2": 0.0,
+                "max_absolute": 0.0,
+                "reference_norm": 0.18740204519602774,
+                "bitwise_equal": true
+              }
+            }
+          }
+        ],
+        "started_at": 1793272303.1352668,
+        "modeling_source": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train\\Lib\\site-packages\\transformers\\models\\qwen3_5\\modeling_qwen3_5.py",
+        "modeling_sha256": "788d4bad50a8d39be2fe79125f0f40134773cd23b1791606fb6b3ab0bc6d2263",
+        "precision": "deterministic; TF32 off; BF16 reduced precision reduction off",
+        "ended_at": 1793272308.2531426
       }
     },
     "d0-sdpa": {

@@ -149,6 +149,39 @@ def gdn_gate(config_path, emit):
         del inputs, dy, actual
 
 
+def gdn_module_gate(config_path, emit):
+    """补测实际bf16 beta及完整HF GDN层，区分kernel与层级峰值。"""
+    inputs = make_inputs(129, 16, 48, 128, torch.bfloat16)
+    inputs[4] = inputs[4].to(torch.bfloat16)
+    dy = torch.randn_like(inputs[2]) / inputs[2].numel() ** .5
+    def candidate(q, k, v, g, beta):
+        return modeling.torch_chunk_gated_delta_rule(q.repeat_interleave(3, dim=2), k.repeat_interleave(3, dim=2),
+                    v, g, beta, chunk_size=64, use_qk_l2norm_in_kernel=True, output_final_state=False)[0]
+    actual, metrics = evaluate_gdn(candidate, inputs, dy, 'direct')
+    expected, reference_metrics = evaluate_gdn(lambda *xs: recurrent_reference(*xs).to(torch.bfloat16), inputs, dy, 'direct')
+    comparisons = {name: compare(a, b) for name, a, b in zip(['output', 'q', 'k', 'v', 'g', 'beta'], actual, expected)}
+    emit({'gate': 'DA0.6', 'scope': 'independent recurrence with production bf16 beta', 'T': 129,
+          'comparisons': comparisons, 'direct': metrics, 'reference': reference_metrics})
+    assert all(row['relative_l2'] <= .01 for row in comparisons.values()), comparisons
+    del inputs, dy, actual, expected
+    raw = json.loads(config_path.read_text(encoding='utf-8'))
+    config = Qwen3_5TextConfig.from_dict(raw.get('text_config', raw))
+    module = modeling.Qwen3_5GatedDeltaNet(config, layer_idx=0).to(device='cuda', dtype=torch.bfloat16)
+    module.requires_grad_(False)
+    for length in [2048, 4096]:
+        inputs = [torch.randn(1, length, config.hidden_size, device='cuda', dtype=torch.bfloat16)]
+        dy = torch.randn_like(inputs[0]) / inputs[0].numel() ** .5
+        actual, metrics = evaluate_gdn(module, inputs, dy, 'direct')
+        emit({'gate': 'DA0.6', 'scope': 'full HF GDN module; frozen synthetic bf16 projections; no LoRA', 'T': length, **metrics})
+        for mode in ['non-reentrant', 'reentrant']:
+            expected, replay_metrics = evaluate_gdn(module, inputs, dy, mode)
+            comparisons = {name: compare(a, b) for name, a, b in zip(['output', 'x'], expected, actual)}
+            emit({'gate': 'DA0.6', 'scope': 'full HF GDN module', 'T': length, **replay_metrics, 'comparisons': comparisons})
+            assert all(row['bitwise_equal'] for row in comparisons.values()), comparisons
+            del expected
+        del inputs, dy, actual
+
+
 def sdpa_gate(config_path, emit, explicit_repeat=False):
     """以HF实际GQA分派测试有无padding mask，记录真实backend算子。"""
     module = SimpleNamespace(num_key_value_groups=6, is_causal=True)
@@ -283,7 +316,7 @@ def pinned_gate(config_path, emit):
 def main():
     """一个独立运行只测一个关卡，失败结果和真实退出码保留。"""
     parser = argparse.ArgumentParser()
-    parser.add_argument('--gate', choices=['meta', 'gdn', 'sdpa', 'gemm', 'pinned'], required=True)
+    parser.add_argument('--gate', choices=['meta', 'gdn', 'gdn_module', 'sdpa', 'gemm', 'pinned'], required=True)
     parser.add_argument('--config', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--explicit-repeat-kv', action='store_true')
