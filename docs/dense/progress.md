@@ -123,3 +123,13 @@ Next: D6 own-base replay300, canary300/holdout50, actual one-step mechanisms,204
 The first frozen layer's qkv/z inputs have no actual autograd dx edge; those are checked by isolated replay, rather than mislabeled as captured real dx. One-step mechanism checkpoints use logical max1 and cannot silently become the100-step campaign. Pressure checkpoints use logical max100 but execution stops at2 on synthetic stress data. Their publications are qualification artifacts, not the final functional adapter.
 
 The steady-state single-micro allocated peaks are8,543,853,056B (2048) and12,543,980,032B (4096). They start without existing accumulated gradients and must not replace the larger actual x8 pressure peaks. Whole-card sampling is every second and may miss shorter transients; CUDA allocator peaks are retained independently. Fifty-seven unit tests pass. Independent FreeToken inference work continues while DA6.3 awaits the user's actual reply.
+
+The production release CLI's dense dispatch is additionally tested against the
+unchanged saved D4 tiny100 publication. A schema fixture serializes the saved
+expected probe loss and25 DeltaW fingerprints without recomputing expectations;
+a fresh `verify_training_release.py` process passes all parameter bytes,
+enabled/disabled loss bits and all25 DeltaW fingerprints. See the
+[CLI qualification](../evidence/dense/d6-tiny-release-cli-summary.json).
+No new training or production changes are involved. This establishes CLI wiring,
+not the still-pending real DA6.6. The existing resume comparator already compares
+all ten named state/history/probe/DeltaW groups without a MoE layout assumption.
