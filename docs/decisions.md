@@ -74,3 +74,29 @@ v2第6.2节明确容差是起点，允许依据实测和原理调整。这里不
 - 决定：按用户最新指令，另从 `wenlive/FreeToken` 最新 main 建独立特性分支，参考已有 `feat/qwen36-nvfp4-lora`，适配并独立记录验收；训练分支硬约束与 DA 编号不变。完整模型推理和局部算子验收分别判定。
 - 影响范围：扩展 G2 交付，单独仓库、分支、环境和证据，不改设计原文。
 - 硬约束：不变更训练硬约束。用户已确认，原话：“最终实际带lora推理可以参考一下 https://github.com/wenlive/FreeToken 这个我自己的fork仓库 此前有feat/qwen36-nvfp4-lora 这么一个分支来做moe模型带lora推理 你可以基于这个仓库main搞个新分支来做适配和验收 （也要推送到我的freetoken fork上以独立分支）”。
+
+### 2026-10-29：D0 / DA0.2、DA0.3 独立环境和MoE基线
+
+- 设计：0.4.2、0.4.7、DA0.2、DA0.3要求独立锁定环境及改代码前main基线。
+- 实测：新venv从原39个离线wheel用原锁、`--require-hashes`安装；逐包版本及每个wheel SHA256一致，pip check通过，pip freeze仅editable注释/URL不同。旧main及editable绑定未动。基线main单测41/41、MoE tiny100步/新进程50→100/发布重载全部PASS；真实C3、expert-r2初始probe均为FP32 bits `1083229253`，loss `4.523958683013916`。
+- 实测配置哈希：real-c3=`e58cf9acbedd898b0d584601775997ebcfa3afba11321f16f12490c1e2453e5d`；real-expert-r2=`2f8da3e3b5e4fd0751d14a5aadeb8503261a3e01b8acce4476b4c82db0c82d4a`。实际配置JSON、完整metrics、终点参数及运行快照在本任务B0 runs保留；不是D7回归结论。
+- 决定：新venv登记为`preparing_dense_d0`，不提前标为真实训练合格。D7逐项对照B0。
+- 影响范围：环境登记、新的D0证据；旧代码和旧环境无数值改动。
+- 硬约束：遵守，无变更。用户确认：原交接及最新原话“缺环境 权重就自己配置就好 无需我同意”；未请求重复确认。
+
+### 2026-10-29：D0工具清单与payload标量计数
+
+- 设计：第4节没有列出D0专用资格入口；1.3节矩阵payload合计16,840,130,560字节。
+- 实测：加上MLP/FP8的FP32标量，64层申请总量为16,840,133,760字节，差3,200字节；每层仍小于256MiB。实际64块分配为17,179,869,184字节（16GiB），全遍H2D约51.341GB/s。
+- 决定：新增清单外`tools/check_dense_preflight.py`，独立运行meta、GDN、SDPA、GEMM/解码和pinned关卡；不修改原工具或MoE数值代码。按真实标量字节预算和记录。独立记录小型辅助脚本放仓外task目录，其源码副本随run保存。
+- 初次pinned测量保留FAIL：分配64块已完成，但进程尚未初始化CUDA，host_memory_stats返回空字典，读取统计键报KeyError；修正测量入口显式cuda.init后新run通过。这不是分配失败或32GiB取整，不将首轮FAIL改写为PASS。
+- 影响范围：D0资格工具和资源账本；不增加bf16小张量到层文件。
+- 硬约束：遵守，无变更。用户确认：一般工程实施已授权，无需新增确认。
+
+### 2026-10-29：DA0.7 原始HF GQA分派失败与dense专用回退
+
+- 设计：DA0.7要求B1、24/4头、T4096、head_dim256在有/无padding mask时不退回math；第5.1节据此估算注意力预算。
+- 实测：默认HF无mask使用enable_gqa=True，实际`aten::_scaled_dot_product_attention_math`，峰值allocated6,979,321,856字节，原始关卡FAIL。诊断12种组合：该Windows锁定Torch未编译Flash；确定性模式拒绝cuDNN SDPA；已有efficient实现要求q/k/v头数相同。显式repeat_kv后有/无mask均实际使用efficient前后向，峰值allocated分别659,292,160/525,074,432字节；重复前后向E2，math参考输出相对L2约0.214%～0.215%，q梯度约0.327%～0.328%，全部输出/梯度小于1%。
+- 决定：dense构建采用单独注册的attention和mask分派，先显式repeat_kv再调用现有HF SDPA入口，限定dense配置；保持原MoE配置、全局sdpa实现及确定性设置不变。该候选资格通过不等于默认HF关卡通过，也不代替D4/D5的整模验证。
+- 影响范围：D0回退资格及后续`build_dense.py`；不新增依赖，不新增kernel，不更改PackedLinearFn、lm_head或LoRA数值策略。
+- 硬约束：不涉及硬约束变更；仍为原生Windows、原锁、确定性SDPA、按family隔离。用户确认：非硬约束工程选择，按“遇到问题尽量解决”授权执行；未声称用户单独批准某个新数值策略。
