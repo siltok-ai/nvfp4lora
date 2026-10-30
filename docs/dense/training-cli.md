@@ -93,7 +93,7 @@ eval-corpus都指向Qwen3.6自己的路径。
 其logical max100保持不变，保存1/5/10；只有未来明确要求额外100及门槛后
 再从step10继续，不能从max1资格探针静默延长。
 
-完整制品目标`C:\workspace\artifacts\nvfp4lora-dense\0.0.1\20261030T054636Z`复制固定语料后路径可变，内容/模板/
+已归档并独立读回通过的完整制品`C:\workspace\artifacts\nvfp4lora-dense\0.0.1\20261030T054636Z`复制固定语料后路径可变，内容/模板/
 分词器身份不可变；从制品checkpoint的train_config.json恢复。仅publish目录
 足以重建权重和probe，但不能恢复Adam/RNG。实际source snapshots/exit codes
 与全部精确命令见对应evidence manifest。

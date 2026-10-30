@@ -111,7 +111,7 @@ Q38实际100步总wall5504.912s，active-step平均50.818s；输入28,746 tokens
 | Q38 actual100 | `206ea21afe34cecb4cfd9d87e62fd1ff003b9a1c8a035de8a87f9db7943258d2` |
 | Q36 actual10 | `552dc8992fa1ffe924e3160c2d123f69fab2b7ee232f6058457b8ac36cdbdf85` |
 
-原始发布位置：`C:\workspace\runs\T-20261029-nvfp4-dense\20261030T020753Z-d6-functional100\results\publish`、`C:\workspace\runs\T-20261029-nvfp4-dense\20261030T050306Z-qwen36-short10\results\publish`。最终verified-copy制品目标：`C:\workspace\artifacts\nvfp4lora-dense\0.0.1\20261030T054636Z`，包含Q38 step20/50/100、Q36 step10、两发布目录、固定数据及重建源码/锁文件；原始部署权重仅按revision/SHA引用。复制前后逐文件校验，根manifest最后生成；其实际回执随后归档，未执行前不把目标目录当已生成。
+原始发布位置：`C:\workspace\runs\T-20261029-nvfp4-dense\20261030T020753Z-d6-functional100\results\publish`、`C:\workspace\runs\T-20261029-nvfp4-dense\20261030T050306Z-qwen36-short10\results\publish`。已完成verified-copy及独立读回的制品：`C:\workspace\artifacts\nvfp4lora-dense\0.0.1\20261030T054636Z`，包含Q38 step20/50/100、Q36 step10、两发布目录、固定数据及重建源码/锁文件；原始部署权重仅按revision/SHA引用。复制前后及独立读回均通过：187个文件、6,100,272,741字节（不含根manifest），无额外文件。根manifest SHA256为`e1e1952555cfb6f48f2938ba50c83d4d68ac42e530ecc054924bfd049d91414d`；[制品manifest](../evidence/dense/delivery-manifest.json)、[独立读回](../evidence/dense/delivery-archive-readback-summary.json)。归档源码提交为`f0be56c0d8d2107d8121a488bbe2961f7c7e904b`，随后Git只追加交付元数据；根manifest最后生成后不再修改。
 
 最终只推siltok-ai/nvfp4lora的feat/dense27b-lora和wenlive/FreeToken的feat/dense27b-nvfp4-lora。最终HEAD与remote-inclusive严格审核留在交付回执/仓外run，避免在提交里引用它自身的最终SHA。Git中只有摘要和manifest；权重、检查点、原始logits、快照和大日志不入仓。
 

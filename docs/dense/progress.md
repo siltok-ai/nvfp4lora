@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **All technical acceptance completed: Q38 full100, Q36 design-short10, final native inference for both and full DA7.1 MoE bit regression.** Documentation and verified-copy delivery are being finalized; remote publication is checked at delivery. Earlier pending statements below are historical stage records; final measurements are consolidated in results.md.
+Current state: **All technical acceptance completed: Q38 full100, Q36 design-short10, final native inference for both and full DA7.1 MoE bit regression.** Documentation and verified-copy delivery including independent SHA256 readback are complete; final remote publication is checked in the external delivery receipt. Earlier pending statements below are historical stage records; final measurements are consolidated in results.md.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
