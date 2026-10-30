@@ -10,7 +10,7 @@ from pathlib import Path
 import torch
 from safetensors.torch import load_file
 
-from tools.validation.compare_training_runs import equal_tree
+from nvfp4lora.testing.numerics import equal_tree
 from nvfp4lora.format.bundle import file_hash
 
 
@@ -39,7 +39,7 @@ def main():
     keys = ["loss", "supervised_tokens", "sequence_tokens", "sample_ids", "learning_rates", "gradient_norm", "group_gradient_norms", "route_audit", "rng_probe"]
     for row in resumed_rows:
         for key in keys:
-            if row.get(key) != reference_rows[row["global_step"]].get(key):
+            if not equal_tree(row.get(key), reference_rows[row["global_step"]].get(key)):
                 differences.append({"step": row["global_step"], "field": key})
     assert len(resumed_rows) == endpoint - summaries[1]["starting_step"]
     paths = [root / "checkpoints" / f"step-{endpoint:06d}" for root in [args.baseline, args.resumed]]

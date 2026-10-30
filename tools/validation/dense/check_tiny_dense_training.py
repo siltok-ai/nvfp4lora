@@ -22,7 +22,7 @@ from transformers import Qwen3_5ForCausalLM, Qwen3_5TextConfig
 
 from nvfp4lora.testing.numerics import compare_vectors, rng_probe, write_json
 from tools.validation.compare_real_resume import read_checkpoint
-from tools.validation.compare_training_runs import equal_tree
+from nvfp4lora.testing.numerics import equal_tree
 from nvfp4lora.export.artifacts import base_identity, build_from_adapter, publish_adapter
 from nvfp4lora.families import family_of_bundle
 from nvfp4lora.export.delta_w import delta_w_fingerprints
@@ -160,6 +160,10 @@ def paired(args, output, config):
             batches = stream.next_group(config["accumulation_steps"])
             metrics = actual.backward_group(batches)
             ref_metrics = {name: trainer.backward_group(batches) for name, trainer in trainers.items()}
+            if (not equal_tree(metrics["loss"], ref_metrics["same_expression"]["loss"])
+                    or not all(equal_tree(value.grad, references["same_expression"].trainable[key].grad)
+                               for key, value in built.trainable.items())):
+                failures.append(f"Same-expression loss or gradients differ at step {step}")
             if step == 1:
                 for name, reference in references.items():
                     first[name] = {key: compare_vectors(value.grad, reference.trainable[key].grad) for key, value in built.trainable.items()}
@@ -185,6 +189,8 @@ def paired(args, output, config):
         save(actual, stream, output / "checkpoint-final", config, args.commit)
         final = {name: {key: compare_vectors(value, reference.trainable[key]) for key, value in built.trainable.items()}
                  for name, reference in references.items()}
+        if not all(equal_tree(value, references["same_expression"].trainable[key]) for key, value in built.trainable.items()):
+            failures.append("Same-expression final parameter bytes differ")
         write_json(output / "final-weight-comparison.json", final)
         failures.extend(f"final weight {name}.{key}: {value}" for name, values in final.items() for key, value in values.items() if value["cosine"] < .99)
         frozen_checks = {name: frozen_fingerprint(value) == frozen[name] for name, value in {"actual": built, **references}.items()}
@@ -223,7 +229,7 @@ def resumed(args, output, config):
         for step in range(trainer.state["global_step"] + 1, args.steps + 1):
             row = {**trainer.step(stream.next_group(config["accumulation_steps"])), "rng_probe": rng_probe()}
             for key in ["loss", "supervised_tokens", "sample_ids", "learning_rates", "gradient_norm", "group_gradient_norms", "rng_probe"]:
-                if row[key] != expected_history[step][key]:
+                if not equal_tree(row[key], expected_history[step][key]):
                     differences.append({"step": step, "field": key})
             with (output / "metrics.jsonl").open("a", encoding="utf-8") as log:
                 log.write(json.dumps(row) + "\n")

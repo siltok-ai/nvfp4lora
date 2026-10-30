@@ -1,5 +1,6 @@
 """验证器共享的数值比较、固定随机设置和状态观测。"""
 import json
+import struct
 import random
 from pathlib import Path
 import numpy as np
@@ -45,3 +46,21 @@ def compare(actual, expected):
                                  expected.contiguous().reshape(-1).view(torch.uint8)))
     return {"relative_l2": relative, "max_absolute": absolute,
             "reference_norm": norm, "bitwise_equal": bitwise_equal}
+
+
+def equal_tree(actual, expected):
+    """按类型及原字节比较状态树，包含浮点正负零、数组 dtype 与张量形状。"""
+    if type(actual) is not type(expected):
+        return False
+    if isinstance(actual, torch.Tensor):
+        return actual.shape == expected.shape and actual.dtype == expected.dtype and torch.equal(
+            actual.detach().contiguous().reshape(-1).view(torch.uint8), expected.detach().contiguous().reshape(-1).view(torch.uint8))
+    if isinstance(actual, np.ndarray):
+        return actual.shape == expected.shape and actual.dtype == expected.dtype and actual.tobytes() == expected.tobytes()
+    if isinstance(actual, float):
+        return struct.pack("!d", actual) == struct.pack("!d", expected)
+    if isinstance(actual, dict):
+        return actual.keys() == expected.keys() and all(equal_tree(value, expected[key]) for key, value in actual.items())
+    if isinstance(actual, (tuple, list)):
+        return len(actual) == len(expected) and all(equal_tree(a, b) for a, b in zip(actual, expected))
+    return actual == expected

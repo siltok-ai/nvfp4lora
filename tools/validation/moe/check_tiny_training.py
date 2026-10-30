@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
 
-from nvfp4lora.testing.numerics import write_json, rng_probe, compare_vectors
+from nvfp4lora.testing.numerics import write_json, rng_probe, compare_vectors, equal_tree
 
 import argparse
 import importlib.metadata
@@ -19,7 +19,9 @@ import torch
 from nvfp4lora.export.artifacts import base_identity, build_from_adapter, publish_adapter
 from nvfp4lora.model.adapters import disable_adapters
 from nvfp4lora.model.build_moe import build_model
-from nvfp4lora.model.packed_experts import PackedExperts
+from nvfp4lora.model.packed_experts import PackedExperts, DenseReferenceExperts
+from types import MethodType
+from nvfp4lora.validation.experts_reference import materialized_experts_forward
 from nvfp4lora.ops.chunked_ce import supervised_tokens
 from nvfp4lora.train.checkpoint import capture_rng, configuration_hash, load_checkpoint, save_checkpoint
 from nvfp4lora.train.data import DeterministicSampleStream, SyntheticTinyDataset
@@ -85,10 +87,23 @@ def paired(args, output, config):
     with torch.no_grad():
         for name, parameter in reference.trainable.items():
             parameter.copy_(built.trainable[name])
-    actual, dense = (LoRATrainer(model, config) for model in [built, reference])
+    with torch.random.fork_rng(devices=[torch.cuda.current_device()]):
+        same_reference = build_model(args.bundle, **BUILD, store=built.store, reference=True)
+    for module in same_reference.model.modules():
+        if isinstance(module, DenseReferenceExperts):
+            module.forward = MethodType(materialized_experts_forward, module)
+    with torch.no_grad():
+        for name, parameter in same_reference.trainable.items():
+            parameter.copy_(built.trainable[name])
+    actual, dense, ordinary = (LoRATrainer(model, config) for model in [built, reference, same_reference])
+    same_frozen = frozen_fingerprint(same_reference)
+    same_checks = []
     dataset = SyntheticTinyDataset(**{k: config["dataset"][k] for k in ["size", "vocab_size", "seed"]})
     stream = DeterministicSampleStream(dataset, seed=config["sampler_seed"])
     frozen = frozen_fingerprint(built)
+    initial = probe(built, dataset)
+    if not equal_tree(initial["loss"], initial["disabled_loss"]):
+        raise AssertionError("Zero-step enabled and disabled loss bytes differ")
     first_gradients, history, observations = {}, [], {"built_pair": memory_observation()}
     failure = []
     for step in range(1, args.steps + 1):
@@ -105,6 +120,13 @@ def paired(args, output, config):
                 torch.cuda.memory._dump_snapshot(str(output / "first-backward.pickle"))
                 torch.cuda.memory._record_memory_history(enabled=None)
             dm = dense.backward_group(batches)
+            om = ordinary.backward_group(batches)
+            gradient_bits = all(equal_tree(parameter.grad, same_reference.trainable[name].grad)
+                                for name, parameter in built.trainable.items())
+            loss_bits = equal_tree(am["loss"], om["loss"])
+            same_checks.append({"step": step, "loss_E2": loss_bits, "all_gradients_E2": gradient_bits})
+            if not gradient_bits or not loss_bits:
+                failure.append(f"Same-expression ordinary-autograd comparison failed at step {step}")
         except Exception:
             torch.save(batches, output / f"failed-batch-{step}.pt")
             raise
@@ -116,6 +138,7 @@ def paired(args, output, config):
                     failure.append(f"A4.1 first gradient {name}: {result}")
             write_json(output / "first-gradients.json", first_gradients)
         am, dm = actual.finish_step(am), dense.finish_step(dm)
+        ordinary.finish_step(om)
         relative = abs(am["loss"] - dm["loss"]) / abs(dm["loss"])
         if relative > .02:
             failure.append(f"A4.2 step {step}: {relative}")
@@ -131,6 +154,13 @@ def paired(args, output, config):
             save(actual, stream, output / "checkpoint-middle", config, args.commit)
             observations["save_middle"] = memory_observation()
     save(actual, stream, output / "checkpoint-final", config, args.commit)
+    same_final = all(equal_tree(parameter, same_reference.trainable[name]) for name, parameter in built.trainable.items())
+    same_frozen_equal = frozen_fingerprint(same_reference) == same_frozen
+    if not same_final or not same_frozen_equal:
+        failure.append("Same-expression final parameters or frozen tensors differ")
+    write_json(output / "same-expression.json", {"status": "PASS" if all(row["loss_E2"] and row["all_gradients_E2"] for row in same_checks)
+        and same_final and same_frozen_equal else "FAIL", "steps": same_checks,
+        "final_parameters_E2": same_final, "frozen_unchanged": same_frozen_equal})
     frozen_equal = frozen_fingerprint(built) == frozen
     if not frozen_equal:
         failure.append("A4.5 frozen weights/buffers/store changed")
@@ -145,7 +175,7 @@ def paired(args, output, config):
     equal_sets = set(built.trainable) == set(built.expected_trainable) == set(publish["tensor_specifications"])
     if not equal_sets:
         failure.append("A4.6 optimizer/expected/publish keys differ")
-    summary = {"status": "FAIL" if failure else "PASS", "optimizer_steps": args.steps,
+    summary = {"status": "FAIL" if failure else "PASS", "optimizer_steps": args.steps, "zero_step_loss_E2": True,
                "accumulation_steps": config["accumulation_steps"], "samples": stream.consumed,
                "frozen_hashes_unchanged": frozen_equal, "canonical_sets_equal": equal_sets,
                "trainable_tensor_count": len(built.trainable), "trainable_numel": sum(p.numel() for p in built.trainable.values()),
@@ -182,7 +212,7 @@ def resumed(args, output, config):
             raise
         expected = uninterrupted[step - 1]
         for key in ["loss", "supervised_tokens", "sample_ids", "learning_rates", "gradient_norm", "group_gradient_norms", "rng_probe"]:
-            if row[key] != expected[key]:
+            if not equal_tree(row[key], expected[key]):
                 failures.append(f"step {step} E2 mismatch: {key} {row[key]} != {expected[key]}")
         with (output / "metrics.jsonl").open("a", encoding="utf-8") as log:
             log.write(json.dumps(row) + "\n")
@@ -194,21 +224,11 @@ def resumed(args, output, config):
     actual = output / "checkpoint-final"
     expected = origin / "checkpoint-final"
     from safetensors.torch import load_file
-    def equal_tree(a, b):
-        if isinstance(a, torch.Tensor):
-            return isinstance(b, torch.Tensor) and a.dtype == b.dtype and a.shape == b.shape and torch.equal(a.reshape(-1).view(torch.uint8), b.reshape(-1).view(torch.uint8))
-        if isinstance(a, np.ndarray):
-            return isinstance(b, np.ndarray) and np.array_equal(a, b)
-        if isinstance(a, dict):
-            return a.keys() == b.keys() and all(equal_tree(value, b[key]) for key, value in a.items())
-        if isinstance(a, (tuple, list)):
-            return len(a) == len(b) and all(equal_tree(x, y) for x, y in zip(a, b))
-        return a == b
     checks = {"parameters": equal_tree(load_file(actual / "lora_params.safetensors"), load_file(expected / "lora_params.safetensors"))}
     for name in ["optimizer.pt", "scheduler.pt", "rng.pt"]:
         checks[name] = equal_tree(torch.load(actual / name, weights_only=False), torch.load(expected / name, weights_only=False))
     for name in ["data_state.json", "trainer_state.json"]:
-        checks[name] = json.loads((actual / name).read_text()) == json.loads((expected / name).read_text())
+        checks[name] = equal_tree(json.loads((actual / name).read_text()), json.loads((expected / name).read_text()))
     checks["frozen"] = frozen_fingerprint(built) == frozen
     failures.extend(f"final state differs: {name}" for name, equal in checks.items() if not equal)
     write_json(output / "summary.json", {"status": "FAIL" if failures else "PASS", "resumed_steps": args.steps - args.steps // 2,

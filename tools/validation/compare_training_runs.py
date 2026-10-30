@@ -12,16 +12,7 @@ import torch
 from safetensors.torch import load_file
 
 
-def equal_tree(actual, expected):
-    if isinstance(actual, torch.Tensor):
-        return isinstance(expected, torch.Tensor) and actual.shape == expected.shape and actual.dtype == expected.dtype and torch.equal(actual.reshape(-1).view(torch.uint8), expected.reshape(-1).view(torch.uint8))
-    if isinstance(actual, np.ndarray):
-        return isinstance(expected, np.ndarray) and np.array_equal(actual, expected)
-    if isinstance(actual, dict):
-        return actual.keys() == expected.keys() and all(equal_tree(value, expected[key]) for key, value in actual.items())
-    if isinstance(actual, (tuple, list)):
-        return len(actual) == len(expected) and all(equal_tree(a, b) for a, b in zip(actual, expected))
-    return actual == expected
+from nvfp4lora.testing.numerics import equal_tree
 
 
 def main():
