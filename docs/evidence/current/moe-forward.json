@@ -1,0 +1,288 @@
+{
+  "status": "PASS",
+  "source_commit": "b383ce8c20a81a1797581fd5cf8832c27489a53e",
+  "family": "moe",
+  "base": null,
+  "base_source": {
+    "kind": "real-nvidia-checkpoint",
+    "repo": "nvidia/Qwen3.6-35B-A3B-NVFP4",
+    "revision": "1355db6a052410cfd62085d94b58866fd0f2c3c5",
+    "shards": [
+      {
+        "filename": "model-00001-of-00003.safetensors",
+        "sha256": "07141c2db92e47bc08777132cd1a0323faf300eab3a7d7c111bc2bf075fda050"
+      },
+      {
+        "filename": "model-00002-of-00003.safetensors",
+        "sha256": "6dea9c759a0f941cf9e1cc1501216b0e107966a66c90425050e212efbd053f02"
+      },
+      {
+        "filename": "model-00003-of-00003.safetensors",
+        "sha256": "9758875fc55e49561165f4a44342b654c123c3e25c6811b34abb83553fb1a164"
+      }
+    ],
+    "metadata": [
+      {
+        "filename": "README.md",
+        "sha256": "1ee59fc444f6935222966d9336d1b37c7a1f3bb237ad4a09793ecaa9b462e2ad"
+      },
+      {
+        "filename": "chat_template.jinja",
+        "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259"
+      },
+      {
+        "filename": "config.json",
+        "sha256": "58aefa1c9eff7989f431d748f2ddec39446cb1fd2a69acc46e285c6a37b0cecc"
+      },
+      {
+        "filename": "generation_config.json",
+        "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+      },
+      {
+        "filename": "hf_quant_config.json",
+        "sha256": "75fe7cc8d5836b58734e05ee67423a4ce91d602aaad45c8173a1b7597cd57663"
+      },
+      {
+        "filename": "model.safetensors.index.json",
+        "sha256": "d67403a4e9793c0ba8a136baf14b3b76ec7b32c822267978084895e07ebd8a3e"
+      },
+      {
+        "filename": "tokenizer.json",
+        "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+      },
+      {
+        "filename": "tokenizer_config.json",
+        "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b"
+      },
+      {
+        "filename": "vocab.json",
+        "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+      }
+    ]
+  },
+  "raw_summary_sha256": {
+    "reference": "3807e978b3289cf75a74b05c2651f5f373685001f74ed40be19fd782407b012b",
+    "greedy": "599d0fa6fae50b142c1425866eb8555adcca99cf8d772f5619a998ee72720b69"
+  },
+  "greedy": [
+    {
+      "question": "1加1等于几？只输出一个数字。",
+      "answer": "2",
+      "stopped": true
+    },
+    {
+      "question": "中国的首都是哪里？只输出城市名。",
+      "answer": "北京",
+      "stopped": true
+    },
+    {
+      "question": "请用英文说你好，只输出一个单词。",
+      "answer": "Hello",
+      "stopped": true
+    }
+  ],
+  "greedy_semantics_checked": true,
+  "criterion": "Each CPU layer relative L2 <= 0.01; route-conditioned for MoE only",
+  "cpu_cases": [
+    {
+      "status": "PASS",
+      "fixture": 0,
+      "policy": "A5.2 split per docs/decisions.md; original unconditioned 1% is separately reported",
+      "unconditioned_original_1percent_pass": false,
+      "full_40_layer_gpu_forward_seconds_with_capture": 3.9422918999916874,
+      "layers": [
+        {
+          "layer": 0,
+          "fp32_free_relative_l2": 0.010577636002411475,
+          "fp32_actual_routes_relative_l2": 0.003390058062720105,
+          "router_same_input_fp32_logit_relative_l2": 0.0015436623772870238,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 16,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 8.535385131835938e-05,
+          "maximum_logit_perturbation_vs_free_reference": 0.061606407165527344,
+          "status": "PASS"
+        },
+        {
+          "layer": 1,
+          "fp32_free_relative_l2": 0.022187602160516212,
+          "fp32_actual_routes_relative_l2": 0.0042595900507099976,
+          "router_same_input_fp32_logit_relative_l2": 0.0015825326029089359,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 23,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 0.0005235671997070312,
+          "maximum_logit_perturbation_vs_free_reference": 0.0799407958984375,
+          "status": "PASS"
+        },
+        {
+          "layer": 2,
+          "fp32_free_relative_l2": 0.019473119438843764,
+          "fp32_actual_routes_relative_l2": 0.004476533331689097,
+          "router_same_input_fp32_logit_relative_l2": 0.0015669627275819277,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 25,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 0.0014328956604003906,
+          "maximum_logit_perturbation_vs_free_reference": 0.3021979331970215,
+          "status": "PASS"
+        },
+        {
+          "layer": 3,
+          "fp32_free_relative_l2": 0.025387527787568486,
+          "fp32_actual_routes_relative_l2": 0.005742892488617201,
+          "router_same_input_fp32_logit_relative_l2": 0.0015567704013792392,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 28,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 0.0007333755493164062,
+          "maximum_logit_perturbation_vs_free_reference": 0.22589778900146484,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "status": "PASS",
+      "fixture": 1,
+      "policy": "A5.2 split per docs/decisions.md; original unconditioned 1% is separately reported",
+      "unconditioned_original_1percent_pass": false,
+      "full_40_layer_gpu_forward_seconds_with_capture": 3.599592599988682,
+      "layers": [
+        {
+          "layer": 0,
+          "fp32_free_relative_l2": 0.01347261138731139,
+          "fp32_actual_routes_relative_l2": 0.0035458640712361807,
+          "router_same_input_fp32_logit_relative_l2": 0.0015548115150752272,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 9,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 0.0006651878356933594,
+          "maximum_logit_perturbation_vs_free_reference": 0.07154464721679688,
+          "status": "PASS"
+        },
+        {
+          "layer": 1,
+          "fp32_free_relative_l2": 0.014567889212792118,
+          "fp32_actual_routes_relative_l2": 0.004238329841705002,
+          "router_same_input_fp32_logit_relative_l2": 0.0015568154610099542,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 8,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 0.0006041526794433594,
+          "maximum_logit_perturbation_vs_free_reference": 0.18396329879760742,
+          "status": "PASS"
+        },
+        {
+          "layer": 2,
+          "fp32_free_relative_l2": 0.014956034835680629,
+          "fp32_actual_routes_relative_l2": 0.004393196879743742,
+          "router_same_input_fp32_logit_relative_l2": 0.001583802003335276,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 24,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 0.0001926422119140625,
+          "maximum_logit_perturbation_vs_free_reference": 0.18983173370361328,
+          "status": "PASS"
+        },
+        {
+          "layer": 3,
+          "fp32_free_relative_l2": 0.021947044803707877,
+          "fp32_actual_routes_relative_l2": 0.005742213988729347,
+          "router_same_input_fp32_logit_relative_l2": 0.0015817549749150164,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 27,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 7.43865966796875e-05,
+          "maximum_logit_perturbation_vs_free_reference": 0.21562576293945312,
+          "status": "PASS"
+        }
+      ]
+    },
+    {
+      "status": "PASS",
+      "fixture": 2,
+      "policy": "A5.2 split per docs/decisions.md; original unconditioned 1% is separately reported",
+      "unconditioned_original_1percent_pass": false,
+      "full_40_layer_gpu_forward_seconds_with_capture": 3.4746134000015445,
+      "layers": [
+        {
+          "layer": 0,
+          "fp32_free_relative_l2": 0.010253233472650107,
+          "fp32_actual_routes_relative_l2": 0.0036704505061371916,
+          "router_same_input_fp32_logit_relative_l2": 0.001537099445855306,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 8,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 0.0004153251647949219,
+          "maximum_logit_perturbation_vs_free_reference": 0.05954742431640625,
+          "status": "PASS"
+        },
+        {
+          "layer": 1,
+          "fp32_free_relative_l2": 0.012389886678989175,
+          "fp32_actual_routes_relative_l2": 0.004431774320925547,
+          "router_same_input_fp32_logit_relative_l2": 0.0015695909333402517,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 15,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 0.00098419189453125,
+          "maximum_logit_perturbation_vs_free_reference": 0.16940879821777344,
+          "status": "PASS"
+        },
+        {
+          "layer": 2,
+          "fp32_free_relative_l2": 0.01177138817250032,
+          "fp32_actual_routes_relative_l2": 0.004413261885165269,
+          "router_same_input_fp32_logit_relative_l2": 0.0015634946874236114,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 21,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 2.4318695068359375e-05,
+          "maximum_logit_perturbation_vs_free_reference": 0.17019271850585938,
+          "status": "PASS"
+        },
+        {
+          "layer": 3,
+          "fp32_free_relative_l2": 0.01719510311501132,
+          "fp32_actual_routes_relative_l2": 0.005568786733503711,
+          "router_same_input_fp32_logit_relative_l2": 0.001562846501758206,
+          "router_weight_relative_l2": 0.0,
+          "gpu_selection_is_topk": true,
+          "gpu_selection_has_no_duplicates": true,
+          "changed_topk_tokens": 28,
+          "changes_outside_2epsilon_margin": 0,
+          "minimum_cpu_cutoff_margin": 4.00543212890625e-05,
+          "maximum_logit_perturbation_vs_free_reference": 0.148162841796875,
+          "status": "PASS"
+        }
+      ]
+    }
+  ],
+  "maximum_conditioned_relative_l2": 0.005742892488617201,
+  "maximum_router_same_input_relative_l2": 0.001583802003335276,
+  "original_free_route_1percent_pass": false,
+  "original_reference_observer_failed_at_terminal": true,
+  "resource_scope": "The numeric reference exited zero. Its original observer terminal race failed; no complete observer summary is claimed. Raw samples retained outside Git."
+}

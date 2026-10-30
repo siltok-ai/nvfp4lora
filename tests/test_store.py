@@ -9,8 +9,8 @@ import torch
 from safetensors.torch import save_file
 
 from nvfp4lora.format.inspect import read_header
-from nvfp4lora.format.preprocess import file_hash
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 
 
@@ -42,7 +42,7 @@ class StoreTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             expected = make_banks(root)
-            store = ExpertStore(root, pin_memory=False)
+            store = PackedLayerStore(root, pin_memory=False, layout_version="packed-nvfp4-experts-v1")
             for layer, values in expected.items():
                 for name, tensor in store.tensors(layer).items():
                     self.assertTrue(torch.equal(tensor, values[name]), (layer, name))
@@ -61,7 +61,7 @@ class StoreTests(unittest.TestCase):
                 stream.seek(-1, 2)
                 stream.write(bytes([value[0] ^ 1]))
             with self.assertRaisesRegex(ValueError, "checksum"):
-                ExpertStore(root, pin_memory=False)
+                PackedLayerStore(root, pin_memory=False, layout_version="packed-nvfp4-experts-v1")
 
     def test_cpu_slot_pins_generation_and_actual_data(self):
         self._exercise_slots("cpu")
@@ -74,7 +74,7 @@ class StoreTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             expected = make_banks(root)
-            store = ExpertStore(root, pin_memory=(device == "cuda"))
+            store = PackedLayerStore(root, pin_memory=(device == "cuda"), layout_version="packed-nvfp4-experts-v1")
             before = store.hashes()
             streamer = SyncLayerStreamer(store, device=device, slots=2)
             first = streamer.acquire(0)

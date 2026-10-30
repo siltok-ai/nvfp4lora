@@ -10,7 +10,7 @@ import numpy as np
 import torch
 from safetensors.torch import load_file, save_file
 
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 
 
 def configuration_hash(config):

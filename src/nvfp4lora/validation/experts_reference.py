@@ -1,6 +1,7 @@
 """不复用生产 route plan、chunk_forward 或 VJP 的稠密 autograd 参考。"""
 
 import torch
+import torch.nn.functional as F
 
 
 def _expert_formula(rows, matrices, scales, parameters, scaling, compute_dtype):
@@ -46,3 +47,42 @@ def experts_reference(x, indices, weights, matrices, scales, parameters=(), *, s
                                     [p[expert] for p in parameters], scaling, dtype)
             routes[token, slot] = value * weights[token, slot, None].to(accum)
         return routes.sum(dim=1).to(dtype)
+
+
+def materialized_experts_autograd(x, indices, weights, matrices, scales, parameters=(), *, scaling=(1.,1.,1.), chunk_size=32):
+    """物化权重的普通 autograd；每条 route 独立输入，最后以累积精度合并输入梯度。"""
+    accum = torch.float64 if x.dtype == torch.float64 else torch.float32
+    tokens, width = x.shape
+    k = indices.shape[1]
+    # expand's backward reduces the K route gradients in FP32/FP64, as the streaming operator does.
+    route_inputs = x.to(accum)[:, None, :].expand(tokens,k,width).clone().reshape(-1,width)
+    # split's backward concatenates chunk gradients, preserving their signed-zero bits.
+    # Selecting experts from the whole parameter instead would add zero-padded gradients across chunks.
+    parameter_chunks = [parameter.split(chunk_size, dim=0) for parameter in parameters]
+    output = torch.empty(tokens*k,width,dtype=accum,device=x.device)
+    for expert in range(matrices[0].shape[0]):
+        route_ids = torch.where(indices.reshape(-1)==expert)[0]
+        if route_ids.numel()==0:continue
+        rows = route_inputs[route_ids].to(x.dtype)
+        local = [chunks[expert // chunk_size][expert % chunk_size] for chunks in parameter_chunks]
+        values = rows.to(accum)
+        gate = F.linear(rows,matrices[0][expert]).to(accum)*scales[0][expert]
+        up = F.linear(rows,matrices[1][expert]).to(accum)*scales[1][expert]
+        if parameters:
+            gate = gate+F.linear(F.linear(values,local[0]),local[1])*scaling[0]
+            up = up+F.linear(F.linear(values,local[2]),local[3])*scaling[1]
+        hidden = F.silu(gate)*up
+        down = F.linear(hidden.to(x.dtype),matrices[2][expert]).to(accum)*scales[2][expert]
+        if parameters:
+            down = down+F.linear(F.linear(hidden,local[4]),local[5])*scaling[2]
+        output[route_ids]=down*weights.reshape(-1)[route_ids,None].to(accum)
+    return output.reshape(tokens,k,width).sum(dim=1).to(x.dtype)
+
+def materialized_experts_forward(module, hidden_states, top_k_index, top_k_weights):
+    """仅供已物化 tiny 模型的普通 autograd 参考，不调用流式生产算子。"""
+    names = ["gate_proj", "up_proj", "down_proj"]
+    return materialized_experts_autograd(hidden_states, top_k_index, top_k_weights,
+        [getattr(module, name + "_reference_weight") for name in names],
+        [getattr(module, name + "_reference_scale") for name in names],
+        module.adapter_parameters() if module.enabled else (), scaling=module.op_config.scaling,
+        chunk_size=module.op_config.chunk_size)

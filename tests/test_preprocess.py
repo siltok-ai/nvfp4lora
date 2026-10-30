@@ -11,7 +11,8 @@ import torch
 from safetensors.torch import load_file, save_file
 
 from nvfp4lora.format.nvfp4 import dequantize, quantize
-from nvfp4lora.format.preprocess import FIELDS, PROJECTIONS, file_hash, preprocess
+from nvfp4lora.format.bundle import FIELDS, file_hash
+from nvfp4lora.format.preprocess_moe import PROJECTIONS, preprocess
 
 
 def make_fixture(root):

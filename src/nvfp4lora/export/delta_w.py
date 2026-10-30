@@ -4,8 +4,8 @@ import hashlib
 
 import torch
 
-from nvfp4lora.model.build import canonical_name
-from nvfp4lora.model.packed_experts import PackedExperts
+from nvfp4lora.model.common import canonical_name
+from nvfp4lora.families import family_for_built
 
 
 def _hash(value):
@@ -22,13 +22,5 @@ def delta_w_fingerprints(built, *, expert_chunk=8):
             a, b, scale = module.lora_A["default"].weight, module.lora_B["default"].weight, module.scaling["default"]
             value = (b @ a) * scale
             result["tensors"][canonical_name(name) + ".delta"] = {"shape": list(value.shape), "scaling": scale, "sha256": _hash(value)}
-        if isinstance(module, PackedExperts) and module.rank:
-            for index, projection in enumerate(["gate_proj", "up_proj", "down_proj"]):
-                adapter = getattr(module, projection)
-                assert adapter.scaling == module.op_config.scaling[index]
-                for begin in range(0, adapter.lora_A.shape[0], expert_chunk):
-                    end = min(begin + expert_chunk, adapter.lora_A.shape[0])
-                    value = torch.bmm(adapter.lora_B[begin:end], adapter.lora_A[begin:end]) * adapter.scaling
-                    key = canonical_name(name) + f".{projection}.delta[{begin}:{end}]"
-                    result["tensors"][key] = {"shape": list(value.shape), "scaling": adapter.scaling, "sha256": _hash(value)}
+        result["tensors"].update(family_for_built(built).extra_delta_w(name, module, expert_chunk))
     return result

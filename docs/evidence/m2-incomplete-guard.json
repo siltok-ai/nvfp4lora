@@ -1,7 +1,0 @@
-{
-  "status": "PASS",
-  "scope": "Negative completion guard, not M2 completion",
-  "expected_exit": 1,
-  "observed_exit": 1,
-  "audit_status": "INCOMPLETE"
-}

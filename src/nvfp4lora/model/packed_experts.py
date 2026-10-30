@@ -6,6 +6,8 @@ import math
 import torch
 from torch import nn
 
+from nvfp4lora.model.adapters import ToggleableAdapter
+
 from nvfp4lora.format.nvfp4 import dequantize
 from nvfp4lora.ops.experts_fn import NVFP4ExpertsFn, NVFP4ExpertsBaseFn
 from nvfp4lora.validation.experts_reference import experts_reference
@@ -29,7 +31,7 @@ class ExpertAdapter(nn.Module):
             self.lora_B.zero_()
 
 
-class PackedExperts(nn.Module):
+class PackedExperts(nn.Module, ToggleableAdapter):
     """与 HF experts 相同的三参数 forward，adapter 禁用使用独立 base Function。"""
 
     def __init__(self, config, layer, op_config, *, rank=0, alpha=None, device="meta"):

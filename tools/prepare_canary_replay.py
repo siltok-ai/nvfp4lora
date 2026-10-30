@@ -8,8 +8,8 @@ from pathlib import Path
 from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import base_identity
-from nvfp4lora.format.preprocess import file_hash
-from nvfp4lora.model.build import build_model
+from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.families import family_of_bundle, family_named, family_names
 from nvfp4lora.model.generate import greedy_batch
 from nvfp4lora.train.loop import configure_training, memory_observation
 
@@ -65,20 +65,24 @@ def main():
     parser.add_argument("--dataset-output", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument("--family", choices=family_names())
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     args.dataset_output.mkdir(parents=True, exist_ok=False)
-    configure_training(20261028)
+    family = family_of_bundle(args.bundle)
+    if args.family is not None and family_named(args.family).name != family.name:
+        raise ValueError("Requested replay family differs from bundle")
+    configure_training(family.default_seed)
     tokenizer = AutoTokenizer.from_pretrained(args.bundle, local_files_only=True)
-    built = build_model(args.bundle, expert_rank=0, c3_rank=0, streaming="async")
+    built = family.base_build(args.bundle)
     built.model.eval()
-    stops = {248044, tokenizer.convert_tokens_to_ids("<|im_end|>")}
+    stops, pad_token = family.replay_stops(args.bundle, tokenizer)
     def encode(messages):
         return tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=True,
                                               enable_thinking=False, return_dict=False)
     def generate(rows, max_tokens=8):
         return greedy_batch(built, [encode(row["messages"]) for row in rows], eos_token_ids=stops,
-                            pad_token_id=248044, max_new_tokens=max_tokens)
+                            pad_token_id=pad_token, max_new_tokens=max_tokens)
     train, holdout = canaries()
     questions = replay_questions()
     controls = [questions[0], questions[7], questions[12]]

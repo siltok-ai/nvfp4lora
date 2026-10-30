@@ -6,7 +6,9 @@ from pathlib import Path
 
 import torch
 
-from nvfp4lora.export.artifacts import _artifact_tensors, build_from_adapter
+from nvfp4lora.export.artifacts import read_adapter_tensors
+from nvfp4lora.families import family_of_bundle
+from nvfp4lora.export.artifacts import build_from_adapter
 from nvfp4lora.export.delta_w import delta_w_fingerprints
 from nvfp4lora.ops.chunked_ce import supervised_tokens
 from nvfp4lora.train.evaluate import evaluation_mode
@@ -20,7 +22,7 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
-    configure_training(20261028)
+    configure_training(family_of_bundle(args.bundle).default_seed)
     source = args.training_results
     original = json.loads((source / "summary.json").read_text(encoding="utf-8"))
     config = json.loads((source / "train_config.json").read_text(encoding="utf-8"))
@@ -33,7 +35,7 @@ def main():
         disabled = loss_sum(built, batch, ce_chunk_size=config["ce_chunk_size"], recompute=False) / supervised_tokens(batch["labels"])
     checks = {"fixed_batch_loss_E2": int(enabled.view(torch.int32)) == expected["loss_fp32_bits"],
               "disabled_loss_E2": int(disabled.view(torch.int32)) == expected["disabled_loss_fp32_bits"]}
-    values, _ = _artifact_tensors(source / "publish")
+    values, _ = read_adapter_tensors(source / "publish")
     checks["all_parameter_bytes_equal"] = values.keys() == built.trainable.keys() and all(
         torch.equal(parameter.detach().cpu().contiguous().view(torch.uint8), values[name].contiguous().view(torch.uint8))
         for name, parameter in built.trainable.items())

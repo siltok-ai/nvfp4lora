@@ -1,43 +1,32 @@
-"""只接受完整校验过的真实来源或显式 tiny 生成身份，启动格式预处理。"""
-
+"""Preprocess a verified checkpoint, selecting its family from source config."""
 import argparse
 import json
 from pathlib import Path
-
 import torch
-
-from nvfp4lora.format.preprocess import preprocess
-
-from fetch_checkpoint import REPO, REVISION
+from nvfp4lora.families import family_of_source, family_named, family_names
+from nvfp4lora.format.bundle import identity_from_receipt
 
 
 def main():
-    """真实 checkpoint 必须先满足 G0.8，不能把单分片下载收据当作完整来源。"""
     parser = argparse.ArgumentParser()
     parser.add_argument("--model-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-receipt", type=Path, required=True)
+    parser.add_argument("--family", choices=family_names(), help="Assert the family detected from source config")
     args = parser.parse_args()
     torch.set_num_threads(8)
     receipt = json.loads(args.source_receipt.read_text(encoding="utf-8"))
-    if receipt.get("kind") == "tiny-generated":
-        identity = receipt
-    else:
-        if receipt["status"] != "PASS" or not receipt["requested_weights"]:
-            raise ValueError("G0.8 is incomplete: full checksum PASS receipt required")
-        if receipt["source"]["repo"] != REPO or receipt["source"]["revision"] != REVISION:
-            raise ValueError("Checkpoint source differs from fixed v2 base")
-        shards = [x for x in receipt["downloaded"] if x["filename"].endswith(".safetensors")]
-        if len(shards) != 3 or any(x["sha256"] != x["lfs_sha256"] for x in shards):
-            raise ValueError("Expected all three hash-verified shards")
-        identity = {"kind": "real-nvidia-checkpoint", "repo": REPO, "revision": REVISION,
-                    "shards": [{"filename": x["filename"], "sha256": x["sha256"]} for x in shards],
-                    "metadata": [{"filename": x["filename"], "sha256": x["sha256"]} for x in receipt["downloaded"]
-                                 if not x["filename"].endswith(".safetensors")]}
-    manifest = preprocess(args.model_dir, args.output, identity)
-    print(json.dumps({"status": manifest["status"], "geometry": manifest["geometry"],
-                      "nonexpert_payload_bytes": manifest["nonexpert_payload_bytes"],
-                      "peak_working_set_bytes": manifest["peak_working_set_bytes"]}, indent=2))
+    # Reject incomplete receipts before touching output or accepting a model config.
+    identity = identity_from_receipt(receipt, source_kind="verified-checkpoint")
+    config = json.loads((args.model_dir / "config.json").read_text(encoding="utf-8"))
+    family = family_of_source(config)
+    if args.family is not None and family_named(args.family).name != family.name:
+        raise ValueError("Requested family differs from source config")
+    if identity["kind"] != "tiny-generated":
+        identity["kind"] = family.source_kind
+    manifest = family.preprocess(args.model_dir, args.output, identity)
+    print(json.dumps({"status": manifest["status"], "family": family.name,
+                      "geometry": manifest["geometry"], "peak_working_set_bytes": manifest["peak_working_set_bytes"]}, indent=2))
 
 
 if __name__ == "__main__":

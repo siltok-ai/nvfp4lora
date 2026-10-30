@@ -6,6 +6,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 
@@ -13,14 +14,17 @@ import torch
 from safetensors import safe_open
 from transformers.models.qwen3_5_moe.modeling_qwen3_5_moe import Qwen3_5MoeTextRotaryEmbedding
 
-from nvfp4lora.format.preprocess import preprocess
+from nvfp4lora.format.preprocess_moe import preprocess
 from nvfp4lora.model.adapters import disable_adapters
-from nvfp4lora.model.build import build_model, causal_model
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.model.build_moe import build_model
+from nvfp4lora.model.common import causal_model
+from nvfp4lora.store.layer_store import PackedLayerStore
+from nvfp4lora.train.data import SyntheticTinyDataset
+from nvfp4lora.train.session import run_session
 
-from check_environment import configure_numerics
-from make_tiny_model import make_tiny_model
-from quantize_tiny import quantize_tiny
+from nvfp4lora.testing.numerics import configure_numerics
+from nvfp4lora.testing.tiny_moe import make_tiny_model
+from nvfp4lora.testing.tiny_moe import quantize_tiny
 
 
 def frozen_hash(model):
@@ -41,7 +45,7 @@ class BuildTests(unittest.TestCase):
         preprocess(cls.root / "raw", cls.root / "processed", identity)
         cls.bundle = cls.root / "processed"
         cls.manifest = json.loads((cls.bundle / "manifest.json").read_text())
-        cls.store = ExpertStore(cls.bundle / "experts", pin_memory=True)
+        cls.store = PackedLayerStore(cls.bundle / "experts", pin_memory=True, layout_version="packed-nvfp4-experts-v1")
 
     @classmethod
     def tearDownClass(cls):
@@ -57,6 +61,24 @@ class BuildTests(unittest.TestCase):
     def tearDown(self):
         del self.built, self.ids
         gc.collect()
+
+    def test_sync_session_finishes_two_steps_and_publishes(self):
+        # Synthetic IDs qualify session cleanup; real tokenizer/template checks are separate.
+        settings = {"family": "qwen3_5_moe", "seed": 20261028, "max_steps": 2,
+                    "accumulation_steps": 2, "ce_chunk_size": 8,
+                    "build": {"streaming": "sync", "expert_rank": 2,
+                              "c3_rank": 4, "c3_alpha": 8, "chunk_size": 3}}
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / "session"
+            with patch("nvfp4lora.train.session.AutoTokenizer.from_pretrained", return_value=object()), \
+                    patch("nvfp4lora.train.session.ChatJSONLDataset", return_value=SyntheticTinyDataset()):
+                result = run_session(bundle=self.bundle, data="synthetic-ids", settings=settings,
+                                     output=output, record_delta_w=False)
+            self.assertEqual(result["status"], "PASS")
+            self.assertEqual(result["current_step"], 2)
+            self.assertTrue(result["frozen_hashes_unchanged"])
+            self.assertTrue((output / "publish/manifest.json").is_file())
+            self.assertTrue((output / "checkpoints/step-000002/checkpoint_manifest.json").is_file())
 
     def test_all_nonexpert_values_rope_and_parameter_contract(self):
         base = causal_model(self.built.model)

@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "scope": "Actual parser functions loaded in isolated namespaces; CPU format checks only, no inference or GPU binding claim",
+  "families": {
+    "moe": {
+      "status": "PASS",
+      "reader_commit": "b354e6df87108143d1277f62520ce070806e03a2",
+      "source_sha256": {
+        "manifest.py": "ea1238a550610ba5d2f2387c93c9a9d233038684ef95607ab059a8373061cb23"
+      },
+      "layout_version": "nvfp4-lora-v1",
+      "linear_projections": 250,
+      "expert_layers": 0,
+      "parameter_count": 19169280,
+      "parameter_bytes": 76677120,
+      "publish_file_sha256": {
+        "adapter_config.json": "d30aa1bb567d9a7e1cbf4b747c82265143a189fd84f6ec3c4f5283bc5851e592",
+        "adapter_model.safetensors": "d12172ef6bee1d562377602f1f5a87dec1af201764d4975a60795d500aa57ca4",
+        "expert_lora.safetensors": "9bbcbf73561f6bc5d0a17ea6a2081feed2d1304e87602d8c502d9a5c4bd85576",
+        "manifest.json": "bc69d6a74837733df145d9ac3eebb2153594f9abc7238d0c1f258f1dc63ea61d",
+        "README.md": "b9afd1c59e1f8477d013188c428f8cd5d78f38b2ff2c7547ff82beb45b600a91"
+      }
+    },
+    "dense": {
+      "status": "PASS",
+      "reader_commit": "4392986f6de84462ff3df9d95e3eae7ffcdc9405",
+      "source_sha256": {
+        "dense_manifest.py": "464e44fa30d311ef20925f98fab4e30bcae222885b5f8209694bf84fb7338c76",
+        "manifest.py": "1459013b2124e652c15bf16b14b1eab1bdfa27c354b0f034423a6c71b610707b"
+      },
+      "layout_version": "nvfp4-lora-dense-v1",
+      "linear_projections": 400,
+      "expert_layers": 0,
+      "parameter_count": 108789760,
+      "parameter_bytes": 435159040,
+      "publish_file_sha256": {
+        "adapter_config.json": "1111cbd577b79bac6b52db575e359b129245d3b9f28770516c776664d163d64e",
+        "adapter_model.safetensors": "493c053a3c10409ea7a62ac6ad30288343f20e73081df5ecc9798f3c7ef40184",
+        "manifest.json": "2d67f1bfbf4c842e413e5891fce8175edf9d16de019e30a73b4aef40bf1beabc"
+      }
+    }
+  }
+}

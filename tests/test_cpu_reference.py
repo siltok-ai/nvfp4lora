@@ -10,11 +10,12 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 
-from make_tiny_model import make_tiny_model
-from quantize_tiny import quantize_tiny
-from nvfp4lora.format.preprocess import preprocess
-from nvfp4lora.model.build import build_model, causal_model
-from nvfp4lora.validation.cpu_layers import reference_layers
+from nvfp4lora.testing.tiny_moe import make_tiny_model
+from nvfp4lora.testing.tiny_moe import quantize_tiny
+from nvfp4lora.format.preprocess_moe import preprocess
+from nvfp4lora.model.build_moe import build_model
+from nvfp4lora.model.common import causal_model
+from nvfp4lora.validation.cpu_layers_moe import reference_layers
 
 
 class CPUReferenceTests(unittest.TestCase):

@@ -5,7 +5,7 @@ import time
 
 import torch
 
-from .expert_store import tensor_views
+from nvfp4lora.store.layer_store import tensor_views
 
 
 @dataclass
@@ -73,7 +73,7 @@ class SyncLayerStreamer:
         if slot is None:
             available = [s for s in self.slots if s.pins == 0]
             if not available:
-                raise RuntimeError("All expert slots are pinned")
+                raise RuntimeError("All layer slots are pinned")
             slot = min(available, key=lambda s: s.last_use)
             data = self.store.banks[layer]
             start = time.perf_counter()
@@ -100,3 +100,15 @@ class SyncLayerStreamer:
     def prefetch(self, layer):
         """同步基线忽略预测提示，数值路径不受阶段提示影响。"""
         return False
+
+    def close(self):
+        """同步实现没有后台搬运队列，收尾不需要额外操作。"""
+        pass
+
+
+def prefetch_hint(streamer, layer):
+    """预测只影响搬运；实际 acquire 始终使用本次明确层号。"""
+    direction = -1 if streamer.phase == "BACKWARD" else 1
+    predicted = layer + direction
+    if 0 <= predicted < streamer.store.geometry["layers"]:
+        streamer.prefetch(predicted)

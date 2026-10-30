@@ -1,0 +1,240 @@
+{
+  "status": "PASS",
+  "structural_commit": "c7c9c8353fa09804138b5a47ccbf54c1e0a06d33",
+  "scope": "Structural changes only; numerical metrics and intermediate/final parameter bytes versus the fresh tiny baseline",
+  "checks": {
+    "pure_moves": {
+      "status": "PASS",
+      "unit_tests": 60,
+      "families": {
+        "moe": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 74,
+            "checkpoint-final": 74
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        },
+        "dense": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 50,
+            "checkpoint-final": 50
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        }
+      }
+    },
+    "registry": {
+      "status": "PASS",
+      "unit_tests": 60,
+      "families": {
+        "moe": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 74,
+            "checkpoint-final": 74
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        },
+        "dense": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 50,
+            "checkpoint-final": 50
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        }
+      }
+    },
+    "extensions": {
+      "status": "PASS",
+      "unit_tests": 62,
+      "families": {
+        "moe": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 74,
+            "checkpoint-final": 74
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        },
+        "dense": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 50,
+            "checkpoint-final": 50
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        }
+      }
+    },
+    "tools": {
+      "status": "PASS",
+      "unit_tests": 60,
+      "families": {
+        "moe": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 74,
+            "checkpoint-final": 74
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        },
+        "dense": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 50,
+            "checkpoint-final": 50
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        }
+      }
+    },
+    "layering": {
+      "status": "PASS",
+      "unit_tests": 67,
+      "families": {
+        "moe": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 74,
+            "checkpoint-final": 74
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        },
+        "dense": {
+          "status": "PASS",
+          "steps": 2,
+          "numerical_metrics_equal_bits": true,
+          "parameter_counts": {
+            "checkpoint-middle": 50,
+            "checkpoint-final": 50
+          },
+          "differences": [],
+          "separately_reported_observation_fields": [
+            "backward_seconds",
+            "memory",
+            "optimizer_seconds",
+            "step_wall_seconds",
+            "streamer_stats",
+            "transfers"
+          ]
+        }
+      }
+    }
+  },
+  "actual_source_negative_controls": {
+    "status": "PASS",
+    "cases": {
+      "shared-import": {
+        "expected_exit_code": 1,
+        "actual_exit_code": 1,
+        "violation": "from nvfp4lora.model.build_dense import build_dense_model",
+        "restored_sha256": "09925adc241da2b0da97a2866083aaf674064810c58d61eb053be6c665469247"
+      },
+      "family-literal": {
+        "expected_exit_code": 1,
+        "actual_exit_code": 1,
+        "violation": "_NEGATIVE_CONTROL = \"qwen3_5_moe\"",
+        "restored_sha256": "09925adc241da2b0da97a2866083aaf674064810c58d61eb053be6c665469247"
+      },
+      "cross-family": {
+        "expected_exit_code": 1,
+        "actual_exit_code": 1,
+        "violation": "from nvfp4lora.model.build_moe import build_model",
+        "restored_sha256": "97f0494d5534170e9bfe1400fe01b0f1130e5bc05753d684cdcec4def9a6abdd"
+      }
+    }
+  }
+}

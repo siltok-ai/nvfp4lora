@@ -1,4 +1,4 @@
-"""小形状算子夹具：真实 safetensors/ExpertStore/streamer，随机非零 A/B。"""
+"""小形状算子夹具：真实 safetensors/PackedLayerStore/streamer，随机非零 A/B。"""
 
 import json
 import math
@@ -9,8 +9,8 @@ from safetensors.torch import save_file
 
 from nvfp4lora.format.inspect import read_header
 from nvfp4lora.format.nvfp4 import dequantize, quantize
-from nvfp4lora.format.preprocess import file_hash
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 
 
@@ -30,7 +30,7 @@ def make_operator_store(directory, *, experts=8, hidden=64, intermediate=32, dev
              **{k: header[k] for k in ["header_bytes", "payload_bytes", "tensors"]}}
     (directory / "index.json").write_text(json.dumps({"layout_version": "packed-nvfp4-experts-v1",
         "geometry": geometry, "source": {"kind": "operator-fixture"}, "layers": [entry]}))
-    store = ExpertStore(directory, pin_memory=(device == "cuda"))
+    store = PackedLayerStore(directory, pin_memory=(device == "cuda"), layout_version="packed-nvfp4-experts-v1")
     return store, SyncLayerStreamer(store, device=device)
 
 

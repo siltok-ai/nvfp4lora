@@ -1,0 +1,21 @@
+{
+  "family": "qwen3_5_dense",
+  "seed": 20261029,
+  "max_steps": 100,
+  "max_length": 4096,
+  "accumulation_steps": 8,
+  "learning_rate": 0.0002,
+  "warmup_steps": 10,
+  "max_grad_norm": 1.0,
+  "ce_chunk_size": 128,
+  "gradient_checkpointing": true,
+  "sampler_seed": 113,
+  "rng_probe": true,
+  "build": {
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "lora_scope": "D-ALL",
+    "decode_chunk_elements": 8388608,
+    "streaming": "async"
+  }
+}

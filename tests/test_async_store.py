@@ -8,7 +8,7 @@ from pathlib import Path
 import torch
 
 from nvfp4lora.store.async_streamer import AsyncLayerStreamer
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from test_store import make_banks
 
 
@@ -18,7 +18,7 @@ class AsyncTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             make_banks(root)
-            store = ExpertStore(root)
+            store = PackedLayerStore(root, layout_version="packed-nvfp4-experts-v1")
             streamer = AsyncLayerStreamer(store)
             first, second = streamer.acquire(0), streamer.acquire(1)
             self.assertFalse(streamer.prefetch(2))
@@ -47,7 +47,7 @@ class AsyncTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             make_banks(root)
-            store = ExpertStore(root)
+            store = PackedLayerStore(root, layout_version="packed-nvfp4-experts-v1")
             before = store.hashes()
             streamer = AsyncLayerStreamer(store)
             rng = random.Random(42)

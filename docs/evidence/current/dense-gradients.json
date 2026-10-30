@@ -1,0 +1,498 @@
+{
+  "status": "PASS",
+  "source_commit": "b383ce8c20a81a1797581fd5cf8832c27489a53e",
+  "family": "dense",
+  "raw_probe_summary_sha256": "1b2e02eec9317e76e6f18236f785819f8d777cf61466a37d15f271554fd0ea67",
+  "zero_adapter_loss_E2": true,
+  "disabled_loss_unchanged_E2": true,
+  "trainable_tensors": 800,
+  "trainable_numel": 108789760,
+  "first_optimizer_step": {
+    "loss": 1.7654097652444878,
+    "global_step": 1,
+    "supervised_tokens": 31,
+    "sample_ids": [
+      457,
+      229,
+      151,
+      313,
+      323,
+      5,
+      68,
+      38
+    ],
+    "gradient_norm": 5.368529796600342,
+    "learning_rates": [
+      2e-05
+    ]
+  },
+  "loss_probe": {
+    "updated": 4.715414047241211,
+    "disabled_after": 4.820327281951904
+  },
+  "frozen_unchanged": true,
+  "initial_probe": {
+    "enabled": 4.820327281951904,
+    "disabled": 4.820327281951904,
+    "fp32_bits": 1083850783,
+    "disabled_fp32_bits": 1083850783
+  },
+  "projections": {
+    "model.layers.0.linear_attn.out_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.0030226997582643183,
+          "cosine": 0.9999954327591608
+        },
+        "dx": {
+          "relative_l2": 0.0023286577457692797,
+          "cosine": 0.9999972887110748
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999996
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999999
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.0.linear_attn.in_proj_qkv": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.0023757934305251418,
+          "cosine": 0.9999979584763362
+        },
+        "dx": {
+          "relative_l2": 0.0024142349603118044,
+          "cosine": 0.9999977139100984
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999997
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.0.linear_attn.in_proj_z": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.0024046291625393944,
+          "cosine": 0.9999971114637816
+        },
+        "dx": {
+          "relative_l2": 0.0022918345517525932,
+          "cosine": 0.999997379062743
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999999
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.0.mlp.gate_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.002352362994169233,
+          "cosine": 0.9999972333313428
+        },
+        "dx": {
+          "relative_l2": 0.0026487405239801814,
+          "cosine": 0.9999964945310131
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999999
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999999
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.0.mlp.up_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.002335122598855781,
+          "cosine": 0.9999972736694729
+        },
+        "dx": {
+          "relative_l2": 0.002638003302088222,
+          "cosine": 0.9999965262902857
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.0.mlp.down_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.0027191741730859505,
+          "cosine": 0.9999963774629518
+        },
+        "dx": {
+          "relative_l2": 0.0023259403902963502,
+          "cosine": 0.9999972951949444
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999997
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.3.self_attn.q_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.002368309841694999,
+          "cosine": 0.9999971985088753
+        },
+        "dx": {
+          "relative_l2": 0.002349275622443654,
+          "cosine": 0.9999972506515968
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.3.self_attn.k_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.0024596836062572656,
+          "cosine": 0.9999969767725125
+        },
+        "dx": {
+          "relative_l2": 0.0022751850322597464,
+          "cosine": 0.9999974208563998
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.3.self_attn.v_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.002439921535053599,
+          "cosine": 0.9999970789571836
+        },
+        "dx": {
+          "relative_l2": 0.0023655731773675076,
+          "cosine": 0.9999972379040188
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999996
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.3.self_attn.o_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.002676957729046564,
+          "cosine": 0.9999968641352862
+        },
+        "dx": {
+          "relative_l2": 0.002419809994536614,
+          "cosine": 0.9999970729592329
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999999
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.3.mlp.gate_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.002309637163196932,
+          "cosine": 0.9999973335648789
+        },
+        "dx": {
+          "relative_l2": 0.002663531775939305,
+          "cosine": 0.9999964528345875
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.3.mlp.up_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.002319225579529183,
+          "cosine": 0.9999973112142655
+        },
+        "dx": {
+          "relative_l2": 0.0026674765338610077,
+          "cosine": 0.9999964436780777
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    },
+    "model.layers.3.mlp.down_proj": {
+      "status": "PASS",
+      "backward_edges": 8,
+      "same_expression_E2": {
+        "forward": true,
+        "dx": true,
+        "dA": true,
+        "dB": true
+      },
+      "fp32_E3": {
+        "forward": {
+          "relative_l2": 0.002416541180001295,
+          "cosine": 0.9999970834186925
+        },
+        "dx": {
+          "relative_l2": 0.0024364247364546962,
+          "cosine": 0.9999970376104271
+        },
+        "dA": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        },
+        "dB": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999998
+        }
+      },
+      "training_A_B_accumulated_E2": {
+        "A": true,
+        "B": true
+      },
+      "actual_base_dx_edges": 8,
+      "actual_base_dx_E2": true,
+      "dx_scope": "Actual PackedLinear backward edges plus isolated local replay. First-layer frozen embedding inputs need no actual dx edge; replay still checks their dx."
+    }
+  },
+  "base_dx_scope": "Actual input-gradient edges where required, plus isolated replay; frozen first-layer inputs need no full-model dx edge."
+}

@@ -8,6 +8,8 @@ from torch.autograd.function import once_differentiable
 
 from nvfp4lora.format.nvfp4 import dequantize
 
+from nvfp4lora.store.streamer import prefetch_hint
+
 
 @dataclass(frozen=True)
 class ExpertOpConfig:
@@ -102,12 +104,6 @@ def _backward_block(x, weights, packed, parameters, counts, begin, end, dy, cfg)
                                    allow_unused=False, retain_graph=False, create_graph=False)
 
 
-def _prefetch_hint(cfg, layer):
-    """预测只影响搬运；实际 acquire 始终使用本次明确层号。"""
-    direction = -1 if cfg.streamer.phase == "BACKWARD" else 1
-    predicted = layer + direction
-    if 0 <= predicted < cfg.streamer.store.geometry["layers"]:
-        cfg.streamer.prefetch(predicted)
 
 
 def _forward(x, indices, weights, parameters, layer, cfg):
@@ -118,7 +114,7 @@ def _forward(x, indices, weights, parameters, layer, cfg):
     k = indices.shape[1]
     with torch.autocast(device_type=x.device.type, enabled=False), cfg.streamer.acquire(layer) as handle:
         packed = handle.tensors()
-        _prefetch_hint(cfg, layer)
+        prefetch_hint(cfg.streamer, layer)
         for begin in range(0, len(counts), cfg.chunk_size):
             end = min(begin + cfg.chunk_size, len(counts))
             first, last = offsets[begin], offsets[end]
@@ -141,7 +137,7 @@ def _backward(x, indices, weights, parameters, layer, cfg, grad_output):
     dp = tuple(torch.zeros_like(p) for p in parameters)
     with torch.autocast(device_type=x.device.type, enabled=False), cfg.streamer.acquire(layer) as handle:
         packed = handle.tensors()
-        _prefetch_hint(cfg, layer)
+        prefetch_hint(cfg.streamer, layer)
         for begin in range(0, len(counts), cfg.chunk_size):
             end = min(begin + cfg.chunk_size, len(counts))
             first, last = offsets[begin], offsets[end]
