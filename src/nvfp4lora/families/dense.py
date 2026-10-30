@@ -131,3 +131,12 @@ def normalize_build(options, *, require_adapter=False):
 def profiling_targets():
     import nvfp4lora.ops.packed_linear_fn as operators
     return [(operators, "decode_codes")]
+
+
+def parameter_label(name):
+    return "nonexpert"
+
+
+def audit_passed(report):
+    """没有路由的训练应提供空审核记录。"""
+    return report == {}

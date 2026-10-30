@@ -95,3 +95,14 @@ def evaluation_tokens():
 def profiling_targets():
     import nvfp4lora.ops.experts_fn as operators
     return [(operators, "_decode_block")]
+
+
+def parameter_label(name):
+    """为序列化参数提供与训练组一致的资源标签。"""
+    return "expert" if ".mlp.experts." in name else "nonexpert"
+
+
+def audit_passed(report):
+    """资源摘要必须包含并通过三项路由状态约束。"""
+    return all(report.get(name) is True for name in ["unused_raw_gradients_exact_zero",
+               "never_routed_parameters_unchanged", "never_routed_adam_moments_zero"])

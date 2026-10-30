@@ -28,4 +28,3 @@ class CudaTimings:
             group["intervals"] += 1
             group["cuda_interval_ms"] += start.elapsed_time(end)
         return groups
-

@@ -12,11 +12,13 @@ import torch
 from safetensors import safe_open
 
 from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.families import family_for_config
 
 
 def summarize(results):
     summary = json.loads((results / "summary.json").read_text(encoding="utf-8"))
     config = json.loads((results / "train_config.json").read_text(encoding="utf-8"))
+    family = family_for_config(config)
     execution = json.loads((results / "execution.json").read_text(encoding="utf-8"))
     metrics = [json.loads(line) for line in (results / "metrics.jsonl").read_text(encoding="utf-8").splitlines()]
     assert summary["status"] == "PASS" and summary["frozen_hashes_unchanged"]
@@ -24,8 +26,7 @@ def summarize(results):
     rows = []
     for item in metrics:
         assert math.isfinite(item["loss"]) and math.isfinite(item["gradient_norm"])
-        assert all(item["route_audit"][name] for name in ["unused_raw_gradients_exact_zero",
-            "never_routed_parameters_unchanged", "never_routed_adam_moments_zero"])
+        assert family.audit_passed(item["route_audit"]), "Invalid family audit report"
         rows.append({key: item[key] for key in ["global_step", "loss", "supervised_tokens", "sequence_tokens",
                                                "gradient_norm", "step_wall_seconds", "backward_seconds", "optimizer_seconds"]}
                     | {"sequence_tokens_per_second": item["sequence_tokens"] / item["step_wall_seconds"],
@@ -38,7 +39,7 @@ def summarize(results):
         squared = {}
         with safe_open(path, framework="pt", device="cpu") as reader:
             for name in reader.keys():
-                group = ("expert" if ".mlp.experts." in name else "nonexpert") + ("_A" if ".lora_A" in name else "_B")
+                group = family.parameter_label(name) + ("_A" if ".lora_A" in name else "_B")
                 squared[group] = squared.get(group, 0.) + float(reader.get_tensor(name).double().square().sum())
         norms[Path(checkpoint).name] = {key: math.sqrt(value) for key, value in squared.items()}
     return {"status": "MEASURED", "execution_status": summary["status"], "results": str(results.resolve()),

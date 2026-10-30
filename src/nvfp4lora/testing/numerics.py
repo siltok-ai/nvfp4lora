@@ -45,4 +45,3 @@ def compare(actual, expected):
                                  expected.contiguous().reshape(-1).view(torch.uint8)))
     return {"relative_l2": relative, "max_absolute": absolute,
             "reference_norm": norm, "bitwise_equal": bitwise_equal}
-

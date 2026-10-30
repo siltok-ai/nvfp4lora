@@ -3,7 +3,7 @@ import argparse
 import json
 from pathlib import Path
 import torch
-from nvfp4lora.families import family_of_source, family_named
+from nvfp4lora.families import family_of_source, family_named, family_names
 from nvfp4lora.format.bundle import identity_from_receipt
 
 
@@ -12,7 +12,7 @@ def main():
     parser.add_argument("--model-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--source-receipt", type=Path, required=True)
-    parser.add_argument("--family", choices=["moe", "dense"], help="Assert the family detected from source config")
+    parser.add_argument("--family", choices=family_names(), help="Assert the family detected from source config")
     args = parser.parse_args()
     torch.set_num_threads(8)
     receipt = json.loads(args.source_receipt.read_text(encoding="utf-8"))

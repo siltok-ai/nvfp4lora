@@ -5,12 +5,12 @@ from pathlib import Path
 import subprocess
 import sys
 import torch
-from nvfp4lora.families import family_named
+from nvfp4lora.families import family_named, family_names
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--family", choices=["moe", "dense"], required=True)
+    parser.add_argument("--family", choices=family_names(), required=True)
     for name in ["bf16", "nvfp4", "processed", "output"]:
         parser.add_argument("--" + name, type=Path, required=True)
     args = parser.parse_args()

@@ -9,7 +9,7 @@ from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import base_identity
 from nvfp4lora.format.bundle import file_hash
-from nvfp4lora.families import family_of_bundle, family_named
+from nvfp4lora.families import family_of_bundle, family_named, family_names
 from nvfp4lora.model.generate import greedy_batch
 from nvfp4lora.train.loop import configure_training, memory_observation
 
@@ -65,7 +65,7 @@ def main():
     parser.add_argument("--dataset-output", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--batch-size", type=int, default=32)
-    parser.add_argument("--family", choices=["moe", "dense"])
+    parser.add_argument("--family", choices=family_names())
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     args.dataset_output.mkdir(parents=True, exist_ok=False)

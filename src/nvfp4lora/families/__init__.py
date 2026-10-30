@@ -30,6 +30,8 @@ class Family:
     parameter_groups: Callable
     extra_delta_w: Callable
     evaluation_tokens: Callable
+    parameter_label: Callable
+    audit_passed: Callable
     make_tiny: Callable
     quantize_tiny: Callable
     profiling_targets: Callable
@@ -64,6 +66,8 @@ FAMILIES = {
         parameter_groups=_lazy('nvfp4lora.families.moe', 'parameter_groups'),
         extra_delta_w=_lazy('nvfp4lora.families.moe', 'extra_delta_w'),
         evaluation_tokens=_lazy('nvfp4lora.families.moe', 'evaluation_tokens'),
+        parameter_label=_lazy('nvfp4lora.families.moe', 'parameter_label'),
+        audit_passed=_lazy('nvfp4lora.families.moe', 'audit_passed'),
         make_tiny=_lazy('nvfp4lora.testing.tiny_moe', 'make_tiny_model'),
         quantize_tiny=_lazy('nvfp4lora.testing.tiny_moe', 'quantize_tiny'),
         profiling_targets=_lazy('nvfp4lora.families.moe', 'profiling_targets'),
@@ -87,6 +91,8 @@ FAMILIES = {
         parameter_groups=_lazy('nvfp4lora.families.dense', 'parameter_groups'),
         extra_delta_w=_lazy('nvfp4lora.families.dense', 'extra_delta_w'),
         evaluation_tokens=_lazy('nvfp4lora.families.dense', 'evaluation_tokens'),
+        parameter_label=_lazy('nvfp4lora.families.dense', 'parameter_label'),
+        audit_passed=_lazy('nvfp4lora.families.dense', 'audit_passed'),
         make_tiny=_lazy('nvfp4lora.testing.tiny_dense', 'make_tiny_dense'),
         quantize_tiny=_lazy('nvfp4lora.testing.tiny_dense', 'quantize_tiny_dense'),
         profiling_targets=_lazy('nvfp4lora.families.dense', 'profiling_targets'),
@@ -150,6 +156,11 @@ def family_named(name):
     if len(matches) != 1:
         raise ValueError('Unknown family: ' + str(name))
     return matches[0]
+
+
+def family_names():
+    """返回命令行可用的短名称，新增族只需更新注册表。"""
+    return tuple(family.short_name for family in FAMILIES.values())
 
 
 def family_of_source(config):

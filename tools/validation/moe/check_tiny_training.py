@@ -35,7 +35,7 @@ BUILD = {"expert_rank": 2, "expert_alpha": 4, "c3_rank": 4, "c3_alpha": 8, "chun
 def config_for(bundle, steps):
     """完整的数值与数据身份；运行路径不进入逻辑配置。"""
     dataset = SyntheticTinyDataset()
-    return {"layout": "tiny-training-v1", "seed": 20261028, "max_steps": steps,
+    return {"family": "qwen3_5_moe", "layout": "tiny-training-v1", "seed": 20261028, "max_steps": steps,
             "learning_rate": 2e-4, "warmup_steps": 10, "max_grad_norm": 1.0,
             "accumulation_steps": 2, "ce_chunk_size": 8, "gradient_checkpointing": True,
             "optimizer": "AdamW(weight_decay=0,foreach=False,fused=False)",
