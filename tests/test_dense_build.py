@@ -14,8 +14,8 @@ from transformers.masking_utils import ALL_MASK_ATTENTION_FUNCTIONS
 from transformers.modeling_utils import ALL_ATTENTION_FUNCTIONS
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from make_tiny_dense import make_tiny_dense
-from quantize_tiny_dense import quantize_tiny_dense
+from nvfp4lora.testing.tiny_dense import make_tiny_dense
+from nvfp4lora.testing.tiny_dense import quantize_tiny_dense
 from nvfp4lora.format.preprocess_dense import preprocess_dense, projections
 from nvfp4lora.export.artifacts import build_from_adapter, load_adapter, publish_adapter, read_manifest
 from nvfp4lora.export.delta_w import delta_w_fingerprints

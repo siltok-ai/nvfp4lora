@@ -30,6 +30,9 @@ class Family:
     parameter_groups: Callable
     extra_delta_w: Callable
     evaluation_tokens: Callable
+    make_tiny: Callable
+    quantize_tiny: Callable
+    profiling_targets: Callable
     base_build: Callable
     preprocess: Callable
     source_types: tuple[str, ...]
@@ -61,6 +64,9 @@ FAMILIES = {
         parameter_groups=_lazy('nvfp4lora.families.moe', 'parameter_groups'),
         extra_delta_w=_lazy('nvfp4lora.families.moe', 'extra_delta_w'),
         evaluation_tokens=_lazy('nvfp4lora.families.moe', 'evaluation_tokens'),
+        make_tiny=_lazy('nvfp4lora.testing.tiny_moe', 'make_tiny_model'),
+        quantize_tiny=_lazy('nvfp4lora.testing.tiny_moe', 'quantize_tiny'),
+        profiling_targets=_lazy('nvfp4lora.families.moe', 'profiling_targets'),
         base_build=_lazy('nvfp4lora.families.moe', 'base_build'),
         preprocess=_lazy('nvfp4lora.format.preprocess_moe', 'preprocess'),
         source_types=('qwen3_5_moe', 'qwen3_5_moe_text'), source_kind='real-nvidia-checkpoint',
@@ -81,6 +87,9 @@ FAMILIES = {
         parameter_groups=_lazy('nvfp4lora.families.dense', 'parameter_groups'),
         extra_delta_w=_lazy('nvfp4lora.families.dense', 'extra_delta_w'),
         evaluation_tokens=_lazy('nvfp4lora.families.dense', 'evaluation_tokens'),
+        make_tiny=_lazy('nvfp4lora.testing.tiny_dense', 'make_tiny_dense'),
+        quantize_tiny=_lazy('nvfp4lora.testing.tiny_dense', 'quantize_tiny_dense'),
+        profiling_targets=_lazy('nvfp4lora.families.dense', 'profiling_targets'),
         base_build=_lazy('nvfp4lora.families.dense', 'base_build'),
         preprocess=_lazy('nvfp4lora.format.preprocess_dense', 'preprocess_dense'),
         source_types=('qwen3_5', 'qwen3_5_text'), source_kind='real-dense-checkpoint',

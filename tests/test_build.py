@@ -22,9 +22,9 @@ from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.train.data import SyntheticTinyDataset
 from nvfp4lora.train.session import run_session
 
-from check_environment import configure_numerics
-from make_tiny_model import make_tiny_model
-from quantize_tiny import quantize_tiny
+from nvfp4lora.testing.numerics import configure_numerics
+from nvfp4lora.testing.tiny_moe import make_tiny_model
+from nvfp4lora.testing.tiny_moe import quantize_tiny
 
 
 def frozen_hash(model):

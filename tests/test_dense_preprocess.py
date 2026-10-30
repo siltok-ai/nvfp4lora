@@ -11,8 +11,8 @@ import torch
 from safetensors.torch import load_file
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from make_tiny_dense import make_tiny_dense
-from quantize_tiny_dense import quantize_tiny_dense
+from nvfp4lora.testing.tiny_dense import make_tiny_dense
+from nvfp4lora.testing.tiny_dense import quantize_tiny_dense
 from nvfp4lora.format.inspect import inspect_checkpoint
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT, fields, preprocess_dense, validate_layout
 from nvfp4lora.store.layer_store import PackedLayerStore
@@ -77,7 +77,7 @@ class DensePreprocessTests(unittest.TestCase):
         receipt = self.root / "partial.json"
         receipt.write_text(json.dumps({"status": "SHARD PASS; FULL G0.8 NOT RUN", "requested_weights": True}))
         output = self.root / "wrong-receipt"
-        command = [sys.executable, "-B", str(Path(__file__).resolve().parents[1] / "tools/preprocess_dense_checkpoint.py"),
+        command = [sys.executable, "-B", str(Path(__file__).resolve().parents[1] / "tools/preprocess_checkpoint.py"),
                    "--source-receipt", str(receipt), "--model-dir", str(self.root / "source"), "--output", str(output)]
         completed = subprocess.run(command, capture_output=True, text=True)
         self.assertNotEqual(completed.returncode, 0)

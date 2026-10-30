@@ -12,9 +12,9 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 
-from check_environment import configure_numerics
-from make_tiny_model import make_tiny_model
-from quantize_tiny import quantize_tiny
+from nvfp4lora.testing.numerics import configure_numerics
+from nvfp4lora.testing.tiny_moe import make_tiny_model
+from nvfp4lora.testing.tiny_moe import quantize_tiny
 from nvfp4lora.export.artifacts import build_from_adapter, load_adapter, publish_adapter, read_manifest
 from nvfp4lora.export.delta_w import delta_w_fingerprints
 from nvfp4lora.format.preprocess_moe import preprocess

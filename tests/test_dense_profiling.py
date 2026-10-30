@@ -11,7 +11,7 @@ from torch import nn
 from torch.utils.checkpoint import checkpoint
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
-from profile_dense_training import TrainingTimings
+from tools.validation.profile_training import TrainingTimings
 
 
 class CPUEvent:

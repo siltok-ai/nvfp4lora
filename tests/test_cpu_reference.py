@@ -10,8 +10,8 @@ import torch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
 
-from make_tiny_model import make_tiny_model
-from quantize_tiny import quantize_tiny
+from nvfp4lora.testing.tiny_moe import make_tiny_model
+from nvfp4lora.testing.tiny_moe import quantize_tiny
 from nvfp4lora.format.preprocess_moe import preprocess
 from nvfp4lora.model.build_moe import build_model
 from nvfp4lora.model.common import causal_model

@@ -126,3 +126,8 @@ def normalize_build(options, *, require_adapter=False):
             or build["decode_chunk_elements"] % 16):
         raise ValueError("Invalid dense build contract")
     return build
+
+
+def profiling_targets():
+    import nvfp4lora.ops.packed_linear_fn as operators
+    return [(operators, "decode_codes")]

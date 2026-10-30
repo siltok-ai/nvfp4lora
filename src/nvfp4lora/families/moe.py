@@ -90,3 +90,8 @@ def extra_delta_w(name, module, expert_chunk):
 def evaluation_tokens():
     """保留现有训练评测的终止符与 padding 约定；回放生成使用 replay_stops。"""
     return {248044, 248046}, 248044
+
+
+def profiling_targets():
+    import nvfp4lora.ops.experts_fn as operators
+    return [(operators, "_decode_block")]
