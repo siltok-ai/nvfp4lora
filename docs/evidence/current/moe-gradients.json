@@ -1,0 +1,377 @@
+{
+  "status": "PASS",
+  "source_commit": "b383ce8c20a81a1797581fd5cf8832c27489a53e",
+  "family": "moe",
+  "raw_probe_summary_sha256": "52af5afa2925eab2a6016a2a2f1eb5db7bd8b5b2da523f39be589d2b28cc0cf0",
+  "zero_adapter_loss_E2": true,
+  "disabled_loss_unchanged_E2": true,
+  "trainable_tensors": 500,
+  "trainable_numel": 19169280,
+  "first_optimizer_step": {
+    "loss": 5.941261331240336,
+    "global_step": 1,
+    "supervised_tokens": 48,
+    "sample_ids": [
+      3,
+      4,
+      1,
+      7,
+      2,
+      6,
+      5,
+      0
+    ],
+    "gradient_norm": 14.57772445678711,
+    "learning_rates": [
+      2e-05
+    ]
+  },
+  "loss_probe": {
+    "before": 5.064291000366211,
+    "after": 5.043217658996582,
+    "disabled_before": 5.064291000366211,
+    "disabled_after": 5.064291000366211
+  },
+  "frozen_unchanged": true,
+  "ordinary_linear_comparisons": {
+    "model.layers.0.linear_attn.out_proj.lora_A": {
+      "relative_l2": 5.175733118402267e-08,
+      "cosine": 0.9999999999999901,
+      "reference_norm": 0.11192521517407178,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.out_proj.lora_B": {
+      "relative_l2": 1.788912297015412e-07,
+      "cosine": 0.999999999999975,
+      "reference_norm": 1.6124922630479153,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.in_proj_qkv.lora_A": {
+      "relative_l2": 7.067296449360203e-08,
+      "cosine": 0.9999999999999883,
+      "reference_norm": 0.006285234670003831,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.in_proj_qkv.lora_B": {
+      "relative_l2": 1.7151262127696133e-07,
+      "cosine": 0.9999999999999749,
+      "reference_norm": 0.29377597111331805,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.in_proj_z.lora_A": {
+      "relative_l2": 1.0306602570457923e-07,
+      "cosine": 0.9999999999999846,
+      "reference_norm": 0.006327054329613316,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.linear_attn.in_proj_z.lora_B": {
+      "relative_l2": 1.750917757940989e-07,
+      "cosine": 0.9999999999999795,
+      "reference_norm": 0.6297345245597785,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.gate_proj.lora_A": {
+      "relative_l2": 8.139190270980283e-08,
+      "cosine": 0.999999999999986,
+      "reference_norm": 0.0008390578397829792,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.gate_proj.lora_B": {
+      "relative_l2": 1.6455855011998496e-07,
+      "cosine": 0.9999999999999852,
+      "reference_norm": 0.09826733779246245,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.up_proj.lora_A": {
+      "relative_l2": 7.905443258526193e-08,
+      "cosine": 0.9999999999999877,
+      "reference_norm": 0.0012823363331418512,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.up_proj.lora_B": {
+      "relative_l2": 1.7065992375321344e-07,
+      "cosine": 0.999999999999984,
+      "reference_norm": 0.11907162694886887,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.down_proj.lora_A": {
+      "relative_l2": 8.80470953956918e-08,
+      "cosine": 0.9999999999999949,
+      "reference_norm": 0.004604872326304026,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.0.mlp.shared_expert.down_proj.lora_B": {
+      "relative_l2": 1.4339748056363062e-07,
+      "cosine": 0.9999999999999778,
+      "reference_norm": 0.3357176170977935,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.q_proj.lora_A": {
+      "relative_l2": 8.114286424493565e-08,
+      "cosine": 0.9999999999999926,
+      "reference_norm": 0.015956043632359435,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.q_proj.lora_B": {
+      "relative_l2": 1.5708742735393356e-07,
+      "cosine": 0.9999999999999682,
+      "reference_norm": 0.30491582092717806,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.k_proj.lora_A": {
+      "relative_l2": 1.9401614321590848e-07,
+      "cosine": 0.9999999999999739,
+      "reference_norm": 0.00141369967728314,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.k_proj.lora_B": {
+      "relative_l2": 2.4775436774996016e-07,
+      "cosine": 0.9999999999999676,
+      "reference_norm": 0.154567889588321,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.v_proj.lora_A": {
+      "relative_l2": 6.198494979943733e-08,
+      "cosine": 0.9999999999999968,
+      "reference_norm": 0.015072049410331998,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.v_proj.lora_B": {
+      "relative_l2": 1.311298783400331e-07,
+      "cosine": 0.9999999999999917,
+      "reference_norm": 0.9212895746579262,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.o_proj.lora_A": {
+      "relative_l2": 6.321365890441873e-08,
+      "cosine": 0.999999999999992,
+      "reference_norm": 0.011757585838121335,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.self_attn.o_proj.lora_B": {
+      "relative_l2": 1.7103317145194952e-07,
+      "cosine": 0.9999999999999786,
+      "reference_norm": 0.3013960962395257,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.gate_proj.lora_A": {
+      "relative_l2": 8.90966779058519e-08,
+      "cosine": 0.9999999999999868,
+      "reference_norm": 0.000989148929255124,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.gate_proj.lora_B": {
+      "relative_l2": 1.5664290285034265e-07,
+      "cosine": 0.999999999999987,
+      "reference_norm": 0.13784326253575754,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.up_proj.lora_A": {
+      "relative_l2": 8.140878492920374e-08,
+      "cosine": 0.9999999999999845,
+      "reference_norm": 0.0012781296865721863,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.up_proj.lora_B": {
+      "relative_l2": 1.7514987887534165e-07,
+      "cosine": 0.9999999999999847,
+      "reference_norm": 0.12185825648465728,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.down_proj.lora_A": {
+      "relative_l2": 8.277306083880904e-08,
+      "cosine": 0.9999999999999952,
+      "reference_norm": 0.008052167155266944,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    },
+    "model.layers.3.mlp.shared_expert.down_proj.lora_B": {
+      "relative_l2": 1.3545284858576145e-07,
+      "cosine": 0.999999999999982,
+      "reference_norm": 0.46596130045806455,
+      "backward_edges": 8,
+      "accumulated_gradient_E2": true,
+      "replay_scope": "FP32 LoRA residual only",
+      "status": "PASS"
+    }
+  },
+  "zero_loss_fp32_bits": 1084362412,
+  "maximum_ordinary_cpu_relative_l2": 2.4775436774996016e-07,
+  "minimum_ordinary_cpu_cosine": 0.9999999999999676,
+  "expert_two_layer_VJP": [
+    {
+      "status": "PASS",
+      "layer": 0,
+      "actual_tokens": 33,
+      "active_experts": 139,
+      "unused_experts": 117,
+      "unused_raw_gradients_exact_zero": true,
+      "local_AB_matches_full_model_gradient_E2": true,
+      "all_AB_nonzero": true,
+      "comparisons": {
+        "output": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        },
+        "x": {
+          "relative_l2": 0.004073928625087923,
+          "cosine": 0.999991701903317
+        },
+        "routing_weights": {
+          "relative_l2": 0.0,
+          "cosine": 1.0
+        },
+        "Ag": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999589
+        },
+        "Bg": {
+          "relative_l2": 0.0,
+          "cosine": 0.999999999999992
+        },
+        "Au": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999777
+        },
+        "Bu": {
+          "relative_l2": 0.0,
+          "cosine": 0.99999999999999
+        },
+        "Ad": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999919
+        },
+        "Bd": {
+          "relative_l2": 0.0,
+          "cosine": 0.999999999999961
+        }
+      }
+    },
+    {
+      "status": "PASS",
+      "layer": 3,
+      "actual_tokens": 33,
+      "active_experts": 106,
+      "unused_experts": 150,
+      "unused_raw_gradients_exact_zero": true,
+      "local_AB_matches_full_model_gradient_E2": true,
+      "all_AB_nonzero": true,
+      "comparisons": {
+        "output": {
+          "relative_l2": 0.0,
+          "cosine": 1.0000000000000002
+        },
+        "x": {
+          "relative_l2": 0.0036957046100815306,
+          "cosine": 0.9999931721551293
+        },
+        "routing_weights": {
+          "relative_l2": 0.0,
+          "cosine": 1.0000000000000002
+        },
+        "Ag": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999787
+        },
+        "Bg": {
+          "relative_l2": 0.0,
+          "cosine": 0.999999999999988
+        },
+        "Au": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999839
+        },
+        "Bu": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999882
+        },
+        "Ad": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999947
+        },
+        "Bd": {
+          "relative_l2": 0.0,
+          "cosine": 0.9999999999999718
+        }
+      }
+    }
+  ],
+  "raw_expert_summary_sha256": "4720128a482f1cbc913b5883a8b3caadcb8020dd8d074c962dde5f77c741851e",
+  "raw_expert_probe_sha256": "1bb1094719fb331799956a40c7efe9798530b340d5209334007afc9bccb87726",
+  "expert_probe_ordinary_E2": true,
+  "expert_VJP_scope": "Independent materialized formula uses original error criteria; local custom-operator A/B gradients also match the captured full model by raw bytes. Ordinary-autograd operator E2 is separately checked on small shapes."
+}

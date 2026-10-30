@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "artifact_directory": "C:\\workspace\\artifacts\\nvfp4lora\\0.0.1\\20261030T135610Z-multi-family",
+  "source_commit": "b383ce8c20a81a1797581fd5cf8832c27489a53e",
+  "files": 70,
+  "total_bytes": 3588737060,
+  "manifest_sha256": "daa66400361d27e6b1adfe0db934a44dc7ecb72f28f159e2486f32b70aef7750",
+  "release_sha256": {
+    "moe": {
+      "adapter_config.json": "d30aa1bb567d9a7e1cbf4b747c82265143a189fd84f6ec3c4f5283bc5851e592",
+      "adapter_model.safetensors": "d12172ef6bee1d562377602f1f5a87dec1af201764d4975a60795d500aa57ca4",
+      "expert_lora.safetensors": "9bbcbf73561f6bc5d0a17ea6a2081feed2d1304e87602d8c502d9a5c4bd85576",
+      "manifest.json": "bc69d6a74837733df145d9ac3eebb2153594f9abc7238d0c1f258f1dc63ea61d",
+      "README.md": "b9afd1c59e1f8477d013188c428f8cd5d78f38b2ff2c7547ff82beb45b600a91"
+    },
+    "dense": {
+      "adapter_config.json": "1111cbd577b79bac6b52db575e359b129245d3b9f28770516c776664d163d64e",
+      "adapter_model.safetensors": "493c053a3c10409ea7a62ac6ad30288343f20e73081df5ecc9798f3c7ef40184",
+      "manifest.json": "2d67f1bfbf4c842e413e5891fce8175edf9d16de019e30a73b4aef40bf1beabc"
+    }
+  },
+  "all_files_read_back_E1": true
+}

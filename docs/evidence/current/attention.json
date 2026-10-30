@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "source_commit": "9f7ff26b411db18a89f0e309764c9e81288c8a10",
+  "source_commit": "b383ce8c20a81a1797581fd5cf8832c27489a53e",
   "before_backends": {
     "tiny-moe": {
       "source_commit": "f7b3f995f041f35df36b783c6fda75346f611a1b",
@@ -2011,7 +2011,7 @@
           "dv": true
         },
         "math": {
-          "wall_seconds": 0.06489700000383891,
+          "wall_seconds": 0.05790509999496862,
           "peak_allocated_bytes": 1317011456,
           "peak_reserved_bytes": 1470103552,
           "actual_SDPA_operators": {
@@ -2019,12 +2019,12 @@
           }
         },
         "efficient": {
-          "wall_seconds": 0.014467700006207451,
+          "wall_seconds": 0.014381099987076595,
           "peak_allocated_bytes": 262422528,
           "peak_reserved_bytes": 278921216
         },
         "efficient_profiled_repeat": {
-          "wall_seconds": 0.021987799991620705,
+          "wall_seconds": 0.021609600022202358,
           "peak_allocated_bytes": 262422528,
           "peak_reserved_bytes": 278921216,
           "actual_SDPA_operators": {
@@ -2074,7 +2074,7 @@
           "dv": true
         },
         "math": {
-          "wall_seconds": 0.024031199980527163,
+          "wall_seconds": 0.023776400019414723,
           "peak_allocated_bytes": 1321205760,
           "peak_reserved_bytes": 1461714944,
           "actual_SDPA_operators": {
@@ -2082,12 +2082,12 @@
           }
         },
         "efficient": {
-          "wall_seconds": 0.025786900019738823,
+          "wall_seconds": 0.025839599984465167,
           "peak_allocated_bytes": 275005440,
           "peak_reserved_bytes": 295698432
         },
         "efficient_profiled_repeat": {
-          "wall_seconds": 0.027469900000141934,
+          "wall_seconds": 0.027364500012481585,
           "peak_allocated_bytes": 275005440,
           "peak_reserved_bytes": 295698432,
           "actual_SDPA_operators": {
@@ -2137,7 +2137,7 @@
           "dv": true
         },
         "math": {
-          "wall_seconds": 0.09994219997315668,
+          "wall_seconds": 0.08622850000392646,
           "peak_allocated_bytes": 4714397696,
           "peak_reserved_bytes": 5207228416,
           "actual_SDPA_operators": {
@@ -2145,12 +2145,12 @@
           }
         },
         "efficient": {
-          "wall_seconds": 0.06011210000724532,
+          "wall_seconds": 0.050757499993778765,
           "peak_allocated_bytes": 455639040,
           "peak_reserved_bytes": 459276288
         },
         "efficient_profiled_repeat": {
-          "wall_seconds": 0.052806499996222556,
+          "wall_seconds": 0.05253729998366907,
           "peak_allocated_bytes": 455639040,
           "peak_reserved_bytes": 459276288,
           "actual_SDPA_operators": {
@@ -2200,7 +2200,7 @@
           "dv": true
         },
         "math": {
-          "wall_seconds": 0.08732739998959005,
+          "wall_seconds": 0.0848524000030011,
           "peak_allocated_bytes": 4731174912,
           "peak_reserved_bytes": 5152702464,
           "actual_SDPA_operators": {
@@ -2208,12 +2208,12 @@
           }
         },
         "efficient": {
-          "wall_seconds": 0.098800299980212,
+          "wall_seconds": 0.09827570000197738,
           "peak_allocated_bytes": 505970688,
           "peak_reserved_bytes": 526385152
         },
         "efficient_profiled_repeat": {
-          "wall_seconds": 0.09986669998033904,
+          "wall_seconds": 0.09977509998134337,
           "peak_allocated_bytes": 505970688,
           "peak_reserved_bytes": 526385152,
           "actual_SDPA_operators": {
@@ -2263,7 +2263,7 @@
           "dv": true
         },
         "math": {
-          "wall_seconds": 0.03494660000433214,
+          "wall_seconds": 0.035169499984476715,
           "peak_allocated_bytes": 1946157056,
           "peak_reserved_bytes": 2170552320,
           "actual_SDPA_operators": {
@@ -2271,12 +2271,12 @@
           }
         },
         "efficient": {
-          "wall_seconds": 0.015868399990722537,
+          "wall_seconds": 0.01558499998645857,
           "peak_allocated_bytes": 365297664,
           "peak_reserved_bytes": 375390208
         },
         "efficient_profiled_repeat": {
-          "wall_seconds": 0.016877699992619455,
+          "wall_seconds": 0.017208300007041544,
           "peak_allocated_bytes": 365297664,
           "peak_reserved_bytes": 375390208,
           "actual_SDPA_operators": {
@@ -2326,7 +2326,7 @@
           "dv": true
         },
         "math": {
-          "wall_seconds": 0.03608419999363832,
+          "wall_seconds": 0.03484149998985231,
           "peak_allocated_bytes": 1950351360,
           "peak_reserved_bytes": 2162163712,
           "actual_SDPA_operators": {
@@ -2334,12 +2334,12 @@
           }
         },
         "efficient": {
-          "wall_seconds": 0.027703400002792478,
+          "wall_seconds": 0.027656299993395805,
           "peak_allocated_bytes": 377880576,
           "peak_reserved_bytes": 383778816
         },
         "efficient_profiled_repeat": {
-          "wall_seconds": 0.0315415000077337,
+          "wall_seconds": 0.02912220000871457,
           "peak_allocated_bytes": 377880576,
           "peak_reserved_bytes": 383778816,
           "actual_SDPA_operators": {
@@ -2389,7 +2389,7 @@
           "dv": true
         },
         "math": {
-          "wall_seconds": 0.13326659999438561,
+          "wall_seconds": 0.1312605999992229,
           "peak_allocated_bytes": 7046430720,
           "peak_reserved_bytes": 7748976640,
           "actual_SDPA_operators": {
@@ -2397,12 +2397,12 @@
           }
         },
         "efficient": {
-          "wall_seconds": 0.05444899998838082,
+          "wall_seconds": 0.054351700004190207,
           "peak_allocated_bytes": 659292160,
           "peak_reserved_bytes": 689963008
         },
         "efficient_profiled_repeat": {
-          "wall_seconds": 0.055673399998340756,
+          "wall_seconds": 0.055701500008581206,
           "peak_allocated_bytes": 659292160,
           "peak_reserved_bytes": 689963008,
           "actual_SDPA_operators": {
@@ -2452,7 +2452,7 @@
           "dv": true
         },
         "math": {
-          "wall_seconds": 0.13581509998766705,
+          "wall_seconds": 0.12945989999570884,
           "peak_allocated_bytes": 7063207936,
           "peak_reserved_bytes": 7694450688,
           "actual_SDPA_operators": {
@@ -2460,12 +2460,12 @@
           }
         },
         "efficient": {
-          "wall_seconds": 0.10453340000822209,
+          "wall_seconds": 0.1043051999877207,
           "peak_allocated_bytes": 709623808,
           "peak_reserved_bytes": 719323136
         },
         "efficient_profiled_repeat": {
-          "wall_seconds": 0.10931450000498444,
+          "wall_seconds": 0.10639749999972992,
           "peak_allocated_bytes": 709623808,
           "peak_reserved_bytes": 719323136,
           "actual_SDPA_operators": {
@@ -2514,5 +2514,23 @@
         "SDPA_backend_counts_equal": true
       }
     ]
-  }
+  },
+  "full_backbone_observation_source_commit": "9f7ff26b411db18a89f0e309764c9e81288c8a10",
+  "current_geometry_source_commit": "b383ce8c20a81a1797581fd5cf8832c27489a53e",
+  "attention_and_builders_unchanged_between_commits": {
+    "src/nvfp4lora/model/attention.py": {
+      "git_blob_content_sha256": "e6911da851a19d31e6f1daab284537700e926d9a6b761e9c29c685955e91f9ac",
+      "unchanged": true
+    },
+    "src/nvfp4lora/model/build_moe.py": {
+      "git_blob_content_sha256": "8232f223dc7ba76d0c342f7cc76006537103b05d9fe6b6e68ec19d074958795f",
+      "unchanged": true
+    },
+    "src/nvfp4lora/model/build_dense.py": {
+      "git_blob_content_sha256": "1303c14b26f40c949e2c7e02b5f7d343b750ef9b643edb28cf98ec68c1ceae8d",
+      "unchanged": true
+    }
+  },
+  "binding_scope": "Full-backbone before/after observations are retained from the attention implementation commit; the three implementation/builder files are exact Git bytes at the final runtime commit. Real geometry is rerun at the final commit. Real training profiles additionally record native operators.",
+  "real_training_SDPA_observations": "See each family training-20 summary: restored-step full accumulation with native efficient forward/backward observations and no math."
 }

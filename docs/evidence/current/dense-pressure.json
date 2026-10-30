@@ -1,0 +1,123 @@
+{
+  "status": "PASS",
+  "source_commit": "b383ce8c20a81a1797581fd5cf8832c27489a53e",
+  "before_source_commit": "c7c9c8353fa09804138b5a47ccbf54c1e0a06d33",
+  "scope": "Two actual optimizer steps per length, eight full-length samples per step",
+  "resource_scope": "Allocator peaks within updates; whole-card and host sampling throughout the process once per second",
+  "cases": {
+    "dense-all-pressure2048": {
+      "before": {
+        "mean_step_seconds": 127.95166730000346,
+        "step_seconds": [
+          128.94782390000182,
+          126.9555107000051
+        ],
+        "peak_allocated_bytes": 9005052416,
+        "peak_reserved_bytes": 9483321344,
+        "whole_card_minimum_free_MiB": 6136,
+        "minimum_system_available_bytes": 31546347520,
+        "peak_observed_process_private_bytes": 36557377536,
+        "logical_layer_store_bytes": 16840133760,
+        "active_pinned_allocator_bytes": 17179869184
+      },
+      "after": {
+        "optimizer_steps_executed": 2,
+        "global_step": 2,
+        "mean_step_seconds": 126.2936599500099,
+        "step_seconds": [
+          126.25216190001811,
+          126.33515800000168
+        ],
+        "peak_allocated_bytes": 9005052416,
+        "peak_reserved_bytes": 9483321344,
+        "whole_card_minimum_free_MiB": 6144,
+        "minimum_system_available_bytes": 31533449216,
+        "peak_observed_process_private_bytes": 36476772352,
+        "peak_windows_working_set_bytes": 23291383808,
+        "layer_store_logical_bytes": 16840133760,
+        "active_pinned_allocator_bytes": 17179869184,
+        "gpu_slot_bytes": 531497056,
+        "logical_configuration_equal_before": true,
+        "dataset": {
+          "accepted_rows": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "chat_template_sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+          "discarded_answer_too_long": [],
+          "enable_thinking": false,
+          "file_sha256": "64b942b626e8b5e4fdf3718d6e3471cb8b9a24c99dc6c7040ad9f7bc596eda7d",
+          "input_rows": 8,
+          "layout": "chat-jsonl-v1",
+          "max_length": 2048,
+          "tokenizer_sha256": "ffb7a28b27dabcc333662fd3e0b0005d9e79a1c22e31453ab5a3017fbd5f25c0"
+        },
+        "frozen_unchanged": true
+      },
+      "step_time_change_fraction": -0.012958075380964718
+    },
+    "dense-all-pressure4096": {
+      "before": {
+        "mean_step_seconds": 280.25064244998794,
+        "step_seconds": [
+          280.5749203999876,
+          279.92636449998827
+        ],
+        "peak_allocated_bytes": 12996858368,
+        "peak_reserved_bytes": 13398704128,
+        "whole_card_minimum_free_MiB": 2469,
+        "minimum_system_available_bytes": 31791308800,
+        "peak_observed_process_private_bytes": 40419364864,
+        "logical_layer_store_bytes": 16840133760,
+        "active_pinned_allocator_bytes": 17179869184
+      },
+      "after": {
+        "optimizer_steps_executed": 2,
+        "global_step": 2,
+        "mean_step_seconds": 281.15910244999395,
+        "step_seconds": [
+          281.48806609999156,
+          280.83013879999635
+        ],
+        "peak_allocated_bytes": 12996858368,
+        "peak_reserved_bytes": 13398704128,
+        "whole_card_minimum_free_MiB": 2410,
+        "minimum_system_available_bytes": 31533903872,
+        "peak_observed_process_private_bytes": 40491098112,
+        "peak_windows_working_set_bytes": 23365984256,
+        "layer_store_logical_bytes": 16840133760,
+        "active_pinned_allocator_bytes": 17179869184,
+        "gpu_slot_bytes": 531497056,
+        "logical_configuration_equal_before": true,
+        "dataset": {
+          "accepted_rows": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "chat_template_sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+          "discarded_answer_too_long": [],
+          "enable_thinking": false,
+          "file_sha256": "64b942b626e8b5e4fdf3718d6e3471cb8b9a24c99dc6c7040ad9f7bc596eda7d",
+          "input_rows": 8,
+          "layout": "chat-jsonl-v1",
+          "max_length": 4096,
+          "tokenizer_sha256": "ffb7a28b27dabcc333662fd3e0b0005d9e79a1c22e31453ab5a3017fbd5f25c0"
+        },
+        "frozen_unchanged": true
+      },
+      "step_time_change_fraction": 0.0032415982781133224
+    }
+  }
+}
