@@ -9,7 +9,7 @@ from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import base_identity
 from nvfp4lora.format.bundle import file_hash
-from nvfp4lora.model.build_moe import build_model
+from nvfp4lora.families import family_of_bundle, family_named
 from nvfp4lora.model.generate import greedy_batch
 from nvfp4lora.train.loop import configure_training, memory_observation
 
@@ -69,26 +69,14 @@ def main():
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     args.dataset_output.mkdir(parents=True, exist_ok=False)
-    bundle_manifest = json.loads((args.bundle / "manifest.json").read_text(encoding="utf-8"))
-    dense = bundle_manifest.get("family") == "qwen3_5_dense"
-    if args.family is not None and (args.family == "dense") != dense:
+    family = family_of_bundle(args.bundle)
+    if args.family is not None and family_named(args.family).name != family.name:
         raise ValueError("Requested replay family differs from bundle")
-    configure_training(20261029 if dense else 20261028)
+    configure_training(family.default_seed)
     tokenizer = AutoTokenizer.from_pretrained(args.bundle, local_files_only=True)
-    if dense:
-        from nvfp4lora.model.build_dense import build_dense_model
-        built = build_dense_model(args.bundle, lora_rank=0, streaming="async")
-    else:
-        built = build_model(args.bundle, expert_rank=0, c3_rank=0, streaming="async")
+    built = family.base_build(args.bundle)
     built.model.eval()
-    if dense:
-        generation = json.loads((args.bundle / "generation_config.json").read_text(encoding="utf-8"))
-        eos = generation["eos_token_id"]
-        stops = set(eos if isinstance(eos, list) else [eos]) | {tokenizer.eos_token_id, tokenizer.convert_tokens_to_ids("<|im_end|>")}
-        pad_token = tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id
-    else:
-        stops = {248044, tokenizer.convert_tokens_to_ids("<|im_end|>")}
-        pad_token = 248044
+    stops, pad_token = family.replay_stops(args.bundle, tokenizer)
     def encode(messages):
         return tokenizer.apply_chat_template(messages, add_generation_prompt=True, tokenize=True,
                                               enable_thinking=False, return_dict=False)

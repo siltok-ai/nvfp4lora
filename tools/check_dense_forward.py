@@ -13,7 +13,7 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoTokenizer
 
-from audit_fp8_input_ranges import DenseFP8InputAudit
+from nvfp4lora.validation.fp8_inputs_dense import FP8InputAudit as DenseFP8InputAudit
 from check_real_forward import CudaTimings
 from nvfp4lora.export.artifacts import base_identity
 from nvfp4lora.model.adapters import disable_adapters

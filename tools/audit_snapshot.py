@@ -6,19 +6,18 @@ import pickle
 from pathlib import Path
 
 from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.families import family_named
 
 
-def decode_frame(frames, family="moe"):
-    return any(str(frame.get("filename", "")).replace("\\", "/").endswith("format/nvfp4.py")
-               or (family == "dense" and str(frame.get("filename", "")).replace("\\", "/").endswith("ops/packed_linear_fn.py")
-                   and frame.get("name") == "decode_codes") for frame in frames)
+def decode_frame(frames, family):
+    return family_named(family).decode_frame(frames)
 
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--snapshot", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
-    parser.add_argument("--family", choices=["moe", "dense"], default="moe")
+    parser.add_argument("--family", choices=["moe", "dense"], required=True)
     args = parser.parse_args()
     with args.snapshot.open("rb") as stream:
         snapshot = pickle.load(stream)

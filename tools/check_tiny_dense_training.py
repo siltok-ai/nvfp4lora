@@ -21,6 +21,7 @@ from check_tiny_training import compare_vectors, rng_probe, write_json
 from compare_real_resume import read_checkpoint
 from compare_training_runs import equal_tree
 from nvfp4lora.export.artifacts import base_identity, build_from_adapter, publish_adapter
+from nvfp4lora.families import family_of_bundle
 from nvfp4lora.export.delta_w import delta_w_fingerprints
 from nvfp4lora.format.nvfp4 import dequantize
 from nvfp4lora.format.bundle import file_hash
@@ -88,7 +89,7 @@ def build_hf_reference(bundle, *, adapter_directory=None):
         raise ValueError("Independent PEFT adapter set differs")
     return BuiltModel(model, store, SimpleNamespace(phase="FORWARD", stats={}, slots=[]),
                       dict(sorted(trainable.items())), {name: list(value.shape) for name, value in sorted(trainable.items())},
-                      sorted(loaded), [])
+                      sorted(loaded), [], family=family_of_bundle(bundle).name)
 
 
 def config_for(bundle, steps):

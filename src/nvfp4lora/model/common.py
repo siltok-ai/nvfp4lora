@@ -18,6 +18,7 @@ class BuiltModel:
     expected_trainable: dict
     loaded_nonexpert: list
     initialized_buffers: list
+    family: str
 
 
 def causal_model(model):

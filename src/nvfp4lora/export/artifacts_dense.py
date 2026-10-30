@@ -42,7 +42,7 @@ def _dense_artifact_tensors(directory):
 def _check_dense_build(built, bundle, build_kwargs):
     from nvfp4lora.model.build_dense import expected_dense_trainable
     from nvfp4lora.model.packed_linear import LoRAPackedLinear
-    if getattr(built.model, "_nvfp4lora_family", None) != "qwen3_5_dense":
+    if built.family != "qwen3_5_dense":
         raise ValueError("Dense adapter requires a dense built model")
     if build_kwargs.get("family", "qwen3_5_dense") != "qwen3_5_dense":
         raise ValueError("Dense adapter build family mismatch")
@@ -138,7 +138,7 @@ def read_dense_manifest(directory, bundle):
 
 
 def load_dense_adapter(built, directory, bundle):
-    if getattr(built.model, "_nvfp4lora_family", None) != "qwen3_5_dense":
+    if built.family != "qwen3_5_dense":
         raise ValueError("Dense adapter cannot load into a MoE or unknown model family")
     manifest = read_dense_manifest(directory, bundle)
     _check_dense_build(built, bundle, manifest["build_kwargs"])

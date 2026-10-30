@@ -17,5 +17,6 @@
     "expert_alpha": 4,
     "chunk_size": 32,
     "streaming": "async"
-  }
+  },
+  "family": "qwen3_5_moe"
 }

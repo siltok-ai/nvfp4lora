@@ -156,7 +156,7 @@ class DenseBuildTests(unittest.TestCase):
             ids = {name: id(value) for name, value in reconstructed.trainable.items()}
             load_adapter(reconstructed, directory, self.root / "bundle")
             self.assertEqual(ids, {name: id(value) for name, value in reconstructed.trainable.items()})
-            with self.assertRaisesRegex(ValueError, "MoE or unknown"):
+            with self.assertRaisesRegex(ValueError, "explicit registered family"):
                 load_adapter(SimpleNamespace(model=torch.nn.Linear(1, 1)), directory, self.root / "bundle")
         finally:
             for value in [built, reconstructed]:

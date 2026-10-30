@@ -8,8 +8,6 @@ from pathlib import Path
 
 from huggingface_hub import HfApi, hf_hub_download
 
-REPO = "nvidia/Qwen3.6-35B-A3B-NVFP4"
-REVISION = "1355db6a052410cfd62085d94b58866fd0f2c3c5"
 METADATA_FILES = {"config.json", "hf_quant_config.json", "generation_config.json",
                   "model.safetensors.index.json", "tokenizer.json", "tokenizer_config.json",
                   "chat_template.jinja", "vocab.json", "README.md", "LICENSE", "LICENSE.txt"}
@@ -24,8 +22,8 @@ def sha256(path):
 def main():
     """匿名读取固定模型来源；只在明确选择 download 时获取大分片。"""
     parser = argparse.ArgumentParser()
-    parser.add_argument("--repo", default=REPO)
-    parser.add_argument("--revision", default=REVISION)
+    parser.add_argument("--repo", required=True)
+    parser.add_argument("--revision", required=True)
     parser.add_argument("--model-dir", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--download-weights", action="store_true")

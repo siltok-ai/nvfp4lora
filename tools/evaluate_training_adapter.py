@@ -9,6 +9,7 @@ from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import base_identity, build_from_adapter
 from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.families import family_of_bundle
 from nvfp4lora.model.common import causal_model
 from nvfp4lora.train.data import ChatJSONLDataset
 from nvfp4lora.train.evaluate import evaluate_canary, evaluate_nll, evaluation_mode
@@ -27,7 +28,7 @@ def main():
     parser.add_argument("--max-replay-nll-increase", type=float)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
-    configure_training(20261028)
+    configure_training(family_of_bundle(args.bundle).default_seed)
     corpus = json.loads((args.corpus / "manifest.json").read_text(encoding="utf-8"))
     assert corpus["base"] == base_identity(args.bundle)
     assert all(file_hash(args.corpus / name) == digest for name, digest in corpus["files"].items())

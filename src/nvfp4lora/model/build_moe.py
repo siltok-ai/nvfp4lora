@@ -114,4 +114,4 @@ def build_model(directory, *, device="cuda", expert_rank=0, expert_alpha=None, c
     if shapes != expected:
         raise ValueError(f"Trainable set mismatch: missing={expected.keys()-shapes.keys()}, extra={shapes.keys()-expected.keys()}")
     return BuiltModel(model, store, streamer, dict(sorted(trainable.items())), dict(sorted(expected.items())),
-                      sorted(loaded), sorted(initialized))
+                      sorted(loaded), sorted(initialized), family="qwen3_5_moe")

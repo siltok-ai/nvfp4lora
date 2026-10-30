@@ -191,5 +191,4 @@ def build_dense_model(directory, *, device="cuda", lora_rank=16, lora_alpha=None
     if any(value.is_meta or value.dtype != torch.float32 for value in model.buffers()):
         raise ValueError("Dense RoPE buffers must be allocated FP32")
     store.bind_embedding(model.model.embed_tokens)
-    model._nvfp4lora_family = FAMILY
-    return BuiltModel(model, store, streamer, dict(sorted(trainable.items())), expected, sorted(loaded), sorted(initialized))
+    return BuiltModel(model, store, streamer, dict(sorted(trainable.items())), expected, sorted(loaded), sorted(initialized), family=FAMILY)
