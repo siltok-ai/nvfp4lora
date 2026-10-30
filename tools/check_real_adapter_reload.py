@@ -7,7 +7,8 @@ from pathlib import Path
 import torch
 from transformers import AutoTokenizer
 
-from nvfp4lora.export.artifacts import _artifact_tensors, build_from_adapter
+from nvfp4lora.export.artifacts_moe import _artifact_tensors
+from nvfp4lora.export.artifacts import build_from_adapter
 from nvfp4lora.model.adapters import disable_adapters
 from nvfp4lora.ops.chunked_ce import supervised_tokens
 from nvfp4lora.train.data import ChatJSONLDataset

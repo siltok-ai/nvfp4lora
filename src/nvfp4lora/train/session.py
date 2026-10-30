@@ -14,7 +14,7 @@ from transformers import AutoTokenizer
 from nvfp4lora.export.artifacts import base_identity, publish_adapter
 from nvfp4lora.export.delta_w import delta_w_fingerprints
 from nvfp4lora.model.adapters import disable_adapters
-from nvfp4lora.model.build import build_model
+from nvfp4lora.model.build_moe import build_model
 from nvfp4lora.ops.chunked_ce import supervised_tokens
 from nvfp4lora.train.checkpoint import configuration_hash, load_checkpoint, save_checkpoint
 from nvfp4lora.train.data import ChatJSONLDataset, DeterministicSampleStream

@@ -8,8 +8,8 @@ from pathlib import Path
 from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import base_identity
-from nvfp4lora.format.preprocess import file_hash
-from nvfp4lora.model.build import build_model
+from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.model.build_moe import build_model
 from nvfp4lora.model.generate import greedy_batch
 from nvfp4lora.train.loop import configure_training, memory_observation
 

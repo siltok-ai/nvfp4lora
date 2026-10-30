@@ -69,9 +69,9 @@ def main():
         freetoken_samples(args, manifest)
         return
     import psutil
-    from nvfp4lora.format.preprocess import file_hash, load_group
+    from nvfp4lora.format.bundle import file_hash, load_group
     from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT, fields
-    from nvfp4lora.store.expert_store import ExpertStore
+    from nvfp4lora.store.layer_store import ExpertStore
     for entry in manifest["source"]["shards"] + manifest["source"].get("metadata", []):
         assert file_hash(args.source / entry["filename"]) == entry["sha256"]
     weight_map = json.loads((args.source / "model.safetensors.index.json").read_text(encoding="utf-8"))["weight_map"]

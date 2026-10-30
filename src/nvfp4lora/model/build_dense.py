@@ -13,29 +13,21 @@ from transformers.integrations.sdpa_attention import repeat_kv, sdpa_attention_f
 from transformers.masking_utils import ALL_MASK_ATTENTION_FUNCTIONS
 from transformers.modeling_utils import ALL_ATTENTION_FUNCTIONS
 
-from nvfp4lora.format.preprocess import NUMERICAL_POLICY as NONSTREAM_POLICY, file_hash
+from nvfp4lora.format.policies import NUMERICAL_POLICY as NONSTREAM_POLICY
+from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.format.preprocess_dense import FAMILY, LAYOUT, LAYER_LAYOUT, LINEAR_POLICY, projections
 from nvfp4lora.ops.packed_linear_fn import PackedLinearOpConfig
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
-from .build import BuiltModel, canonical_name
+from nvfp4lora.model.common import BuiltModel, canonical_name
 from .packed_linear import CPUEmbedding, DenseReferenceLinear, LoRAPackedLinear, PackedLinear
 
-ATTENTION_IMPLEMENTATION = "nvfp4lora_dense_sdpa_repeat_kv_v1"
+from .attention import ATTENTION_IMPLEMENTATION, register_dense_attention
 
 
-def dense_sdpa_forward(module, query, key, value, attention_mask, **kwargs):
-    """Windows确定性efficient后端：只在dense显式展开KV，不改HF/MoE默认值。"""
-    groups = module.num_key_value_groups
-    key, value = repeat_kv(key, groups), repeat_kv(value, groups)
-    proxy = SimpleNamespace(num_key_value_groups=1, is_causal=getattr(module, "is_causal", True))
-    return sdpa_attention_forward(proxy, query, key, value, attention_mask, **kwargs)
 
 
-def register_dense_attention():
-    """新增两个registry键；已有sdpa callable和mask callable保持原对象。"""
-    ALL_ATTENTION_FUNCTIONS.register(ATTENTION_IMPLEMENTATION, dense_sdpa_forward)
-    ALL_MASK_ATTENTION_FUNCTIONS.register(ATTENTION_IMPLEMENTATION, ALL_MASK_ATTENTION_FUNCTIONS["sdpa"])
+
 
 
 class DenseLayerStore(ExpertStore):

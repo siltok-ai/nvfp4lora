@@ -9,7 +9,7 @@ import numpy as np
 import psutil
 import torch
 
-from nvfp4lora.model.build import causal_model
+from nvfp4lora.model.common import causal_model
 from nvfp4lora.ops.chunked_ce import chunked_ce_sum, supervised_tokens
 
 

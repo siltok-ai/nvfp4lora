@@ -10,8 +10,8 @@ from safetensors import safe_open
 from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import build_from_adapter
-from nvfp4lora.format.preprocess import file_hash
-from nvfp4lora.model.build import causal_model
+from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.model.common import causal_model
 from nvfp4lora.train.data import ChatJSONLDataset
 from nvfp4lora.train.evaluate import evaluation_mode, padded_batch
 from nvfp4lora.train.loop import configure_training

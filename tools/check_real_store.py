@@ -8,7 +8,7 @@ from pathlib import Path
 import psutil
 import torch
 
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 
 

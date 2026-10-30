@@ -9,7 +9,8 @@ import psutil
 import torch
 from safetensors import safe_open
 
-from nvfp4lora.model.build import build_model, causal_model
+from nvfp4lora.model.build_moe import build_model
+from nvfp4lora.model.common import causal_model
 
 from check_environment import configure_numerics
 

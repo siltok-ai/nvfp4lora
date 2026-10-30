@@ -17,7 +17,7 @@ from check_dense_forward import memory
 from check_tiny_training import compare_vectors
 from nvfp4lora.export.artifacts import base_identity, publish_adapter
 from nvfp4lora.model.adapters import disable_adapters
-from nvfp4lora.model.build import canonical_name
+from nvfp4lora.model.common import canonical_name
 from nvfp4lora.model.build_dense import build_dense_model
 from nvfp4lora.model.packed_linear import LoRAPackedLinear, PackedLinear
 from nvfp4lora.ops.chunked_ce import supervised_tokens

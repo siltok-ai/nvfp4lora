@@ -17,7 +17,7 @@ from dense_fixture import materialized_codes
 from nvfp4lora.model.packed_linear import LoRAPackedLinear, PackedLinear
 from nvfp4lora.ops.packed_linear_fn import PackedLinearFn, PackedLinearOpConfig, decode_codes
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from nvfp4lora.train.loop import configure_training
 

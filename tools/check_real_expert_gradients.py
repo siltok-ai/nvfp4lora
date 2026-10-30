@@ -10,7 +10,7 @@ from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import build_from_adapter
 from nvfp4lora.format.nvfp4 import dequantize
-from nvfp4lora.model.build import causal_model
+from nvfp4lora.model.common import causal_model
 from nvfp4lora.ops.experts_fn import NVFP4ExpertsFn
 from nvfp4lora.ops.chunked_ce import supervised_tokens
 from nvfp4lora.train.data import ChatJSONLDataset

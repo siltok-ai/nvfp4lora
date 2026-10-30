@@ -13,7 +13,8 @@ from safetensors import safe_open
 from transformers import Qwen3_5MoeForCausalLM, Qwen3_5MoeTextConfig
 
 from nvfp4lora.format.nvfp4 import dequantize
-from nvfp4lora.format.preprocess import FIELDS, PROJECTIONS, file_hash, load_group
+from nvfp4lora.format.bundle import FIELDS, file_hash, load_group
+from nvfp4lora.format.preprocess_moe import PROJECTIONS
 
 from check_freetoken_dequant import ulp_distance
 

@@ -8,7 +8,7 @@ import torch
 from safetensors.torch import save_file
 from transformers import Qwen3_5ForCausalLM, Qwen3_5TextConfig
 
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 
 
 def make_tiny_dense(output, seed=20261029):

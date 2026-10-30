@@ -6,7 +6,8 @@ from pathlib import Path
 
 import torch
 
-from nvfp4lora.export.artifacts import _artifact_tensors, build_from_adapter
+from nvfp4lora.export.artifacts_moe import _artifact_tensors
+from nvfp4lora.export.artifacts import build_from_adapter
 from nvfp4lora.export.delta_w import delta_w_fingerprints
 from nvfp4lora.ops.chunked_ce import supervised_tokens
 from nvfp4lora.train.evaluate import evaluation_mode
@@ -35,7 +36,7 @@ def main():
               "disabled_loss_E2": int(disabled.view(torch.int32)) == expected["disabled_loss_fp32_bits"]}
     publish_manifest = json.loads((source / "publish/manifest.json").read_text(encoding="utf-8"))
     if publish_manifest.get("layout_version") == "nvfp4-lora-dense-v1":
-        from nvfp4lora.export.artifacts import _dense_artifact_tensors
+        from nvfp4lora.export.artifacts_dense import _dense_artifact_tensors
         values, _ = _dense_artifact_tensors(source / "publish")
     else:
         values, _ = _artifact_tensors(source / "publish")

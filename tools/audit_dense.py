@@ -9,7 +9,7 @@ import shutil
 import subprocess
 
 from audit_m2 import Audit, Pending, STATE_CHECKS
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 
 
 def main():

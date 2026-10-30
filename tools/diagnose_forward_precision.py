@@ -6,8 +6,8 @@ from pathlib import Path
 
 import torch
 
-from nvfp4lora.store.expert_store import ExpertStore
-from nvfp4lora.validation.cpu_layers import reference_layers
+from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.validation.cpu_layers_moe import reference_layers
 
 
 def main():

@@ -6,7 +6,7 @@ from pathlib import Path
 
 import torch
 
-from nvfp4lora.format.preprocess import preprocess
+from nvfp4lora.format.preprocess_moe import preprocess
 
 from make_tiny_model import make_tiny_model
 from quantize_tiny import quantize_tiny

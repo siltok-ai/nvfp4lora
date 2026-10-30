@@ -15,7 +15,7 @@ import torch
 from torch.utils.checkpoint import checkpoint
 
 from nvfp4lora.ops.experts_fn import ExpertOpConfig, NVFP4ExpertsFn, NVFP4ExpertsBaseFn
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from nvfp4lora.validation.experts_reference import experts_reference
 

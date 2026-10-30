@@ -11,9 +11,9 @@ from transformers import Qwen3_5TextConfig
 from transformers.models.qwen3_5.modeling_qwen3_5 import Qwen3_5DecoderLayer, Qwen3_5TextRotaryEmbedding
 
 from nvfp4lora.format.nvfp4 import dequantize
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.format.preprocess_dense import FAMILY, LAYOUT
-from .cpu_layers import CPURecurrentGDN
+from nvfp4lora.validation.cpu_gdn import CPURecurrentGDN
 
 
 @torch.no_grad()

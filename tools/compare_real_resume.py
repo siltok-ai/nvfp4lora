@@ -8,7 +8,7 @@ import torch
 from safetensors.torch import load_file
 
 from compare_training_runs import equal_tree
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 
 
 def read_checkpoint(path):

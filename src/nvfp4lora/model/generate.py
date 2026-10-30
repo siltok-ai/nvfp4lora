@@ -4,7 +4,7 @@ import time
 
 import torch
 
-from .build import causal_model
+from nvfp4lora.model.common import causal_model
 
 
 @torch.no_grad()

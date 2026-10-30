@@ -14,8 +14,9 @@ from safetensors.torch import save_file
 from transformers import Qwen3_5ForCausalLM, Qwen3_5TextConfig
 
 from .inspect import inspect_checkpoint, read_header
-from .preprocess import FIELDS, NUMERICAL_POLICY, _decode_nvfp4_rows, file_hash, load_group
-from nvfp4lora.ops.packed_linear_fn import NUMERICAL_POLICY as LINEAR_POLICY
+from nvfp4lora.format.bundle import FIELDS, _decode_nvfp4_rows, file_hash, load_group
+from nvfp4lora.format.policies import NUMERICAL_POLICY
+from nvfp4lora.format.policies import LINEAR_POLICY
 
 FAMILY = "qwen3_5_dense"
 LAYOUT = "nvfp4-stream-dense-v1"

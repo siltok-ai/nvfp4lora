@@ -23,14 +23,14 @@ from compare_training_runs import equal_tree
 from nvfp4lora.export.artifacts import base_identity, build_from_adapter, publish_adapter
 from nvfp4lora.export.delta_w import delta_w_fingerprints
 from nvfp4lora.format.nvfp4 import dequantize
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT
 from nvfp4lora.model.adapters import disable_adapters
-from nvfp4lora.model.build import BuiltModel, canonical_name
+from nvfp4lora.model.common import BuiltModel, canonical_name
 from nvfp4lora.model.build_dense import build_dense_model
 from nvfp4lora.model.packed_linear import LoRAPackedLinear
 from nvfp4lora.ops.chunked_ce import supervised_tokens
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 from nvfp4lora.train.checkpoint import configuration_hash, load_checkpoint, save_checkpoint
 from nvfp4lora.train.data import DeterministicSampleStream, SyntheticTinyDataset
 from nvfp4lora.train.loop import LoRATrainer, configure_training, frozen_fingerprint, loss_sum, memory_observation

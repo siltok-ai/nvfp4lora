@@ -13,10 +13,11 @@ import torch
 from safetensors import safe_open
 from transformers.models.qwen3_5_moe.modeling_qwen3_5_moe import Qwen3_5MoeTextRotaryEmbedding
 
-from nvfp4lora.format.preprocess import preprocess
+from nvfp4lora.format.preprocess_moe import preprocess
 from nvfp4lora.model.adapters import disable_adapters
-from nvfp4lora.model.build import build_model, causal_model
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.model.build_moe import build_model
+from nvfp4lora.model.common import causal_model
+from nvfp4lora.store.layer_store import ExpertStore
 
 from check_environment import configure_numerics
 from make_tiny_model import make_tiny_model

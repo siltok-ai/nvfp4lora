@@ -13,7 +13,7 @@ import torch
 
 from nvfp4lora.export.artifacts import base_identity, build_from_adapter, publish_adapter
 from nvfp4lora.model.adapters import disable_adapters
-from nvfp4lora.model.build import build_model
+from nvfp4lora.model.build_moe import build_model
 from nvfp4lora.model.packed_experts import PackedExperts
 from nvfp4lora.ops.chunked_ce import supervised_tokens
 from nvfp4lora.train.checkpoint import capture_rng, configuration_hash, load_checkpoint, save_checkpoint

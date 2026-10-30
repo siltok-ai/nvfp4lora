@@ -7,9 +7,10 @@ import torch.nn.functional as F
 from torch.autograd.function import once_differentiable
 
 from nvfp4lora.format.nvfp4 import dequantize
-from .experts_fn import _prefetch_hint
+from nvfp4lora.store.streamer import _prefetch_hint
 
-NUMERICAL_POLICY = "dense-packed-linear-bf16code-fp32scale-v1"
+from nvfp4lora.format.policies import LINEAR_POLICY as NUMERICAL_POLICY
+
 
 
 @dataclass(frozen=True)

@@ -10,8 +10,9 @@ from safetensors.torch import load_file
 from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import base_identity
-from nvfp4lora.format.preprocess import file_hash
-from nvfp4lora.model.build import build_model, causal_model
+from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.model.build_moe import build_model
+from nvfp4lora.model.common import causal_model
 from nvfp4lora.train.checkpoint import configuration_hash
 from nvfp4lora.train.data import ChatJSONLDataset
 from nvfp4lora.train.evaluate import evaluate_nll, evaluation_mode, padded_batch

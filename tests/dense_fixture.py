@@ -8,9 +8,9 @@ from safetensors.torch import save_file
 
 from nvfp4lora.format.inspect import read_header
 from nvfp4lora.format.nvfp4 import quantize
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 
 
 def make_dense_store(directory, *, pin_memory=False, layers=2, in_features=32, out_features=24):

@@ -4,7 +4,7 @@ import re
 
 import torch
 
-from nvfp4lora.model.build import canonical_name
+from nvfp4lora.model.common import canonical_name
 
 
 class LinearGradientAudit:

@@ -15,7 +15,7 @@ from make_tiny_dense import make_tiny_dense
 from quantize_tiny_dense import quantize_tiny_dense
 from nvfp4lora.format.inspect import inspect_checkpoint
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT, fields, preprocess_dense, validate_layout
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 
 
 class DensePreprocessTests(unittest.TestCase):

@@ -8,7 +8,7 @@ from pathlib import Path
 import torch
 
 from nvfp4lora.store.async_streamer import AsyncLayerStreamer
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 from test_store import make_banks
 
 

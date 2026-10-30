@@ -9,7 +9,8 @@ import struct
 import torch
 from transformers import AutoTokenizer
 
-from nvfp4lora.model.build import build_model, causal_model
+from nvfp4lora.model.build_moe import build_model
+from nvfp4lora.model.common import causal_model
 from nvfp4lora.ops.chunked_ce import supervised_tokens
 from nvfp4lora.train.checkpoint import load_checkpoint
 from nvfp4lora.train.data import ChatJSONLDataset, DeterministicSampleStream

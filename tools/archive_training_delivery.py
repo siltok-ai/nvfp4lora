@@ -12,7 +12,7 @@ import subprocess
 import sys
 
 from nvfp4lora.export.artifacts import base_identity
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 
 
 def read(path):

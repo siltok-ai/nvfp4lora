@@ -12,7 +12,7 @@ from check_real_forward import memory
 from nvfp4lora.export.artifacts import base_identity, publish_adapter
 from nvfp4lora.model.adapters import disable_adapters
 from nvfp4lora.ops.chunked_ce import supervised_tokens
-from nvfp4lora.model.build import build_model
+from nvfp4lora.model.build_moe import build_model
 from nvfp4lora.train.checkpoint import configuration_hash, save_checkpoint
 from nvfp4lora.train.data import ChatJSONLDataset, DeterministicSampleStream
 from nvfp4lora.train.loop import LoRATrainer, configure_training, frozen_fingerprint, loss_sum

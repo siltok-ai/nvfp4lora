@@ -12,10 +12,11 @@ from transformers import AutoTokenizer
 
 from nvfp4lora.export.artifacts import base_identity
 from nvfp4lora.model.adapters import disable_adapters
-from nvfp4lora.model.build import build_model, causal_model
+from nvfp4lora.model.build_moe import build_model
+from nvfp4lora.model.common import causal_model
 import nvfp4lora.ops.experts_fn as expert_ops
 from nvfp4lora.train.loop import configure_training, memory_observation
-from nvfp4lora.validation.cpu_layers import reference_layers
+from nvfp4lora.validation.cpu_layers_moe import reference_layers
 
 
 def save(path, value):

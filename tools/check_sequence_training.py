@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 from summarize_training_session import summarize
 
 

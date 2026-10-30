@@ -5,7 +5,7 @@ import time
 
 import torch
 
-from .expert_store import tensor_views
+from nvfp4lora.store.layer_store import tensor_views
 
 
 @dataclass
@@ -100,3 +100,11 @@ class SyncLayerStreamer:
     def prefetch(self, layer):
         """同步基线忽略预测提示，数值路径不受阶段提示影响。"""
         return False
+
+
+def _prefetch_hint(cfg, layer):
+    """预测只影响搬运；实际 acquire 始终使用本次明确层号。"""
+    direction = -1 if cfg.streamer.phase == "BACKWARD" else 1
+    predicted = layer + direction
+    if 0 <= predicted < cfg.streamer.store.geometry["layers"]:
+        cfg.streamer.prefetch(predicted)

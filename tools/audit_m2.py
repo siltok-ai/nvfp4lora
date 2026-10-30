@@ -12,7 +12,7 @@ import subprocess
 from safetensors import safe_open
 
 from nvfp4lora.export.artifacts import base_identity
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.train.checkpoint import configuration_hash
 
 

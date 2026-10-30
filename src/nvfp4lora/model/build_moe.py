@@ -10,31 +10,19 @@ from peft import LoraConfig, TaskType, get_peft_model
 from safetensors import safe_open
 from transformers import Qwen3_5MoeForCausalLM, Qwen3_5MoeTextConfig
 
-from nvfp4lora.format.preprocess import file_hash
+from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.ops.experts_fn import ExpertOpConfig
-from nvfp4lora.store.expert_store import ExpertStore
+from nvfp4lora.store.layer_store import ExpertStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from .packed_experts import DenseReferenceExperts, ExpertAdapter, PackedExperts
+
+from .common import BuiltModel, canonical_name, causal_model
 
 C3_TARGET = r"model\.layers\.\d+\.(?:self_attn\.(?:q_proj|k_proj|v_proj|o_proj)|linear_attn\.(?:in_proj_qkv|in_proj_z|out_proj)|mlp\.shared_expert\.(?:gate_proj|up_proj|down_proj))"
 
 
-def canonical_name(name):
-    """规范名字与 runtime adapter 名解耦；自定义专家键保留直接 Parameter 名。"""
-    if name.startswith("base_model.model."):
-        name = name.removeprefix("base_model.model.")
-    return name.replace(".lora_A.default.weight", ".lora_A.weight").replace(".lora_B.default.weight", ".lora_B.weight")
 
 
-@dataclass
-class BuiltModel:
-    model: object
-    store: object
-    streamer: object
-    trainable: dict
-    expected_trainable: dict
-    loaded_nonexpert: list
-    initialized_buffers: list
 
 
 def build_model(directory, *, device="cuda", expert_rank=0, expert_alpha=None, c3_rank=16,
@@ -127,8 +115,3 @@ def build_model(directory, *, device="cuda", expert_rank=0, expert_alpha=None, c
         raise ValueError(f"Trainable set mismatch: missing={expected.keys()-shapes.keys()}, extra={shapes.keys()-expected.keys()}")
     return BuiltModel(model, store, streamer, dict(sorted(trainable.items())), dict(sorted(expected.items())),
                       sorted(loaded), sorted(initialized))
-
-
-def causal_model(model):
-    """取得注入 PEFT 后的实际 CausalLM；直接访问 backbone 仍会调用每个 LoRA Linear。"""
-    return model.get_base_model() if hasattr(model, "get_base_model") else model
