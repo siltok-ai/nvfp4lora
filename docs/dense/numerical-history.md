@@ -25,6 +25,14 @@
 
 来源：[原设计DA0.7](../reference/dense27b-design-v1.md)、[决策日志](../decisions.md)、[D0证据](../evidence/dense/d0-summary.json)、[D5整模证据](../evidence/dense/d5-summary.json)。实现为src/nvfp4lora/model/build_dense.py的dense_sdpa_forward。
 
+## 旧MoE A5.2：离散选路与连续数值路径分开验收
+
+这是2026-10-27的另一件历史，区别于下面dense DA2.3的大矩阵舍入控制。旧MoE首次无条件CPU FP32前四层误差为0.90%、2.05%、1.77%、2.46%，原1%检查失败。固定GPU实际路由、仍用CPU FP32端到端计算时，误差降为0.33%、0.40%、0.42%、0.54%。五组控制还发现，即使CPU改用相同BF16策略，自由选路仍可产生最高2.74%的端到端差异。
+
+依据是top-k在第8名的cutoff附近不连续：很小的投影舍入或相等分数的tie次序可以换掉一个专家，使后续执行不同的数值图。当时决定分别核对固定实际route/权重的连续FP32路径（每层仍<=1%），以及独立CPU router投影、GPU所选集合的top-k正确性和softmax/归一化权重（相应误差仍<=1%）。同时保留自由路由误差、选路变化和cutoff margin，并要求在三条新的128-token提示上验证；没有修改生产路由或把原无条件FAIL改成PASS。
+
+dense没有专家选路，因此本轮DA5.2继续要求无条件CPU FP32前四层各<=1%，没有继承上述固定route条件，实测0.291637%/0.294074%/0.406958%/0.339739%。[原MoE决策及五组控制结论](../decisions.md#2026-10-27a52-的离散路由与参考判据)与[本轮D5证据](../evidence/dense/d5-summary.json)分别保留。
+
 ## DA2.3：实现正确性与FP32库舍入分开核对
 
 原设计DA2.3要求FP32模式相对FP64参考的相对L2<=1e-6。它是高精度测试模式的判据，不是把生产训练从一种精度改为另一种精度；生产仍执行设计3.3的BF16码值GEMM、FP32输出乘global、转回BF16，LoRA旁路为FP32。
@@ -47,7 +55,7 @@
 
 2e-6是在上述控制范围内留出的有限裕量，不是任意矩阵FP32误差的通用数学上界。它也不替代实现的逐字节核对。每个结果同时保存原1e-6是否通过，汇总标为QUALIFIED_WITH_DOCUMENTED_REFERENCE_CONTROL；原大形状失败仍保留FAIL。
 
-这次修改针对DA2.3测试的解释和判据，没有改变PackedLinearFn运算顺序、解码精度、BF16生产路径或LoRA初始化。其他E2要求继续保留：B=0开关loss、精确续训、发布重建和MoE回归；真实CPU FP32前四层原1%判据也不变。已完成的资格证据不能替代仍待完成的真实100步与D7最终回归。
+这次修改针对DA2.3测试的解释和判据，没有改变PackedLinearFn运算顺序、解码精度、BF16生产路径或LoRA初始化。其他E2要求继续保留：B=0开关loss、精确续训、发布重建和MoE回归；真实CPU FP32前四层原1%判据也不变。2026-10-30正式100步已完成；真实续训、发布重建和D7仍需各自的实际运行证据，不能用先前资格代替。
 
 来源：[原设计DA2.3](../reference/dense27b-design-v1.md)、[决策日志](../decisions.md)、[D2完整证据及原失败](../evidence/dense/d2-summary.json)。对照入口为tools/check_dense_linear.py及tests/dense_fixture.py，不需要新增依赖或性能kernel。
 
