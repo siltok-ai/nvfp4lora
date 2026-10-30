@@ -106,7 +106,7 @@ The first additional random-tiny BF16/FP32 test exceeded1% at layer3 (1.191991%)
 
 Next: D6 own-base replay300, canary300/holdout50, actual one-step mechanisms,2048/4096 two-step pressure, then **DA6.3 user confirmation before formal100 steps**. FreeToken dense inference and the later Qwen3.6 campaign remain unfinished.
 
-## D6 preflight / DA6.3 waiting
+## D6 preflight / DA6.3 confirmed
 
 [Preflight evidence](../evidence/dense/d6-preflight-summary.json) records actual DA6.0–DA6.2 commands and manifests. This is qualification only; formal DA6.4–DA6.9 are not run. The original PackedLinear arithmetic, D-ALL r16, CPU embedding, lm_head strategy and dependencies are unchanged.
 
@@ -117,12 +117,12 @@ Next: D6 own-base replay300, canary300/holdout50, actual one-step mechanisms,204
 | DA6.2 2048 | PASS | Two actual optimizer steps x8:129.03/128.47s. Peak allocated9,005,052,416B/reserved9,483,321,344B; monitored whole-card minimum5938MiB. |
 | DA6.2 4096 | PASS | Two actual optimizer steps x8:284.10/284.72s. Peak allocated12,996,858,368B/reserved13,398,704,128B; monitored whole-card minimum2204MiB (>1024MiB). O1/O3/O4 not needed. |
 | DA6.2 recomputation | PASS | Both lengths restore step2 Adam870,318,080B; all64 layers, complete allocation history, loss and all800 gradients U8 E2 against uninstrumented control. First-micro and steady-state snapshots: decoded allocations occurred, none remain live after backward. |
-| DA6.3 | WAITING | New threshold question sent2026-10-29 about13:35UTC: recommended holdout>=45/50 and replay NLL increase<=0.01. No actual confirmation received at this commit. |
+| DA6.3 | CONFIRMED 2026-10-30 | Actual owner reply approves holdout>=45/50 and replay NLL increase<=0.01. Full quote, recorded time and baseline are in effect-threshold-owner-decision.json. |
 | DA6.4–DA6.9 | NOT RUN | Formal100, real50-to100 E2, formal release reconstruction, functional result and post-training ranges remain pending. |
 
 The first frozen layer's qkv/z inputs have no actual autograd dx edge; those are checked by isolated replay, rather than mislabeled as captured real dx. One-step mechanism checkpoints use logical max1 and cannot silently become the100-step campaign. Pressure checkpoints use logical max100 but execution stops at2 on synthetic stress data. Their publications are qualification artifacts, not the final functional adapter.
 
-The steady-state single-micro allocated peaks are8,543,853,056B (2048) and12,543,980,032B (4096). They start without existing accumulated gradients and must not replace the larger actual x8 pressure peaks. Whole-card sampling is every second and may miss shorter transients; CUDA allocator peaks are retained independently. Fifty-seven unit tests pass. Independent FreeToken inference work continues while DA6.3 awaits the user's actual reply.
+The steady-state single-micro allocated peaks are8,543,853,056B (2048) and12,543,980,032B (4096). They start without existing accumulated gradients and must not replace the larger actual x8 pressure peaks. Whole-card sampling is every second and may miss shorter transients; CUDA allocator peaks are retained independently. Fifty-seven unit tests pass. The owner approved the recommended functional thresholds on2026-10-30; the earlier preflight manifest remains an unchanged historical record from before approval. See [the actual decision](../evidence/dense/effect-threshold-owner-decision.json).
 
 The production release CLI's dense dispatch is additionally tested against the
 unchanged saved D4 tiny100 publication. A schema fixture serializes the saved
