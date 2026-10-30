@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **M1-D qualified with documented D0/D2 adjustments; D5 passed at the original unconditional1% criterion; DA6.0-DA6.2 passed and the owner confirmed DA6.3 on2026-10-30. Formal Qwen3.8 training is running toward100 steps.** Step10 measured holdout50/50 and replay NLL0.0000707129050695568; this is an intermediate checkpoint, not final acceptance. Real50-to100 resume, final release reconstruction, Qwen3.6 and D7 remain pending. Complete commands, code snapshots, stdout/stderr and checkpoints remain outside Git. No intermediate push has been made.
+Current state: **M1-D qualified with documented D0/D2 adjustments; D5 and DA6.0-DA6.4 passed, with the owner's actual DA6.3 confirmation. Formal Qwen3.8 training completed100 steps.** Final holdout50/50; replay NLL0.00000033538927875694635 (base0.00023400843633333113). Real50-to100 resume is running in a new process. Final release reconstruction, dedicated published-adapter evaluation, FP8/timing observations, Qwen3.6 and D7 remain pending. Complete commands, code snapshots, stdout/stderr and checkpoints remain outside Git. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -140,3 +140,26 @@ configuration/checkpoint hashes are unchanged; all remaining80 groups/640 sample
 IDs and token tensors agree E2. Altering the copied file bytes is rejected. CUDA
 is not initialized. This qualifies data portability only; real50-to100 GPU
 resume remains a separate pending requirement.
+
+## DA6.4 formal100 completed
+
+[Formal100 evidence](../evidence/dense/d6-functional100-summary.json) records the
+actual100-step run from the approved source commit3fa6205, with complete20/50/100
+checkpoints,800 FP32 trainables and400 streamed DeltaW fingerprints. Frozen
+weights are unchanged. Final holdout is50/50 and replay NLL3.3538927875694635e-7;
+the base was0/50 and2.3400843633333113e-4. Step10/20/50 evaluations also give50/50.
+These actual functional observations satisfy the approved thresholds; DA6.7's
+separate published-adapter reconstruction/evaluation still remains pending.
+
+Mean active optimizer-step wall time50.818s (median50.110s, range44.306–60.169s).
+Full recorded run5504.912s includes initialization, audits, evaluation, saving
+and publication. Observed peak allocated5,587,110,912B/reserved8,009,023,488B;
+whole-card monitor5240 samples, minimum free7222MiB. Process observed peak
+working set22,713,417,728B/private32,271,273,984B. These are the short functional
+samples; they do not replace the larger2048/4096 pressure peaks above.
+
+A new process is now restoring the actual step50 checkpoint and continuing to100
+with the identical logical configuration and data. DA6.5/DA6.6 cannot be marked
+passed until the full ten-state comparison and independent publication rebuild
+finish. Final FreeToken acceptance must use this100-step adapter rather than the
+earlier qualification step1 publication. The two feature branches remain local.
