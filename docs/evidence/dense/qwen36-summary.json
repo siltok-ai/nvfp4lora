@@ -1,0 +1,1725 @@
+{
+  "status": "PASS",
+  "scope": "Original Qwen3.6 shortened acceptance only; ten real steps, not formal100",
+  "gates": {
+    "DA0.4": "PASS",
+    "D1": "PASS",
+    "D5": "PASS",
+    "DA6.0": "PASS",
+    "DA6.1": "PASS",
+    "short10": "PASS",
+    "release_rebuild": "PASS"
+  },
+  "runs": {
+    "metadata": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T042557Z-qwen36-source-metadata",
+      "manifest_sha256": "945099de6eb336e0c82d1f5f94bb2d37f46449fb5b33b4b771e777c1c1303278",
+      "exit_code": 0
+    },
+    "weights": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T043500Z-qwen36-original-shards",
+      "manifest_sha256": "f8083ea10e6794aca7e12c8e6b4d605877c1816c3c712523cce1011598aa3c5c",
+      "exit_code": 0
+    },
+    "source": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045152Z-qwen36-source",
+      "manifest_sha256": "0c0f5546d2e26ed16070fb521051a851b74a4f9c1ab181a3b04b60d428bc32f0",
+      "exit_code": 0
+    },
+    "preprocess": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045204Z-qwen36-preprocess",
+      "manifest_sha256": "c429fb358b18d8b33b39c7f74d8e2a5b3f97dc630f5a5842d0639dce5b768255",
+      "exit_code": 0
+    },
+    "readback": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045314Z-qwen36-readback",
+      "manifest_sha256": "a1a5231a695a275844075a4e4e60bce139bce2afef4b98fb39d973bb599ead99",
+      "exit_code": 0
+    },
+    "template": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045415Z-qwen36-template",
+      "manifest_sha256": "c770ee6a2b7b1b5a5c7f3e17ba51f9873861430553dcb4c750f5b63c841d3306",
+      "exit_code": 0
+    },
+    "dequant": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045420Z-qwen36-dequant",
+      "manifest_sha256": "06bc44315f1b1bf2202ea0d1c53aa651bf7c93caa14c9961953196e2e1b11834",
+      "exit_code": 0
+    },
+    "reference": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045429Z-qwen36-reference",
+      "manifest_sha256": "15e3aa28360cf3dea6a4cb164ac818f7111bb8e2266f7a8322ee372b5e8fdfd1",
+      "exit_code": 0
+    },
+    "greedy": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045545Z-qwen36-greedy",
+      "manifest_sha256": "3584795f4d4391060af9447e2f47ca7b7e31e41c9329b677e208076ff5dff286",
+      "exit_code": 0
+    },
+    "replay": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045637Z-qwen36-replay",
+      "manifest_sha256": "e424c6b95694536624eff3029fa443f8d8872534e3a3b0876bb49fe939dbc749",
+      "exit_code": 0
+    },
+    "baseline": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045931Z-qwen36-baseline",
+      "manifest_sha256": "499186a6f92242dd61bb55a710992b833732eb45056d722e0e864dabe11903c5",
+      "exit_code": 0
+    },
+    "probe": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050035Z-qwen36-probe",
+      "manifest_sha256": "cd2a81a40d5d932420d8d7543af8191f3796eb7fee73702cedbd66054fd3ce17",
+      "exit_code": 0
+    },
+    "probe-snapshot": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050448Z-qwen36-probe-snapshot-audit",
+      "manifest_sha256": "cae2306e2cbc1f0f03eb5c209e629b2a99dd37fabe0ac574170b7ca5ca30911f",
+      "exit_code": 0
+    },
+    "short10": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050306Z-qwen36-short10",
+      "manifest_sha256": "30de1dd0cbdaa43c39aed7aa213a1b199f6545c03774f48e3d446582b442f92a",
+      "exit_code": 0
+    },
+    "short10-monitor": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050343Z-qwen36-short10-card-monitor",
+      "manifest_sha256": "c76f130fa379018ee21cde2755b18feaace2e695ebb3be1f4916cd4d3223dda7",
+      "exit_code": 0
+    },
+    "release": {
+      "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T051503Z-qwen36-release",
+      "manifest_sha256": "9346528d17252daabfe7ab16f5a4868f90fc2d415ae2e9de71d6d03402f1d1fe",
+      "exit_code": 0
+    }
+  },
+  "source": {
+    "kind": "real-dense-checkpoint",
+    "repo": "nvidia/Qwen3.6-27B-NVFP4",
+    "revision": "0893e1606ff3d5f97a441f405d5fc541a6bdf404",
+    "shards": [
+      {
+        "filename": "model-00001-of-00003.safetensors",
+        "sha256": "b4a0d9a57ff1859dac1144b53ca285011db072737d8813fc16d8d1e07ecae17d"
+      },
+      {
+        "filename": "model-00002-of-00003.safetensors",
+        "sha256": "06da4242b0f491118d19d4d4c7564307a7bd6059c6bed284e08c93f6fc5a556d"
+      },
+      {
+        "filename": "model-00003-of-00003.safetensors",
+        "sha256": "e90f5b2bb16814a0565de284ea179edec201edfb120d13f1debaab66f9e60845"
+      }
+    ],
+    "metadata": [
+      {
+        "filename": "README.md",
+        "sha256": "371a5c5980e3b9b4df31035aab3e13dfe03b17e89bc4ab69055bd4039bf80f7d"
+      },
+      {
+        "filename": "chat_template.jinja",
+        "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259"
+      },
+      {
+        "filename": "config.json",
+        "sha256": "c04a19ba293737ad7be4f6e96d6666cb7e479cbe19ecc0c289fad267135b0338"
+      },
+      {
+        "filename": "generation_config.json",
+        "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+      },
+      {
+        "filename": "hf_quant_config.json",
+        "sha256": "fd7200cd8bca2a8a5d777061521abf83e2deb97ab6bc2f04e7a0a3d3f8ecd5c1"
+      },
+      {
+        "filename": "model.safetensors.index.json",
+        "sha256": "7aa103a2582b7d26631988de33dea19e8a308ee9c239e8e14feb374af30905e2"
+      },
+      {
+        "filename": "tokenizer.json",
+        "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+      },
+      {
+        "filename": "tokenizer_config.json",
+        "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b"
+      },
+      {
+        "filename": "vocab.json",
+        "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+      }
+    ]
+  },
+  "original_shards": [
+    {
+      "filename": "model-00001-of-00003.safetensors",
+      "bytes": 9965652512,
+      "lfs_sha256": "b4a0d9a57ff1859dac1144b53ca285011db072737d8813fc16d8d1e07ecae17d",
+      "sha256": "b4a0d9a57ff1859dac1144b53ca285011db072737d8813fc16d8d1e07ecae17d"
+    },
+    {
+      "filename": "model-00002-of-00003.safetensors",
+      "bytes": 9985757032,
+      "lfs_sha256": "06da4242b0f491118d19d4d4c7564307a7bd6059c6bed284e08c93f6fc5a556d",
+      "sha256": "06da4242b0f491118d19d4d4c7564307a7bd6059c6bed284e08c93f6fc5a556d"
+    },
+    {
+      "filename": "model-00003-of-00003.safetensors",
+      "bytes": 1970287640,
+      "lfs_sha256": "e90f5b2bb16814a0565de284ea179edec201edfb120d13f1debaab66f9e60845",
+      "sha256": "e90f5b2bb16814a0565de284ea179edec201edfb120d13f1debaab66f9e60845"
+    }
+  ],
+  "preprocessing": {
+    "peak_working_set_bytes": 6072393728,
+    "layer_payload_bytes": 16840133760,
+    "fp8_code_exact_elements": 7214202880,
+    "all64_full_E1": true,
+    "reload_E2": true
+  },
+  "dequant": {
+    "status": "PASS",
+    "scope": "DA1.3 real MLP weight sampling; no model forward/training",
+    "source_identity": {
+      "kind": "real-dense-checkpoint",
+      "repo": "nvidia/Qwen3.6-27B-NVFP4",
+      "revision": "0893e1606ff3d5f97a441f405d5fc541a6bdf404",
+      "shards": [
+        {
+          "filename": "model-00001-of-00003.safetensors",
+          "sha256": "b4a0d9a57ff1859dac1144b53ca285011db072737d8813fc16d8d1e07ecae17d"
+        },
+        {
+          "filename": "model-00002-of-00003.safetensors",
+          "sha256": "06da4242b0f491118d19d4d4c7564307a7bd6059c6bed284e08c93f6fc5a556d"
+        },
+        {
+          "filename": "model-00003-of-00003.safetensors",
+          "sha256": "e90f5b2bb16814a0565de284ea179edec201edfb120d13f1debaab66f9e60845"
+        }
+      ],
+      "metadata": [
+        {
+          "filename": "README.md",
+          "sha256": "371a5c5980e3b9b4df31035aab3e13dfe03b17e89bc4ab69055bd4039bf80f7d"
+        },
+        {
+          "filename": "chat_template.jinja",
+          "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259"
+        },
+        {
+          "filename": "config.json",
+          "sha256": "c04a19ba293737ad7be4f6e96d6666cb7e479cbe19ecc0c289fad267135b0338"
+        },
+        {
+          "filename": "generation_config.json",
+          "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+        },
+        {
+          "filename": "hf_quant_config.json",
+          "sha256": "fd7200cd8bca2a8a5d777061521abf83e2deb97ab6bc2f04e7a0a3d3f8ecd5c1"
+        },
+        {
+          "filename": "model.safetensors.index.json",
+          "sha256": "7aa103a2582b7d26631988de33dea19e8a308ee9c239e8e14feb374af30905e2"
+        },
+        {
+          "filename": "tokenizer.json",
+          "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+        },
+        {
+          "filename": "tokenizer_config.json",
+          "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b"
+        },
+        {
+          "filename": "vocab.json",
+          "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+        }
+      ]
+    },
+    "cases": [
+      {
+        "layer": 0,
+        "projection": "gate",
+        "row_start": 0,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 0,
+        "projection": "gate",
+        "row_start": 8704,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 0,
+        "projection": "gate",
+        "row_start": 17344,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 0,
+        "projection": "up",
+        "row_start": 0,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 0,
+        "projection": "up",
+        "row_start": 8704,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 0,
+        "projection": "up",
+        "row_start": 17344,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 0,
+        "projection": "down",
+        "row_start": 0,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 0,
+        "projection": "down",
+        "row_start": 2560,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 0,
+        "projection": "down",
+        "row_start": 5056,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 3,
+        "projection": "gate",
+        "row_start": 0,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 3,
+        "projection": "gate",
+        "row_start": 8704,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 3,
+        "projection": "gate",
+        "row_start": 17344,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 3,
+        "projection": "up",
+        "row_start": 0,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 3,
+        "projection": "up",
+        "row_start": 8704,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 3,
+        "projection": "up",
+        "row_start": 17344,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 3,
+        "projection": "down",
+        "row_start": 0,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 3,
+        "projection": "down",
+        "row_start": 2560,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 3,
+        "projection": "down",
+        "row_start": 5056,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 31,
+        "projection": "gate",
+        "row_start": 0,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 31,
+        "projection": "gate",
+        "row_start": 8704,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 31,
+        "projection": "gate",
+        "row_start": 17344,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 31,
+        "projection": "up",
+        "row_start": 0,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 31,
+        "projection": "up",
+        "row_start": 8704,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 31,
+        "projection": "up",
+        "row_start": 17344,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 31,
+        "projection": "down",
+        "row_start": 0,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 31,
+        "projection": "down",
+        "row_start": 2560,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 31,
+        "projection": "down",
+        "row_start": 5056,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 63,
+        "projection": "gate",
+        "row_start": 0,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 63,
+        "projection": "gate",
+        "row_start": 8704,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 63,
+        "projection": "gate",
+        "row_start": 17344,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 63,
+        "projection": "up",
+        "row_start": 0,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 63,
+        "projection": "up",
+        "row_start": 8704,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 63,
+        "projection": "up",
+        "row_start": 17344,
+        "shape": [
+          64,
+          5120
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 1
+      },
+      {
+        "layer": 63,
+        "projection": "down",
+        "row_start": 0,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 63,
+        "projection": "down",
+        "row_start": 2560,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      },
+      {
+        "layer": 63,
+        "projection": "down",
+        "row_start": 5056,
+        "shape": [
+          64,
+          17408
+        ],
+        "raw_f32_global_max_ulp": 0,
+        "runtime_f16_vs_raw_f32_max_ulp": 0
+      }
+    ],
+    "raw_f32_global_worst_ulp": 0,
+    "runtime_f16_vs_raw_f32_worst_ulp": 1,
+    "freetoken_source": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\infer\\Lib\\site-packages\\freetoken\\models\\qwen3_5_moe\\weight.py",
+    "freetoken_source_sha256": "f64988df5dd7204247efc1d417d9d042681d3ea7d68e424f3f4ee717c10a250b"
+  },
+  "template": {
+    "status": "PASS",
+    "samples": 200,
+    "forced_left_truncations": 200,
+    "answer_too_long_discarded": 200,
+    "enable_thinking": false,
+    "label_policy": "input aligned; loss shifts once; final answer+im_end; trailing newline ignored",
+    "tokenizer_load_options": {
+      "local_files_only": true,
+      "fix_mistral_regex": "unchanged default, matching Speed"
+    },
+    "speed_source_sha256": "d87daf50772a918514f5bbc99728bc30cc1320e2006dc9e186a7ea6835b279d0",
+    "speed_function_sha256": "725a75f78ac2b306f8ab55e51d268bb6aee9e9cebf1b556788b80157e684896a",
+    "goldens_sha256": "85101cea41d537e4b222b3d3054aea5b576310c3973df6c0a8ac66d73fee8a84"
+  },
+  "CPU_FP32_unconditional_reference": [
+    {
+      "layer": 0,
+      "relative_l2": 0.0028898338811390186,
+      "max_abs": 0.10406303405761719
+    },
+    {
+      "layer": 1,
+      "relative_l2": 0.0032451096070027293,
+      "max_abs": 0.13765525817871094
+    },
+    {
+      "layer": 2,
+      "relative_l2": 0.005442444857600047,
+      "max_abs": 0.19403076171875
+    },
+    {
+      "layer": 3,
+      "relative_l2": 0.004227547383222479,
+      "max_abs": 0.1935405731201172
+    }
+  ],
+  "SDPA_forward_operators": {
+    "aten::_scaled_dot_product_efficient_attention": 16
+  },
+  "base_reference_memory": {
+    "gpu_allocated": 3573386240,
+    "gpu_reserved": 3586129920,
+    "gpu_peak_allocated": 3573386752,
+    "gpu_peak_reserved": 3586129920,
+    "cpu_working_set": 18137333760,
+    "cpu_private": 25517043712,
+    "gpu_free": 12118392832,
+    "gpu_total": 17094475776,
+    "nvidia_smi": "memory.total [MiB], memory.used [MiB], memory.free [MiB]\n16303 MiB, 4534 MiB, 11462 MiB",
+    "windows_process": {
+      "rss": 18137411584,
+      "vms": 25517043712,
+      "num_page_faults": 5125330,
+      "peak_wset": 20674990080,
+      "wset": 18137411584,
+      "peak_paged_pool": 21305224,
+      "paged_pool": 11372408,
+      "peak_nonpaged_pool": 120760,
+      "nonpaged_pool": 111096,
+      "pagefile": 25517043712,
+      "peak_pagefile": 30612000768,
+      "private": 25517043712
+    },
+    "system_available": 39281569792,
+    "pinned_allocator": {
+      "active_bytes.allocated": 17179869184,
+      "active_bytes.current": 17179869184,
+      "active_bytes.freed": 0,
+      "active_bytes.peak": 17179869184,
+      "active_requests.allocated": 64,
+      "active_requests.current": 64,
+      "active_requests.freed": 0,
+      "active_requests.peak": 64,
+      "allocated_bytes.allocated": 17179869184,
+      "allocated_bytes.current": 17179869184,
+      "allocated_bytes.freed": 0,
+      "allocated_bytes.peak": 17179869184,
+      "allocations.allocated": 64,
+      "allocations.current": 64,
+      "allocations.freed": 0,
+      "allocations.peak": 64,
+      "host_alloc_time.avg": 21771,
+      "host_alloc_time.count": 64,
+      "host_alloc_time.max": 88057,
+      "host_alloc_time.min": 18672,
+      "host_alloc_time.total": 1393371,
+      "host_free_time.avg": 0,
+      "host_free_time.count": 0,
+      "host_free_time.max": 0,
+      "host_free_time.min": 0,
+      "host_free_time.total": 0,
+      "num_host_alloc": 64,
+      "num_host_free": 0
+    },
+    "inventory": {
+      "frozen_gpu_parameters": 2595273728,
+      "lora_gpu": 435159040,
+      "layer_gpu_slots": 531497056,
+      "layer_cpu_pinned_payload": 16840133760,
+      "cpu_embedding": 2542796800,
+      "rope_gpu": 256
+    }
+  },
+  "greedy": [
+    {
+      "question": "1加1等于几？只输出一个数字。",
+      "prompt_ids": [
+        248045,
+        846,
+        198,
+        16,
+        95984,
+        16,
+        102149,
+        96370,
+        10992,
+        96227,
+        100627,
+        96125,
+        99129,
+        1710,
+        248046,
+        198,
+        248045,
+        74455,
+        198,
+        248068,
+        271,
+        248069,
+        271
+      ],
+      "generated_ids": [
+        17,
+        248046
+      ],
+      "answer": "2",
+      "stopped_at_im_end": true,
+      "semantic_sanity": true,
+      "uncached_forward_seconds": [
+        2.227018699981272,
+        1.789964699972188
+      ]
+    },
+    {
+      "question": "中国的首都是哪里？只输出城市名。",
+      "prompt_ids": [
+        248045,
+        846,
+        198,
+        96328,
+        102357,
+        96878,
+        99549,
+        10992,
+        96227,
+        100627,
+        97035,
+        96009,
+        1710,
+        248046,
+        198,
+        248045,
+        74455,
+        198,
+        248068,
+        271,
+        248069,
+        271
+      ],
+      "generated_ids": [
+        98116,
+        248046
+      ],
+      "answer": "北京",
+      "stopped_at_im_end": true,
+      "semantic_sanity": true,
+      "uncached_forward_seconds": [
+        2.083815699996194,
+        1.5762047999887727
+      ]
+    },
+    {
+      "question": "请用英文说你好，只输出一个单词。",
+      "prompt_ids": [
+        248045,
+        846,
+        198,
+        139054,
+        98936,
+        96003,
+        109266,
+        3709,
+        96227,
+        100627,
+        96125,
+        109701,
+        1710,
+        248046,
+        198,
+        248045,
+        74455,
+        198,
+        248068,
+        271,
+        248069,
+        271
+      ],
+      "generated_ids": [
+        9419,
+        248046
+      ],
+      "answer": "Hello",
+      "stopped_at_im_end": true,
+      "semantic_sanity": true,
+      "uncached_forward_seconds": [
+        1.5735693000024185,
+        1.6102710000122897
+      ]
+    }
+  ],
+  "own_corpus": {
+    "base": {
+      "family": "qwen3_5_dense",
+      "source": {
+        "kind": "real-dense-checkpoint",
+        "repo": "nvidia/Qwen3.6-27B-NVFP4",
+        "revision": "0893e1606ff3d5f97a441f405d5fc541a6bdf404",
+        "shards": [
+          {
+            "filename": "model-00001-of-00003.safetensors",
+            "sha256": "b4a0d9a57ff1859dac1144b53ca285011db072737d8813fc16d8d1e07ecae17d"
+          },
+          {
+            "filename": "model-00002-of-00003.safetensors",
+            "sha256": "06da4242b0f491118d19d4d4c7564307a7bd6059c6bed284e08c93f6fc5a556d"
+          },
+          {
+            "filename": "model-00003-of-00003.safetensors",
+            "sha256": "e90f5b2bb16814a0565de284ea179edec201edfb120d13f1debaab66f9e60845"
+          }
+        ],
+        "metadata": [
+          {
+            "filename": "README.md",
+            "sha256": "371a5c5980e3b9b4df31035aab3e13dfe03b17e89bc4ab69055bd4039bf80f7d"
+          },
+          {
+            "filename": "chat_template.jinja",
+            "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259"
+          },
+          {
+            "filename": "config.json",
+            "sha256": "c04a19ba293737ad7be4f6e96d6666cb7e479cbe19ecc0c289fad267135b0338"
+          },
+          {
+            "filename": "generation_config.json",
+            "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+          },
+          {
+            "filename": "hf_quant_config.json",
+            "sha256": "fd7200cd8bca2a8a5d777061521abf83e2deb97ab6bc2f04e7a0a3d3f8ecd5c1"
+          },
+          {
+            "filename": "model.safetensors.index.json",
+            "sha256": "7aa103a2582b7d26631988de33dea19e8a308ee9c239e8e14feb374af30905e2"
+          },
+          {
+            "filename": "tokenizer.json",
+            "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b"
+          },
+          {
+            "filename": "vocab.json",
+            "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+          }
+        ]
+      },
+      "layout_version": "nvfp4-stream-dense-v1",
+      "linear_numerical_policy": "dense-packed-linear-bf16code-fp32scale-v1",
+      "nonstream_numerical_policy": "nonexpert-fp32-decode-bf16-v1",
+      "config_sha256": "f1d0617817ab75302b50dc19016000d82fdd29e55340b034edb5344172927662",
+      "nonstream_files": {
+        "nonstream-embedding.safetensors": "dd1ceb0ce462a8959531141294edea964a2907b93c78e0871c08ea4f75586703",
+        "nonstream-layer-00.safetensors": "3fe0d7b2789f281ee36585c5ed8db8ff3018f2ba926c709554e2ce5b42029ea6",
+        "nonstream-layer-01.safetensors": "49cc3440928b491486a5bf7681759fe04b82e053b4ce90d132cba9e8e7c0cd43",
+        "nonstream-layer-02.safetensors": "da61b0617d6f151516279028942be1288f915172e9d67433c3ad67561a85638a",
+        "nonstream-layer-03.safetensors": "61c3d9e94e94377b737ca7750cfe75fa4da66d7112f5ea7e1aec81db37f0c122",
+        "nonstream-layer-04.safetensors": "250ebed1a690a7d727ef0ca3250c1014290d0c7d7a88ea6e06bcbb8726deacbb",
+        "nonstream-layer-05.safetensors": "ab9ea00298d2e54c7a8de6dd77247844e078a9ca94713f138b607b16c1cf202c",
+        "nonstream-layer-06.safetensors": "d4ce749488a8daf348ba0b7c75204239e0498d57d2f3e0665bc125f495c04f86",
+        "nonstream-layer-07.safetensors": "ee23959c33c8e287683a694bb11971d4b50ea46496009c44a22198acba4d6ccd",
+        "nonstream-layer-08.safetensors": "4a8019bdd0f19666e454578efd518dfe73e74e6cd0a46b11498fe83ba838c60f",
+        "nonstream-layer-09.safetensors": "d45996b421af39404a9ab56a9e680df778972a2cf7c8f8615f66aeca6cd04229",
+        "nonstream-layer-10.safetensors": "b946bf711089f24b43cb7ef72a3b5f25cc985a3070db0ae2ca437ffd571b9fb4",
+        "nonstream-layer-11.safetensors": "d7b78dff17cce16d950878cc22dae62717b537514aeff877dce130a7c62e4160",
+        "nonstream-layer-12.safetensors": "0186378f8aa3b40ed38998a1a3a4955ef3eff8ce6f5266e6ee0cb5179b769cf2",
+        "nonstream-layer-13.safetensors": "2a8de6fb0b9a34d73782dfbb38b485da913682c0c3c70953539cadd56ebf58ee",
+        "nonstream-layer-14.safetensors": "8d06b52f9b28a3018f079c5fb6831fa3216d99ea7f8e7930fcec3703514376d2",
+        "nonstream-layer-15.safetensors": "041c61944bf1bf94a0bcc0ba10b2cff1ad6a4c4a5bc2054d1ea28a10085fa83b",
+        "nonstream-layer-16.safetensors": "244993e22fa9286de83d0906e96ca6e34eba71cb6de149ff551ee0ee4d1a52b2",
+        "nonstream-layer-17.safetensors": "8f0607701623eb4b62d5431494add3422755f6e8b22af62a0c5704c932934117",
+        "nonstream-layer-18.safetensors": "04a1bd88825e0640f7ae61e13cbf99ef32c142e4c5932a58983b86a58a99f9bd",
+        "nonstream-layer-19.safetensors": "6916f3d100ac0ab4d7210d122aa0eedcc7f2833877d7a509990992fddea168db",
+        "nonstream-layer-20.safetensors": "02a31bf70006814ee194e7433bea6b7206ebe4f46aacae48a8a44fca2e3c1c70",
+        "nonstream-layer-21.safetensors": "70967c776cb81c743ec3417c64dbbe8a76bf6b4617f1497c16a6b74022f7329e",
+        "nonstream-layer-22.safetensors": "91055f9ba40ce46099e06c2cee953cc50e6066ac37d12020a64dbab25af650c2",
+        "nonstream-layer-23.safetensors": "5a3f0538255e10380868c8c3369388082a77a19cf67fe9ef9e0ee47404afde82",
+        "nonstream-layer-24.safetensors": "5c442e9a9a7467c464819c72442914f11e104bd898e8dff6e06f1774f93576ec",
+        "nonstream-layer-25.safetensors": "ff26ebc68a57feca4abbeb49488871f459a8e6455ffd20d0856af5806cf0801e",
+        "nonstream-layer-26.safetensors": "ea6ae4601efd7f54ec1d1bc98cbca568e706606536d12dc88ccc10ecb05d4a8e",
+        "nonstream-layer-27.safetensors": "e1ec789cfcf951a07db69451d3a815f1ba4740120f3cc540cd1e10791206479c",
+        "nonstream-layer-28.safetensors": "bb4e5a19f20e4ece9bcfa13471e351ec8831e0ee058d1967fdd2e495b3f2219f",
+        "nonstream-layer-29.safetensors": "c79746e9aca72dc400b8d847e70e30f912434d3bd5a795659eff4e02cf4a8550",
+        "nonstream-layer-30.safetensors": "0b6132db0cb40c3296b0e478b66faa95d983a36f27677c617a4ad95aff3de2e0",
+        "nonstream-layer-31.safetensors": "28694e12a3427cbf6acef384ad0792c00c06fee2afa14ff74d829f24d6154834",
+        "nonstream-layer-32.safetensors": "985c61335069a7b835289ef2105c25c2d376312cb4039304553c5fec0dadc773",
+        "nonstream-layer-33.safetensors": "cf3c349eba9ca9fafe900d68451ad8931ca2301aae500e32ea39cfa2e00df1b9",
+        "nonstream-layer-34.safetensors": "4a645c8b82e828e49f365c4e36116f67a364aecc043a8f5db4761d81d0621a59",
+        "nonstream-layer-35.safetensors": "c162688114ba09befc8a4e37cea7a92a455341843e365601f8bec4846b52b1b4",
+        "nonstream-layer-36.safetensors": "624022b1c1ca4690b74d615dba40ed6648cdea060cf0136f16b14edc1546443d",
+        "nonstream-layer-37.safetensors": "f7e2b6869d98199c1840c5c71460ccedbc4af5f8b545a3b24d25af6e96fd73c9",
+        "nonstream-layer-38.safetensors": "dcd5bcfb1b5af1cdcc959ff531fe2e5ad73595ba55f74210fb9aa9cb7d8150e4",
+        "nonstream-layer-39.safetensors": "d46923f27655b89db14cd5c657d529122c8f3937be57a9b77a5b711745420f30",
+        "nonstream-layer-40.safetensors": "d7c87e207f3dce61ffddf8857f2113661bf9aef6e37a6edf80732bcca40b7af4",
+        "nonstream-layer-41.safetensors": "32f20c5a9e6d88df02df022f4fc2bd956521ef2d438b7dff274aaccb985e88fb",
+        "nonstream-layer-42.safetensors": "c6646a0b0f57468b680439e1a885e551b516c5124035e93613cb96cfed8800ff",
+        "nonstream-layer-43.safetensors": "cf8e084b71a5f79935b41a712ad180e61910248cf82140fd9a4e805b19f4d136",
+        "nonstream-layer-44.safetensors": "6ff49dadf76c5314616b5e2b87d2f701d7da5e75e0a341eab5c934c4e55c72da",
+        "nonstream-layer-45.safetensors": "79b58a2ec1d951a6c5c82bf6f7b74bf3f9f8e0dcc8f84af93d8d08334d99c825",
+        "nonstream-layer-46.safetensors": "c46994597d3b8fcf6ce01c1e0e8b19ab12eb5f1d232cfcc01c03316e241c7d4a",
+        "nonstream-layer-47.safetensors": "fba60233a748231ddf971ff561face2f51edab04d82e0a7af698c0ea123d8802",
+        "nonstream-layer-48.safetensors": "782cf579b3aa14cc8734c62f70c150267193ab1ab0e749385b226a80cd56a01a",
+        "nonstream-layer-49.safetensors": "d15f0f881e9d54f6f9ef88c42c8cc31f915a63cd74959202a24935d67680f018",
+        "nonstream-layer-50.safetensors": "e481191fb08b5d2fea3c6cb9b0169665a7a68f6e7993f4efb4fd2276d8e6688a",
+        "nonstream-layer-51.safetensors": "e26300626d844604e3c4a96f11f00ee13142dd4adfac33ce5facf0b762f23b6f",
+        "nonstream-layer-52.safetensors": "4f769f7d01473c3bfd76443e27a2c20900e9bb9296f96fd3344fadb40bed3aa8",
+        "nonstream-layer-53.safetensors": "d3a709c36b5d0014bc8b4c52b0b14e2d3f38cdd2f7615610e81e22cc773a55dd",
+        "nonstream-layer-54.safetensors": "82364dcc5f40dee64eaa4da0373df5cf91e08b28a93d16d323268d704e715d1b",
+        "nonstream-layer-55.safetensors": "a69f57e9d4747479cdefaf5ac73ac507a1ad7a26540c2996bcddaf8aef96c4cb",
+        "nonstream-layer-56.safetensors": "8f3f5f5698b58db0630f5d0abcb74e51d327e75f1409ce86099902a056c34796",
+        "nonstream-layer-57.safetensors": "f4576625f6e159a5558fd9f1d8331683abc0a0b66a0ac8337ac8b0eb64e746e8",
+        "nonstream-layer-58.safetensors": "b3b2a536dae7dc7323c03547a92886c4d7063b60772b6a6f817c4a989f84da52",
+        "nonstream-layer-59.safetensors": "3078cdf3c73e9255166a49deae20a0fad15c7b40d983db85822a62b8b0cf5052",
+        "nonstream-layer-60.safetensors": "cdf3873ace97ec1895478b3af5247e1e3777457c4c8bf36f66a211dfdcaac390",
+        "nonstream-layer-61.safetensors": "f5a9e5e5e31a5d163cb532fcddb35e8c4d4f041146cb675439fa6abeef0814d0",
+        "nonstream-layer-62.safetensors": "d597a85066eca2c0b4307472599d405bd0dfb87bfb88bd01ddb7c06b8904049b",
+        "nonstream-layer-63.safetensors": "007321342abb256f87779a368f971089ed3e7f731d7e6d72883811625b2a4c34",
+        "nonstream-lm_head.safetensors": "538cc6360d0a0df4cc2843b6fd29164d3e24edd913947641c461977005823085",
+        "nonstream-norm.safetensors": "37dfdc205e83e9124b00246390dd3b5e1ad1b3a94aa53b9c750e621b2f0699ee"
+      },
+      "layer_files": {
+        "layer-00.safetensors": "aeb3211c0ef1c265ad0a68a0eec9be639c5b6520661e9e88b33fc36946cf3413",
+        "layer-01.safetensors": "edcd271295fd880bca97ed6a865e7b32d4c722d25d8c185c7f491796c82c6bbd",
+        "layer-02.safetensors": "8105eb07352d46346a5bd5a967e5274f35db3b4967fc3a3cfc46f655c3edbfac",
+        "layer-03.safetensors": "1ef46df1576b320df70da05ec2ffcbdaaaf74ed5e277e0b3b86d011d45f26720",
+        "layer-04.safetensors": "b923a4a03d4a1a2679808b582f4ed881ac9e05331d7ed62d518cc12a7de573a8",
+        "layer-05.safetensors": "7c1bd66d697eed9f415720f8b895dd04a12d7993cd4be5036fa56fc1af9f094d",
+        "layer-06.safetensors": "86a277dd7444ead63427076ef66e884417f9fb307bfa6373d41ceaa8555263d1",
+        "layer-07.safetensors": "4477e215c5c87b4e9daee7f8d75a1b608b74a42a80610ff2f3ada20f66dbecc6",
+        "layer-08.safetensors": "e07254e0ced4da948a538d1f2eabdb10428d53a213c78a07ccbad665dd66ca90",
+        "layer-09.safetensors": "2dad5ce3b290cfb4732af65862f9233a78081ee8663798ec808baf87f0f21bb7",
+        "layer-10.safetensors": "2af38983f9fdae408484ac6fc7f9bd9eb835638ad30266455d31c9872f6731f2",
+        "layer-11.safetensors": "81964aad7b65296cb0e4bd40ae82b0d664ea6562f93c552b01c2c2b517235cf0",
+        "layer-12.safetensors": "1e3ddc1e810d10e6cdc8de953849f2b04286c9c28762bafb7a6a2c6780085bdb",
+        "layer-13.safetensors": "14eb45a960b7ae7ac38b3295c5b11d393243a008bbe15d0a815a2e3839eeb314",
+        "layer-14.safetensors": "eef615bc238954caffeb7f945c05ceb1344969e29603a0f2dc586ad6e30b1fc5",
+        "layer-15.safetensors": "afb7fdf2947aed2b733ff40a4fec647d593c32d151d1e5a69b98b6d46e286924",
+        "layer-16.safetensors": "4a3b951c04b63da81096883f1de500de2aedb3e8822c4084e5760e55d1c51a46",
+        "layer-17.safetensors": "b00329745ebff800382313e5bd6550a26d778e590a4acf188ade300b59bdad49",
+        "layer-18.safetensors": "81368b045febbe5993afad94f810be54b265050acdebafa36639808897ad217a",
+        "layer-19.safetensors": "5157ba162ffc595e55f13c33a3bbbc428b6dc8c9d63bf184c9964f9afb8a3d02",
+        "layer-20.safetensors": "47d2e37380d559e47905b915dc232bbf1dd0584382994dcf7f9d343a1ea94a10",
+        "layer-21.safetensors": "55200e9e17ad4a5bcd82764eb634dad94a9789a675d16577da66cf5c05d27c4b",
+        "layer-22.safetensors": "f07718310d4163c75ac8d52d99a05141d5604fc8864bd01a3e7706a632bb3698",
+        "layer-23.safetensors": "ed7c482744d2ce4c6af594ce2bdb8e3eafaa1ac0b6a5a3a359acb0ad4531b397",
+        "layer-24.safetensors": "df0d35143e980bf7e1204de7c4871b3fa4e96276a855176bbd9c0c9e940b6b7b",
+        "layer-25.safetensors": "c4e75e8903751079d3963d5c2edef3cfc480716a00ebfeba0b2f3406446ccaa9",
+        "layer-26.safetensors": "0af01699aca57442f8081d42b24bb922b102cedba08c2c41318bb6a0c020694f",
+        "layer-27.safetensors": "02f94ebef2e58f012cb47d940140522f238c546a70fbf7e1c549087e739c3df1",
+        "layer-28.safetensors": "281faf3e2e1a0b97e3f77ce35abdf6c3e6bc4f136bf595ec88abbec8dc4fa73a",
+        "layer-29.safetensors": "a8ef8247b2487ae6602b96588e18064b5ce5eeae5fa32183719d2ffbaa417bc3",
+        "layer-30.safetensors": "6f6c9a0d190885afc8b8c0bdb2609efe421ea325fdc68d90295091ab37556d18",
+        "layer-31.safetensors": "3bd18376d9c05e5926697f2f32c31ee6a2d662d7db03cd0ba02357918ea479ff",
+        "layer-32.safetensors": "0e170a713b940a84964deb846782a6615b7479be9977e207a3878910d36ed847",
+        "layer-33.safetensors": "e9919924ba2b216881757c9471afa43c8d75d2c85876a27a9b60a3fe3149f353",
+        "layer-34.safetensors": "952c38d2b309feab89ceee23e51caeb55d192c13d5e603ee8be30cd5a378ea99",
+        "layer-35.safetensors": "48572abc5d7086f480670b5177a8af244fcd0c0971fe4f003c7df9c6fac55e28",
+        "layer-36.safetensors": "5f3de75060bb06c3900e0cf9c0ada80a9da0cdb1e13f04d4a4ed2fd8d143887a",
+        "layer-37.safetensors": "4489f808e07a4b49a2562a5c401f272cde2473c893aaba27f4905d622792be58",
+        "layer-38.safetensors": "20af36cba0e4eb968cceffddff67fe73d1fd98136c7e08d0cf515cb439f15544",
+        "layer-39.safetensors": "693891e6c6a488e1a0a5caaf4d7cd11c7530828bd915451a0fde3b5dd8d21bdf",
+        "layer-40.safetensors": "3baf00b632ad6a97f803069f01f57e8dfb0fb66496c0178048e1e947e612a16f",
+        "layer-41.safetensors": "088fbd95894d75960834dfa5843b302dc9860bef53cce99d554109f3af357efa",
+        "layer-42.safetensors": "3c5f5f4b9bee076ac93cc182a660acde96a10a2851d70c6f1e0e0975fb9c8a09",
+        "layer-43.safetensors": "8a58f711f50ba5f8db8762e2d3da8fe251b77029c37d48f0498d2a3b1579dfc5",
+        "layer-44.safetensors": "42b42846ae3ce209b2d1c3e6c9f73d70cf3de24bba0ab81d4b96fb5946b27369",
+        "layer-45.safetensors": "5e84b51808a81641a6a24100bac208ec9e286d4164e67f710ef7b54cf7a3b66e",
+        "layer-46.safetensors": "edd77dc3aafd1798528401327beb70e4607b94da1ec7cad1d6ed7e4fc5832002",
+        "layer-47.safetensors": "5a89cce38c31d04e55791268bdcfcea6c806b73aae545c37d6d278b108df3007",
+        "layer-48.safetensors": "ffb05761cebdf124363d0477e6a5d487d9aad980b31ff7a643abec9c99d1b92f",
+        "layer-49.safetensors": "24b1e1039926f909b8ad8394127277baded10c728b11717277a6ef067a870bbd",
+        "layer-50.safetensors": "f5ff7be70c3839b5328000f76c0f086840b93e26ae65a8ed258036fb9568c292",
+        "layer-51.safetensors": "38ffd2af0acd2cbe1628e442a03a6cb73928b92b269d13de99a398a84acab12e",
+        "layer-52.safetensors": "496214874b3eba133ff73cced3499798b4242f7b25a6155b578b286c0f9776e7",
+        "layer-53.safetensors": "0fcfc322c800e37c1a3b47ad7a0eeac3859a44acef293c12bcc9c0d099809080",
+        "layer-54.safetensors": "defae91ed7532a3d412adbf6ec294eea87a3815a2331ab4d10c7078732431e4a",
+        "layer-55.safetensors": "85b0dcda2209aaea8e44dab929da4c4736b235b058c213537389c89efb6c207e",
+        "layer-56.safetensors": "7878e1d8441453defc45509e945227c831d60da0982a35810b3d7bfd85c614af",
+        "layer-57.safetensors": "2d3a9730a537046bda1befbf0e67cac2b116354e4ee3b7b295aa66041f68a98d",
+        "layer-58.safetensors": "7a89911391aac947b67a771421d38029430fba77bcb9372135f2b3458176b51c",
+        "layer-59.safetensors": "5bb7880669e45af63854e6859246f4e57d900a2102a90ce4f21420b781f20b22",
+        "layer-60.safetensors": "3b9c12abb0978b6ac7b395fb18058cec7036d03d0c26ee82ec212a05e7b3a3b4",
+        "layer-61.safetensors": "f2e361d5df8f56ef9df0b79ab28ba3b7c2c6a498afad9e6ea7a6eea9c242e530",
+        "layer-62.safetensors": "a3405ff6ae86fd918a013be496744fdb7586c792161839aadfb63c8cbcfc90a7",
+        "layer-63.safetensors": "39087e6ec39a4a987314e1c6457330088558622688804e5a43ea5d6220be4750"
+      },
+      "tokenizer_source_hashes": {
+        "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+        "tokenizer_config.json": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b",
+        "chat_template.jinja": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+        "vocab.json": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+      }
+    },
+    "counts": {
+      "canary_train": 300,
+      "canary_holdout": 50,
+      "base_generated_replay": 300,
+      "training_total": 600
+    },
+    "files": {
+      "canary-holdout.jsonl": "a36a09da9388f3490368504efcbd640d59c24db4a9fdc889392cc7fad5dd510c",
+      "canary-train.jsonl": "0c18c68cc4e324627f5d407c760f83105ebe958a97c3ac4bfc177332a9099355",
+      "replay.jsonl": "b14b93d13c43b6efb0abefa0c9f95b9b1ab4b556f296e7386625130f3d509a0b",
+      "train.jsonl": "ea94a7a2420a72ddd3990bd5e12f7880b4ee03f99852c2458de541ed5c19cfc0"
+    }
+  },
+  "base_metrics": {
+    "status": "PASS",
+    "scope": "Base metrics only; no optimizer steps or accepted functional threshold",
+    "base": {
+      "family": "qwen3_5_dense",
+      "source": {
+        "kind": "real-dense-checkpoint",
+        "repo": "nvidia/Qwen3.6-27B-NVFP4",
+        "revision": "0893e1606ff3d5f97a441f405d5fc541a6bdf404",
+        "shards": [
+          {
+            "filename": "model-00001-of-00003.safetensors",
+            "sha256": "b4a0d9a57ff1859dac1144b53ca285011db072737d8813fc16d8d1e07ecae17d"
+          },
+          {
+            "filename": "model-00002-of-00003.safetensors",
+            "sha256": "06da4242b0f491118d19d4d4c7564307a7bd6059c6bed284e08c93f6fc5a556d"
+          },
+          {
+            "filename": "model-00003-of-00003.safetensors",
+            "sha256": "e90f5b2bb16814a0565de284ea179edec201edfb120d13f1debaab66f9e60845"
+          }
+        ],
+        "metadata": [
+          {
+            "filename": "README.md",
+            "sha256": "371a5c5980e3b9b4df31035aab3e13dfe03b17e89bc4ab69055bd4039bf80f7d"
+          },
+          {
+            "filename": "chat_template.jinja",
+            "sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259"
+          },
+          {
+            "filename": "config.json",
+            "sha256": "c04a19ba293737ad7be4f6e96d6666cb7e479cbe19ecc0c289fad267135b0338"
+          },
+          {
+            "filename": "generation_config.json",
+            "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e"
+          },
+          {
+            "filename": "hf_quant_config.json",
+            "sha256": "fd7200cd8bca2a8a5d777061521abf83e2deb97ab6bc2f04e7a0a3d3f8ecd5c1"
+          },
+          {
+            "filename": "model.safetensors.index.json",
+            "sha256": "7aa103a2582b7d26631988de33dea19e8a308ee9c239e8e14feb374af30905e2"
+          },
+          {
+            "filename": "tokenizer.json",
+            "sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42"
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "sha256": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b"
+          },
+          {
+            "filename": "vocab.json",
+            "sha256": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+          }
+        ]
+      },
+      "layout_version": "nvfp4-stream-dense-v1",
+      "linear_numerical_policy": "dense-packed-linear-bf16code-fp32scale-v1",
+      "nonstream_numerical_policy": "nonexpert-fp32-decode-bf16-v1",
+      "config_sha256": "f1d0617817ab75302b50dc19016000d82fdd29e55340b034edb5344172927662",
+      "nonstream_files": {
+        "nonstream-embedding.safetensors": "dd1ceb0ce462a8959531141294edea964a2907b93c78e0871c08ea4f75586703",
+        "nonstream-layer-00.safetensors": "3fe0d7b2789f281ee36585c5ed8db8ff3018f2ba926c709554e2ce5b42029ea6",
+        "nonstream-layer-01.safetensors": "49cc3440928b491486a5bf7681759fe04b82e053b4ce90d132cba9e8e7c0cd43",
+        "nonstream-layer-02.safetensors": "da61b0617d6f151516279028942be1288f915172e9d67433c3ad67561a85638a",
+        "nonstream-layer-03.safetensors": "61c3d9e94e94377b737ca7750cfe75fa4da66d7112f5ea7e1aec81db37f0c122",
+        "nonstream-layer-04.safetensors": "250ebed1a690a7d727ef0ca3250c1014290d0c7d7a88ea6e06bcbb8726deacbb",
+        "nonstream-layer-05.safetensors": "ab9ea00298d2e54c7a8de6dd77247844e078a9ca94713f138b607b16c1cf202c",
+        "nonstream-layer-06.safetensors": "d4ce749488a8daf348ba0b7c75204239e0498d57d2f3e0665bc125f495c04f86",
+        "nonstream-layer-07.safetensors": "ee23959c33c8e287683a694bb11971d4b50ea46496009c44a22198acba4d6ccd",
+        "nonstream-layer-08.safetensors": "4a8019bdd0f19666e454578efd518dfe73e74e6cd0a46b11498fe83ba838c60f",
+        "nonstream-layer-09.safetensors": "d45996b421af39404a9ab56a9e680df778972a2cf7c8f8615f66aeca6cd04229",
+        "nonstream-layer-10.safetensors": "b946bf711089f24b43cb7ef72a3b5f25cc985a3070db0ae2ca437ffd571b9fb4",
+        "nonstream-layer-11.safetensors": "d7b78dff17cce16d950878cc22dae62717b537514aeff877dce130a7c62e4160",
+        "nonstream-layer-12.safetensors": "0186378f8aa3b40ed38998a1a3a4955ef3eff8ce6f5266e6ee0cb5179b769cf2",
+        "nonstream-layer-13.safetensors": "2a8de6fb0b9a34d73782dfbb38b485da913682c0c3c70953539cadd56ebf58ee",
+        "nonstream-layer-14.safetensors": "8d06b52f9b28a3018f079c5fb6831fa3216d99ea7f8e7930fcec3703514376d2",
+        "nonstream-layer-15.safetensors": "041c61944bf1bf94a0bcc0ba10b2cff1ad6a4c4a5bc2054d1ea28a10085fa83b",
+        "nonstream-layer-16.safetensors": "244993e22fa9286de83d0906e96ca6e34eba71cb6de149ff551ee0ee4d1a52b2",
+        "nonstream-layer-17.safetensors": "8f0607701623eb4b62d5431494add3422755f6e8b22af62a0c5704c932934117",
+        "nonstream-layer-18.safetensors": "04a1bd88825e0640f7ae61e13cbf99ef32c142e4c5932a58983b86a58a99f9bd",
+        "nonstream-layer-19.safetensors": "6916f3d100ac0ab4d7210d122aa0eedcc7f2833877d7a509990992fddea168db",
+        "nonstream-layer-20.safetensors": "02a31bf70006814ee194e7433bea6b7206ebe4f46aacae48a8a44fca2e3c1c70",
+        "nonstream-layer-21.safetensors": "70967c776cb81c743ec3417c64dbbe8a76bf6b4617f1497c16a6b74022f7329e",
+        "nonstream-layer-22.safetensors": "91055f9ba40ce46099e06c2cee953cc50e6066ac37d12020a64dbab25af650c2",
+        "nonstream-layer-23.safetensors": "5a3f0538255e10380868c8c3369388082a77a19cf67fe9ef9e0ee47404afde82",
+        "nonstream-layer-24.safetensors": "5c442e9a9a7467c464819c72442914f11e104bd898e8dff6e06f1774f93576ec",
+        "nonstream-layer-25.safetensors": "ff26ebc68a57feca4abbeb49488871f459a8e6455ffd20d0856af5806cf0801e",
+        "nonstream-layer-26.safetensors": "ea6ae4601efd7f54ec1d1bc98cbca568e706606536d12dc88ccc10ecb05d4a8e",
+        "nonstream-layer-27.safetensors": "e1ec789cfcf951a07db69451d3a815f1ba4740120f3cc540cd1e10791206479c",
+        "nonstream-layer-28.safetensors": "bb4e5a19f20e4ece9bcfa13471e351ec8831e0ee058d1967fdd2e495b3f2219f",
+        "nonstream-layer-29.safetensors": "c79746e9aca72dc400b8d847e70e30f912434d3bd5a795659eff4e02cf4a8550",
+        "nonstream-layer-30.safetensors": "0b6132db0cb40c3296b0e478b66faa95d983a36f27677c617a4ad95aff3de2e0",
+        "nonstream-layer-31.safetensors": "28694e12a3427cbf6acef384ad0792c00c06fee2afa14ff74d829f24d6154834",
+        "nonstream-layer-32.safetensors": "985c61335069a7b835289ef2105c25c2d376312cb4039304553c5fec0dadc773",
+        "nonstream-layer-33.safetensors": "cf3c349eba9ca9fafe900d68451ad8931ca2301aae500e32ea39cfa2e00df1b9",
+        "nonstream-layer-34.safetensors": "4a645c8b82e828e49f365c4e36116f67a364aecc043a8f5db4761d81d0621a59",
+        "nonstream-layer-35.safetensors": "c162688114ba09befc8a4e37cea7a92a455341843e365601f8bec4846b52b1b4",
+        "nonstream-layer-36.safetensors": "624022b1c1ca4690b74d615dba40ed6648cdea060cf0136f16b14edc1546443d",
+        "nonstream-layer-37.safetensors": "f7e2b6869d98199c1840c5c71460ccedbc4af5f8b545a3b24d25af6e96fd73c9",
+        "nonstream-layer-38.safetensors": "dcd5bcfb1b5af1cdcc959ff531fe2e5ad73595ba55f74210fb9aa9cb7d8150e4",
+        "nonstream-layer-39.safetensors": "d46923f27655b89db14cd5c657d529122c8f3937be57a9b77a5b711745420f30",
+        "nonstream-layer-40.safetensors": "d7c87e207f3dce61ffddf8857f2113661bf9aef6e37a6edf80732bcca40b7af4",
+        "nonstream-layer-41.safetensors": "32f20c5a9e6d88df02df022f4fc2bd956521ef2d438b7dff274aaccb985e88fb",
+        "nonstream-layer-42.safetensors": "c6646a0b0f57468b680439e1a885e551b516c5124035e93613cb96cfed8800ff",
+        "nonstream-layer-43.safetensors": "cf8e084b71a5f79935b41a712ad180e61910248cf82140fd9a4e805b19f4d136",
+        "nonstream-layer-44.safetensors": "6ff49dadf76c5314616b5e2b87d2f701d7da5e75e0a341eab5c934c4e55c72da",
+        "nonstream-layer-45.safetensors": "79b58a2ec1d951a6c5c82bf6f7b74bf3f9f8e0dcc8f84af93d8d08334d99c825",
+        "nonstream-layer-46.safetensors": "c46994597d3b8fcf6ce01c1e0e8b19ab12eb5f1d232cfcc01c03316e241c7d4a",
+        "nonstream-layer-47.safetensors": "fba60233a748231ddf971ff561face2f51edab04d82e0a7af698c0ea123d8802",
+        "nonstream-layer-48.safetensors": "782cf579b3aa14cc8734c62f70c150267193ab1ab0e749385b226a80cd56a01a",
+        "nonstream-layer-49.safetensors": "d15f0f881e9d54f6f9ef88c42c8cc31f915a63cd74959202a24935d67680f018",
+        "nonstream-layer-50.safetensors": "e481191fb08b5d2fea3c6cb9b0169665a7a68f6e7993f4efb4fd2276d8e6688a",
+        "nonstream-layer-51.safetensors": "e26300626d844604e3c4a96f11f00ee13142dd4adfac33ce5facf0b762f23b6f",
+        "nonstream-layer-52.safetensors": "4f769f7d01473c3bfd76443e27a2c20900e9bb9296f96fd3344fadb40bed3aa8",
+        "nonstream-layer-53.safetensors": "d3a709c36b5d0014bc8b4c52b0b14e2d3f38cdd2f7615610e81e22cc773a55dd",
+        "nonstream-layer-54.safetensors": "82364dcc5f40dee64eaa4da0373df5cf91e08b28a93d16d323268d704e715d1b",
+        "nonstream-layer-55.safetensors": "a69f57e9d4747479cdefaf5ac73ac507a1ad7a26540c2996bcddaf8aef96c4cb",
+        "nonstream-layer-56.safetensors": "8f3f5f5698b58db0630f5d0abcb74e51d327e75f1409ce86099902a056c34796",
+        "nonstream-layer-57.safetensors": "f4576625f6e159a5558fd9f1d8331683abc0a0b66a0ac8337ac8b0eb64e746e8",
+        "nonstream-layer-58.safetensors": "b3b2a536dae7dc7323c03547a92886c4d7063b60772b6a6f817c4a989f84da52",
+        "nonstream-layer-59.safetensors": "3078cdf3c73e9255166a49deae20a0fad15c7b40d983db85822a62b8b0cf5052",
+        "nonstream-layer-60.safetensors": "cdf3873ace97ec1895478b3af5247e1e3777457c4c8bf36f66a211dfdcaac390",
+        "nonstream-layer-61.safetensors": "f5a9e5e5e31a5d163cb532fcddb35e8c4d4f041146cb675439fa6abeef0814d0",
+        "nonstream-layer-62.safetensors": "d597a85066eca2c0b4307472599d405bd0dfb87bfb88bd01ddb7c06b8904049b",
+        "nonstream-layer-63.safetensors": "007321342abb256f87779a368f971089ed3e7f731d7e6d72883811625b2a4c34",
+        "nonstream-lm_head.safetensors": "538cc6360d0a0df4cc2843b6fd29164d3e24edd913947641c461977005823085",
+        "nonstream-norm.safetensors": "37dfdc205e83e9124b00246390dd3b5e1ad1b3a94aa53b9c750e621b2f0699ee"
+      },
+      "layer_files": {
+        "layer-00.safetensors": "aeb3211c0ef1c265ad0a68a0eec9be639c5b6520661e9e88b33fc36946cf3413",
+        "layer-01.safetensors": "edcd271295fd880bca97ed6a865e7b32d4c722d25d8c185c7f491796c82c6bbd",
+        "layer-02.safetensors": "8105eb07352d46346a5bd5a967e5274f35db3b4967fc3a3cfc46f655c3edbfac",
+        "layer-03.safetensors": "1ef46df1576b320df70da05ec2ffcbdaaaf74ed5e277e0b3b86d011d45f26720",
+        "layer-04.safetensors": "b923a4a03d4a1a2679808b582f4ed881ac9e05331d7ed62d518cc12a7de573a8",
+        "layer-05.safetensors": "7c1bd66d697eed9f415720f8b895dd04a12d7993cd4be5036fa56fc1af9f094d",
+        "layer-06.safetensors": "86a277dd7444ead63427076ef66e884417f9fb307bfa6373d41ceaa8555263d1",
+        "layer-07.safetensors": "4477e215c5c87b4e9daee7f8d75a1b608b74a42a80610ff2f3ada20f66dbecc6",
+        "layer-08.safetensors": "e07254e0ced4da948a538d1f2eabdb10428d53a213c78a07ccbad665dd66ca90",
+        "layer-09.safetensors": "2dad5ce3b290cfb4732af65862f9233a78081ee8663798ec808baf87f0f21bb7",
+        "layer-10.safetensors": "2af38983f9fdae408484ac6fc7f9bd9eb835638ad30266455d31c9872f6731f2",
+        "layer-11.safetensors": "81964aad7b65296cb0e4bd40ae82b0d664ea6562f93c552b01c2c2b517235cf0",
+        "layer-12.safetensors": "1e3ddc1e810d10e6cdc8de953849f2b04286c9c28762bafb7a6a2c6780085bdb",
+        "layer-13.safetensors": "14eb45a960b7ae7ac38b3295c5b11d393243a008bbe15d0a815a2e3839eeb314",
+        "layer-14.safetensors": "eef615bc238954caffeb7f945c05ceb1344969e29603a0f2dc586ad6e30b1fc5",
+        "layer-15.safetensors": "afb7fdf2947aed2b733ff40a4fec647d593c32d151d1e5a69b98b6d46e286924",
+        "layer-16.safetensors": "4a3b951c04b63da81096883f1de500de2aedb3e8822c4084e5760e55d1c51a46",
+        "layer-17.safetensors": "b00329745ebff800382313e5bd6550a26d778e590a4acf188ade300b59bdad49",
+        "layer-18.safetensors": "81368b045febbe5993afad94f810be54b265050acdebafa36639808897ad217a",
+        "layer-19.safetensors": "5157ba162ffc595e55f13c33a3bbbc428b6dc8c9d63bf184c9964f9afb8a3d02",
+        "layer-20.safetensors": "47d2e37380d559e47905b915dc232bbf1dd0584382994dcf7f9d343a1ea94a10",
+        "layer-21.safetensors": "55200e9e17ad4a5bcd82764eb634dad94a9789a675d16577da66cf5c05d27c4b",
+        "layer-22.safetensors": "f07718310d4163c75ac8d52d99a05141d5604fc8864bd01a3e7706a632bb3698",
+        "layer-23.safetensors": "ed7c482744d2ce4c6af594ce2bdb8e3eafaa1ac0b6a5a3a359acb0ad4531b397",
+        "layer-24.safetensors": "df0d35143e980bf7e1204de7c4871b3fa4e96276a855176bbd9c0c9e940b6b7b",
+        "layer-25.safetensors": "c4e75e8903751079d3963d5c2edef3cfc480716a00ebfeba0b2f3406446ccaa9",
+        "layer-26.safetensors": "0af01699aca57442f8081d42b24bb922b102cedba08c2c41318bb6a0c020694f",
+        "layer-27.safetensors": "02f94ebef2e58f012cb47d940140522f238c546a70fbf7e1c549087e739c3df1",
+        "layer-28.safetensors": "281faf3e2e1a0b97e3f77ce35abdf6c3e6bc4f136bf595ec88abbec8dc4fa73a",
+        "layer-29.safetensors": "a8ef8247b2487ae6602b96588e18064b5ce5eeae5fa32183719d2ffbaa417bc3",
+        "layer-30.safetensors": "6f6c9a0d190885afc8b8c0bdb2609efe421ea325fdc68d90295091ab37556d18",
+        "layer-31.safetensors": "3bd18376d9c05e5926697f2f32c31ee6a2d662d7db03cd0ba02357918ea479ff",
+        "layer-32.safetensors": "0e170a713b940a84964deb846782a6615b7479be9977e207a3878910d36ed847",
+        "layer-33.safetensors": "e9919924ba2b216881757c9471afa43c8d75d2c85876a27a9b60a3fe3149f353",
+        "layer-34.safetensors": "952c38d2b309feab89ceee23e51caeb55d192c13d5e603ee8be30cd5a378ea99",
+        "layer-35.safetensors": "48572abc5d7086f480670b5177a8af244fcd0c0971fe4f003c7df9c6fac55e28",
+        "layer-36.safetensors": "5f3de75060bb06c3900e0cf9c0ada80a9da0cdb1e13f04d4a4ed2fd8d143887a",
+        "layer-37.safetensors": "4489f808e07a4b49a2562a5c401f272cde2473c893aaba27f4905d622792be58",
+        "layer-38.safetensors": "20af36cba0e4eb968cceffddff67fe73d1fd98136c7e08d0cf515cb439f15544",
+        "layer-39.safetensors": "693891e6c6a488e1a0a5caaf4d7cd11c7530828bd915451a0fde3b5dd8d21bdf",
+        "layer-40.safetensors": "3baf00b632ad6a97f803069f01f57e8dfb0fb66496c0178048e1e947e612a16f",
+        "layer-41.safetensors": "088fbd95894d75960834dfa5843b302dc9860bef53cce99d554109f3af357efa",
+        "layer-42.safetensors": "3c5f5f4b9bee076ac93cc182a660acde96a10a2851d70c6f1e0e0975fb9c8a09",
+        "layer-43.safetensors": "8a58f711f50ba5f8db8762e2d3da8fe251b77029c37d48f0498d2a3b1579dfc5",
+        "layer-44.safetensors": "42b42846ae3ce209b2d1c3e6c9f73d70cf3de24bba0ab81d4b96fb5946b27369",
+        "layer-45.safetensors": "5e84b51808a81641a6a24100bac208ec9e286d4164e67f710ef7b54cf7a3b66e",
+        "layer-46.safetensors": "edd77dc3aafd1798528401327beb70e4607b94da1ec7cad1d6ed7e4fc5832002",
+        "layer-47.safetensors": "5a89cce38c31d04e55791268bdcfcea6c806b73aae545c37d6d278b108df3007",
+        "layer-48.safetensors": "ffb05761cebdf124363d0477e6a5d487d9aad980b31ff7a643abec9c99d1b92f",
+        "layer-49.safetensors": "24b1e1039926f909b8ad8394127277baded10c728b11717277a6ef067a870bbd",
+        "layer-50.safetensors": "f5ff7be70c3839b5328000f76c0f086840b93e26ae65a8ed258036fb9568c292",
+        "layer-51.safetensors": "38ffd2af0acd2cbe1628e442a03a6cb73928b92b269d13de99a398a84acab12e",
+        "layer-52.safetensors": "496214874b3eba133ff73cced3499798b4242f7b25a6155b578b286c0f9776e7",
+        "layer-53.safetensors": "0fcfc322c800e37c1a3b47ad7a0eeac3859a44acef293c12bcc9c0d099809080",
+        "layer-54.safetensors": "defae91ed7532a3d412adbf6ec294eea87a3815a2331ab4d10c7078732431e4a",
+        "layer-55.safetensors": "85b0dcda2209aaea8e44dab929da4c4736b235b058c213537389c89efb6c207e",
+        "layer-56.safetensors": "7878e1d8441453defc45509e945227c831d60da0982a35810b3d7bfd85c614af",
+        "layer-57.safetensors": "2d3a9730a537046bda1befbf0e67cac2b116354e4ee3b7b295aa66041f68a98d",
+        "layer-58.safetensors": "7a89911391aac947b67a771421d38029430fba77bcb9372135f2b3458176b51c",
+        "layer-59.safetensors": "5bb7880669e45af63854e6859246f4e57d900a2102a90ce4f21420b781f20b22",
+        "layer-60.safetensors": "3b9c12abb0978b6ac7b395fb18058cec7036d03d0c26ee82ec212a05e7b3a3b4",
+        "layer-61.safetensors": "f2e361d5df8f56ef9df0b79ab28ba3b7c2c6a498afad9e6ea7a6eea9c242e530",
+        "layer-62.safetensors": "a3405ff6ae86fd918a013be496744fdb7586c792161839aadfb63c8cbcfc90a7",
+        "layer-63.safetensors": "39087e6ec39a4a987314e1c6457330088558622688804e5a43ea5d6220be4750"
+      },
+      "tokenizer_source_hashes": {
+        "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+        "tokenizer_config.json": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b",
+        "chat_template.jinja": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+        "vocab.json": "ce99b4cb2983d118806ce0a8b777a35b093e2000a503ebde25853284c9dfa003"
+      }
+    },
+    "replay": {
+      "nll_per_token": 0.00018482663403820553,
+      "ce_sum": 0.18131492799147964,
+      "supervised_tokens": 981,
+      "samples": 300,
+      "batch_size": 32
+    },
+    "canary_correct": 0,
+    "canary_total": 50,
+    "canary_generation_evidence": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T045637Z-qwen36-replay\\results\\base-canary-holdout.json",
+    "canary_generation_sha256": "a40b314bb01ac105fee9c12f2cae693470d58bdb1d9b10d56e72b2043fa48335",
+    "canary_text_files_byte_identical_to_original": {
+      "canary-train.jsonl": true,
+      "canary-holdout.jsonl": true
+    },
+    "replay_dataset": {
+      "layout": "chat-jsonl-v1",
+      "file_sha256": "b14b93d13c43b6efb0abefa0c9f95b9b1ab4b556f296e7386625130f3d509a0b",
+      "tokenizer_sha256": "ffb7a28b27dabcc333662fd3e0b0005d9e79a1c22e31453ab5a3017fbd5f25c0",
+      "chat_template_sha256": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+      "max_length": 2048,
+      "enable_thinking": false,
+      "input_rows": 300,
+      "accepted_rows": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        256,
+        257,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267,
+        268,
+        269,
+        270,
+        271,
+        272,
+        273,
+        274,
+        275,
+        276,
+        277,
+        278,
+        279,
+        280,
+        281,
+        282,
+        283,
+        284,
+        285,
+        286,
+        287,
+        288,
+        289,
+        290,
+        291,
+        292,
+        293,
+        294,
+        295,
+        296,
+        297,
+        298,
+        299
+      ],
+      "discarded_answer_too_long": []
+    },
+    "frozen_fingerprint_unchanged": true,
+    "DA6_3_threshold": "NOT YET CONFIRMED"
+  },
+  "mechanism": {
+    "optimizer_steps": 1,
+    "zero_adapter_loss_E2": true,
+    "initial_probe": {
+      "enabled": 5.311772346496582,
+      "disabled": 5.311772346496582,
+      "fp32_bits": 1084881418,
+      "disabled_fp32_bits": 1084881418
+    },
+    "all_first_B_gradients_nonzero": true,
+    "disabled_loss_unchanged_E2": true,
+    "frozen_fingerprint_unchanged": true
+  },
+  "snapshot": {
+    "status": "PASS",
+    "decode_allocation_count": 58224,
+    "active_decode_allocation_count": 0
+  },
+  "short_training": {
+    "actual_steps": 10,
+    "logical_max_steps": 100,
+    "max_steps_reached": false,
+    "accumulation": 8,
+    "step_seconds": [
+      52.07839320000494,
+      50.07036280000466,
+      48.53711360000307,
+      48.25768789998256,
+      49.268279600015376,
+      48.268806199979736,
+      47.37003809999442,
+      49.28482130001066,
+      46.649042799981544,
+      47.853479500015965
+    ],
+    "mean_step_seconds": 48.763802499999294,
+    "canary_correct": 50,
+    "canary_total": 50,
+    "replay_nll": 6.259719674569478e-06,
+    "functional_scope": "Observed short-run results; not a100-step functional acceptance",
+    "peak_allocated_bytes": 5587110912,
+    "peak_reserved_bytes": 8002732032,
+    "whole_card_monitor": {
+      "status": "PASS",
+      "scope": "Read-only whole-card polling; sampling may miss sub-second transients",
+      "watched_run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050306Z-qwen36-short10",
+      "watched_exit_code": 0,
+      "watched_status": "PASS",
+      "samples": 647,
+      "minimum_free_MiB": 7228,
+      "maximum_used_MiB": 8768,
+      "errors": []
+    }
+  },
+  "release": {
+    "status": "PASS",
+    "checks": {
+      "fixed_batch_loss_E2": true,
+      "disabled_loss_E2": true,
+      "all_parameter_bytes_equal": true,
+      "all_delta_W_bytes_E2": true
+    },
+    "delta_W_fingerprint_count": 400,
+    "loss": 0.00021072411618661135,
+    "disabled_loss": 5.311772346496582,
+    "memory": {
+      "gpu_allocated": 3606941696,
+      "gpu_reserved": 5561647104,
+      "gpu_peak_allocated": 4676489216,
+      "gpu_peak_reserved": 5561647104,
+      "cpu_working_set": 19868798976,
+      "cpu_private": 29425373184
+    },
+    "build_inputs": [
+      "C:\\workspace\\models\\bundles\\qwen3.6-27b-nvfp4-lora\\0893e1606ff3d5f9-train-v1",
+      "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050306Z-qwen36-short10\\results\\publish"
+    ]
+  },
+  "publication": {
+    "path": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050306Z-qwen36-short10\\results\\publish",
+    "files_sha256": {
+      "adapter_model.safetensors": "552dc8992fa1ffe924e3160c2d123f69fab2b7ee232f6058457b8ac36cdbdf85",
+      "adapter_config.json": "ad5b4174e618d80182ac32c8ca7d78bbcf4fb56fc03f3c6bdf3c88d46cb28edc",
+      "manifest.json": "32fb7377f8ad73f111f932b26ffa1b81a7da8187256a7132941e297f2a8d6c02"
+    }
+  },
+  "optional_full100": "NOT RUN; only the original design short10 is claimed by this evidence",
+  "raw_external_evidence": {
+    "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050035Z-qwen36-probe\\results\\gradient-comparisons.json": {
+      "bytes": 12469,
+      "sha256": "b45f480d72c58e10823c70ebe9465cd6c6f4f01352f653bc18cc98d0c165892f"
+    },
+    "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050035Z-qwen36-probe\\results\\first-micro-backward.pickle": {
+      "bytes": 46042784,
+      "sha256": "03a441871506283170cc87846ec08fbc22b5229b408ff5b9f3290a846ee0f8d6"
+    },
+    "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050306Z-qwen36-short10\\results\\delta-w.json": {
+      "bytes": 88749,
+      "sha256": "fab55a205c64c8cdc620f0ddbc2bd64deb73a3681ed84a260c8e986cc1bccef1"
+    },
+    "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T050306Z-qwen36-short10\\results\\metrics.jsonl": {
+      "bytes": 31042,
+      "sha256": "dda769e152ae9ee7cef31ac46535f9ebdaebc9af47a7e684c17bcaff590d0f64"
+    }
+  }
+}

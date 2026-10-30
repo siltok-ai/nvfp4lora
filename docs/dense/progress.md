@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **Qwen3.8 D0-D6 completed, with documented D0/D2 qualifications and the owner's actual DA6.3 confirmation.** Formal100 steps, real50-to100 ten-state E2 and release400-DeltaW reconstruction passed. Final holdout50/50; replay NLL0.00000033538927875694635 (base0.00023400843633333113). The actual100-step adapter is now undergoing FreeToken inference acceptance. Qwen3.6 source acquisition has started after DA6.6; its shorter campaign and D7 remain pending. Complete commands, code snapshots, stdout/stderr and checkpoints remain outside Git. No intermediate push has been made.
+Current state: **Qwen3.8 full D0-D6 and Qwen3.6 design-shortened acceptance completed, with documented D0/D2 qualifications and the owner's actual DA6.3 confirmation.** Qwen3.8 formal100, real50-to100 ten-state E2, release400 reconstruction and final FreeToken two-process/full-corpus/cache checks pass. Qwen3.6 own-source/reference/mechanism, actual10 steps and release400 reconstruction pass; its final FreeToken checks are running. Final MoE regression, consolidated delivery documentation and publication remain pending. Complete commands, code snapshots, stdout/stderr and checkpoints remain outside Git. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -198,3 +198,27 @@ Qwen3.6 metadata/weight acquisition and final FreeToken acceptance continue.
 The owner has been asked the design's optional full100-vs-short10 question;
 the original10-step scope remains authorized and no extra100 is inferred from
 silence. Neither feature branch is pushed before final completion.
+
+## Qwen3.6 shortened acceptance completed
+
+[Qwen3.6 evidence](../evidence/dense/qwen36-summary.json) binds the official
+nvidia/Qwen3.6-27B-NVFP4 revision0893e1606ff3d5f97a441f405d5fc541a6bdf404,
+all three independently verified full-shard SHA256 values and each actual run.
+Acquisition began only after Qwen3.8 passed DA6.6.
+
+| Shortened gate | State | Actual result |
+| --- | --- | --- |
+| DA0.4 | PASS |21,921,697,184 original shard bytes; all3 LFS SHA256 matches, then independent full-file recheck and metadata binding. |
+| D1 | PASS |64-layer full E1/FP8 code identity and reload E2; preprocessing peak6,072,393,728B (<16GB).36 FreeToken NVFP4 row-sample comparisons pass. |
+| D5 | PASS |Unconditional CPU FP32 first-four-layer L2:0.0028898339/0.0032451096/0.0054424449/0.0042275474, all<=0.01;16 efficient SDPA and zero math, repeated hidden E2. Greedy2/北京/Hello then im_end;200 own-tokenizer Speed goldens pass. |
+| DA6.0 | PASS |Own-base regenerated replay300; original canary300/holdout50 bytes preserved; train600. Base holdout0/50, replay NLL0.00018482663403820553. |
+| DA6.1 | PASS |Actual1 step x8; B=0 enabled/disabled FP32bits1084881418, all B gradients nonzero,13 real-activation projection references and8-micro accumulation pass; frozen unchanged. Snapshot58,224 decoder allocations,0 live after backward. |
+| Short10 | PASS |Actual10 steps x8, D-ALL r16/max_length2048; logical max100 with execution stop10, not a100-step campaign. Final holdout50/50, replay NLL0.000006259719674569478; mean step48.764s. |
+| Release rebuild | PASS |Bundle+publication only: all800 trainable tensor bytes, enabled/disabled FP32 probe and400 DeltaW fingerprints E2. |
+
+The10-step adapter SHA256 is
+552dc8992fa1ffe924e3160c2d123f69fab2b7ee232f6058457b8ac36cdbdf85.
+It is undergoing separate native FreeToken controls/full-corpus/cache/fresh
+process checks. Its short-run functional numbers are observations, not a claim
+of optional full100-step acceptance. The design's additional100-step question
+was asked; this evidence claims only the original authorized10-step scope.
