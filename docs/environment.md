@@ -28,3 +28,22 @@ python -B -m unittest discover -s tests -v
 `EXAMPLE-*` 仅为命令示例，不代表已执行目录。实际命令、代码快照、环境、退出码和日志以每个 run 的 `manifest.json` 为准。资格探针的峰值和耗时不代表完整模型训练性能。
 
 `tools/check_freetoken_dequant.py` 用已有 Speed 环境只读导入 FreeToken，不向训练 venv 注入整套推理依赖。运行记录明确使用该解释器。
+
+
+## Dense 27B 独立环境（2026-10-30 技术验收完成）
+
+训练环境为 `C:/workspace/envs/T-20261029-nvfp4-dense/train`，只绑定本任务
+`C:/workspace/wt/T-20261029-nvfp4-dense/nvfp4lora` 的 editable checkout。
+安装沿用同一锁文件及 `--require-hashes`；最终复核39个固定版本全部一致、
+pip check通过，登记状态为 `qualified_dense_training`。原MoE环境仍绑定原main
+checkout，其依赖、editable路径及登记条目均未修改。
+
+推理环境为 `C:/workspace/envs/T-20261029-nvfp4-dense/infer`，登记状态为
+`qualified_dense_native_inference`。原参考wheel和包库存不变，测试通过显式
+PYTHONPATH选择 `C:/workspace/wt/T-20261029-nvfp4-dense/FreeToken` 源码。
+两个完整模型、最终100/10步adapter、完整语料、缓存重建及新进程E2均已通过。
+该环境没有改成训练checkout的editable消费者。不得将它与其他checkout共用可变依赖。
+
+仅更新本任务两条环境登记；最终依赖、两个原有绑定和登记前后值见
+[环境复核摘要](evidence/dense/final-environment-summary.json) 与
+[运行manifest](evidence/dense/final-environment-manifest.json)。远端发布单独核对。

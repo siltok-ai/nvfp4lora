@@ -34,3 +34,9 @@ C3与全部专家r2均完成100个优化器步、新进程50→100十项E2、GPU
 实现采用独立核心库和精简训练入口：CPU 保存原始打包专家，GPU 按层搬运、按块解码，反向重新解码；非专家 LoRA 使用 PEFT，专家 LoRA 由核心库管理。
 
 模型权重、venv、运行日志和大型产物保存在仓库外。
+
+
+<!-- dense27b-entry -->
+## Dense 27B 特性分支
+
+Qwen3.8-27B完成NVFP4基座100步、精确续训和发布重建；Qwen3.6-27B完成设计的10步缩短验收。两个adapter均通过独立FreeToken原生Windows完整模型推理；MoE位级回归通过。详细范围、原始失败及有记录调整见[实测结果](docs/dense/results.md)、[训练脚本](docs/dense/training-cli.md)和[进展/证据](docs/dense/progress.md)。原MoE结论保持不变。

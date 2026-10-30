@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **Qwen3.8 full D0-D6 and Qwen3.6 design-shortened acceptance completed, with documented D0/D2 qualifications and the owner's actual DA6.3 confirmation.** Qwen3.8 formal100, real50-to100 ten-state E2, release400 reconstruction and final FreeToken two-process/full-corpus/cache checks pass. Qwen3.6 own-source/reference/mechanism, actual10 steps and release400 reconstruction pass; its final FreeToken checks are running. Final MoE regression, consolidated delivery documentation and publication remain pending. Complete commands, code snapshots, stdout/stderr and checkpoints remain outside Git. No intermediate push has been made.
+Current state: **All technical acceptance completed: Q38 full100, Q36 design-short10, final native inference for both and full DA7.1 MoE bit regression.** Documentation and verified-copy delivery are being finalized; remote publication is checked at delivery. Earlier pending statements below are historical stage records; final measurements are consolidated in results.md.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -222,3 +222,8 @@ It is undergoing separate native FreeToken controls/full-corpus/cache/fresh
 process checks. Its short-run functional numbers are observations, not a claim
 of optional full100-step acceptance. The design's additional100-step question
 was asked; this evidence claims only the original authorized10-step scope.
+
+
+## D7 technical acceptance completed
+
+[D7 evidence](../evidence/dense/d7-summary.json):58 units,54 FreeToken source tests,MoE tiny100/parameters/states vs original B0 E2,both real probes1083229253,both logical configs/hashes unchanged,both delivered step50 full restores including route-audit E2 with zero updates. Original main loader rejects both actual final dense publications. Native full-model/fresh/corpus/cache qualification for both is complete. Final consolidated measurements and remaining publication receipt are in [results](results.md).

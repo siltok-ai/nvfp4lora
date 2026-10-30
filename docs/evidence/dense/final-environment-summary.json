@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "scope": "Technical environment qualification only; remote publication is separate",
+  "only_two_task_entries_changed": true,
+  "target_before": [
+    {
+      "name": "nvfp4-lora-dense-win-cp312-cu130",
+      "path": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train",
+      "python": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train\\Scripts\\python.exe",
+      "status": "preparing_dense_real_acceptance",
+      "purpose": "Isolated hash-locked dense 27B NVFP4 LoRA development and acceptance",
+      "task": "T-20261029-nvfp4-dense",
+      "source_checkout": "C:\\workspace\\wt\\T-20261029-nvfp4-dense\\nvfp4lora",
+      "source_repository": "https://github.com/siltok-ai/nvfp4lora",
+      "source_branch": "feat/dense27b-lora",
+      "readme": "T-20261029-nvfp4-dense/README.md",
+      "inventory": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T104241Z-venv-identity\\results\\inventory.json",
+      "task_evidence": "C:/workspace/tasks/T-20261029-nvfp4-dense/README.md",
+      "qualified_d0": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T112749Z-d0-audit\\results\\audit.json",
+      "qualified_m1": "C:\\workspace\\wt\\T-20261029-nvfp4-dense\\nvfp4lora\\docs\\evidence\\dense\\m1-audit.json",
+      "m1_commit": "b60b2139d462aa3a824d3324348601baee8916d5",
+      "qualification_note": "M1-D qualified with documented D0/D2 adjustments; real forward/training and dense FreeToken inference not yet accepted."
+    },
+    {
+      "name": "nvfp4-dense-inference-win-cp312-cu130",
+      "path": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\infer",
+      "python": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\infer\\Scripts\\python.exe",
+      "status": "preparing_dense_inference",
+      "task": "T-20261029-nvfp4-dense",
+      "purpose": "Isolated FreeToken dense NVFP4 LoRA inference development; old lora2 wheel is reference only",
+      "source_checkout": "C:/workspace/wt/T-20261029-nvfp4-dense/FreeToken",
+      "source_repository": "https://github.com/wenlive/FreeToken",
+      "source_branch": "feat/dense27b-nvfp4-lora",
+      "inventory": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T111016Z-inference-env-registration\\results\\inventory.json",
+      "task_evidence": "C:/workspace/tasks/T-20261029-nvfp4-dense/README.md"
+    }
+  ],
+  "target_after": [
+    {
+      "name": "nvfp4-lora-dense-win-cp312-cu130",
+      "path": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train",
+      "python": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train\\Scripts\\python.exe",
+      "status": "qualified_dense_training",
+      "purpose": "Isolated hash-locked dense 27B NVFP4 LoRA development and acceptance",
+      "task": "T-20261029-nvfp4-dense",
+      "source_checkout": "C:\\workspace\\wt\\T-20261029-nvfp4-dense\\nvfp4lora",
+      "source_repository": "https://github.com/siltok-ai/nvfp4lora",
+      "source_branch": "feat/dense27b-lora",
+      "readme": "T-20261029-nvfp4-dense/README.md",
+      "inventory": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T104241Z-venv-identity\\results\\inventory.json",
+      "task_evidence": "C:/workspace/tasks/T-20261029-nvfp4-dense/README.md",
+      "qualified_d0": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T112749Z-d0-audit\\results\\audit.json",
+      "qualified_m1": "C:\\workspace\\wt\\T-20261029-nvfp4-dense\\nvfp4lora\\docs\\evidence\\dense\\m1-audit.json",
+      "m1_commit": "b60b2139d462aa3a824d3324348601baee8916d5",
+      "qualification_note": "Q38 actual100/resume50 E2/release400, Q36 own-source short10/release400, complete MoE B0 regression; original D0/D2 qualifications retained",
+      "qualified_evidence": "C:\\workspace\\wt\\T-20261029-nvfp4-dense\\nvfp4lora\\docs\\evidence\\dense\\d7-summary.json",
+      "qualified_at_utc": "2026-10-30T05:49:27.853568+00:00"
+    },
+    {
+      "name": "nvfp4-dense-inference-win-cp312-cu130",
+      "path": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\infer",
+      "python": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\infer\\Scripts\\python.exe",
+      "status": "qualified_dense_native_inference",
+      "task": "T-20261029-nvfp4-dense",
+      "purpose": "Isolated FreeToken dense NVFP4 LoRA inference development; old lora2 wheel is reference only",
+      "source_checkout": "C:/workspace/wt/T-20261029-nvfp4-dense/FreeToken",
+      "source_repository": "https://github.com/wenlive/FreeToken",
+      "source_branch": "feat/dense27b-nvfp4-lora",
+      "inventory": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261029T111016Z-inference-env-registration\\results\\inventory.json",
+      "task_evidence": "C:/workspace/tasks/T-20261029-nvfp4-dense/README.md",
+      "qualified_evidence": "C:\\workspace\\wt\\T-20261029-nvfp4-dense\\FreeToken\\docs\\evidence\\dense\\final-dense-summary.json",
+      "source_mode": "Explicit PYTHONPATH to independent fork checkout; installed reference wheel binding unchanged",
+      "qualification_note": "Both complete64-layer models, actual100/10 adapters, full corpus/cache/zeroB/fresh E2 and54 source tests",
+      "qualified_at_utc": "2026-10-30T05:49:27.853568+00:00"
+    }
+  ],
+  "locked_training_packages": 39,
+  "training_pip_check": "No broken requirements found.",
+  "inference_pip_check": "No broken requirements found.",
+  "training_direct_url": {
+    "dir_info": {
+      "editable": true
+    },
+    "url": "file:///C:/workspace/wt/T-20261029-nvfp4-dense/nvfp4lora"
+  },
+  "original_main_direct_url": {
+    "dir_info": {
+      "editable": true
+    },
+    "url": "file:///C:/workspace/repos/siltok-ai/nvfp4lora"
+  },
+  "inference_reference_direct_url": {
+    "url": "file:///C:/workspace/artifacts/freetoken/0.1.3+speed.mtpdecode2.lora2/20261028T085456Z/freetoken-0.1.3+speed.mtpdecode2.lora2-cp312-cp312-win_amd64.whl",
+    "archive_info": {}
+  },
+  "registry_before_sha256": "e16e4bd9b6f1635ced76c139adefa87f1c1339b30e80669cad7d96934d7a208d",
+  "registry_after_sha256": "04986ca2bea68f7a9810ffc9c5210a25fb57fc950bce7d3773b2e058831805aa"
+}
