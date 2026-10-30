@@ -11,7 +11,7 @@ from torch import nn
 from torch.utils.checkpoint import checkpoint
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
-from tools.validation.profile_training import TrainingTimings
+from tools.validation.profile_training import TrainingTimings, CPUEmbedding
 
 
 class CPUEvent:
@@ -81,6 +81,25 @@ class ProfilingControls(unittest.TestCase):
                     self.assertFalse(timing.pending or timing.backward_pending or timing.tensor_hooks)
                     self.assertEqual(torch.cuda.is_initialized(), initial_cuda_state)
 
+
+class EmbeddingControls(unittest.TestCase):
+    def test_embedding_scope_is_narrow_and_restored_on_failure(self):
+        initial_cuda_state = torch.cuda.is_initialized()
+        embedding = CPUEmbedding(torch.randn(7, 6, dtype=torch.bfloat16))
+        built = SimpleNamespace(model=SimpleNamespace(model=SimpleNamespace(layers=[], embed_tokens=embedding)),
+                                streamer=SimpleNamespace(phase='FORWARD'))
+        timing = TrainingTimings(built, event_factory=CPUEvent)
+        ids = torch.tensor([[0, 2, 5]])
+        expected = embedding(ids)
+        with timing.instrument():
+            self.assertTrue(torch.equal(embedding(ids).view(torch.uint8), expected.view(torch.uint8)))
+            self.assertEqual((timing.embedding_depth, timing.embedding_calls, timing.embedding_input_copies), (0, 1, 0))
+            embedding.table = None
+            with self.assertRaisesRegex(RuntimeError, 'not been loaded'):
+                embedding(ids)
+            self.assertEqual((timing.embedding_depth, timing.embedding_calls), (0, 2))
+        self.assertFalse(embedding._forward_hooks or embedding._forward_pre_hooks)
+        self.assertEqual(torch.cuda.is_initialized(), initial_cuda_state)
 
 if __name__ == '__main__':
     unittest.main()
