@@ -1,4 +1,4 @@
-"""A7.1：真实训练激活/dY，非零A/B，两个专家层的全部VJP独立稠密对照。"""
+"""在两层真实激活和上游梯度上，对照独立专家向量雅可比积。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

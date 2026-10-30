@@ -1,4 +1,4 @@
-"""P5 的 CPU FP32 流式参考：一次一层非专家、一次一个路由专家，GDN 用逐 token 递推。"""
+"""CPU FP32 逐层参考；每次加载一个专家，线性注意力使用逐 token 递推。"""
 
 import gc
 import json

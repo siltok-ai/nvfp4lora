@@ -1,4 +1,4 @@
-"""D4：两个100步参考、新进程50→100、发布重建与标准PEFT加载。"""
+"""合成密集模型训练对照、独立进程续训、发布重建和标准 PEFT 加载。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

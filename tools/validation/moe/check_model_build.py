@@ -1,4 +1,4 @@
-"""A1.4：真实模型只构建/加载，逐参数读回，不运行完整模型前向或训练。"""
+"""构建并加载真实模型，逐参数读回核对冻结与可训练集合。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

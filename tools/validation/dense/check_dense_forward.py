@@ -1,4 +1,4 @@
-"""D5：dense整模前向、原1%无条件CPU参考、贪心、计时和FP8观测。"""
+"""检查密集模型前四层 CPU 参考、贪心回答及激活范围。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

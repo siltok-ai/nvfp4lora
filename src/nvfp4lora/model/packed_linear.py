@@ -1,4 +1,4 @@
-"""Dense PackedLinear、FP32 LoRA旁路和普通属性CPU embedding。"""
+"""冻结线性层、FP32 LoRA 旁路和保留在 CPU 的词嵌入表。"""
 
 import math
 

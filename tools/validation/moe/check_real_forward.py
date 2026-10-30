@@ -1,4 +1,4 @@
-"""P5：真实整模前向、前4层CPU流式FP32对照与原模板短贪心回答。"""
+"""检查完整模型前向、前四层 CPU 参考及短贪心回答。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

@@ -1,4 +1,4 @@
-"""P3 的真实40层 bank：1000全字节随机读、延迟竞争、错误预测和算子E2。"""
+"""用完整层字节检查异步槽覆盖、延迟竞争和错误预取。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

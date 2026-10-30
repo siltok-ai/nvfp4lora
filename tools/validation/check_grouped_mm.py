@@ -1,4 +1,4 @@
-"""P0 分组 GEMM 的 256 组资格；逐专家 autograd 独立核验 dX/dW。"""
+"""用独立 autograd 参考检查分组矩阵乘的输入和权重梯度。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))

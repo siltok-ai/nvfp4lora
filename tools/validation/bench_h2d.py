@@ -1,4 +1,4 @@
-"""G0.2：逐步分配 18.5 GB 锁页池并实测层大小 H2D；失败时验收 staging。"""
+"""测量锁页内存分配及层大小的主机到显卡传输。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))

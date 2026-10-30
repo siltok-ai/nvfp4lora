@@ -1,4 +1,4 @@
-"""D3：原streamer、dense布局、完整字节随机读及真实CUDA竞争。"""
+"""检查密集模型的层字节读取、异步槽竞争及算子确定性。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

@@ -1,4 +1,4 @@
-"""D2真实十种形状；DA2.3调整见decisions，原1e-6结果单独保存。"""
+"""对真实投影形状检查冻结线性层输出、输入梯度和 LoRA 梯度。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

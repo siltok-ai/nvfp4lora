@@ -1,4 +1,4 @@
-"""DA6.1首步资格：真实损失图激活、PackedLinear dx与LoRA梯度双参考。"""
+"""在真实损失图中捕获激活和上游梯度，对照冻结线性层及 LoRA 参考。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

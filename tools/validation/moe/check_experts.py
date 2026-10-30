@@ -1,4 +1,4 @@
-"""P2 真实一层、目标形状的独立参考/梯度/检查点/块大小显存验收。"""
+"""对一层真实专家权重检查梯度、激活重算及分块工作区。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
@@ -96,7 +96,7 @@ def compare_all(actual, reference, dtype, *, exact=False):
 
 
 def main():
-    """单层真实权重测试，完整 35B 训练仍由 M1 审核阻挡。"""
+    """检查单层真实权重；不运行完整模型训练。"""
     parser = argparse.ArgumentParser()
     parser.add_argument("--experts", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)

@@ -1,4 +1,4 @@
-"""P0 GDN 候选资格：独立递推参考、全部输入梯度、真实形状和重算。"""
+"""用独立递推参考检查门控 Delta 网络的输出、输入梯度和重算。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

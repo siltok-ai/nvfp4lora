@@ -1,4 +1,4 @@
-"""P0 基础关卡：真实 CUDA 运算、完整 meta 架构和 PEFT 训练。"""
+"""检查锁定环境的 CUDA 运算、模型结构及普通线性层 LoRA。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))

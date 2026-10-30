@@ -1,4 +1,4 @@
-"""P4：同步 HF tiny 100 步独立稠密对照、新进程续训与发布重建。"""
+"""合成专家模型训练对照、独立进程续训和发布重建。"""
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[3]))
