@@ -169,12 +169,26 @@ def main():
         control_seconds = time.perf_counter() - began
         byte_equal = all(torch.equal(parameter.grad.detach().cpu().contiguous().view(torch.uint8),
                                     gradients[name].view(torch.uint8)) for name, parameter in built.trainable.items())
+        sdpa_calls = {}
+        for name, value in groups.items():
+            if '_sdpa_' in name:
+                operation = name.rsplit('_sdpa_', 1)[-1]
+                sdpa_calls[operation] = sdpa_calls.get(operation, 0) + value['intervals']
+        attention_layers = sum(hasattr(block, 'self_attn') for block in built.model.model.layers)
+        expected_backward = attention_layers * config['accumulation_steps']
+        expected_forward = expected_backward * (2 if config['gradient_checkpointing'] else 1)
+        efficient_forward = sum(count for name, count in sdpa_calls.items()
+                                if 'efficient_attention' in name and 'backward' not in name)
+        efficient_backward = sum(count for name, count in sdpa_calls.items()
+                                 if 'efficient_attention' in name and 'backward' in name)
         checks = {'loss_and_samples_E2': all(measured[key] == control[key] for key in ['loss', 'supervised_tokens', 'sample_ids']),
                   'all_gradients_E2': byte_equal, 'frozen_unchanged': frozen_fingerprint(built) == frozen,
                   'optimizer_step_unchanged': trainer.state['global_step'] == starting_step,
                   'all_module_backward_intervals': sum(value['intervals'] for name, value in groups.items()
                       if name.endswith('_backward_inclusive')) == timing.modules * config['accumulation_steps'],
                   'efficient_sdpa_observed': any('_sdpa_' in name and 'efficient_attention' in name for name in groups),
+                  'all_attention_forward_recompute_and_backward_efficient': (
+                      efficient_forward == expected_forward and efficient_backward == expected_backward),
                   'math_sdpa_absent': not any('_sdpa_' in name and 'attention_math' in name for name in groups)}
         breakdown = {'H2D_ms': transfers['copy_gpu_ms'],
                      'decode_ms': sum(value['cuda_interval_ms'] for name, value in groups.items() if name.endswith('_decode')),
@@ -189,6 +203,8 @@ def main():
             'restored_optimizer_step': starting_step, 'accumulation_steps': config['accumulation_steps'],
             'sequence_tokens': sum(batch['input_ids'].numel() for batch in batches), 'supervised_tokens': measured['supervised_tokens'],
             'instrumented_seconds': instrumented_seconds, 'uninstrumented_control_seconds': control_seconds,
+            'SDPA_operator_call_counts': sdpa_calls,
+            'expected_efficient_calls': {'forward_including_recompute': expected_forward, 'backward': expected_backward},
             'cuda_intervals': groups, 'breakdown': breakdown, 'transfers': transfers, 'memory': memory,
             'timing_limits': 'CUDA intervals include CPU enqueue gaps. H2D may overlap compute. Module backward includes checkpoint recompute; recompute is a subset. GEMM/SDPA/decode are subsets of module intervals, so these numbers must not be summed.'}
         (args.output / 'results.json').write_text(json.dumps(result, indent=2), encoding='utf-8')
