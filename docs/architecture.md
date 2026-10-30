@@ -142,3 +142,5 @@ sequenceDiagram
 ## 设计边界
 
 核心训练只支持单 GPU、非思考纯文本。两族构建流程和发布格式各自独立，推理由单独的 FreeToken 集成负责；训练与部署的 FP8 激活量化差异见[结果限制](results/qwen3x-27b-dense.md#限制)。
+
+原生 Windows、哈希锁、冻结来源原字节和外部发布格式构成实现边界，见[有效决定](decisions.md)。更改这些边界需单独批准与验证。

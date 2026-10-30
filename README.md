@@ -16,7 +16,7 @@ nvfp4lora 在消费级显卡上，直接用部署用的 NVFP4 checkpoint 训练 
 
 下面使用 Qwen3.8-27B；将尖括号占位符替换为实际路径，在仓库根目录运行 PowerShell。`<wheelhouse>` 是含[锁文件](requirements/windows-cu130.lock)全部 wheel 的目录，`<bundle>` 是预处理后的训练权重包。
 
-1. 创建独立环境，按哈希锁安装依赖，再绑定当前 checkout。
+1. 创建独立环境，按哈希锁安装依赖，再绑定当前 checkout。细节见[环境指南](docs/guides/environment.md)。
 
    ```powershell
    py -3.12 -m venv '<venv>'
@@ -26,7 +26,7 @@ nvfp4lora 在消费级显卡上，直接用部署用的 NVFP4 checkpoint 训练 
 
    三条命令均应正常结束；每个 checkout 使用自己的 venv。
 
-2. 下载固定 revision 并核对分片，再生成 bundle。
+2. 下载固定 revision 并核对分片，再生成 bundle。细节见[预处理指南](docs/guides/preprocess.md)。
 
    ```powershell
    & '<venv>\Scripts\python.exe' tools/fetch_checkpoint.py --repo RadixArk/Qwen3.8-27B-NVFP4 --revision 319f741cce68d7914884900c138a1fbb70a42f30 --model-dir '<source>' --output '<fetch>' --download-weights
@@ -35,7 +35,7 @@ nvfp4lora 在消费级显卡上，直接用部署用的 NVFP4 checkpoint 训练 
 
    下载收据和 bundle 的 `manifest.json` 均应标记完成，且三个分片的 SHA256 与上游一致。
 
-3. 使用非思考纯文本 JSONL 数据训练，并记录命令和源码。
+3. 使用非思考纯文本 JSONL 数据训练，并记录命令和源码。数据与恢复用法见[训练指南](docs/guides/training.md)。
 
    ```powershell
    & '<venv>\Scripts\python.exe' tools/run_recorded.py --output '<run>' -- tools/train_lora.py --bundle '<bundle>' --data '<train.jsonl>' --config configs/dense27b-all-r16.json --output '{run}/results' --code-commit '<commit>'
@@ -56,7 +56,13 @@ nvfp4lora 在消费级显卡上，直接用部署用的 NVFP4 checkpoint 训练 
 | 文档或入口 | 回答的问题 |
 |---|---|
 | [总体设计](docs/architecture.md) | 数据怎么流动，模块怎么分层，怎样接入模型族？ |
+| [术语表](docs/glossary.md) | bundle、层槽、参考判据等术语是什么意思？ |
+| [使用指南](docs/guides) | 环境、预处理、训练、续训和验证怎样操作？ |
+| [设计说明](docs/design) | 存储、数值、模型族和发布接口怎样工作？ |
+| [混合专家实测结果](docs/results/qwen36-35b-a3b-moe.md) | 专家模型的检查、资源和功能结果是什么？ |
 | [密集模型实测结果](docs/results/qwen3x-27b-dense.md) | 哪些检查通过，速度和资源是多少？ |
+| [有效决定](docs/decisions.md)与[路线图](ROADMAP.md) | 为什么这样设计，哪些优化最值得做？ |
+| [工具目录](tools/README.md) | 每个工具什么时候使用？ |
 | [族注册表](src/nvfp4lora/families/__init__.py) | 如何解析 bundle、训练配置和 adapter 的模型族？ |
 | [训练配置](configs) | 两族的训练范围和参数怎样设置？ |
 
