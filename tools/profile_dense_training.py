@@ -30,7 +30,7 @@ class MatrixTimings(TorchDispatchMode):
         if name in ['aten.mm.default', 'aten.addmm.default', 'aten.bmm.default']:
             with self.timing.span(self.timing.scope + '_gemm_' + name):
                 return func(*args, **kwargs)
-        if '_scaled_dot_product' in name:
+        if '_scaled_dot_product' in name or '_efficient_attention' in name:
             with self.timing.span(self.timing.scope + '_sdpa_' + name):
                 return func(*args, **kwargs)
         return func(*args, **kwargs)
