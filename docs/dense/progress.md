@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **M1-D qualified with documented D0/D2 adjustments; D5 real base forward passed at the original unconditional1% criterion. D6-D7 pending. No real optimizer step or release yet.** Complete commands, code snapshots, stdout/stderr and checkpoints remain in the referenced external runs. No intermediate push has been made.
+Current state: **M1-D qualified with documented D0/D2 adjustments; D5 passed at the original unconditional1% criterion; DA6.0-DA6.2 passed and the owner confirmed DA6.3 on2026-10-30. Formal Qwen3.8 training is running toward100 steps.** Step10 measured holdout50/50 and replay NLL0.0000707129050695568; this is an intermediate checkpoint, not final acceptance. Real50-to100 resume, final release reconstruction, Qwen3.6 and D7 remain pending. Complete commands, code snapshots, stdout/stderr and checkpoints remain outside Git. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |

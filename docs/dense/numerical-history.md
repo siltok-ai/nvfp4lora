@@ -8,6 +8,8 @@
 
 默认HF无mask路径使用enable_gqa=True。实测实际算子为aten::_scaled_dot_product_attention_math，独立注意力探针峰值allocated6,979,321,856字节，原DA0.7失败。此值是探针前后向峰值，不是完整模型显存。
 
+“该构建没有Flash”具体指本机torch2.11.0+cu130 Windows wheel的内置SDPA Flash后端未编译，不是HF的Qwen模型结构缺少attention实现。2026-10-30只读核对得到is_flash_attention_available=False，同时flash_sdp_enabled=True；开关开启不能补上未编译的kernel。核对过程未初始化CUDA。HF的sdpa_attention_forward确实调用torch.nn.functional.scaled_dot_product_attention，由PyTorch分派后端；原生Windows并不因此总是使用math，本任务已经实测使用efficient。它也不同于HF另外集成的外部flash_attention_2路径，本任务未引入该额外依赖。
+
 随后诊断12种组合，定位到该锁定Windows构建的后端限制：Flash未编译；确定性模式下cuDNN SDPA被拒绝；现有efficient实现要求q/k/v头数一致。于是把4个KV头各重复6份，成为与24个query头对齐的输入，再调用已有HF SDPA。重复的是同一份K/V，因此保留GQA的共享关系；它增加少量KV临时存储，换取融合后端避免显式大注意力矩阵。
 
 实现仅在build_dense.py注册新的attention和mask键：显式repeat_kv后，以num_key_value_groups=1的局部代理调用原sdpa_attention_forward。全局sdpa键、原MoE配置、确定性设置和依赖版本保持原值。这里的“回退”是调用方式的备选；投入dense训练的是efficient SDPA。

@@ -1,0 +1,12 @@
+{
+  "status": "OBSERVED",
+  "torch_version": "2.11.0+cu130",
+  "sdpa_flash_backend_compiled": false,
+  "flash_dispatch_switch_enabled": true,
+  "efficient_dispatch_switch_enabled": true,
+  "cuda_initialized": false,
+  "hf_sdpa_entry": "C:\\workspace\\envs\\T-20261029-nvfp4-dense\\train\\Lib\\site-packages\\transformers\\integrations\\sdpa_attention.py",
+  "hf_sdpa_source_sha256": "53c7229daca9ade4c5df874194448938c1edc925abbc71809f9750dd66381e6f",
+  "scope": "Compiled capability and switch states only. Actual efficient backend execution is independently measured in D0/D5 evidence.",
+  "interpretation": "A true dispatch switch cannot supply a Flash kernel omitted from this PyTorch build. This is not an absence of HF Qwen attention implementation or a claim that every Windows SDPA uses math."
+}
