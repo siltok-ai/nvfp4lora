@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "scope": "CPU-only profiling hook controls, four frozen-input/checkpoint combinations; no GPU timing qualification",
+  "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T022600Z-dense-profiler-cpu-no-cuda",
+  "manifest_sha256": "d0206ea4399050e3586bbb39b28744c38994eb3e09e67954065679a8f0e6f2bf",
+  "parameter_and_input_gradients_E2": true,
+  "checkpoint_modes": [
+    "none",
+    "non-reentrant"
+  ],
+  "initial_input_requires_grad": [
+    false,
+    true
+  ],
+  "CUDA_initialization_unchanged": true,
+  "GPU_timing_qualified": false
+}
