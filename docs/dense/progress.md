@@ -133,3 +133,10 @@ enabled/disabled loss bits and all25 DeltaW fingerprints. See the
 No new training or production changes are involved. This establishes CLI wiring,
 not the still-pending real DA6.6. The existing resume comparator already compares
 all ten named state/history/probe/DeltaW groups without a MoE layout assumption.
+
+[CPU data relocation](../evidence/dense/data-portability20-summary.json) restores
+the actual step20 sampler cursor on an identical corpus at a new path. Logical
+configuration/checkpoint hashes are unchanged; all remaining80 groups/640 sample
+IDs and token tensors agree E2. Altering the copied file bytes is rejected. CUDA
+is not initialized. This qualifies data portability only; real50-to100 GPU
+resume remains a separate pending requirement.
