@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "source_commit": "9f7ff26b411db18a89f0e309764c9e81288c8a10",
+  "unit_tests": 72,
+  "unit_and_geometry_snapshots_match_commit": true,
+  "snapshot_binding": "Exact working-tree bytes; Git blobs compared with CRLF normalization under the existing text attributes",
+  "families": {
+    "moe": {
+      "status": "PASS",
+      "optimizer_steps": 100,
+      "zero_step_loss_E2": true,
+      "resumed_steps": 50,
+      "resume": {
+        "data_state.json": true,
+        "frozen": true,
+        "optimizer.pt": true,
+        "parameters": true,
+        "rng.pt": true,
+        "scheduler.pt": true,
+        "trainer_state.json": true
+      },
+      "reload": {
+        "adapter_has_effect": true,
+        "delta_w": true,
+        "disabled_loss": true,
+        "loss": true,
+        "parameters": true
+      },
+      "reload_enabled_loss": 7.444793701171875,
+      "reload_disabled_loss": 7.695118427276611,
+      "same_expression_per_step_loss_and_gradients_E2_enforced": true,
+      "same_expression_final_parameters_E2_enforced": true,
+      "frozen_unchanged": true,
+      "same_expression": {
+        "final_parameters_E2": true,
+        "frozen_unchanged": true,
+        "status": "PASS",
+        "checked_steps": 100,
+        "all_losses_E2": true,
+        "all_gradients_E2": true
+      },
+      "independent_reference": {
+        "first_gradient_worst_relative_l2": 0.010911252236128148,
+        "first_gradient_min_cosine": 0.9999405397913143,
+        "final_weight_min_cosine": 0.9939453347716545,
+        "loss_max_relative": 0.002823470966485269
+      }
+    },
+    "dense": {
+      "status": "PASS",
+      "optimizer_steps": 100,
+      "zero_step_loss_E2": true,
+      "resumed_steps": 50,
+      "resume": {
+        "data_state.json": true,
+        "optimizer.pt": true,
+        "parameters": true,
+        "per_step_E2": true,
+        "published_probe_E2": true,
+        "rng.pt": true,
+        "scheduler.pt": true,
+        "train_config.json": true,
+        "trainer_state.json": true,
+        "training_memory_delta_W_E2": true
+      },
+      "reload": {
+        "adapter_has_effect": true,
+        "delta_w": true,
+        "disabled_loss": true,
+        "frozen": true,
+        "loss": true,
+        "parameters": true,
+        "standard_peft_E3": true
+      },
+      "reload_enabled_loss": 7.426511287689209,
+      "reload_disabled_loss": 7.6956329345703125,
+      "same_expression_per_step_loss_and_gradients_E2_enforced": true,
+      "same_expression_final_parameters_E2_enforced": true,
+      "frozen_unchanged": {
+        "actual": true,
+        "hf_peft_premultiplied": true,
+        "same_expression": true
+      },
+      "independent_references": {
+        "hf_peft_premultiplied": {
+          "final_weight_min_cosine": 0.9998401944426499,
+          "first_gradient_max_relative_l2": 0.03166249985696942,
+          "first_gradient_min_cosine": 0.9995077115860164,
+          "loss_max_relative": 0.0002512778487990332
+        },
+        "same_expression": {
+          "final_weight_min_cosine": 0.9999999999999997,
+          "first_gradient_max_relative_l2": 0.0,
+          "first_gradient_min_cosine": 0.9999999999999998,
+          "loss_max_relative": 0.0
+        }
+      }
+    }
+  }
+}

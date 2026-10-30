@@ -1,0 +1,76 @@
+{
+  "status": "PASS",
+  "gate": "DA6.4",
+  "scope": "Formal100 only; DA6.5-9/Qwen3.6/FreeToken-final/D7 remain pending",
+  "run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T020753Z-d6-functional100",
+  "manifest_sha256": "a75775531afff3c7178fb17cbb6d3f113afa44909ebaae0e19b56a5c8be01cfa",
+  "step_seconds": {
+    "mean": 50.81835062399943,
+    "median": 50.11046285000339,
+    "min": 44.306119999993825,
+    "max": 60.169160399993416
+  },
+  "recorded_run_seconds": 5504.911596536636,
+  "evaluations": {
+    "0": {
+      "correct": 0,
+      "total": 50,
+      "replay_nll": 0.00023400843633333113,
+      "sha256": "1d024256b8840dc44751bfc90f0b2218238b50bf2f8f39feac9744076abd84e8"
+    },
+    "10": {
+      "correct": 50,
+      "total": 50,
+      "replay_nll": 7.07129050695568e-05,
+      "sha256": "cc660f858d0b51ec30093a5076fd04e550e2f3f60c9e4a5fae1b1e888b25c25e"
+    },
+    "20": {
+      "correct": 50,
+      "total": 50,
+      "replay_nll": 2.8883681903620773e-05,
+      "sha256": "982c9db3a96b694b9bb3eb6b52a67f7730a2913273a7fdb5de4f5aa68a7ebc6f"
+    },
+    "50": {
+      "correct": 50,
+      "total": 50,
+      "replay_nll": 4.378628954820019e-06,
+      "sha256": "77fe2b325c91c48b91c692da90532fd2053ff09c36be0fe6866e1036f57e73fd"
+    },
+    "100": {
+      "correct": 50,
+      "total": 50,
+      "replay_nll": 3.3538927875694635e-07,
+      "sha256": "3fb460af8ca7fef7fa368290b3bec43444b0e4a840d8019951cf53418a947045"
+    }
+  },
+  "peak_allocated_bytes": 5587110912,
+  "peak_reserved_bytes": 8009023488,
+  "peak_working_set_observed_bytes": 22713417728,
+  "peak_private_observed_bytes": 32271273984,
+  "whole_card_monitor": {
+    "status": "PASS",
+    "scope": "Read-only whole-card polling; sampling may miss sub-second transients",
+    "watched_run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T020753Z-d6-functional100",
+    "watched_exit_code": 0,
+    "watched_status": "PASS",
+    "samples": 5240,
+    "minimum_free_MiB": 7222,
+    "maximum_used_MiB": 8774,
+    "errors": []
+  },
+  "frozen_hashes_unchanged": true,
+  "DeltaW_fingerprint_count": 400,
+  "publication": {
+    "path": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T020753Z-d6-functional100\\results\\publish",
+    "files_sha256": {
+      "adapter_model.safetensors": "206ea21afe34cecb4cfd9d87e62fd1ff003b9a1c8a035de8a87f9db7943258d2",
+      "adapter_config.json": "1111cbd577b79bac6b52db575e359b129245d3b9f28770516c776664d163d64e",
+      "manifest.json": "cb0c05974b46b1a4907b2b63f8047b274642b0a59e143e46e71a24bae145a4d6"
+    }
+  },
+  "complete_checkpoints": {
+    "20": "9aecdb144774d52c5b18f0a755b3e7a5becd4e397205aad573f47592159b62e7",
+    "50": "6d9545a82a3352990375bf0baba9e1a50467963ed6bb452ae59c04afcbbfe5e7",
+    "100": "0c9083d668a2e78850e63b6fdcb638d466451b2cb61a88eefc7f07e8118b1891"
+  }
+}
