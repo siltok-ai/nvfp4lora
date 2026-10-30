@@ -23,7 +23,7 @@ from nvfp4lora.store.streamer import SyncLayerStreamer
 from nvfp4lora.model.common import BuiltModel, canonical_name
 from .packed_linear import CPUEmbedding, ReferencePackedLinear, LoRAPackedLinear, PackedLinear
 
-from .attention import ATTENTION_IMPLEMENTATION, register_dense_attention
+from .attention import ATTENTION_IMPLEMENTATION, register_attention
 
 
 
@@ -75,7 +75,7 @@ def build_dense_model(directory, *, device="cuda", lora_rank=16, lora_alpha=None
     config = Qwen3_5TextConfig.from_dict(config_data)
     if config.tie_word_embeddings or getattr(config, "num_experts", 0):
         raise ValueError("Dense build requires untied embeddings/head and no experts")
-    register_dense_attention()
+    register_attention()
     config.use_cache, config._attn_implementation = False, ATTENTION_IMPLEMENTATION
     if store is None:
         store = PackedLayerStore(directory / "layers", pin_memory=device.type == "cuda", layout_version=LAYER_LAYOUT)

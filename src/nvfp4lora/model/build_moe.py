@@ -17,6 +17,7 @@ from nvfp4lora.store.streamer import SyncLayerStreamer
 from .packed_experts import DenseReferenceExperts, ExpertAdapter, PackedExperts
 
 from .common import BuiltModel, canonical_name, causal_model
+from .attention import ATTENTION_IMPLEMENTATION, register_attention
 
 C3_TARGET = r"model\.layers\.\d+\.(?:self_attn\.(?:q_proj|k_proj|v_proj|o_proj)|linear_attn\.(?:in_proj_qkv|in_proj_z|out_proj)|mlp\.shared_expert\.(?:gate_proj|up_proj|down_proj))"
 
@@ -35,7 +36,8 @@ def build_model(directory, *, device="cuda", expert_rank=0, expert_alpha=None, c
     if manifest["status"] != "PASS":
         raise ValueError("Preprocessed bundle is not complete")
     config = Qwen3_5MoeTextConfig.from_dict(json.loads((directory / "config.json").read_text(encoding="utf-8")))
-    config.use_cache, config.output_router_logits, config._attn_implementation = False, False, "sdpa"
+    register_attention()
+    config.use_cache, config.output_router_logits, config._attn_implementation = False, False, ATTENTION_IMPLEMENTATION
     if config.tie_word_embeddings:
         raise ValueError("This fixed checkpoint contract requires untied embeddings/lm_head")
     if store is None:
