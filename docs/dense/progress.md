@@ -2,7 +2,7 @@
 
 Authority: [original design](../reference/dense27b-design-v1.md), [original handoff](../reference/dense27b-handoff-v1.md), and dated additions under [dense decisions](../decisions.md#dense-27b). Originals are immutable. Qwen3.8-27B receives full acceptance; Qwen3.6-27B receives the design's shorter campaign. Native Windows and the original dependency lock remain mandatory.
 
-Current state: **M1-D qualified with documented D0/D2 adjustments; D5 and DA6.0-DA6.4 passed, with the owner's actual DA6.3 confirmation. Formal Qwen3.8 training completed100 steps.** Final holdout50/50; replay NLL0.00000033538927875694635 (base0.00023400843633333113). Real50-to100 resume is running in a new process. Final release reconstruction, dedicated published-adapter evaluation, FP8/timing observations, Qwen3.6 and D7 remain pending. Complete commands, code snapshots, stdout/stderr and checkpoints remain outside Git. No intermediate push has been made.
+Current state: **Qwen3.8 D0-D6 completed, with documented D0/D2 qualifications and the owner's actual DA6.3 confirmation.** Formal100 steps, real50-to100 ten-state E2 and release400-DeltaW reconstruction passed. Final holdout50/50; replay NLL0.00000033538927875694635 (base0.00023400843633333113). The actual100-step adapter is now undergoing FreeToken inference acceptance. Qwen3.6 source acquisition has started after DA6.6; its shorter campaign and D7 remain pending. Complete commands, code snapshots, stdout/stderr and checkpoints remain outside Git. No intermediate push has been made.
 
 | Gate | State | Measured evidence |
 | --- | --- | --- |
@@ -163,3 +163,38 @@ with the identical logical configuration and data. DA6.5/DA6.6 cannot be marked
 passed until the full ten-state comparison and independent publication rebuild
 finish. Final FreeToken acceptance must use this100-step adapter rather than the
 earlier qualification step1 publication. The two feature branches remain local.
+
+## Qwen3.8 DA6.4-DA6.9 completed
+
+[Complete D6 evidence](../evidence/dense/d6-formal-summary.json) binds every run
+manifest, formal checkpoint, publication SHA and measurement. All100 steps and
+the independent50-to100 continuation complete successfully; no production
+training arithmetic changed after the formal source commit3fa6205.
+
+| Gate | State | Actual result |
+| --- | --- | --- |
+| DA6.4 | PASS | D-ALL r16, max_length2048, accumulation8,100 steps; evaluation10/20/50/100; complete20/50/100 checkpoints. |
+| DA6.5 | PASS | All50 resumed step histories and all ten named state/probe/DeltaW checks E2; zero differences. |
+| DA6.6 | PASS | New process using bundle+publish only: all800 parameter tensors, enabled/disabled FP32 probe bits and all400 DeltaW fingerprints E2. |
+| DA6.7 | PASS | Reconstructed published adapter:50/50 (base0/50); replay NLL3.3538927875694635e-7, increase-0.00023367304705457418; both approved thresholds satisfied. Prompt247,983 vocabulary entries change, max absolute logit change43.0625. |
+| DA6.8 | PASS: observation complete | All208 original FP8 scales,600 samples, disabled/enabled phases. Above-range modules74/73, max ratio1.3784860/1.3944223. No zero-clipping or W8A8 equivalence claim. |
+| DA6.9 | PASS | Restored100, one8-micro accumulation,303 input tokens; no optimizer update. Loss/all800 gradients E2 against uninstrumented control; all module intervals complete.256 efficient forward calls including recompute,128 efficient backward, zero math. |
+
+The timing control takes45.788s; the instrumented group takes71.918s. CUDA event
+intervals include enqueue gaps: H2D5.312s, decoder28.727s, all GEMM3.739s,
+SDPA0.05357s. GDN inclusive forward+backward24.573s (recompute subset8.767s),
+attention2.046s (subset0.900s), MLP43.251s (subset10.867s). These are overlapping
+and nested intervals, not additive pure-kernel timings; the instrumented cost
+must not replace the actual100-step mean50.818s. This is short functional data,
+not a2048/4096 throughput benchmark.
+
+An initial tiny profiler run failed because its hook expected a Tensor whereas
+HF attention returns a tuple and receives keyword inputs. All gradients already
+matched E2; only interval coverage failed. The original failed GPU run and CPU
+negative controls remain preserved. The corrected CPU and tiny GPU controls pass
+before real timing. See [the interface qualification](../evidence/dense/profiler-tuple-interface-summary.json).
+
+Qwen3.6 metadata/weight acquisition and final FreeToken acceptance continue.
+The owner has been asked the design's optional full100-vs-short10 question;
+the original10-step scope remains authorized and no extra100 is inferred from
+silence. Neither feature branch is pushed before final completion.
