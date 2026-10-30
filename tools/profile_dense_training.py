@@ -75,19 +75,20 @@ class TrainingTimings(CudaTimings):
                 if module is None:
                     continue
                 self.modules += 1
-                def begin(current, inputs, key=name):
+                def begin(current, inputs, kwargs, key=name):
                     phase = 'forward' if self.built.streamer.phase == 'FORWARD' else 'recompute'
                     start = self.make_event()
                     start.record()
                     self.pending[id(current)] = (self.scope, key + '_' + phase, start)
                     self.scope = key + '_' + phase
-                def end(current, inputs, output, key=name):
+                def end(current, inputs, kwargs, output, key=name):
                     previous, label, start = self.pending.pop(id(current))
                     finish = self.make_event()
                     finish.record()
                     self.records.append((label + '_inclusive', start, finish))
                     self.scope = previous
-                    if label.endswith('_forward') and isinstance(output, torch.Tensor) and output.requires_grad:
+                    hidden = output[0] if isinstance(output, (tuple, list)) else output
+                    if label.endswith('_forward') and isinstance(hidden, torch.Tensor) and hidden.requires_grad:
                         identity = id(current)
                         def begin_backward(grad):
                             start = self.make_event()
@@ -100,11 +101,13 @@ class TrainingTimings(CudaTimings):
                             finish.record()
                             self.records.append((key + '_backward_inclusive', start, finish))
                             self.scope = previous
-                        tensors = [value for value in inputs if isinstance(value, torch.Tensor) and value.requires_grad]
+                        tensors = [value for value in (*inputs, *kwargs.values())
+                                   if isinstance(value, torch.Tensor) and value.requires_grad]
                         tensors += [parameter for parameter in current.parameters() if parameter.requires_grad]
-                        self.tensor_hooks.append(output.register_hook(begin_backward))
+                        self.tensor_hooks.append(hidden.register_hook(begin_backward))
                         self.tensor_hooks.append(torch.autograd.graph.register_multi_grad_hook(tuple(tensors), end_backward))
-                hooks.extend([module.register_forward_pre_hook(begin), module.register_forward_hook(end, always_call=True)])
+                hooks.extend([module.register_forward_pre_hook(begin, with_kwargs=True),
+                              module.register_forward_hook(end, always_call=True, with_kwargs=True)])
         try:
             with MatrixTimings(self):
                 yield

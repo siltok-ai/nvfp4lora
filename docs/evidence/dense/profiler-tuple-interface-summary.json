@@ -1,0 +1,35 @@
+{
+  "SDPA_operator_call_counts": {
+    "aten._scaled_dot_product_efficient_attention.default": 4,
+    "aten._scaled_dot_product_efficient_attention_backward.default": 2
+  },
+  "status": "PASS",
+  "expected_efficient_calls": {
+    "forward_including_recompute": 4,
+    "backward": 2
+  },
+  "fixed_tiny_checks": {
+    "loss_and_samples_E2": true,
+    "all_gradients_E2": true,
+    "frozen_unchanged": true,
+    "optimizer_step_unchanged": true,
+    "all_module_backward_intervals": true,
+    "efficient_sdpa_observed": true,
+    "all_attention_forward_recompute_and_backward_efficient": true,
+    "math_sdpa_absent": true
+  },
+  "original_failure_run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T042853Z-d6-training-timing-tiny",
+  "scope": "Profiler interface qualification only; real timing not yet run",
+  "original_tiny_status": "FAIL",
+  "original_checks": {
+    "loss_and_samples_E2": true,
+    "all_gradients_E2": true,
+    "frozen_unchanged": true,
+    "optimizer_step_unchanged": true,
+    "all_module_backward_intervals": false,
+    "efficient_sdpa_observed": true,
+    "all_attention_forward_recompute_and_backward_efficient": true,
+    "math_sdpa_absent": true
+  },
+  "fixed_run": "C:\\workspace\\runs\\T-20261029-nvfp4-dense\\20261030T043110Z-d6-training-timing-tiny-fixed"
+}

@@ -19,17 +19,27 @@ class CPUEvent:
         pass
 
 
+class TupleAttention(nn.Sequential):
+    def forward(self, *, hidden_states):
+        return super().forward(hidden_states), None
+
+
 class Block(nn.Module):
-    def __init__(self):
+    def __init__(self, *, attention=False):
         super().__init__()
         self.input_norm, self.post_norm = nn.LayerNorm(6), nn.LayerNorm(6)
         for parameter in [*self.input_norm.parameters(), *self.post_norm.parameters()]:
             parameter.requires_grad_(False)
-        self.linear_attn = nn.Sequential(nn.Linear(6, 9), nn.SiLU(), nn.Linear(9, 6))
+        if attention:
+            self.self_attn = TupleAttention(nn.Linear(6, 9), nn.SiLU(), nn.Linear(9, 6))
+        else:
+            self.linear_attn = nn.Sequential(nn.Linear(6, 9), nn.SiLU(), nn.Linear(9, 6))
         self.mlp = nn.Sequential(nn.Linear(6, 8), nn.SiLU(), nn.Linear(8, 6))
 
     def forward(self, value):
-        value = self.linear_attn(self.input_norm(value)) + value
+        normalized = self.input_norm(value)
+        mixed = self.self_attn(hidden_states=normalized)[0] if hasattr(self, 'self_attn') else self.linear_attn(normalized)
+        value = mixed + value
         return self.mlp(self.post_norm(value)) + value
 
 
@@ -40,7 +50,7 @@ class ProfilingControls(unittest.TestCase):
             for input_grad in [False, True]:
                 with self.subTest(checkpointed=checkpointed, input_grad=input_grad):
                     torch.manual_seed(20261030)
-                    blocks = nn.ModuleList([Block(), Block()])
+                    blocks = nn.ModuleList([Block(), Block(attention=True)])
                     reference = copy.deepcopy(blocks)
                     built = SimpleNamespace(model=SimpleNamespace(model=SimpleNamespace(layers=blocks)),
                                             streamer=SimpleNamespace(phase='FORWARD'))

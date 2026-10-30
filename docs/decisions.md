@@ -272,3 +272,11 @@ v2第6.2节明确容差是起点，允许依据实测和原理调整。这里不
 - 决定：仅在独立profile_dense_training.py中汇总实际efficient前向与反向算子数，并要求等于attention层数×累积数×重算次数。当前真实配置的预期为256次前向（含重算）/128次反向；这些是待核对预期，尚不是实测值。保留实际每个operator的计数，tiny GPU先通过才进入真实计时。
 - 影响范围：验收工具和证据，不改变SDPA分派、模型forward、PackedLinearFn、依赖、训练循环或MoE。已完成正式100步的源码和数值不变。
 - 硬约束：无变更。用户确认：属于已授权的运行证据核验，无额外确认要求；GPU计数仍按未验证记录。
+
+### 2026-10-30：DA6.9计时器适配HF attention的tuple输出与keyword输入
+
+- 设计：DA6.9完整反向拆分；不得把未完整测量的区间宣称完整通过。
+- 实测：首次tiny GPU计时中loss/全部梯度E2、冻结不变、step未更新、efficient4次前向/2次反向全部通过，但模块反向区间漏记attention，整体FAIL保留。HF attention返回(hidden, weights) tuple，原hook仅处理Tensor；HF还以keyword传hidden_states，原hook未纳入该输入梯度的结束边界。
+- 决定：只修计时器hook，提取tuple首个hidden并接收keyword参数，把实际输入梯度和可训练参数梯度都纳入反向结束条件。CPU测试改为混合GDN/attention两层并包含tuple/keyword：修复前四种输入/检查点组合全复现3!=4，修复后全通过；新tiny GPU全部检查通过，含4/2次efficient及全部模块反向区间。
+- 影响范围：tools/profile_dense_training.py、已有tests/test_dense_profiling.py和证据。原FAIL不重写，真实计时尚未启动；正式100、精确续训及发布重建的生产源码完全不变，不需重训。
+- 硬约束：无变更。用户确认：验收器的常规修复属于已有授权，没有更改PackedLinearFn/SDPA策略、依赖、lm_head或LoRA范围。
