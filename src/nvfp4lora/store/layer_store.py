@@ -1,4 +1,4 @@
-"""不注册为 Parameter/buffer 的冻结 CPU 专家 bank。"""
+"""不注册为 Parameter/buffer 的冻结 CPU 层 bank。"""
 
 import hashlib
 import json
@@ -9,14 +9,14 @@ import torch
 from nvfp4lora.format.inspect import read_header
 
 
-class ExpertStore:
+class PackedLayerStore:
     """从已校验的预处理文件直接读入 CPU uint8 bank，保留全部缩放字节。"""
 
-    def __init__(self, directory, *, pin_memory=True, layout_version="packed-nvfp4-experts-v1"):
+    def __init__(self, directory, *, pin_memory=True, layout_version):
         self.directory = Path(directory)
         index = json.loads((self.directory / "index.json").read_text(encoding="utf-8"))
         if index["layout_version"] != layout_version:
-            raise ValueError("Unsupported expert store layout")
+            raise ValueError("Unsupported packed layer store layout")
         self.geometry, self.source = index["geometry"], index["source"]
         self.entries, self.banks = {}, {}
         self.pin_memory = pin_memory
@@ -28,7 +28,7 @@ class ExpertStore:
             header = read_header(path)
             for field in ["header_bytes", "payload_bytes", "tensors"]:
                 if header[field] != entry[field]:
-                    raise ValueError(f"Expert index/header mismatch: layer={layer}, field={field}")
+                    raise ValueError(f"Layer index/header mismatch: layer={layer}, field={field}")
             data = torch.empty(entry["payload_bytes"], dtype=torch.uint8, pin_memory=pin_memory)
             view = memoryview(data.numpy())
             digest = hashlib.sha256()
@@ -38,10 +38,10 @@ class ExpertStore:
                     raise ValueError(f"Incomplete expert payload: {path}")
             digest.update(view)
             if digest.hexdigest() != entry["sha256"]:
-                raise ValueError(f"Expert file checksum mismatch: {path}")
+                raise ValueError(f"Layer file checksum mismatch: {path}")
             self.entries[layer], self.banks[layer] = entry, data
         if set(self.entries) != set(range(self.geometry["layers"])):
-            raise ValueError("Expert store does not cover every layer")
+            raise ValueError("Layer store does not cover every layer")
         self.nbytes = sum(x.numel() for x in self.banks.values())
 
     def hashes(self):

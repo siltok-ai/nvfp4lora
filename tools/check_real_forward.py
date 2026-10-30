@@ -29,7 +29,7 @@ def memory(built):
             "pinned_allocator": torch.cuda.memory.host_memory_stats(),
             "inventory": {"nonexpert_frozen_gpu": sum(p.numel() * p.element_size() for p in built.model.parameters() if not p.requires_grad),
                           "lora_gpu": sum(p.numel() * p.element_size() for p in built.trainable.values()),
-                          "expert_gpu_slots": sum(s.buffer.numel() for s in built.streamer.slots),
+                          "layer_gpu_slot_bytes": sum(s.buffer.numel() for s in built.streamer.slots),
                           "expert_cpu_payload": built.store.nbytes,
                           "rope_buffers": sum(b.numel() * b.element_size() for b in built.model.buffers())}}
 

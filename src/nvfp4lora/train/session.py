@@ -39,7 +39,12 @@ def logical_config(spec, bundle, dataset):
 
 def profile(built, trainer, audit):
     """通过模型族的观测入口收集资源用量。"""
-    return family_for_built(built).profile(built, trainer, audit)
+    free, total = torch.cuda.mem_get_info()
+    return {**memory_observation(), "windows_process": psutil.Process().memory_info()._asdict(),
+            "system_available": psutil.virtual_memory().available, "gpu_free": free, "gpu_total": total,
+            "inventory": {**live_inventory(built, trainer.optimizer), **family_for_built(built).extra_inventory(built),
+                          "route_audit_cpu_baseline": sum(t.numel() * t.element_size() for t in audit.baseline.values())},
+            "pinned_allocator": torch.cuda.memory.host_memory_stats()}
 
 
 def rng_probe():
@@ -68,7 +73,7 @@ def run_session(*, bundle, data, settings, output, resume=None, stop_at=None, ch
     """训练/续训共用同一入口；所有检查点、发布、证据使用本次新输出目录。"""
     output, bundle, data = Path(output), Path(bundle), Path(data)
     output.mkdir(parents=True, exist_ok=False)
-    configure_training(settings.get("seed", 20261028))
+    configure_training(settings.get("seed", family_for_config(settings, bundle).default_seed))
     tokenizer = AutoTokenizer.from_pretrained(bundle, local_files_only=True)
     dataset = ChatJSONLDataset(data, tokenizer, max_length=settings.get("max_length", 2048))
     config = logical_config(settings, bundle, dataset)
@@ -178,8 +183,7 @@ def run_session(*, bundle, data, settings, output, resume=None, stop_at=None, ch
     summary.update(status="PASS" if summary["frozen_hashes_unchanged"] else "FAIL", current_step=trainer.state["global_step"],
                    max_steps_reached=stop == config["max_steps"], final_trainer_state=trainer.state)
     audit.close()
-    if hasattr(built.streamer, "close"):
-        built.streamer.close()
+    built.streamer.close()
     write_json(output / "summary.json", summary)
     assert summary["status"] == "PASS"
     return summary

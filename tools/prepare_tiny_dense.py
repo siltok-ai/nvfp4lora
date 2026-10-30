@@ -9,7 +9,7 @@ import torch
 from make_tiny_dense import make_tiny_dense
 from quantize_tiny_dense import quantize_tiny_dense
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT, preprocess_dense
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 
 
 def main():
@@ -22,9 +22,9 @@ def main():
     make_tiny_dense(args.bf16)
     identity = quantize_tiny_dense(args.bf16, args.nvfp4)
     result = preprocess_dense(args.nvfp4, args.processed, identity)
-    store = ExpertStore(args.processed / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
+    store = PackedLayerStore(args.processed / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
     first = store.hashes()
-    assert first == ExpertStore(args.processed / "layers", pin_memory=False, layout_version=LAYER_LAYOUT).hashes()
+    assert first == PackedLayerStore(args.processed / "layers", pin_memory=False, layout_version=LAYER_LAYOUT).hashes()
     assert result["geometry"]["excluded"] and any(name.startswith("mtp.") for name in result["geometry"]["excluded"])
     assert any(name.startswith("model.visual.") for name in result["geometry"]["excluded"])
     summary = {"status": result["status"], "scope": "D1 tiny only", "source": identity, "geometry": result["geometry"],

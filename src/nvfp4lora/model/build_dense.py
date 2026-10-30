@@ -13,14 +13,15 @@ from transformers.integrations.sdpa_attention import repeat_kv, sdpa_attention_f
 from transformers.masking_utils import ALL_MASK_ATTENTION_FUNCTIONS
 from transformers.modeling_utils import ALL_ATTENTION_FUNCTIONS
 
+from nvfp4lora.families.dense import normalize_build
 from nvfp4lora.format.policies import NUMERICAL_POLICY as NONSTREAM_POLICY
 from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.format.preprocess_dense import FAMILY, LAYOUT, LAYER_LAYOUT, LINEAR_POLICY, projections
 from nvfp4lora.ops.packed_linear_fn import PackedLinearOpConfig
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from nvfp4lora.model.common import BuiltModel, canonical_name
-from .packed_linear import CPUEmbedding, DenseReferenceLinear, LoRAPackedLinear, PackedLinear
+from .packed_linear import CPUEmbedding, ReferencePackedLinear, LoRAPackedLinear, PackedLinear
 
 from .attention import ATTENTION_IMPLEMENTATION, register_dense_attention
 
@@ -30,33 +31,9 @@ from .attention import ATTENTION_IMPLEMENTATION, register_dense_attention
 
 
 
-class DenseLayerStore(ExpertStore):
-    """复用原store，并让现有冻结指纹检查实际CPU embedding表。"""
-
-    def __init__(self, directory, *, pin_memory=True):
-        super().__init__(directory, pin_memory=pin_memory, layout_version=LAYER_LAYOUT)
-        self.cpu_embedding = None
-
-    def bind_embedding(self, module):
-        if self.cpu_embedding is not None or not isinstance(module, CPUEmbedding) or module.table is None:
-            raise ValueError("Dense store needs exactly one loaded CPU embedding binding")
-        self.cpu_embedding = module
-
-    def hashes(self):
-        if self.cpu_embedding is None:
-            raise ValueError("Dense frozen fingerprint requires a CPU embedding binding")
-        table = self.cpu_embedding.table
-        if table is None or table.device.type != "cpu" or table.dtype != torch.bfloat16 or table.requires_grad:
-            raise ValueError("Dense CPU embedding contract changed")
-        result = {f"layer:{layer}": digest for layer, digest in super().hashes().items()}
-        raw = table.contiguous().reshape(-1).view(torch.uint8)
-        result["cpu_embedding"] = hashlib.sha256(memoryview(raw.numpy())).hexdigest()
-        return result
-
-
 def expected_dense_trainable(geometry, rank, scope):
-    if not isinstance(rank, int) or rank < 0 or scope not in ["D-ALL", "D-ATTN"]:
-        raise ValueError("Expected nonnegative integer rank and D-ALL/D-ATTN scope")
+    build = normalize_build({"lora_rank": rank, "lora_scope": scope})
+    rank, scope = build["lora_rank"], build["lora_scope"]
     expected = {}
     if rank:
         for layer, modules in geometry["modules"].items():
@@ -74,11 +51,10 @@ def build_dense_model(directory, *, device="cuda", lora_rank=16, lora_alpha=None
                       reference=False, store=None, streamer=None):
     """按manifest构建HF正文；真实权重只用当前层解码，不调用PEFT注入。"""
     directory, device = Path(directory), torch.device(device)
-    if family != FAMILY or streaming not in ["sync", "async"]:
-        raise ValueError("Unsupported dense family/streaming setting")
-    lora_alpha = 2 * lora_rank if lora_alpha is None else lora_alpha
-    if not math.isfinite(lora_alpha) or (lora_rank and lora_alpha <= 0):
-        raise ValueError("Invalid dense LoRA alpha")
+    build = normalize_build({"family": family, "lora_rank": lora_rank, "lora_alpha": lora_alpha,
+                             "lora_scope": lora_scope, "decode_chunk_elements": decode_chunk_elements, "streaming": streaming})
+    lora_rank, lora_alpha, lora_scope = (build[key] for key in ["lora_rank", "lora_alpha", "lora_scope"])
+    decode_chunk_elements, streaming = (build[key] for key in ["decode_chunk_elements", "streaming"])
     manifest = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     if (manifest.get("status") != "PASS" or manifest.get("family") != FAMILY
             or manifest.get("layout_version") != LAYOUT or manifest.get("linear_numerical_policy") != LINEAR_POLICY
@@ -102,9 +78,7 @@ def build_dense_model(directory, *, device="cuda", lora_rank=16, lora_alpha=None
     register_dense_attention()
     config.use_cache, config._attn_implementation = False, ATTENTION_IMPLEMENTATION
     if store is None:
-        store = DenseLayerStore(directory / "layers", pin_memory=device.type == "cuda")
-    if not isinstance(store, DenseLayerStore) or store.cpu_embedding is not None:
-        raise ValueError("Each dense model needs its own unbound DenseLayerStore")
+        store = PackedLayerStore(directory / "layers", pin_memory=device.type == "cuda", layout_version=LAYER_LAYOUT)
     if store.source != manifest["source"] or store.geometry != geometry:
         raise ValueError("Dense store and bundle identities differ")
     if streamer is None:
@@ -120,7 +94,7 @@ def build_dense_model(directory, *, device="cuda", lora_rank=16, lora_alpha=None
         model = Qwen3_5ForCausalLM(config)
     model.to(dtype=torch.bfloat16)
     model.model.embed_tokens = CPUEmbedding(num_embeddings=config.vocab_size, embedding_dim=config.hidden_size)
-    linear_class = DenseReferenceLinear if reference else PackedLinear
+    linear_class = ReferencePackedLinear if reference else PackedLinear
     for layer, block in enumerate(model.model.layers):
         for name, spec in geometry["modules"][str(layer)].items():
             original = block.get_submodule(name)
@@ -175,7 +149,7 @@ def build_dense_model(directory, *, device="cuda", lora_rank=16, lora_alpha=None
             module.reset_parameters()
             module.lora_A.requires_grad_(True)
             module.lora_B.requires_grad_(True)
-        if isinstance(module, DenseReferenceLinear):
+        if isinstance(module, ReferencePackedLinear):
             module.materialize_reference()
     trainable = {}
     for name, parameter in model.named_parameters():
@@ -190,5 +164,4 @@ def build_dense_model(directory, *, device="cuda", lora_rank=16, lora_alpha=None
         raise ValueError("Dense trainable set differs from expected set")
     if any(value.is_meta or value.dtype != torch.float32 for value in model.buffers()):
         raise ValueError("Dense RoPE buffers must be allocated FP32")
-    store.bind_embedding(model.model.embed_tokens)
-    return BuiltModel(model, store, streamer, dict(sorted(trainable.items())), expected, sorted(loaded), sorted(initialized), family=FAMILY)
+    return BuiltModel(model, store, streamer, dict(sorted(trainable.items())), expected, sorted(loaded), sorted(initialized), family=FAMILY, frozen_extra={"embedding_cpu": model.model.embed_tokens.table})

@@ -24,7 +24,7 @@ def load_group(directory, weight_map, names):
         return {name: readers[weight_map[name]].get_tensor(name).clone() for name in names}
 
 
-def _decode_nvfp4_rows(raw, prefix, rows_per_chunk=2048):
+def decode_nvfp4_rows(raw, prefix, rows_per_chunk=2048):
     """限制 lm_head 解码临时空间；只为最终 BF16 权重分配完整矩阵。"""
     weight, scale = raw[prefix + ".weight"], raw[prefix + ".weight_scale"]
     global_scale = raw[prefix + ".weight_scale_2"]

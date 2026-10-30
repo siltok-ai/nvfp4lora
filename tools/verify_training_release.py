@@ -7,6 +7,7 @@ from pathlib import Path
 import torch
 
 from nvfp4lora.export.artifacts import read_adapter_tensors
+from nvfp4lora.families import family_of_bundle
 from nvfp4lora.export.artifacts import build_from_adapter
 from nvfp4lora.export.delta_w import delta_w_fingerprints
 from nvfp4lora.ops.chunked_ce import supervised_tokens
@@ -21,7 +22,7 @@ def main():
     parser.add_argument("--output", required=True, type=Path)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
-    configure_training(20261028)
+    configure_training(family_of_bundle(args.bundle).default_seed)
     source = args.training_results
     original = json.loads((source / "summary.json").read_text(encoding="utf-8"))
     config = json.loads((source / "train_config.json").read_text(encoding="utf-8"))

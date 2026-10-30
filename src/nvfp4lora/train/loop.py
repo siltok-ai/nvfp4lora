@@ -10,6 +10,7 @@ import psutil
 import torch
 
 from nvfp4lora.model.common import causal_model
+from nvfp4lora.families import family_for_built
 from nvfp4lora.ops.chunked_ce import chunked_ce_sum, supervised_tokens
 
 
@@ -56,7 +57,13 @@ def frozen_fingerprint(built):
     for name, buffer in built.model.named_buffers():
         value = buffer.detach().cpu().contiguous().reshape(-1).view(torch.uint8)
         buffers[name] = hashlib.sha256(memoryview(value.numpy())).hexdigest()
-    return {"parameters": parameters, "buffers": buffers, "expert_store": built.store.hashes()}
+    extra = {}
+    for name, tensor in built.frozen_extra.items():
+        if tensor.requires_grad:
+            raise ValueError("Frozen extra tensor requires gradients: " + name)
+        value = tensor.detach().cpu().contiguous().reshape(-1).view(torch.uint8)
+        extra[name] = hashlib.sha256(memoryview(value.numpy())).hexdigest()
+    return {"parameters": parameters, "buffers": buffers, "layer_store": built.store.hashes(), "extra": extra}
 
 
 def live_inventory(built, optimizer):
@@ -68,8 +75,8 @@ def live_inventory(built, optimizer):
             "gradients": size(p.grad for p in built.trainable.values() if p.grad is not None),
             "adam_gpu_state": size(t for t in state if t.device.type == "cuda"),
             "adam_cpu_step_state": size(t for t in state if t.device.type == "cpu"),
-            "expert_cpu_pinned_payload": built.store.nbytes,
-            "expert_gpu_slots": size(slot.buffer for slot in built.streamer.slots)}
+            "layer_store_pinned_bytes": built.store.nbytes,
+            "layer_gpu_slot_bytes": size(slot.buffer for slot in built.streamer.slots)}
 
 
 class LoRATrainer:
@@ -78,9 +85,8 @@ class LoRATrainer:
     def __init__(self, built, config):
         self.built, self.config = built, config
         self.parameters = list(built.trainable.values())
-        groups = [{"params": [p for n, p in built.trainable.items() if (".mlp.experts." in n) == expert]}
-                  for expert in [False, True]]
-        groups = [group for group in groups if group["params"]]
+        self.parameter_groups = family_for_built(built).parameter_groups(built)
+        groups = [{"params": parameters} for _, parameters in self.parameter_groups]
         self.optimizer = torch.optim.AdamW(groups, lr=config["learning_rate"], weight_decay=0,
                                            foreach=False, fused=False)
         warmup = config["warmup_steps"]
@@ -120,10 +126,8 @@ class LoRATrainer:
         """先检测所有原始梯度，再裁剪、更新 scheduler，最后清梯度形成可保存边界。"""
         started = time.perf_counter()
         metrics["group_gradient_norms"] = {
-            key: float(torch.stack([p.grad.double().square().sum() for n, p in self.built.trainable.items()
-                                   if (".mlp.experts." in n) == expert]).sum().sqrt())
-            for key, expert in [("nonexpert", False), ("expert", True)]
-            if any((".mlp.experts." in n) == expert for n in self.built.trainable)}
+            key: float(torch.stack([p.grad.double().square().sum() for p in parameters]).sum().sqrt())
+            for key, parameters in self.parameter_groups}
         norm = torch.nn.utils.clip_grad_norm_(self.parameters, self.config["max_grad_norm"], foreach=False, error_if_nonfinite=True)
         metrics["gradient_norm"] = float(norm)
         metrics["learning_rates"] = [group["lr"] for group in self.optimizer.param_groups]

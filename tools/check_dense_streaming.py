@@ -17,7 +17,7 @@ from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT
 from nvfp4lora.model.packed_linear import LoRAPackedLinear, PackedLinear
 from nvfp4lora.ops.packed_linear_fn import PackedLinearOpConfig
 from nvfp4lora.store.async_streamer import AsyncLayerStreamer
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from nvfp4lora.train.loop import configure_training
 
@@ -231,7 +231,7 @@ def main():
     configure_training(20261029)
     torch.cuda.init()
     start = time.perf_counter()
-    store = ExpertStore(args.bundle / "layers", layout_version=LAYER_LAYOUT, pin_memory=True)
+    store = PackedLayerStore(args.bundle / "layers", layout_version=LAYER_LAYOUT, pin_memory=True)
     hashes = store.hashes()
     result = {"status": "RUNNING", "source": store.source, "layers": len(store.entries),
               "logical_bank_bytes": store.nbytes, "bank_load_and_hash_seconds": time.perf_counter() - start,

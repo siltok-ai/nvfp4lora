@@ -7,7 +7,7 @@ import torch.nn.functional as F
 from torch.autograd.function import once_differentiable
 
 from nvfp4lora.format.nvfp4 import dequantize
-from nvfp4lora.store.streamer import _prefetch_hint
+from nvfp4lora.store.streamer import prefetch_hint
 
 from nvfp4lora.format.policies import LINEAR_POLICY as NUMERICAL_POLICY
 
@@ -30,12 +30,16 @@ class PackedLinearOpConfig:
         return torch.float64 if self.compute_dtype == torch.float64 else torch.float32
 
 
-def decode_codes(tensors, name, cfg):
+def decode_codes(tensors, name, kind, cfg):
     """NVFP4按元素分块；FP8只转换精确码值，global保留在输出端。"""
     weight = tensors[name + ".weight"]
     if weight.dtype != torch.uint8 or weight.ndim != 2:
         raise ValueError("Expected raw U8 matrix in dense layer slot")
-    if name + ".weight_scale_2" not in tensors:
+    if kind not in ["nvfp4", "fp8"]:
+        raise ValueError("Unknown packed linear kind: " + str(kind))
+    if (name + ".weight_scale_2" in tensors) != (kind == "nvfp4"):
+        raise ValueError("Packed linear kind disagrees with scale fields")
+    if kind == "fp8":
         return (weight.view(torch.float8_e4m3fn).to(cfg.compute_dtype),
                 tensors[name + ".weight_scale"].reshape(()).to(cfg.accumulation_dtype))
     scale = tensors[name + ".weight_scale"]
@@ -54,17 +58,17 @@ def decode_codes(tensors, name, cfg):
 
 
 class PackedLinearFn(torch.autograd.Function):
-    """四个顶层参数；ctx只保留非Tensor元信息，不保存x或解码权重。"""
+    """五个顶层参数；ctx只保留非Tensor元信息，不保存x或解码权重。"""
 
     @staticmethod
-    def forward(ctx, x, layer_id, name, cfg):
+    def forward(ctx, x, layer_id, name, kind, cfg):
         if x.dtype != cfg.compute_dtype:
             raise ValueError("PackedLinear input dtype must equal its explicit compute policy")
         with torch.autocast(device_type=x.device.type, enabled=False), cfg.streamer.acquire(layer_id) as handle:
-            weight, global_scale = decode_codes(handle.tensors(), name, cfg)
-            _prefetch_hint(cfg, layer_id)
+            weight, global_scale = decode_codes(handle.tensors(), name, kind, cfg)
+            prefetch_hint(cfg.streamer, layer_id)
             output = (F.linear(x, weight).to(cfg.accumulation_dtype) * global_scale).to(x.dtype)
-        ctx.layer, ctx.name, ctx.cfg = layer_id, name, cfg
+        ctx.layer, ctx.name, ctx.kind, ctx.cfg = layer_id, name, kind, cfg
         return output
 
     @staticmethod
@@ -72,8 +76,8 @@ class PackedLinearFn(torch.autograd.Function):
     def backward(ctx, grad_y):
         cfg = ctx.cfg
         with torch.autocast(device_type=grad_y.device.type, enabled=False), cfg.streamer.acquire(ctx.layer) as handle:
-            weight, global_scale = decode_codes(handle.tensors(), ctx.name, cfg)
-            _prefetch_hint(cfg, ctx.layer)
+            weight, global_scale = decode_codes(handle.tensors(), ctx.name, ctx.kind, cfg)
+            prefetch_hint(cfg.streamer, ctx.layer)
             grad_linear = (grad_y.to(cfg.accumulation_dtype) * global_scale).to(cfg.compute_dtype)
             dx = grad_linear.matmul(weight)
-        return dx, None, None, None
+        return dx, None, None, None, None

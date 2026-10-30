@@ -31,13 +31,13 @@ from nvfp4lora.model.common import BuiltModel, canonical_name
 from nvfp4lora.model.build_dense import build_dense_model
 from nvfp4lora.model.packed_linear import LoRAPackedLinear
 from nvfp4lora.ops.chunked_ce import supervised_tokens
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.train.checkpoint import configuration_hash, load_checkpoint, save_checkpoint
 from nvfp4lora.train.data import DeterministicSampleStream, SyntheticTinyDataset
 from nvfp4lora.train.loop import LoRATrainer, configure_training, frozen_fingerprint, loss_sum, memory_observation
 
 TARGET = r"model\.layers\.\d+\.(?:self_attn\.(?:q_proj|k_proj|v_proj|o_proj)|linear_attn\.(?:in_proj_qkv|in_proj_z|out_proj)|mlp\.(?:gate_proj|up_proj|down_proj))"
-BUILD = {"family": "qwen3_5_dense", "lora_rank": 4, "lora_alpha": 8,
+BUILD = {"lora_rank": 4, "lora_alpha": 8,
          "lora_scope": "D-ALL", "decode_chunk_elements": 8 * 1024 * 1024, "streaming": "async"}
 
 
@@ -60,7 +60,7 @@ def build_hf_reference(bundle, *, adapter_directory=None):
                 for name in reader.keys():
                     targets[name].copy_(reader.get_tensor(name))
                     loaded.add(name)
-        store = ExpertStore(bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
+        store = PackedLayerStore(bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
         for layer in range(4):
             tensors = store.tensors(layer)
             # Independent HF architecture traversal, rather than production replacement targets.

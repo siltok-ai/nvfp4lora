@@ -16,7 +16,7 @@ from expert_fixture import make_parameters
 from check_experts import compare_all, measure
 from nvfp4lora.ops.experts_fn import ExpertOpConfig, NVFP4ExpertsFn
 from nvfp4lora.store.async_streamer import AsyncLayerStreamer
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from nvfp4lora.train.loop import configure_training
 
@@ -148,7 +148,7 @@ def main():
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     configure_training(20261028)
-    store = ExpertStore(args.experts)
+    store = PackedLayerStore(args.experts, layout_version="packed-nvfp4-experts-v1")
     hashes = store.hashes()
     result = {"status": "RUNNING", "source": store.source, "cases": {}}
     for name, function in [("A3.1-random", lambda: random_reads(store)),

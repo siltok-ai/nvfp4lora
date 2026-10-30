@@ -8,7 +8,7 @@ from pathlib import Path
 import psutil
 import torch
 
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 
 
@@ -21,7 +21,7 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     torch.set_num_threads(8)
     start = time.perf_counter()
-    store = ExpertStore(args.experts, pin_memory=True)
+    store = PackedLayerStore(args.experts, pin_memory=True, layout_version="packed-nvfp4-experts-v1")
     result = {"status": "RUNNING", "bank_load_seconds": time.perf_counter() - start,
               "logical_cpu_bank_bytes": store.nbytes, "cpu_after_load": psutil.Process().memory_info()._asdict(),
               "pinned_allocator_after_load": torch.cuda.memory.host_memory_stats(), "checks": []}

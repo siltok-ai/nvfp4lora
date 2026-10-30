@@ -15,7 +15,7 @@ from make_tiny_dense import make_tiny_dense
 from quantize_tiny_dense import quantize_tiny_dense
 from nvfp4lora.format.inspect import inspect_checkpoint
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT, fields, preprocess_dense, validate_layout
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 
 
 class DensePreprocessTests(unittest.TestCase):
@@ -41,8 +41,8 @@ class DensePreprocessTests(unittest.TestCase):
         self.assertTrue(any(name.startswith("mtp.") for name in result["geometry"]["excluded"]))
         self.assertTrue(any(name.startswith("model.visual.") for name in result["geometry"]["excluded"]))
         with self.assertRaisesRegex(ValueError, "Unsupported"):
-            ExpertStore(bundle / "layers", pin_memory=False)
-        store = ExpertStore(bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
+            PackedLayerStore(bundle / "layers", pin_memory=False, layout_version="packed-nvfp4-experts-v1")
+        store = PackedLayerStore(bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
         for layer in range(4):
             tensors = store.tensors(layer)
             for name, spec in result["geometry"]["modules"][str(layer)].items():

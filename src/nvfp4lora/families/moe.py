@@ -7,12 +7,12 @@ import psutil
 import torch
 from nvfp4lora.export.artifacts import base_identity
 from nvfp4lora.train.checkpoint import configuration_hash
-from nvfp4lora.train.loop import live_inventory, memory_observation
+from nvfp4lora.families import family_named
 
 
 def logical_config(spec, bundle, dataset):
     """逻辑参数、数据、基座和版本参与恢复身份；输出/stop-at/保存与评测频率不参与。"""
-    defaults = {"seed": 20261028, "max_steps": 100, "max_length": 2048,
+    defaults = {"seed": family_named("moe").default_seed, "max_steps": 100, "max_length": 2048,
                 "learning_rate": 2e-4, "warmup_steps": 10, "max_grad_norm": 1.,
                 "accumulation_steps": 8, "ce_chunk_size": 128, "gradient_checkpointing": True,
                 "sampler_seed": 113, "rng_probe": False}
@@ -38,15 +38,6 @@ def logical_config(spec, bundle, dataset):
     return config
 
 
-def profile(built, trainer, audit):
-    """返回族专用资源观测及实际持有的张量清单。"""
-    return {**memory_observation(), "windows_process": psutil.Process().memory_info()._asdict(),
-            "system_available": psutil.virtual_memory().available,
-            "inventory": {**live_inventory(built, trainer.optimizer),
-                          "route_audit_cpu_baseline": sum(t.numel() * t.element_size() for t in audit.baseline.values())},
-            "pinned_allocator": torch.cuda.memory.host_memory_stats()}
-
-
 def route_audit(built, state=None):
     """构造专家参数的路由及 Adam 状态审核器。"""
     from nvfp4lora.validation.route_audit import ExpertRouteAudit
@@ -59,6 +50,7 @@ def extra_inventory(built):
 
 def replay_stops(bundle, tokenizer):
     """返回 checkpoint 的终止 token 集合和左 padding token。"""
+    # 248044 是该基座 tokenizer 的 <|endoftext|>，用于 EOS 和左 padding。
     return {248044, tokenizer.convert_tokens_to_ids("<|im_end|>")}, 248044
 
 
@@ -69,3 +61,32 @@ def base_build(bundle):
 
 def decode_frame(frames):
     return any(str(frame.get("filename", "")).replace("\\", "/").endswith("format/nvfp4.py") for frame in frames)
+
+
+def parameter_groups(built):
+    """保留非专家在前、专家在后的参数与优化器组顺序。"""
+    groups = [(key, [p for n, p in built.trainable.items() if (".mlp.experts." in n) == expert])
+              for key, expert in [("nonexpert", False), ("expert", True)]]
+    return [(key, parameters) for key, parameters in groups if parameters]
+
+
+def extra_delta_w(name, module, expert_chunk):
+    from nvfp4lora.model.packed_experts import PackedExperts
+    from nvfp4lora.model.common import canonical_name
+    from nvfp4lora.export.delta_w import _hash
+    result = {}
+    if isinstance(module, PackedExperts) and module.rank:
+        for index, projection in enumerate(["gate_proj", "up_proj", "down_proj"]):
+            adapter = getattr(module, projection)
+            assert adapter.scaling == module.op_config.scaling[index]
+            for begin in range(0, adapter.lora_A.shape[0], expert_chunk):
+                end = min(begin + expert_chunk, adapter.lora_A.shape[0])
+                value = torch.bmm(adapter.lora_B[begin:end], adapter.lora_A[begin:end]) * adapter.scaling
+                key = canonical_name(name) + f".{projection}.delta[{begin}:{end}]"
+                result[key] = {"shape": list(value.shape), "scaling": adapter.scaling, "sha256": _hash(value)}
+    return result
+
+
+def evaluation_tokens():
+    """保留现有训练评测的终止符与 padding 约定；回放生成使用 replay_stops。"""
+    return {248044, 248046}, 248044

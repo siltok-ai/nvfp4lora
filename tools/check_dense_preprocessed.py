@@ -71,11 +71,11 @@ def main():
     import psutil
     from nvfp4lora.format.bundle import file_hash, load_group
     from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT, fields
-    from nvfp4lora.store.layer_store import ExpertStore
+    from nvfp4lora.store.layer_store import PackedLayerStore
     for entry in manifest["source"]["shards"] + manifest["source"].get("metadata", []):
         assert file_hash(args.source / entry["filename"]) == entry["sha256"]
     weight_map = json.loads((args.source / "model.safetensors.index.json").read_text(encoding="utf-8"))["weight_map"]
-    store = ExpertStore(args.bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
+    store = PackedLayerStore(args.bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
     hashes = store.hashes()
     e1 = []
     for layer in range(manifest["geometry"]["layers"]):
@@ -112,7 +112,7 @@ def main():
     payload = store.nbytes
     del store
     gc.collect()
-    reloaded = ExpertStore(args.bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
+    reloaded = PackedLayerStore(args.bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
     assert hashes == reloaded.hashes()
     result = {"status": "PASS", "scope": "D1 independent pageable-store validation; not preprocessing peak or training",
               "source": manifest["source"], "full_e1": e1, "store_hashes": hashes, "store_reload_E2": True,

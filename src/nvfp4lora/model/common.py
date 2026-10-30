@@ -1,6 +1,7 @@
 """共享构建结果、参数规范名和 CausalLM 访问。"""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from torch import Tensor
 
 def canonical_name(name):
     """规范名字与 runtime adapter 名解耦；自定义专家键保留直接 Parameter 名。"""
@@ -16,9 +17,10 @@ class BuiltModel:
     streamer: object
     trainable: dict
     expected_trainable: dict
-    loaded_nonexpert: list
+    loaded_frozen: list
     initialized_buffers: list
     family: str
+    frozen_extra: dict[str, Tensor] = field(default_factory=dict)
 
 
 def causal_model(model):

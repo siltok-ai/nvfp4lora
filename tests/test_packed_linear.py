@@ -9,8 +9,8 @@ import torch.nn.functional as F
 from torch.utils.checkpoint import checkpoint
 
 from dense_fixture import make_dense_store, materialized_codes
-from nvfp4lora.model.packed_linear import CPUEmbedding, DenseReferenceLinear, LoRAPackedLinear, PackedLinear
-from nvfp4lora.ops.packed_linear_fn import PackedLinearFn, PackedLinearOpConfig
+from nvfp4lora.model.packed_linear import CPUEmbedding, ReferencePackedLinear, LoRAPackedLinear, PackedLinear
+from nvfp4lora.ops.packed_linear_fn import PackedLinearFn, PackedLinearOpConfig, decode_codes
 from nvfp4lora.store.streamer import SyncLayerStreamer
 
 
@@ -29,11 +29,20 @@ class PackedLinearTests(unittest.TestCase):
     def tearDown(self):
         self.temporary.cleanup()
 
+    def test_declared_kind_rejects_incompatible_scale_fields(self):
+        cfg = PackedLinearOpConfig(self.streamer, compute_dtype=torch.float32)
+        tensors = self.store.tensors(0)
+        for name, wrong in [("mlp.gate_proj", "fp8"), ("self_attn.q_proj", "nvfp4")]:
+            with self.assertRaisesRegex(ValueError, "kind disagrees"):
+                decode_codes(tensors, name, wrong, cfg)
+        with self.assertRaisesRegex(ValueError, "Unknown packed linear kind"):
+            decode_codes(tensors, "mlp.gate_proj", "auto", cfg)
+
     def test_both_formats_fp64_gradcheck_and_no_saved_tensors(self):
         cfg = PackedLinearOpConfig(self.streamer, compute_dtype=torch.float64, decode_chunk_elements=64)
         for name in ["mlp.gate_proj", "self_attn.q_proj"]:
             x = torch.randn(2, 32, dtype=torch.float64, requires_grad=True)
-            function = lambda value: PackedLinearFn.apply(value, 0, name, cfg)
+            function = lambda value: PackedLinearFn.apply(value, 0, name, "nvfp4" if name == "mlp.gate_proj" else "fp8", cfg)
             self.assertTrue(torch.autograd.gradcheck(function, (x,), eps=1e-6, atol=1e-5, rtol=1e-4))
             out = function(x)
             self.assertEqual(out.grad_fn.saved_tensors, ())
@@ -47,7 +56,7 @@ class PackedLinearTests(unittest.TestCase):
             for dtype in [torch.float32, torch.float64]:
                 cfg = PackedLinearOpConfig(self.streamer, compute_dtype=dtype, decode_chunk_elements=64)
                 value = x.to(dtype).requires_grad_()
-                y = PackedLinearFn.apply(value, 0, name, cfg)
+                y = PackedLinearFn.apply(value, 0, name, "nvfp4" if name == "mlp.gate_proj" else "fp8", cfg)
                 dx, = torch.autograd.grad(y, value, dy.to(dtype))
                 outputs.append((y.detach().double(), dx.detach().double()))
             for a, b in zip(*outputs):
@@ -62,7 +71,7 @@ class PackedLinearTests(unittest.TestCase):
             def reference(value):
                 return (F.linear(value, w).float() * g).to(value.dtype)
             def actual(value):
-                return PackedLinearFn.apply(value, 0, name, cfg)
+                return PackedLinearFn.apply(value, 0, name, "nvfp4" if name == "mlp.gate_proj" else "fp8", cfg)
             results = []
             for mode in ["reference", "direct", "non-reentrant", "reentrant"]:
                 x = original.detach().requires_grad_()
@@ -101,7 +110,7 @@ class PackedLinearTests(unittest.TestCase):
 
     def test_reference_survives_slot_overwrite_and_embedding_stays_cpu(self):
         cfg = PackedLinearOpConfig(self.streamer, compute_dtype=torch.bfloat16, decode_chunk_elements=64)
-        reference = DenseReferenceLinear(0, "mlp.gate_proj", "nvfp4", 32, 24, cfg)
+        reference = ReferencePackedLinear(0, "mlp.gate_proj", "nvfp4", 32, 24, cfg)
         reference.materialize_reference()
         x = torch.randn(3, 32).bfloat16()
         expected = reference(x)

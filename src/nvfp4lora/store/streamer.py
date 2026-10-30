@@ -101,10 +101,14 @@ class SyncLayerStreamer:
         """同步基线忽略预测提示，数值路径不受阶段提示影响。"""
         return False
 
+    def close(self):
+        """同步实现没有后台搬运队列，收尾不需要额外操作。"""
+        pass
 
-def _prefetch_hint(cfg, layer):
+
+def prefetch_hint(streamer, layer):
     """预测只影响搬运；实际 acquire 始终使用本次明确层号。"""
-    direction = -1 if cfg.streamer.phase == "BACKWARD" else 1
+    direction = -1 if streamer.phase == "BACKWARD" else 1
     predicted = layer + direction
-    if 0 <= predicted < cfg.streamer.store.geometry["layers"]:
-        cfg.streamer.prefetch(predicted)
+    if 0 <= predicted < streamer.store.geometry["layers"]:
+        streamer.prefetch(predicted)

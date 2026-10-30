@@ -6,6 +6,7 @@ import torch
 from safetensors.torch import load_file, save_file
 from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.model.common import canonical_name
+from nvfp4lora.families.dense import normalize_build
 from nvfp4lora.train.checkpoint import configuration_hash
 
 def base_identity_dense(bundle):
@@ -44,12 +45,10 @@ def _check_dense_build(built, bundle, build_kwargs):
     from nvfp4lora.model.packed_linear import LoRAPackedLinear
     if built.family != "qwen3_5_dense":
         raise ValueError("Dense adapter requires a dense built model")
-    if build_kwargs.get("family", "qwen3_5_dense") != "qwen3_5_dense":
-        raise ValueError("Dense adapter build family mismatch")
-    rank, alpha = build_kwargs.get("lora_rank", 16), build_kwargs.get("lora_alpha")
-    alpha = 2 * rank if alpha is None else alpha
+    build = normalize_build(build_kwargs, require_adapter=True)
+    rank, alpha = build["lora_rank"], build["lora_alpha"]
     manifest = json.loads((Path(bundle) / "manifest.json").read_text(encoding="utf-8"))
-    expected = expected_dense_trainable(manifest["geometry"], rank, build_kwargs.get("lora_scope", "D-ALL"))
+    expected = expected_dense_trainable(manifest["geometry"], rank, build["lora_scope"])
     if not expected or expected != built.expected_trainable or set(expected) != set(built.trainable):
         raise ValueError("Dense build/publish trainable set mismatch")
     targets = []
@@ -118,14 +117,12 @@ def read_dense_manifest(directory, bundle):
     config = json.loads((directory / "adapter_config.json").read_text(encoding="utf-8"))
     metadata = manifest["nonexpert"]
     from nvfp4lora.model.build_dense import expected_dense_trainable
-    build = manifest["build_kwargs"]
-    rank, alpha = build.get("lora_rank", 16), build.get("lora_alpha")
-    alpha = 2 * rank if alpha is None else alpha
+    build = normalize_build(manifest["build_kwargs"], require_adapter=True)
+    rank, alpha = build["lora_rank"], build["lora_alpha"]
     bundle_manifest = json.loads((Path(bundle) / "manifest.json").read_text(encoding="utf-8"))
     expected = expected_dense_trainable(bundle_manifest["geometry"], rank, build.get("lora_scope", "D-ALL"))
     targets = sorted({name.rsplit(".lora_", 1)[0] for name in expected})
-    if (not rank or build.get("family", "qwen3_5_dense") != "qwen3_5_dense"
-            or metadata["rank"] != rank or metadata["alpha"] != alpha or metadata["scaling"] != alpha / rank
+    if (metadata["rank"] != rank or metadata["alpha"] != alpha or metadata["scaling"] != alpha / rank
             or metadata["rsLoRA"] or metadata["dtype"] != "float32" or sorted(metadata["target_modules"]) != targets):
         raise ValueError("Dense build/scaling/target metadata mismatch")
     if (config["peft_type"] != "LORA" or config.get("task_type") != "CAUSAL_LM" or config.get("fan_in_fan_out", False)

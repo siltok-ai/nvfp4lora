@@ -17,7 +17,7 @@ from dense_fixture import materialized_codes
 from nvfp4lora.model.packed_linear import LoRAPackedLinear, PackedLinear
 from nvfp4lora.ops.packed_linear_fn import PackedLinearFn, PackedLinearOpConfig, decode_codes
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from nvfp4lora.train.loop import configure_training
 
@@ -68,7 +68,7 @@ def decoder_workspace(layer, name, cfg):
         clean()
         before = torch.cuda.memory_allocated()
         torch.cuda.reset_peak_memory_stats()
-        weight, scale = decode_codes(handle.tensors(), name, cfg)
+        weight, scale = decode_codes(handle.tensors(), name, cfg.streamer.store.geometry["modules"][str(layer)][name]["kind"], cfg)
         torch.cuda.synchronize()
         result = {"peak_delta": torch.cuda.max_memory_allocated() - before,
                   "decoded_matrix_bytes": weight.numel() * weight.element_size()}
@@ -107,7 +107,7 @@ def packed_eval(x, dy, layer, name, cfg, *, mode="direct", accumulate=False, sna
     saved = None
     forward_live = None
     def function(tensor):
-        return PackedLinearFn.apply(tensor, layer, name, cfg)
+        return PackedLinearFn.apply(tensor, layer, name, cfg.streamer.store.geometry["modules"][str(layer)][name]["kind"], cfg)
     for current in [dy, (dy.float() * .37).to(dy.dtype)] if accumulate else [dy]:
         cfg.streamer.phase = "FORWARD"
         y = function(value) if mode == "direct" else checkpoint(function, value, use_reentrant=mode == "reentrant")
@@ -174,7 +174,7 @@ def main():
     configure_training(20261029)
     manifest = json.loads((args.bundle / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["status"] == "PASS" and manifest["geometry"]["layers"] == 64
-    store = ExpertStore(args.bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
+    store = PackedLayerStore(args.bundle / "layers", pin_memory=False, layout_version=LAYER_LAYOUT)
     streamer = SyncLayerStreamer(store, device="cuda", slots=1)
     cfg = PackedLinearOpConfig(streamer)
     cases = [(3, "self_attn." + name + "_proj") for name in ["q", "k", "v", "o"]]
@@ -246,7 +246,7 @@ def main():
             for dtype in [torch.float32, torch.float64]:
                 numerical = PackedLinearOpConfig(streamer, compute_dtype=dtype)
                 value = input32.to(dtype).detach().requires_grad_()
-                y = PackedLinearFn.apply(value, layer, name, numerical)
+                y = PackedLinearFn.apply(value, layer, name, spec["kind"], numerical)
                 dx, = torch.autograd.grad(y, value, dy32.to(dtype))
                 precise.append((y.detach().cpu(), dx.detach().cpu()))
                 del value, y, dx
@@ -263,7 +263,7 @@ def main():
                 for rows in [32, 128, args.tokens]:
                     value = F.pad(input32, (0, 0, 0, rows - 17)).requires_grad_()
                     gradient = F.pad(dy32, (0, 0, 0, rows - 17))
-                    y = PackedLinearFn.apply(value, layer, name, cfg32)
+                    y = PackedLinearFn.apply(value, layer, name, spec["kind"], cfg32)
                     dx, = torch.autograd.grad(y, value, gradient)
                     diagnostic["zero_padded_M"][str(rows)] = {
                         label: relative(a[:, :17].detach().cpu(), b)

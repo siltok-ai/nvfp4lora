@@ -7,30 +7,20 @@ import psutil
 import torch
 from nvfp4lora.export.artifacts import base_identity
 from nvfp4lora.train.checkpoint import configuration_hash
-from nvfp4lora.train.loop import live_inventory, memory_observation
+from nvfp4lora.families import family_named
 
 
 def logical_config(spec, bundle, dataset):
     """绑定训练参数、数据、基座和版本，并检查固定身份。"""
     import math
-    defaults = {"seed": 20261029, "max_steps": 100, "max_length": 2048,
+    defaults = {"seed": family_named("dense").default_seed, "max_steps": 100, "max_length": 2048,
                 "learning_rate": 2e-4, "warmup_steps": 10, "max_grad_norm": 1.,
                 "accumulation_steps": 8, "ce_chunk_size": 128, "gradient_checkpointing": True,
                 "sampler_seed": 113, "rng_probe": False}
-    build = {"family": "qwen3_5_dense", "lora_rank": 16, "lora_scope": "D-ALL",
-             "decode_chunk_elements": 8 * 1024 * 1024, "streaming": "async"}
     bound = {"layout", "base_fingerprint", "dataset", "versions", "optimizer", "precision"}
     if spec.keys() - defaults.keys() - {"family", "build"} - bound:
         raise ValueError("Unknown dense training settings")
-    if spec.get("build", {}).keys() - set(build) - {"lora_alpha"}:
-        raise ValueError("Unsupported dense build setting")
-    build.update(spec.get("build", {}))
-    build["lora_alpha"] = 2 * build["lora_rank"] if build.get("lora_alpha") is None else build["lora_alpha"]
-    if (build["family"] != "qwen3_5_dense" or not isinstance(build["lora_rank"], int) or build["lora_rank"] < 1
-            or build["lora_scope"] not in ["D-ALL", "D-ATTN"] or build["streaming"] not in ["sync", "async"]
-            or not math.isfinite(build["lora_alpha"]) or build["lora_alpha"] <= 0
-            or build["decode_chunk_elements"] < 16 or build["decode_chunk_elements"] % 16):
-        raise ValueError("Invalid dense build contract")
+    build = normalize_build(spec.get("build", {}), require_adapter=True)
     identity = base_identity(bundle)
     if identity.get("family") != "qwen3_5_dense":
         raise ValueError("Dense training configuration needs a dense bundle")
@@ -74,19 +64,6 @@ class _DenseNoRouteAudit:
         pass
 
 
-def profile(built, trainer, audit):
-    """返回族专用资源观测及实际持有的张量清单。"""
-    inventory = live_inventory(built, trainer.optimizer)
-    inventory["dense_layer_cpu_pinned_payload"] = inventory.pop("expert_cpu_pinned_payload")
-    inventory["dense_layer_gpu_slots"] = inventory.pop("expert_gpu_slots")
-    table = built.model.model.embed_tokens.table
-    inventory["dense_embedding_cpu"] = table.numel() * table.element_size()
-    free, total = torch.cuda.mem_get_info()
-    return {**memory_observation(), "windows_process": psutil.Process().memory_info()._asdict(),
-            "system_available": psutil.virtual_memory().available, "gpu_free": free, "gpu_total": total,
-            "inventory": inventory, "pinned_allocator": torch.cuda.memory.host_memory_stats()}
-
-
 def route_audit(built, state=None):
     """构造不安装路由 hook 的空审核器。"""
     return _DenseNoRouteAudit(state)
@@ -115,3 +92,37 @@ def decode_frame(frames):
     return any((str(frame.get("filename", "")).replace("\\", "/").endswith("format/nvfp4.py")
                 or (str(frame.get("filename", "")).replace("\\", "/").endswith("ops/packed_linear_fn.py")
                     and frame.get("name") == "decode_codes")) for frame in frames)
+
+
+def parameter_groups(built):
+    return [("nonexpert", list(built.trainable.values()))] if built.trainable else []
+
+
+def extra_delta_w(name, module, expert_chunk):
+    return {}
+
+
+def evaluation_tokens():
+    """保留现有训练评测的终止符与 padding 约定；回放生成使用 replay_stops。"""
+    return {248044, 248046}, 248044
+
+
+def normalize_build(options, *, require_adapter=False):
+    """集中校验 dense 构建约定；基座观测允许 rank=0，训练与发布要求正 rank。"""
+    import math
+    options = dict(options)
+    if options.pop("family", "qwen3_5_dense") != "qwen3_5_dense":
+        raise ValueError("Dense adapter build family mismatch")
+    defaults = {"lora_rank": 16, "lora_scope": "D-ALL", "decode_chunk_elements": 8 * 1024 * 1024, "streaming": "async"}
+    if options.keys() - defaults.keys() - {"lora_alpha"}:
+        raise ValueError("Unsupported dense build setting")
+    build = {**defaults, **options}
+    rank = build["lora_rank"]
+    build["lora_alpha"] = 2 * rank if build.get("lora_alpha") is None else build["lora_alpha"]
+    if (type(rank) is not int or rank < (1 if require_adapter else 0)
+            or build["lora_scope"] not in ["D-ALL", "D-ATTN"] or build["streaming"] not in ["sync", "async"]
+            or not math.isfinite(build["lora_alpha"]) or (rank and build["lora_alpha"] <= 0)
+            or type(build["decode_chunk_elements"]) is not int or build["decode_chunk_elements"] < 16
+            or build["decode_chunk_elements"] % 16):
+        raise ValueError("Invalid dense build contract")
+    return build

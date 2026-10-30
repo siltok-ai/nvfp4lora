@@ -88,8 +88,13 @@ class DenseBuildTests(unittest.TestCase):
             with torch.no_grad():
                 norm[0] = old
             self.assertEqual(frozen_fingerprint(built), original)
-            with self.assertRaisesRegex(ValueError, "own unbound"):
-                self.build(store=built.store)
+            second = self.build(store=built.store)
+            try:
+                self.assertIs(second.store, built.store)
+                self.assertIsNot(second.frozen_extra["embedding_cpu"], built.frozen_extra["embedding_cpu"])
+                self.assertEqual(frozen_fingerprint(second), original)
+            finally:
+                second.streamer.close()
         finally:
             if hasattr(built.streamer, "close"):
                 built.streamer.close()
@@ -193,7 +198,7 @@ class DenseBuildTests(unittest.TestCase):
             logical_config({**config, "base_fingerprint": "0" * 64}, self.root / "bundle", dataset)
         with self.assertRaisesRegex(ValueError, "Unsupported dense build"):
             logical_config({"family": "qwen3_5_dense", "build": {"expert_rank": 2}}, self.root / "bundle", dataset)
-        with self.assertRaisesRegex(ValueError, "Invalid dense build"):
+        with self.assertRaisesRegex(ValueError, "build family mismatch"):
             logical_config({"family": "qwen3_5_dense", "build": {"family": "qwen3_5_moe"}}, self.root / "bundle", dataset)
 
     def test_cpu_token_recurrence_matches_ordinary_fp32_chunk(self):

@@ -5,6 +5,7 @@ from pathlib import Path
 import torch
 from safetensors.torch import load_file, save_file
 from nvfp4lora.format.bundle import file_hash
+from nvfp4lora.format.policies import EXPERT_POLICY
 from nvfp4lora.model.common import canonical_name
 from nvfp4lora.model.packed_experts import PackedExperts
 from nvfp4lora.train.checkpoint import configuration_hash
@@ -18,7 +19,7 @@ def base_identity(bundle):
         raise ValueError("MoE bundle layout required")
     identity = {"source": manifest["source"], "layout_version": manifest["layout_version"],
                 "nonexpert_numerical_policy": manifest["numerical_policy"],
-                "expert_numerical_policy": "torch-linear-bf16-result-fp32-global-lora-swiglu-route-v1",
+                "expert_numerical_policy": EXPERT_POLICY,
                 "config_sha256": file_hash(bundle / "config.json"),
                 "nonexpert_files": {x["file"]: x["sha256"] for x in manifest["nonexpert_files"]},
                 "expert_files": {x["file"]: x["sha256"] for x in manifest["expert_layers"]},

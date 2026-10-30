@@ -12,7 +12,7 @@ from transformers import Qwen3_5MoeForCausalLM, Qwen3_5MoeTextConfig
 
 from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.ops.experts_fn import ExpertOpConfig
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from .packed_experts import DenseReferenceExperts, ExpertAdapter, PackedExperts
 
@@ -39,7 +39,7 @@ def build_model(directory, *, device="cuda", expert_rank=0, expert_alpha=None, c
     if config.tie_word_embeddings:
         raise ValueError("This fixed checkpoint contract requires untied embeddings/lm_head")
     if store is None:
-        store = ExpertStore(directory / "experts", pin_memory=(torch.device(device).type == "cuda"))
+        store = PackedLayerStore(directory / "experts", pin_memory=(torch.device(device).type == "cuda"), layout_version="packed-nvfp4-experts-v1")
     if streamer is None:
         if streaming == "async":
             from nvfp4lora.store.async_streamer import AsyncLayerStreamer

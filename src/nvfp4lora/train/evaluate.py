@@ -7,6 +7,7 @@ from pathlib import Path
 import torch
 
 from nvfp4lora.model.adapters import disable_adapters
+from nvfp4lora.families import family_for_built
 from nvfp4lora.model.common import causal_model
 from nvfp4lora.model.generate import greedy_batch
 from nvfp4lora.ops.chunked_ce import chunked_ce_sum, supervised_tokens
@@ -39,10 +40,12 @@ def padded_batch(samples, device, *, pad_token_id):
     return ids, labels, mask, (mask.cumsum(-1) - 1).masked_fill(mask == 0, 0)
 
 
-def evaluate_nll(built, dataset, *, batch_size=32, ce_chunk_size=128, disabled=False, progress=None, pad_token_id=248044):
+def evaluate_nll(built, dataset, *, batch_size=32, ce_chunk_size=128, disabled=False, progress=None, pad_token_id=None):
     """累加所有CE总和/监督token数；每个batch只保留CE块的logits。"""
     base = causal_model(built.model)
     device = next(base.parameters()).device
+    if pad_token_id is None:
+        _, pad_token_id = family_for_built(built).evaluation_tokens()
     total, count = 0., 0
     with evaluation_mode(built, disabled=disabled):
         for start in range(0, len(dataset), batch_size):
@@ -59,12 +62,13 @@ def evaluate_nll(built, dataset, *, batch_size=32, ce_chunk_size=128, disabled=F
 def evaluate_canary(built, tokenizer, path, *, batch_size=32, max_new_tokens=8, disabled=False, progress=None):
     rows = [json.loads(line) for line in Path(path).read_text(encoding="utf-8-sig").splitlines() if line.strip()]
     results = []
+    stops, pad = family_for_built(built).evaluation_tokens()
     with evaluation_mode(built, disabled=disabled):
         for start in range(0, len(rows), batch_size):
             batch = rows[start:start + batch_size]
             prompts = [tokenizer.apply_chat_template(row["messages"][:-1], add_generation_prompt=True, tokenize=True,
                          enable_thinking=False, return_dict=False) for row in batch]
-            generated = greedy_batch(built, prompts, eos_token_ids={248044, 248046}, pad_token_id=248044, max_new_tokens=max_new_tokens)
+            generated = greedy_batch(built, prompts, eos_token_ids=stops, pad_token_id=pad, max_new_tokens=max_new_tokens)
             for index, (row, tokens) in enumerate(zip(batch, generated["tokens"])):
                 actual = tokenizer.decode(tokens, skip_special_tokens=True).strip()
                 expected = row["messages"][-1]["content"].strip()

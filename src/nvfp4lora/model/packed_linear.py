@@ -6,6 +6,8 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
+from nvfp4lora.model.adapters import ToggleableAdapter
+
 from nvfp4lora.ops.packed_linear_fn import PackedLinearFn, decode_codes
 
 
@@ -21,10 +23,10 @@ class PackedLinear(nn.Module):
         self.op_config = op_config
 
     def forward(self, x):
-        return PackedLinearFn.apply(x, self.layer, self.name, self.op_config)
+        return PackedLinearFn.apply(x, self.layer, self.name, self.kind, self.op_config)
 
 
-class LoRAPackedLinear(nn.Module):
+class LoRAPackedLinear(nn.Module, ToggleableAdapter):
     """PEFT兼容参数命名，数值为FP32增量加到BF16基座结果后再舍入。"""
 
     def __init__(self, base_layer, rank, alpha=None, *, device=None):
@@ -81,7 +83,7 @@ class CPUEmbedding(nn.Module):
         return F.embedding(ids.cpu(), self.table).to(ids.device)
 
 
-class DenseReferenceLinear(PackedLinear):
+class ReferencePackedLinear(PackedLinear):
     """仅tiny可物化的普通autograd参考；forward不调用Function或streamer。"""
 
     def __init__(self, *args, **kwargs):
@@ -94,7 +96,7 @@ class DenseReferenceLinear(PackedLinear):
         if self.op_config.streamer.store.source.get("kind") != "tiny-generated":
             raise ValueError("Resident decoded reference weights are restricted to tiny-generated sources")
         with self.op_config.streamer.acquire(self.layer) as handle:
-            self.codes, global_scale = decode_codes(handle.tensors(), self.name, self.op_config)
+            self.codes, global_scale = decode_codes(handle.tensors(), self.name, self.kind, self.op_config)
             self.global_scale = global_scale.clone()
 
     def forward(self, x):

@@ -10,7 +10,7 @@ from nvfp4lora.format.inspect import read_header
 from nvfp4lora.format.nvfp4 import quantize
 from nvfp4lora.format.bundle import file_hash
 from nvfp4lora.format.preprocess_dense import LAYER_LAYOUT
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 
 
 def make_dense_store(directory, *, pin_memory=False, layers=2, in_features=32, out_features=24):
@@ -34,7 +34,7 @@ def make_dense_store(directory, *, pin_memory=False, layers=2, in_features=32, o
                         **{name: value for name, value in header.items() if name not in ["file", "metadata"]}})
     (directory / "index.json").write_text(json.dumps({"layout_version": LAYER_LAYOUT,
         "source": {"kind": "tiny-generated"}, "geometry": {"layers": layers}, "layers": entries}), encoding="utf-8")
-    return ExpertStore(directory, pin_memory=pin_memory, layout_version=LAYER_LAYOUT)
+    return PackedLayerStore(directory, pin_memory=pin_memory, layout_version=LAYER_LAYOUT)
 
 
 def materialized_codes(tensors, name, dtype):

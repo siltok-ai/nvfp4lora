@@ -6,7 +6,7 @@ from pathlib import Path
 
 import torch
 
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.validation.cpu_layers_moe import reference_layers
 
 
@@ -18,7 +18,7 @@ def main():
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=False)
     torch.set_num_threads(8)
-    store = ExpertStore(args.bundle / "experts", pin_memory=False)
+    store = PackedLayerStore(args.bundle / "experts", pin_memory=False, layout_version="packed-nvfp4-experts-v1")
     gpu = torch.load(args.capture / "gpu-captures.pt", weights_only=True)
     ids = torch.tensor(json.loads((args.capture / "input.json").read_text(encoding="utf-8"))["used_ids"])
     teacher = [None, *gpu["hidden_states"][:-1]]

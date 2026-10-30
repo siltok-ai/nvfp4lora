@@ -15,7 +15,7 @@ import torch
 from torch.utils.checkpoint import checkpoint
 
 from nvfp4lora.ops.experts_fn import ExpertOpConfig, NVFP4ExpertsFn, NVFP4ExpertsBaseFn
-from nvfp4lora.store.layer_store import ExpertStore
+from nvfp4lora.store.layer_store import PackedLayerStore
 from nvfp4lora.store.streamer import SyncLayerStreamer
 from nvfp4lora.validation.experts_reference import experts_reference
 
@@ -103,7 +103,7 @@ def main():
     args.output.mkdir(parents=True, exist_ok=False)
     configure_numerics()
     torch.cuda.init()
-    store = ExpertStore(args.experts, pin_memory=True)
+    store = PackedLayerStore(args.experts, pin_memory=True, layout_version="packed-nvfp4-experts-v1")
     before_hashes = store.hashes()
     streamer = SyncLayerStreamer(store, slots=2)
     e, h, i, k = 256, 2048, 512, 8

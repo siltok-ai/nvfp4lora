@@ -12,7 +12,6 @@
   "sampler_seed": 113,
   "rng_probe": true,
   "build": {
-    "family": "qwen3_5_dense",
     "lora_rank": 16,
     "lora_alpha": 32,
     "lora_scope": "D-ALL",
