@@ -1,4 +1,4 @@
-"""冻结dense线性层：只在当前调用解码，反向重新acquire及解码。"""
+"""冻结线性层用时解码，反向重新获取层字节并解码。"""
 
 from dataclasses import dataclass
 
@@ -34,7 +34,7 @@ def decode_codes(tensors, name, kind, cfg):
     """NVFP4按元素分块；FP8只转换精确码值，global保留在输出端。"""
     weight = tensors[name + ".weight"]
     if weight.dtype != torch.uint8 or weight.ndim != 2:
-        raise ValueError("Expected raw U8 matrix in dense layer slot")
+        raise ValueError("Expected raw U8 matrix in layer slot")
     if kind not in ["nvfp4", "fp8"]:
         raise ValueError("Unknown packed linear kind: " + str(kind))
     if (name + ".weight_scale_2" in tensors) != (kind == "nvfp4"):
@@ -44,7 +44,7 @@ def decode_codes(tensors, name, kind, cfg):
                 tensors[name + ".weight_scale"].reshape(()).to(cfg.accumulation_dtype))
     scale = tensors[name + ".weight_scale"]
     if scale.shape != (weight.shape[0], weight.shape[1] // 8):
-        raise ValueError("Invalid dense NVFP4 block scale geometry")
+        raise ValueError("Invalid NVFP4 block scale geometry")
     decoded = torch.empty(weight.shape[0], weight.shape[1] * 2, dtype=cfg.compute_dtype, device=weight.device)
     flat, packed, blocks = decoded.view(-1), weight.reshape(-1), scale.reshape(-1)
     for start in range(0, decoded.numel(), cfg.decode_chunk_elements):

@@ -47,7 +47,7 @@ def memory_observation():
 
 
 def frozen_fingerprint(built):
-    """逐 Tensor 校验冻结非专家和 CPU 专家，避免额外整模字节副本。"""
+    """校验冻结模型张量、层原字节和额外张量，避免整模字节副本。"""
     parameters = {}
     for name, parameter in built.model.named_parameters():
         if not parameter.requires_grad:

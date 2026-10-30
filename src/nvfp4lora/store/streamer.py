@@ -73,7 +73,7 @@ class SyncLayerStreamer:
         if slot is None:
             available = [s for s in self.slots if s.pins == 0]
             if not available:
-                raise RuntimeError("All expert slots are pinned")
+                raise RuntimeError("All layer slots are pinned")
             slot = min(available, key=lambda s: s.last_use)
             data = self.store.banks[layer]
             start = time.perf_counter()

@@ -23,7 +23,7 @@ class PackedLayerStore:
         for entry in index["layers"]:
             layer = entry["layer"]
             if layer in self.entries:
-                raise ValueError(f"Duplicate expert layer: {layer}")
+                raise ValueError(f"Duplicate layer: {layer}")
             path = self.directory / entry["file"]
             header = read_header(path)
             for field in ["header_bytes", "payload_bytes", "tensors"]:
@@ -35,7 +35,7 @@ class PackedLayerStore:
             with path.open("rb") as stream:
                 digest.update(stream.read(entry["header_bytes"]))
                 if stream.readinto(view) != entry["payload_bytes"]:
-                    raise ValueError(f"Incomplete expert payload: {path}")
+                    raise ValueError(f"Incomplete layer payload: {path}")
             digest.update(view)
             if digest.hexdigest() != entry["sha256"]:
                 raise ValueError(f"Layer file checksum mismatch: {path}")

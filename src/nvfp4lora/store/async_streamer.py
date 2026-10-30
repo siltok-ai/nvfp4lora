@@ -77,7 +77,7 @@ class AsyncLayerStreamer(SyncLayerStreamer):
         if slot is None:
             slot = self._victim(protect_prediction=True)
             if slot is None:
-                raise RuntimeError("All expert slots are pinned")
+                raise RuntimeError("All layer slots are pinned")
             self.stats["demand_misses"] += 1
             self._copy(slot, layer)
         else:
@@ -141,7 +141,7 @@ class AsyncLayerStreamer(SyncLayerStreamer):
             return
         self._check_stream()
         if any(slot.pins for slot in self.slots):
-            raise RuntimeError("Cannot close pinned expert slots")
+            raise RuntimeError("Cannot close pinned layer slots")
         self.copy_stream.synchronize()
         for slot in self.slots:
             if slot.last_reader is not None:
